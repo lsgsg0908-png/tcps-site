@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,23 +25,28 @@
       --purple: #8d5cff;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 28px;
       color: var(--text);
       font-family: Inter, Arial, Helvetica, sans-serif;
       background:
         radial-gradient(circle at 18% 85%, rgba(0, 255, 200, 0.08), transparent 28%),
         radial-gradient(circle at 82% 16%, rgba(94, 89, 255, 0.12), transparent 30%),
         linear-gradient(180deg, #01040b 0%, #020814 100%);
+      padding: 28px;
     }
 
-    .engine-wrap {
+    .page {
       width: 100%;
-      max-width: 1160px;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .section-shell {
       border-radius: 34px;
       padding: 24px;
       position: relative;
@@ -54,7 +59,7 @@
         0 22px 60px rgba(0, 0, 0, 0.42);
     }
 
-    .engine-wrap::before {
+    .section-shell::before {
       content: "";
       position: absolute;
       inset: 0;
@@ -62,6 +67,53 @@
       background:
         radial-gradient(circle at 22% 86%, rgba(0, 255, 191, 0.08), transparent 24%),
         radial-gradient(circle at 78% 12%, rgba(102, 91, 255, 0.10), transparent 28%);
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 18px;
+      padding: 10px 4px 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--green);
+      background: rgba(44, 100, 85, 0.18);
+      border: 1px solid rgba(130, 255, 210, 0.16);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      margin-bottom: 18px;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(32px, 5vw, 62px);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      max-width: 860px;
+      color: #f6f8ff;
+    }
+
+    .hero-copy p {
+      margin-top: 18px;
+      max-width: 760px;
+      font-size: 18px;
+      line-height: 1.65;
+      color: #c5d2eb;
+    }
+
+    .focus-line {
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.01em;
     }
 
     .engine-grid {
@@ -147,7 +199,7 @@
     }
 
     .status-value {
-      min-width: 96px;
+      min-width: 112px;
       text-align: right;
       font-size: 15px;
       font-weight: 800;
@@ -174,7 +226,7 @@
       line-height: 1.12;
       color: var(--blue);
       letter-spacing: -0.8px;
-      white-space: nowrap;
+      text-align: right;
     }
 
     .hero-sub {
@@ -186,7 +238,7 @@
       font-size: 15px;
       font-weight: 800;
       color: #fff;
-      white-space: nowrap;
+      text-align: right;
     }
 
     .mini-grid {
@@ -218,7 +270,6 @@
       font-weight: 900;
       color: #fff;
       line-height: 1.2;
-      white-space: nowrap;
     }
 
     .bottom-panel {
@@ -256,9 +307,9 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      white-space: nowrap;
       font-weight: 900;
       color: #fff;
+      text-align: right;
     }
 
     .bottom-main {
@@ -390,6 +441,7 @@
       filter:
         drop-shadow(0 0 8px rgba(255, 69, 109, 0.70))
         drop-shadow(0 0 16px rgba(255, 69, 109, 0.22));
+      shape-rendering: geometricPrecision;
     }
 
     .price-dot {
@@ -430,6 +482,62 @@
         0 10px 24px rgba(0, 0, 0, 0.22);
     }
 
+    .engine-cards {
+      position: relative;
+      z-index: 2;
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+
+    .info-card {
+      padding: 22px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(0, 9, 24, 0.94), rgba(0, 8, 21, 0.98));
+      border: 1px solid rgba(100, 160, 255, 0.10);
+      box-shadow:
+        inset 0 0 0 1px rgba(80, 140, 255, 0.03),
+        0 0 28px rgba(0, 0, 0, 0.14);
+      min-height: 190px;
+    }
+
+    .card-kicker {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(141, 92, 255, 0.10);
+      border: 1px solid rgba(141, 92, 255, 0.16);
+      color: #ba9cff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      margin-bottom: 16px;
+    }
+
+    .info-card h3 {
+      font-size: 20px;
+      line-height: 1.1;
+      font-weight: 900;
+      color: #f4f7ff;
+      letter-spacing: -0.03em;
+      margin-bottom: 14px;
+    }
+
+    .info-card p {
+      color: #c2cde4;
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .card-sub {
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+    }
+
     @keyframes pulseDot {
       0%, 100% {
         transform: translate(-50%, -50%) scale(1);
@@ -438,6 +546,12 @@
       50% {
         transform: translate(-50%, -50%) scale(1.18);
         opacity: 0.74;
+      }
+    }
+
+    @media (max-width: 1180px) {
+      .engine-cards {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -454,21 +568,21 @@
       }
 
       .engine-right {
-        min-height: 420px;
+        min-height: 460px;
       }
 
       .engine-visual,
       .chart-frame {
-        min-height: 420px;
+        min-height: 460px;
       }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 720px) {
       body {
         padding: 16px;
       }
 
-      .engine-wrap {
+      .section-shell {
         padding: 16px;
         border-radius: 24px;
       }
@@ -480,7 +594,8 @@
 
       .hero-panel,
       .bottom-panel,
-      .mini-grid {
+      .mini-grid,
+      .engine-cards {
         grid-template-columns: 1fr;
       }
 
@@ -495,12 +610,11 @@
       .bottom-main,
       .bottom-sub {
         justify-content: flex-start;
-        white-space: normal;
+        text-align: left;
       }
 
-      .mini-value,
       .status-value {
-        white-space: normal;
+        min-width: auto;
       }
 
       .engine-title {
@@ -527,153 +641,228 @@
         font-size: 28px;
         right: 16px;
       }
+
+      .hero-copy p {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
 <body>
-  <section class="engine-wrap">
-    <div class="engine-grid">
-      <div class="engine-panel engine-left">
-        <div class="engine-top">
-          <div class="engine-title">TCPS 스마트 엔트리 AI</div>
-          <div class="engine-badge">엔진 온라인</div>
+  <main class="page">
+    <section class="section-shell">
+      <div class="hero-copy">
+        <div class="eyebrow">PRIVATE TRADING ENGINE</div>
+        <h1>We don’t predict.<br>We filter.</h1>
+        <p id="heroLead">
+          This is not a signal provider. This is a filtering engine. It doesn’t trade more. It trades less — but better.
+        </p>
+        <div class="focus-line" id="heroFocus">Structure first. Timing second. Execution last.</div>
+      </div>
+
+      <div class="engine-grid">
+        <div class="engine-panel engine-left">
+          <div class="engine-top">
+            <div class="engine-title">TCPS Smart Entry AI</div>
+            <div class="engine-badge">Engine Online</div>
+          </div>
+
+          <div class="engine-panel hero-panel">
+            <div class="status-list">
+              <div class="status-row">
+                <div class="status-label">Engine State</div>
+                <div class="status-value" id="engineState">Trend Re-Alignment</div>
+              </div>
+              <div class="status-row">
+                <div class="status-label">Execution State</div>
+                <div class="status-value" id="runState">Hold Entry</div>
+              </div>
+              <div class="status-row">
+                <div class="status-label">Scan State</div>
+                <div class="status-value" id="scanState">Timing Compression</div>
+              </div>
+            </div>
+
+            <div class="hero-right">
+              <div class="hero-main" id="heroMain">Trend Re-Alignment</div>
+              <div class="hero-sub" id="heroSub">Hold Entry</div>
+            </div>
+          </div>
+
+          <div class="mini-grid">
+            <div class="engine-panel mini-panel">
+              <div class="mini-label">Market</div>
+              <div class="mini-value" id="marketValue">BTC / USDT</div>
+            </div>
+
+            <div class="engine-panel mini-panel">
+              <div class="mini-label">System Filter</div>
+              <div class="mini-value" id="filterValue">Risk Suppression</div>
+            </div>
+
+            <div class="engine-panel mini-panel">
+              <div class="mini-label">Liquidity Model</div>
+              <div class="mini-value" id="liquidityValue">Pullback Tracking</div>
+            </div>
+
+            <div class="engine-panel mini-panel">
+              <div class="mini-label">Final Update</div>
+              <div class="mini-value" id="updateValue">7s ago</div>
+            </div>
+          </div>
+
+          <div class="engine-panel bottom-panel">
+            <div class="bottom-left">
+              <div class="bottom-label">Engine Logic</div>
+              <div class="bottom-label">Priority</div>
+            </div>
+
+            <div class="bottom-right">
+              <div class="bottom-main" id="logicMain">Confirmation Over Frequency</div>
+              <div class="bottom-sub" id="logicSub">Only Clear Structure</div>
+            </div>
+          </div>
         </div>
 
-        <div class="engine-panel hero-panel">
-          <div class="status-list">
-            <div class="status-row">
-              <div class="status-label">엔진 상태</div>
-              <div class="status-value" id="engineState">시장 분석 활성</div>
+        <div class="engine-panel engine-right">
+          <div class="engine-visual">
+            <div class="chart-frame">
+              <div class="chart-grid"></div>
+              <div class="chart-fade"></div>
+
+              <div class="zone zone-top"></div>
+              <div class="zone zone-mid"></div>
+              <div class="zone zone-bottom"></div>
+
+              <svg class="chart-svg" viewBox="0 0 640 560" preserveAspectRatio="none">
+                <line class="trend-line" x1="18" y1="116" x2="392" y2="42"></line>
+                <line class="trend-line" x1="0" y1="390" x2="408" y2="462"></line>
+                <polyline id="priceLineGlow" class="price-line-glow" points=""></polyline>
+                <polyline id="priceLine" class="price-line" points=""></polyline>
+              </svg>
+
+              <div id="priceDot" class="price-dot"></div>
+              <div class="chart-nav">›</div>
             </div>
-            <div class="status-row">
-              <div class="status-label">실행 상태</div>
-              <div class="status-value" id="runState">확인 대기 중</div>
-            </div>
-            <div class="status-row">
-              <div class="status-label">스캔 상태</div>
-              <div class="status-value" id="scanState">구조 확인</div>
-            </div>
-          </div>
-
-          <div class="hero-right">
-            <div class="hero-main" id="heroMain">시장 분석 활성</div>
-            <div class="hero-sub" id="heroSub">확인 대기 중</div>
-          </div>
-        </div>
-
-        <div class="mini-grid">
-          <div class="engine-panel mini-panel">
-            <div class="mini-label">시장</div>
-            <div class="mini-value" id="marketValue">비트코인 USDT</div>
-          </div>
-
-          <div class="engine-panel mini-panel">
-            <div class="mini-label">체계 필터</div>
-            <div class="mini-value" id="filterValue">트렌드 액티브</div>
-          </div>
-
-          <div class="engine-panel mini-panel">
-            <div class="mini-label">유동성 모델</div>
-            <div class="mini-value" id="liquidityValue">모니터링</div>
-          </div>
-
-          <div class="engine-panel mini-panel">
-            <div class="mini-label">최종 업데이트</div>
-            <div class="mini-value" id="updateValue">방금</div>
-          </div>
-        </div>
-
-        <div class="engine-panel bottom-panel">
-          <div class="bottom-left">
-            <div class="bottom-label">엔진 로직</div>
-            <div class="bottom-label">우선 사항</div>
-          </div>
-
-          <div class="bottom-right">
-            <div class="bottom-main" id="logicMain">강제 거래는 없습니다</div>
-            <div class="bottom-sub" id="logicSub">선택적 실행만</div>
           </div>
         </div>
       </div>
 
-      <div class="engine-panel engine-right">
-        <div class="engine-visual">
-          <div class="chart-frame">
-            <div class="chart-grid"></div>
-            <div class="chart-fade"></div>
+      <div class="engine-cards">
+        <div class="info-card">
+          <div class="card-kicker">01</div>
+          <h3>Liquidity Sweep Detection</h3>
+          <p>Price doesn’t move first. Liquidity is usually taken before direction is revealed.</p>
+          <div class="card-sub">SWEEP → REACTION → CONFIRMATION</div>
+        </div>
 
-            <div class="zone zone-top"></div>
-            <div class="zone zone-mid"></div>
-            <div class="zone zone-bottom"></div>
+        <div class="info-card">
+          <div class="card-kicker">02</div>
+          <h3>Range Trap Structure</h3>
+          <p>Most moves inside a range are noise. The engine filters them before execution.</p>
+          <div class="card-sub">FAKE BREAKOUT → REJECTION → RESET</div>
+        </div>
 
-            <svg class="chart-svg" viewBox="0 0 640 560" preserveAspectRatio="none">
-              <line class="trend-line" x1="18" y1="116" x2="392" y2="42"></line>
-              <line class="trend-line" x1="0" y1="390" x2="408" y2="462"></line>
-              <polyline id="priceLineGlow" class="price-line-glow" points=""></polyline>
-              <polyline id="priceLine" class="price-line" points=""></polyline>
-            </svg>
+        <div class="info-card">
+          <div class="card-kicker">03</div>
+          <h3>Smart Entry Timing</h3>
+          <p>Not every move is an entry. Timing is allowed only when conditions align clearly.</p>
+          <div class="card-sub">CONDITION → ALIGNMENT → TRIGGER</div>
+        </div>
 
-            <div id="priceDot" class="price-dot"></div>
-            <div class="chart-nav">›</div>
-          </div>
+        <div class="info-card">
+          <div class="card-kicker">04</div>
+          <h3>Trend Filter Engine</h3>
+          <p>Trading against structure is reduced first. Direction has priority over impulse.</p>
+          <div class="card-sub">TREND → PULLBACK → CONTINUATION</div>
+        </div>
+
+        <div class="info-card">
+          <div class="card-kicker">05</div>
+          <h3>Execution Logic Core</h3>
+          <p>The engine acts only when structure, timing, and risk conditions match together.</p>
+          <div class="card-sub">CONFIRMATION > FREQUENCY</div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <script>
     const dashboardFrames = [
       {
-        engineState: "시장 분석 활성",
-        runState: "확인 대기 중",
-        scanState: "구조 확인",
-        heroMain: "시장 분석 활성",
-        heroSub: "확인 대기 중",
-        marketValue: "비트코인 USDT",
-        filterValue: "트렌드 액티브",
-        liquidityValue: "모니터링",
-        updateValue: "방금",
-        logicMain: "강제 거래는 없습니다",
-        logicSub: "선택적 실행만"
+        engineState: "Market Analysis Active",
+        runState: "Awaiting Confirmation",
+        scanState: "Structure Check",
+        heroMain: "Market Analysis Active",
+        heroSub: "Awaiting Confirmation",
+        marketValue: "BTC / USDT",
+        filterValue: "Trend Active",
+        liquidityValue: "Monitoring",
+        updateValue: "Just now",
+        logicMain: "No Forced Trades",
+        logicSub: "Selective Execution Only",
+        heroLead: "This is not a signal provider. This is a filtering engine. It doesn’t trade more. It trades less — but better.",
+        heroFocus: "Structure first. Timing second. Execution last."
       },
       {
-        engineState: "유동성 스윕 감지",
-        runState: "조건 선별 중",
-        scanState: "박스권 추적",
-        heroMain: "유동성 스윕 감지",
-        heroSub: "조건 선별 중",
-        marketValue: "비트코인 USDT",
-        filterValue: "범위 필터 적용",
-        liquidityValue: "스윕 확인",
-        updateValue: "3초 전",
-        logicMain: "노이즈 구간은 제외",
-        logicSub: "확정 구간만 실행"
+        engineState: "Liquidity Sweep Detected",
+        runState: "Condition Filtering",
+        scanState: "Range Tracking",
+        heroMain: "Liquidity Sweep Detected",
+        heroSub: "Condition Filtering",
+        marketValue: "BTC / USDT",
+        filterValue: "Range Filter Active",
+        liquidityValue: "Sweep Confirmed",
+        updateValue: "3s ago",
+        logicMain: "Noise Is Excluded",
+        logicSub: "Only Confirmed Zones",
+        heroLead: "The engine checks where liquidity is taken first, then waits for reaction before anything is allowed.",
+        heroFocus: "Sweep first. Reaction next. Entry later."
       },
       {
-        engineState: "추세 재정렬 감시",
-        runState: "진입 대기 유지",
-        scanState: "타이밍 압축",
-        heroMain: "추세 재정렬 감시",
-        heroSub: "진입 대기 유지",
-        marketValue: "비트코인 USDT",
-        filterValue: "리스크 억제 중",
-        liquidityValue: "되돌림 추적",
-        updateValue: "7초 전",
-        logicMain: "빈도보다 확인 우선",
-        logicSub: "명확한 구간만 선택"
+        engineState: "Trend Re-Alignment",
+        runState: "Hold Entry",
+        scanState: "Timing Compression",
+        heroMain: "Trend Re-Alignment",
+        heroSub: "Hold Entry",
+        marketValue: "BTC / USDT",
+        filterValue: "Risk Suppression",
+        liquidityValue: "Pullback Tracking",
+        updateValue: "7s ago",
+        logicMain: "Confirmation Over Frequency",
+        logicSub: "Only Clear Structure",
+        heroLead: "Trend direction matters first. Pullbacks are tracked, but execution waits until alignment is clear.",
+        heroFocus: "Direction first. Pullback second. Continuation last."
       },
       {
-        engineState: "가짜 이탈 확인",
-        runState: "반응 구간 분석",
-        scanState: "복귀 흐름 점검",
-        heroMain: "가짜 이탈 확인",
-        heroSub: "반응 구간 분석",
-        marketValue: "비트코인 USDT",
-        filterValue: "횡보 차단 활성",
-        liquidityValue: "구조 복귀 감지",
-        updateValue: "방금",
-        logicMain: "불필요한 진입 제한",
-        logicSub: "선명한 구조만 유지"
+        engineState: "Fake Breakout Review",
+        runState: "Reaction Zone Analysis",
+        scanState: "Return Flow Check",
+        heroMain: "Fake Breakout Review",
+        heroSub: "Reaction Zone Analysis",
+        marketValue: "BTC / USDT",
+        filterValue: "Sideways Block Active",
+        liquidityValue: "Structure Return",
+        updateValue: "Just now",
+        logicMain: "Avoid Unclear Entries",
+        logicSub: "Preserve Clean Setups",
+        heroLead: "Most false breaks are ignored. The engine waits for rejection and return before trust is given.",
+        heroFocus: "Trap detected. Rejection confirmed. Reset complete."
+      },
+      {
+        engineState: "Timing Filter Passed",
+        runState: "Ready But Selective",
+        scanState: "Entry Compression",
+        heroMain: "Timing Filter Passed",
+        heroSub: "Ready But Selective",
+        marketValue: "BTC / USDT",
+        filterValue: "Filter Alignment",
+        liquidityValue: "Retest Tracking",
+        updateValue: "5s ago",
+        logicMain: "Mechanical Discipline",
+        logicSub: "Only High-Clarity Setups",
+        heroLead: "Momentum alone is not enough. Entry is released only when structure, timing, and filter logic are aligned.",
+        heroFocus: "Condition met. Timing aligned. Trigger controlled."
       }
     ];
 
@@ -688,7 +877,9 @@
       "liquidityValue",
       "updateValue",
       "logicMain",
-      "logicSub"
+      "logicSub",
+      "heroLead",
+      "heroFocus"
     ];
 
     let dashboardIndex = 0;
@@ -705,7 +896,7 @@
     setInterval(() => {
       dashboardIndex = (dashboardIndex + 1) % dashboardFrames.length;
       applyDashboardFrame(dashboardFrames[dashboardIndex]);
-    }, 2200);
+    }, 2400);
 
     const line = document.getElementById("priceLine");
     const glow = document.getElementById("priceLineGlow");
@@ -767,14 +958,11 @@
       glow.setAttribute("points", pointsString);
 
       const last = points[points.length - 1];
-      const frame = document.querySelector(".chart-frame");
-      const rect = frame.getBoundingClientRect();
-
       const xPercent = last[0] / WIDTH;
       const yPercent = last[1] / HEIGHT;
 
-      dot.style.left = `${xPercent * rect.width}px`;
-      dot.style.top = `${yPercent * rect.height}px`;
+      dot.style.left = `${xPercent * 100}%`;
+      dot.style.top = `${yPercent * 100}%`;
     }
 
     let start = null;
