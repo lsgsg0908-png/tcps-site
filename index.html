@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TCPS Smart Entry AI</title>
+  <meta
+    name="description"
+    content="TCPS Smart Entry AI is a private trading engine focused on structure, timing, and selective execution."
+  />
   <style>
     * {
       box-sizing: border-box;
@@ -12,17 +16,24 @@
     }
 
     :root {
-      --bg-1: #020612;
-      --bg-2: #071120;
-      --panel: rgba(7, 14, 30, 0.92);
-      --panel-2: rgba(2, 8, 20, 0.96);
-      --line: rgba(120, 160, 255, 0.12);
+      --bg-main: #020611;
+      --bg-deep: #050d1c;
+      --panel: rgba(7, 14, 28, 0.92);
+      --panel-2: rgba(4, 10, 22, 0.96);
+      --line: rgba(119, 150, 255, 0.12);
+      --line-strong: rgba(143, 100, 255, 0.22);
       --text: #eef4ff;
-      --muted: #8fa3c4;
-      --blue: #8fd2ff;
+      --muted: #91a5c6;
+      --soft: #c6d3eb;
+      --blue: #91d6ff;
       --green: #9affd7;
+      --purple: #9b67ff;
       --red: #ff456d;
-      --purple: #8d5cff;
+      --shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
+      --radius-xl: 34px;
+      --radius-lg: 28px;
+      --radius-md: 22px;
+      --max: 1240px;
     }
 
     html {
@@ -31,32 +42,32 @@
 
     body {
       min-height: 100vh;
+      background:
+        radial-gradient(circle at 14% 82%, rgba(0, 255, 200, 0.08), transparent 24%),
+        radial-gradient(circle at 84% 10%, rgba(112, 96, 255, 0.12), transparent 28%),
+        linear-gradient(180deg, #01040b 0%, #020814 100%);
       color: var(--text);
       font-family: Inter, Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at 18% 85%, rgba(0, 255, 200, 0.08), transparent 28%),
-        radial-gradient(circle at 82% 16%, rgba(94, 89, 255, 0.12), transparent 30%),
-        linear-gradient(180deg, #01040b 0%, #020814 100%);
       padding: 28px;
     }
 
     .page {
       width: 100%;
-      max-width: 1240px;
+      max-width: var(--max);
       margin: 0 auto;
     }
 
     .section-shell {
-      border-radius: 34px;
-      padding: 24px;
       position: relative;
       overflow: hidden;
+      border-radius: var(--radius-xl);
+      padding: 24px;
       background:
         linear-gradient(180deg, rgba(17, 23, 43, 0.94), rgba(3, 10, 22, 0.98));
       border: 1px solid rgba(127, 148, 255, 0.14);
       box-shadow:
         inset 0 0 0 1px rgba(120, 150, 255, 0.04),
-        0 22px 60px rgba(0, 0, 0, 0.42);
+        var(--shadow);
     }
 
     .section-shell::before {
@@ -65,19 +76,110 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle at 22% 86%, rgba(0, 255, 191, 0.08), transparent 24%),
-        radial-gradient(circle at 78% 12%, rgba(102, 91, 255, 0.10), transparent 28%);
+        radial-gradient(circle at 22% 86%, rgba(0, 255, 191, 0.07), transparent 24%),
+        radial-gradient(circle at 78% 12%, rgba(102, 91, 255, 0.09), transparent 28%);
     }
 
-    .hero-copy {
+    .topbar {
       position: relative;
       z-index: 2;
-      margin-bottom: 18px;
-      padding: 10px 4px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+      padding: 4px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background:
+        linear-gradient(135deg, rgba(83, 164, 255, 0.28), rgba(135, 72, 255, 0.18));
+      border: 1px solid rgba(125, 155, 255, 0.16);
+      box-shadow: inset 0 0 18px rgba(146, 121, 255, 0.08);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .brand-name {
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: #f6f8ff;
+    }
+
+    .brand-sub {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      transition: 0.18s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.02fr 1fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .hero-left,
+    .hero-right-card,
+    .content-card,
+    .quote-card,
+    .pricing-card,
+    .cta-card {
+      background: linear-gradient(180deg, rgba(0, 8, 22, 0.96), rgba(0, 7, 18, 0.98));
+      border: 1px solid rgba(100, 160, 255, 0.10);
+      border-radius: var(--radius-lg);
+      box-shadow:
+        inset 0 0 0 1px rgba(80, 140, 255, 0.03),
+        0 0 28px rgba(0, 0, 0, 0.14);
+    }
+
+    .hero-left {
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 640px;
     }
 
     .eyebrow {
       display: inline-flex;
+      width: fit-content;
       align-items: center;
       gap: 10px;
       padding: 10px 14px;
@@ -85,267 +187,302 @@
       color: var(--green);
       background: rgba(44, 100, 85, 0.18);
       border: 1px solid rgba(130, 255, 210, 0.16);
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      margin-bottom: 18px;
-    }
-
-    .hero-copy h1 {
-      font-size: clamp(32px, 5vw, 62px);
-      line-height: 0.96;
-      letter-spacing: -0.04em;
+      font-size: 12px;
       font-weight: 900;
-      max-width: 860px;
-      color: #f6f8ff;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
     }
 
-    .hero-copy p {
-      margin-top: 18px;
-      max-width: 760px;
-      font-size: 18px;
-      line-height: 1.65;
-      color: #c5d2eb;
+    .hero-left h1 {
+      font-size: clamp(36px, 5vw, 68px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+      color: #f8faff;
+      max-width: 650px;
     }
 
-    .focus-line {
+    .hero-left p {
       margin-top: 20px;
+      max-width: 640px;
+      font-size: 18px;
+      line-height: 1.72;
+      color: var(--soft);
+    }
+
+    .hero-focus {
+      margin-top: 20px;
+      color: #ffffff;
       font-size: 16px;
       font-weight: 900;
-      color: #ffffff;
       letter-spacing: 0.01em;
     }
 
-    .engine-grid {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: 0.96fr 1.3fr;
-      gap: 18px;
-      align-items: stretch;
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
     }
 
-    .engine-panel {
-      background: linear-gradient(180deg, rgba(0, 8, 22, 0.96), rgba(0, 7, 18, 0.98));
-      border: 1px solid rgba(100, 160, 255, 0.10);
-      border-radius: 28px;
-      box-shadow:
-        inset 0 0 0 1px rgba(80, 140, 255, 0.03),
-        0 0 28px rgba(0, 0, 0, 0.14);
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 170px;
+      height: 52px;
+      padding: 0 22px;
+      border-radius: 16px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 900;
+      transition: 0.18s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      color: #06111d;
+      background: linear-gradient(180deg, #a4e6ff 0%, #85d2ff 100%);
+      box-shadow: 0 12px 28px rgba(117, 211, 255, 0.18);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.02);
+    }
+
+    .btn-secondary {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .hero-note {
+      margin-top: 18px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .hero-right-card {
+      padding: 20px;
+      min-height: 640px;
+    }
+
+    .engine-grid {
+      display: grid;
+      grid-template-columns: 0.98fr 1.12fr;
+      gap: 16px;
+      height: 100%;
     }
 
     .engine-left {
-      padding: 26px;
       display: flex;
       flex-direction: column;
-      min-height: 560px;
+      gap: 16px;
+      min-width: 0;
     }
 
     .engine-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 20px;
+      gap: 12px;
     }
 
     .engine-title {
-      font-size: 18px;
-      font-weight: 800;
-      color: #f4f7ff;
-      letter-spacing: -0.4px;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: #ffffff;
       white-space: nowrap;
     }
 
     .engine-badge {
+      flex-shrink: 0;
       padding: 10px 16px;
       border-radius: 999px;
-      font-size: 14px;
-      font-weight: 800;
+      font-size: 13px;
+      font-weight: 900;
       color: var(--green);
-      background: rgba(44, 100, 85, 0.28);
-      border: 1px solid rgba(130, 255, 210, 0.24);
-      box-shadow: inset 0 0 18px rgba(50, 255, 190, 0.08);
+      border: 1px solid rgba(130, 255, 210, 0.22);
+      background: rgba(44, 100, 85, 0.24);
+      box-shadow: inset 0 0 18px rgba(50, 255, 190, 0.07);
       white-space: nowrap;
-      flex-shrink: 0;
     }
 
-    .hero-panel {
-      min-height: 150px;
-      padding: 22px 20px;
+    .engine-panel {
+      background: linear-gradient(180deg, rgba(0, 8, 22, 0.96), rgba(0, 7, 18, 0.98));
+      border: 1px solid rgba(100, 160, 255, 0.10);
+      border-radius: var(--radius-md);
+      box-shadow:
+        inset 0 0 0 1px rgba(80, 140, 255, 0.03),
+        0 0 28px rgba(0, 0, 0, 0.12);
+    }
+
+    .status-panel {
+      padding: 20px;
+      min-height: 148px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
       align-items: center;
-      margin-bottom: 16px;
     }
 
     .status-list {
       display: grid;
-      gap: 13px;
+      gap: 12px;
+      min-width: 0;
     }
 
     .status-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 14px;
+      min-width: 0;
     }
 
     .status-label {
-      font-size: 15px;
       color: var(--muted);
+      font-size: 14px;
       white-space: nowrap;
     }
 
     .status-value {
-      min-width: 112px;
-      text-align: right;
+      color: #ffffff;
       font-size: 15px;
-      font-weight: 800;
-      color: #fff;
+      font-weight: 900;
+      text-align: right;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
     }
 
-    .hero-right {
-      min-height: 92px;
+    .status-highlight {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       justify-content: center;
+      gap: 10px;
       text-align: right;
+      min-width: 0;
+      min-height: 90px;
     }
 
-    .hero-main {
-      min-height: 58px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      font-size: 26px;
-      font-weight: 900;
-      line-height: 1.12;
+    .status-highlight-main {
       color: var(--blue);
-      letter-spacing: -0.8px;
-      text-align: right;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.06;
+      max-width: 100%;
+      word-break: keep-all;
     }
 
-    .hero-sub {
-      min-height: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      margin-top: 10px;
+    .status-highlight-sub {
+      color: #ffffff;
       font-size: 15px;
-      font-weight: 800;
-      color: #fff;
-      text-align: right;
+      font-weight: 900;
+      line-height: 1.2;
+      max-width: 100%;
+      word-break: keep-all;
     }
 
     .mini-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
-      margin-bottom: 16px;
     }
 
-    .mini-panel {
-      min-height: 108px;
+    .mini-card {
       padding: 20px;
+      min-height: 110px;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      gap: 12px;
+      min-width: 0;
     }
 
     .mini-label {
-      font-size: 14px;
       color: var(--muted);
-      margin-bottom: 10px;
+      font-size: 14px;
     }
 
     .mini-value {
-      min-height: 24px;
-      display: flex;
-      align-items: center;
+      color: #ffffff;
       font-size: 18px;
       font-weight: 900;
-      color: #fff;
       line-height: 1.2;
+      word-break: keep-all;
     }
 
-    .bottom-panel {
-      min-height: 120px;
-      padding: 22px 20px;
+    .logic-card {
+      padding: 20px;
+      min-height: 118px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
       align-items: center;
-      margin-top: auto;
     }
 
-    .bottom-left {
+    .logic-left {
       display: grid;
       gap: 12px;
     }
 
-    .bottom-label {
-      font-size: 14px;
+    .logic-label {
       color: var(--muted);
+      font-size: 14px;
     }
 
-    .bottom-right {
-      min-height: 58px;
+    .logic-right {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       justify-content: center;
+      gap: 10px;
       text-align: right;
+      min-width: 0;
     }
 
-    .bottom-main,
-    .bottom-sub {
-      min-height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
+    .logic-main,
+    .logic-sub {
+      color: #ffffff;
       font-weight: 900;
-      color: #fff;
-      text-align: right;
+      line-height: 1.2;
+      word-break: keep-all;
     }
 
-    .bottom-main {
+    .logic-main {
       font-size: 18px;
     }
 
-    .bottom-sub {
+    .logic-sub {
       font-size: 16px;
-      margin-top: 8px;
     }
 
     .engine-right {
-      padding: 0;
-      min-height: 560px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .engine-visual {
-      position: relative;
-      height: 100%;
-      min-height: 560px;
-      border-radius: 28px;
-      overflow: hidden;
+      min-width: 0;
     }
 
     .chart-frame {
       position: relative;
       width: 100%;
+      min-height: 552px;
       height: 100%;
-      min-height: 560px;
-      border-radius: 28px;
+      border-radius: var(--radius-md);
       overflow: hidden;
       background:
-        radial-gradient(circle at 78% 34%, rgba(255, 74, 114, 0.10), transparent 18%),
-        radial-gradient(circle at 22% 70%, rgba(118, 59, 255, 0.08), transparent 22%),
+        radial-gradient(circle at 76% 30%, rgba(255, 74, 114, 0.10), transparent 20%),
+        radial-gradient(circle at 24% 72%, rgba(118, 59, 255, 0.08), transparent 24%),
         linear-gradient(180deg, rgba(3, 9, 24, 0.98), rgba(1, 6, 18, 1));
       border: 1px solid rgba(121, 95, 255, 0.18);
       box-shadow:
@@ -372,18 +509,17 @@
         90deg,
         rgba(2, 8, 20, 0.98) 0%,
         rgba(2, 8, 20, 0.84) 18%,
-        rgba(2, 8, 20, 0.34) 36%,
-        rgba(2, 8, 20, 0.08) 56%,
-        rgba(2, 8, 20, 0) 72%
+        rgba(2, 8, 20, 0.32) 36%,
+        rgba(2, 8, 20, 0.06) 58%,
+        rgba(2, 8, 20, 0) 74%
       );
     }
 
     .zone {
       position: absolute;
       left: 0;
-      width: 58%;
-      border: 1px solid rgba(154, 100, 255, 0.42);
       border-radius: 14px;
+      border: 1px solid rgba(154, 100, 255, 0.42);
       background: linear-gradient(90deg, rgba(104, 54, 255, 0.05), rgba(104, 54, 255, 0.01));
       box-shadow: inset 0 0 18px rgba(143, 92, 255, 0.04);
       pointer-events: none;
@@ -391,20 +527,22 @@
 
     .zone-top {
       top: 44px;
-      height: 68px;
+      width: 58%;
+      height: 66px;
     }
 
     .zone-mid {
-      top: 244px;
+      top: 248px;
       left: 4%;
       width: 48%;
-      height: 60px;
+      height: 58px;
       opacity: 0.55;
     }
 
     .zone-bottom {
-      bottom: 84px;
-      height: 62px;
+      bottom: 82px;
+      width: 58%;
+      height: 60px;
     }
 
     .chart-svg {
@@ -412,15 +550,14 @@
       inset: 0;
       width: 100%;
       height: 100%;
-      overflow: visible;
     }
 
     .trend-line {
       stroke: rgba(153, 92, 255, 0.95);
-      stroke-width: 2.4;
+      stroke-width: 2.5;
       fill: none;
       stroke-linecap: round;
-      filter: drop-shadow(0 0 10px rgba(141, 92, 255, 0.34));
+      filter: drop-shadow(0 0 10px rgba(141, 92, 255, 0.32));
     }
 
     .price-line-glow {
@@ -435,12 +572,12 @@
     .price-line {
       fill: none;
       stroke: #ff456d;
-      stroke-width: 4.6;
+      stroke-width: 4.8;
       stroke-linecap: round;
       stroke-linejoin: round;
       filter:
-        drop-shadow(0 0 8px rgba(255, 69, 109, 0.70))
-        drop-shadow(0 0 16px rgba(255, 69, 109, 0.22));
+        drop-shadow(0 0 8px rgba(255, 69, 109, 0.66))
+        drop-shadow(0 0 16px rgba(255, 69, 109, 0.20));
       shape-rendering: geometricPrecision;
     }
 
@@ -452,9 +589,10 @@
       background: rgba(255, 69, 109, 0.92);
       box-shadow:
         0 0 0 8px rgba(255, 69, 109, 0.16),
-        0 0 22px rgba(255, 69, 109, 0.48);
+        0 0 22px rgba(255, 69, 109, 0.46);
+      left: 90.625%;
+      top: 26.07%;
       transform: translate(-50%, -50%);
-      animation: pulseDot 1.05s ease-in-out infinite;
       pointer-events: none;
       z-index: 4;
     }
@@ -476,30 +614,72 @@
       color: rgba(255, 255, 255, 0.85);
       font-size: 34px;
       line-height: 1;
-      z-index: 5;
       box-shadow:
         inset 0 0 0 1px rgba(255, 255, 255, 0.03),
         0 10px 24px rgba(0, 0, 0, 0.22);
     }
 
-    .engine-cards {
+    .section-title-wrap {
+      margin-top: 28px;
+      margin-bottom: 16px;
       position: relative;
       z-index: 2;
-      margin-top: 26px;
+      padding: 4px;
+    }
+
+    .section-kicker {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(141, 92, 255, 0.10);
+      border: 1px solid rgba(141, 92, 255, 0.16);
+      color: #beabff;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: clamp(26px, 4vw, 44px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      color: #f7f9ff;
+    }
+
+    .section-desc {
+      margin-top: 14px;
+      max-width: 760px;
+      color: var(--soft);
+      font-size: 17px;
+      line-height: 1.72;
+    }
+
+    .grid-5 {
+      position: relative;
+      z-index: 2;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 16px;
     }
 
-    .info-card {
+    .grid-3 {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .content-card {
       padding: 22px;
-      border-radius: 24px;
-      background: linear-gradient(180deg, rgba(0, 9, 24, 0.94), rgba(0, 8, 21, 0.98));
-      border: 1px solid rgba(100, 160, 255, 0.10);
-      box-shadow:
-        inset 0 0 0 1px rgba(80, 140, 255, 0.03),
-        0 0 28px rgba(0, 0, 0, 0.14);
-      min-height: 190px;
+      min-height: 210px;
+    }
+
+    .content-card.small {
+      min-height: 188px;
     }
 
     .card-kicker {
@@ -510,24 +690,26 @@
       border: 1px solid rgba(141, 92, 255, 0.16);
       color: #ba9cff;
       font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.03em;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
       margin-bottom: 16px;
     }
 
-    .info-card h3 {
+    .content-card h3 {
+      color: #f5f8ff;
       font-size: 20px;
-      line-height: 1.1;
       font-weight: 900;
-      color: #f4f7ff;
+      line-height: 1.08;
       letter-spacing: -0.03em;
       margin-bottom: 14px;
+      min-height: 44px;
     }
 
-    .info-card p {
-      color: #c2cde4;
+    .content-card p {
+      color: var(--soft);
       font-size: 15px;
-      line-height: 1.7;
+      line-height: 1.72;
       margin-bottom: 18px;
     }
 
@@ -535,49 +717,211 @@
       color: #ffffff;
       font-size: 13px;
       font-weight: 900;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
     }
 
-    @keyframes pulseDot {
-      0%, 100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-      }
-      50% {
-        transform: translate(-50%, -50%) scale(1.18);
-        opacity: 0.74;
-      }
+    .review-wall {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 14px;
     }
+
+    .review-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .quote-card {
+      padding: 18px 18px 16px;
+      min-height: 132px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .quote-text {
+      color: #f0f5ff;
+      font-size: 15px;
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+
+    .quote-meta {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .pricing-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .pricing-card {
+      padding: 26px;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pricing-card.featured {
+      border-color: rgba(134, 196, 255, 0.24);
+      box-shadow:
+        inset 0 0 0 1px rgba(110, 190, 255, 0.08),
+        0 0 34px rgba(67, 155, 255, 0.10);
+    }
+
+    .pricing-tag {
+      display: inline-flex;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(145, 214, 255, 0.10);
+      border: 1px solid rgba(145, 214, 255, 0.18);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .pricing-name {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: #ffffff;
+    }
+
+    .pricing-price {
+      margin-top: 14px;
+      font-size: 46px;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: #f7fbff;
+    }
+
+    .pricing-price span {
+      font-size: 16px;
+      color: var(--muted);
+      font-weight: 800;
+      margin-left: 6px;
+    }
+
+    .pricing-desc {
+      margin-top: 14px;
+      color: var(--soft);
+      font-size: 15px;
+      line-height: 1.68;
+      min-height: 78px;
+    }
+
+    .pricing-list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+      margin-bottom: 24px;
+      flex-grow: 1;
+    }
+
+    .pricing-list li {
+      color: #e9f1ff;
+      font-size: 15px;
+      line-height: 1.55;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .pricing-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 10px rgba(145, 214, 255, 0.30);
+    }
+
+    .cta-card {
+      position: relative;
+      z-index: 2;
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .cta-card h3 {
+      font-size: clamp(26px, 4vw, 40px);
+      line-height: 1.04;
+      letter-spacing: -0.04em;
+      color: #ffffff;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .cta-card p {
+      color: var(--soft);
+      font-size: 17px;
+      line-height: 1.72;
+      max-width: 720px;
+    }
+
+    .spacer-16 { height: 16px; }
+    .spacer-20 { height: 20px; }
+    .spacer-24 { height: 24px; }
+    .spacer-28 { height: 28px; }
 
     @media (max-width: 1180px) {
-      .engine-cards {
+      .grid-5 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .review-row {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1020px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-left,
+      .hero-right-card {
+        min-height: auto;
+      }
+
       .engine-grid {
         grid-template-columns: 1fr;
       }
 
-      .engine-left,
-      .engine-right,
-      .engine-visual,
       .chart-frame {
-        min-height: auto;
+        min-height: 440px;
       }
 
-      .engine-right {
-        min-height: 460px;
+      .grid-3,
+      .pricing-grid {
+        grid-template-columns: 1fr;
       }
 
-      .engine-visual,
-      .chart-frame {
-        min-height: 460px;
+      .cta-card {
+        grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 760px) {
       body {
         padding: 16px;
       }
@@ -587,52 +931,48 @@
         border-radius: 24px;
       }
 
-      .engine-left {
-        padding: 18px;
-        min-height: auto;
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
       }
 
-      .hero-panel,
-      .bottom-panel,
+      .hero-left {
+        padding: 22px;
+      }
+
+      .hero-right-card {
+        padding: 16px;
+      }
+
+      .status-panel,
+      .logic-card,
       .mini-grid,
-      .engine-cards {
+      .review-row,
+      .grid-5 {
         grid-template-columns: 1fr;
       }
 
-      .hero-right,
-      .bottom-right {
+      .status-panel {
+        min-height: auto;
+      }
+
+      .status-highlight,
+      .logic-right {
         align-items: flex-start;
         text-align: left;
       }
 
-      .hero-main,
-      .hero-sub,
-      .bottom-main,
-      .bottom-sub {
-        justify-content: flex-start;
+      .status-highlight-main,
+      .status-highlight-sub {
         text-align: left;
       }
 
-      .status-value {
-        min-width: auto;
+      .logic-card {
+        min-height: auto;
       }
 
-      .engine-title {
-        font-size: 16px;
-      }
-
-      .engine-badge {
-        font-size: 12px;
-        padding: 8px 12px;
-      }
-
-      .engine-right {
-        min-height: 360px;
-      }
-
-      .engine-visual,
       .chart-frame {
-        min-height: 360px;
+        min-height: 340px;
       }
 
       .chart-nav {
@@ -642,8 +982,12 @@
         right: 16px;
       }
 
-      .hero-copy p {
-        font-size: 16px;
+      .pricing-card {
+        min-height: auto;
+      }
+
+      .nav-links {
+        gap: 10px 14px;
       }
     }
   </style>
@@ -651,336 +995,382 @@
 <body>
   <main class="page">
     <section class="section-shell">
-      <div class="hero-copy">
-        <div class="eyebrow">PRIVATE TRADING ENGINE</div>
-        <h1>We don’t predict.<br>We filter.</h1>
-        <p id="heroLead">
-          This is not a signal provider. This is a filtering engine. It doesn’t trade more. It trades less — but better.
-        </p>
-        <div class="focus-line" id="heroFocus">Structure first. Timing second. Execution last.</div>
-      </div>
-
-      <div class="engine-grid">
-        <div class="engine-panel engine-left">
-          <div class="engine-top">
-            <div class="engine-title">TCPS Smart Entry AI</div>
-            <div class="engine-badge">Engine Online</div>
-          </div>
-
-          <div class="engine-panel hero-panel">
-            <div class="status-list">
-              <div class="status-row">
-                <div class="status-label">Engine State</div>
-                <div class="status-value" id="engineState">Trend Re-Alignment</div>
-              </div>
-              <div class="status-row">
-                <div class="status-label">Execution State</div>
-                <div class="status-value" id="runState">Hold Entry</div>
-              </div>
-              <div class="status-row">
-                <div class="status-label">Scan State</div>
-                <div class="status-value" id="scanState">Timing Compression</div>
-              </div>
-            </div>
-
-            <div class="hero-right">
-              <div class="hero-main" id="heroMain">Trend Re-Alignment</div>
-              <div class="hero-sub" id="heroSub">Hold Entry</div>
-            </div>
-          </div>
-
-          <div class="mini-grid">
-            <div class="engine-panel mini-panel">
-              <div class="mini-label">Market</div>
-              <div class="mini-value" id="marketValue">BTC / USDT</div>
-            </div>
-
-            <div class="engine-panel mini-panel">
-              <div class="mini-label">System Filter</div>
-              <div class="mini-value" id="filterValue">Risk Suppression</div>
-            </div>
-
-            <div class="engine-panel mini-panel">
-              <div class="mini-label">Liquidity Model</div>
-              <div class="mini-value" id="liquidityValue">Pullback Tracking</div>
-            </div>
-
-            <div class="engine-panel mini-panel">
-              <div class="mini-label">Final Update</div>
-              <div class="mini-value" id="updateValue">7s ago</div>
-            </div>
-          </div>
-
-          <div class="engine-panel bottom-panel">
-            <div class="bottom-left">
-              <div class="bottom-label">Engine Logic</div>
-              <div class="bottom-label">Priority</div>
-            </div>
-
-            <div class="bottom-right">
-              <div class="bottom-main" id="logicMain">Confirmation Over Frequency</div>
-              <div class="bottom-sub" id="logicSub">Only Clear Structure</div>
-            </div>
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          <div class="brand-text">
+            <div class="brand-name">TCPS Liquidity Engine</div>
+            <div class="brand-sub">Private Trading System</div>
           </div>
         </div>
 
-        <div class="engine-panel engine-right">
-          <div class="engine-visual">
-            <div class="chart-frame">
-              <div class="chart-grid"></div>
-              <div class="chart-fade"></div>
+        <nav class="nav-links">
+          <a href="#engine">Engine</a>
+          <a href="#solution">Why It Works</a>
+          <a href="#reviews">Reviews</a>
+          <a href="#pricing">Pricing</a>
+        </nav>
+      </div>
 
-              <div class="zone zone-top"></div>
-              <div class="zone zone-mid"></div>
-              <div class="zone zone-bottom"></div>
+      <div class="hero">
+        <div class="hero-left">
+          <div class="eyebrow">Private Trading Engine</div>
+          <h1>We don’t predict.<br>We filter.</h1>
+          <p>
+            TCPS Smart Entry AI is designed to reduce noise, ignore weak setups,
+            and wait for structure before execution. The goal is not more signals.
+            The goal is better decisions.
+          </p>
+          <div class="hero-focus">Structure first. Timing second. Execution last.</div>
 
-              <svg class="chart-svg" viewBox="0 0 640 560" preserveAspectRatio="none">
-                <line class="trend-line" x1="18" y1="116" x2="392" y2="42"></line>
-                <line class="trend-line" x1="0" y1="390" x2="408" y2="462"></line>
-                <polyline id="priceLineGlow" class="price-line-glow" points=""></polyline>
-                <polyline id="priceLine" class="price-line" points=""></polyline>
-              </svg>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#pricing">View Pricing</a>
+            <a class="btn btn-secondary" href="#engine">See Engine</a>
+          </div>
 
-              <div id="priceDot" class="price-dot"></div>
-              <div class="chart-nav">›</div>
+          <div class="hero-note">
+            Built around selective execution, structure-based analysis, trend alignment,
+            and controlled timing.
+          </div>
+        </div>
+
+        <div class="hero-right-card" id="engine">
+          <div class="engine-grid">
+            <div class="engine-left">
+              <div class="engine-top">
+                <div class="engine-title">TCPS Smart Entry AI</div>
+                <div class="engine-badge">Engine Online</div>
+              </div>
+
+              <div class="engine-panel status-panel">
+                <div class="status-list">
+                  <div class="status-row">
+                    <div class="status-label">Engine State</div>
+                    <div class="status-value">Trend Re-Alignment</div>
+                  </div>
+                  <div class="status-row">
+                    <div class="status-label">Execution State</div>
+                    <div class="status-value">Hold Entry</div>
+                  </div>
+                  <div class="status-row">
+                    <div class="status-label">Scan State</div>
+                    <div class="status-value">Timing Compression</div>
+                  </div>
+                </div>
+
+                <div class="status-highlight">
+                  <div class="status-highlight-main">Trend Re-Alignment</div>
+                  <div class="status-highlight-sub">Hold Entry</div>
+                </div>
+              </div>
+
+              <div class="mini-grid">
+                <div class="engine-panel mini-card">
+                  <div class="mini-label">Market</div>
+                  <div class="mini-value">BTC / USDT</div>
+                </div>
+
+                <div class="engine-panel mini-card">
+                  <div class="mini-label">System Filter</div>
+                  <div class="mini-value">Risk Suppression</div>
+                </div>
+
+                <div class="engine-panel mini-card">
+                  <div class="mini-label">Liquidity Model</div>
+                  <div class="mini-value">Pullback Tracking</div>
+                </div>
+
+                <div class="engine-panel mini-card">
+                  <div class="mini-label">Final Update</div>
+                  <div class="mini-value">Stable State</div>
+                </div>
+              </div>
+
+              <div class="engine-panel logic-card">
+                <div class="logic-left">
+                  <div class="logic-label">Engine Logic</div>
+                  <div class="logic-label">Priority</div>
+                </div>
+
+                <div class="logic-right">
+                  <div class="logic-main">Confirmation Over Frequency</div>
+                  <div class="logic-sub">Only Clear Structure</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="engine-right">
+              <div class="chart-frame">
+                <div class="chart-grid"></div>
+                <div class="chart-fade"></div>
+
+                <div class="zone zone-top"></div>
+                <div class="zone zone-mid"></div>
+                <div class="zone zone-bottom"></div>
+
+                <svg class="chart-svg" viewBox="0 0 640 560" preserveAspectRatio="none" aria-hidden="true">
+                  <line class="trend-line" x1="18" y1="116" x2="392" y2="42"></line>
+                  <line class="trend-line" x1="0" y1="390" x2="408" y2="462"></line>
+
+                  <polyline
+                    class="price-line-glow"
+                    points="0,250 56,248 102,256 148,276 194,308 240,336 286,342 330,328 370,286 410,214 454,132 500,92 540,88 580,112 610,146"
+                  ></polyline>
+
+                  <polyline
+                    class="price-line"
+                    points="0,250 56,248 102,256 148,276 194,308 240,336 286,342 330,328 370,286 410,214 454,132 500,92 540,88 580,112 610,146"
+                  ></polyline>
+                </svg>
+
+                <div class="price-dot"></div>
+                <div class="chart-nav">›</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="engine-cards">
-        <div class="info-card">
+      <div class="section-title-wrap">
+        <div class="section-kicker">Engine Logic</div>
+        <div class="section-title">Built to reduce noise before execution.</div>
+        <div class="section-desc">
+          The engine is positioned around structure, trend direction, timing control,
+          and selective execution instead of forcing activity in unclear market conditions.
+        </div>
+      </div>
+
+      <div class="grid-5">
+        <div class="content-card">
           <div class="card-kicker">01</div>
           <h3>Liquidity Sweep Detection</h3>
-          <p>Price doesn’t move first. Liquidity is usually taken before direction is revealed.</p>
+          <p>
+            Price often reacts after liquidity is taken. The engine watches that phase first
+            before trusting direction.
+          </p>
           <div class="card-sub">SWEEP → REACTION → CONFIRMATION</div>
         </div>
 
-        <div class="info-card">
+        <div class="content-card">
           <div class="card-kicker">02</div>
           <h3>Range Trap Structure</h3>
-          <p>Most moves inside a range are noise. The engine filters them before execution.</p>
+          <p>
+            Most movement inside a range is not worth chasing. Weak internal noise is filtered out.
+          </p>
           <div class="card-sub">FAKE BREAKOUT → REJECTION → RESET</div>
         </div>
 
-        <div class="info-card">
+        <div class="content-card">
           <div class="card-kicker">03</div>
           <h3>Smart Entry Timing</h3>
-          <p>Not every move is an entry. Timing is allowed only when conditions align clearly.</p>
+          <p>
+            Not every move deserves an entry. Timing is considered only after the setup becomes clear.
+          </p>
           <div class="card-sub">CONDITION → ALIGNMENT → TRIGGER</div>
         </div>
 
-        <div class="info-card">
+        <div class="content-card">
           <div class="card-kicker">04</div>
           <h3>Trend Filter Engine</h3>
-          <p>Trading against structure is reduced first. Direction has priority over impulse.</p>
+          <p>
+            Direction matters first. The engine lowers exposure to setups that fight the broader flow.
+          </p>
           <div class="card-sub">TREND → PULLBACK → CONTINUATION</div>
         </div>
 
-        <div class="info-card">
+        <div class="content-card">
           <div class="card-kicker">05</div>
           <h3>Execution Logic Core</h3>
-          <p>The engine acts only when structure, timing, and risk conditions match together.</p>
-          <div class="card-sub">CONFIRMATION > FREQUENCY</div>
+          <p>
+            The final layer acts only when structure, timing, and risk conditions align together.
+          </p>
+          <div class="card-sub">CONFIRMATION &gt; FREQUENCY</div>
         </div>
+      </div>
+
+      <div class="spacer-28"></div>
+
+      <div class="section-title-wrap" id="solution">
+        <div class="section-kicker">Why It Works</div>
+        <div class="section-title">Less activity. Better selectivity.</div>
+        <div class="section-desc">
+          The system is designed to avoid overtrading, ignore low-quality movement,
+          and focus on cleaner structure before any execution is allowed.
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="content-card small">
+          <div class="card-kicker">Problem</div>
+          <h3>Overtrading Creates Noise</h3>
+          <p>
+            Taking every move turns the chart into randomness. More trades do not automatically create better outcomes.
+          </p>
+          <div class="card-sub">FREQUENCY IS NOT AN EDGE</div>
+        </div>
+
+        <div class="content-card small">
+          <div class="card-kicker">Filter</div>
+          <h3>Structure Comes Before Speed</h3>
+          <p>
+            The engine looks for structure, alignment, and cleaner timing instead of reacting to every candle.
+          </p>
+          <div class="card-sub">STRUCTURE BEFORE EXECUTION</div>
+        </div>
+
+        <div class="content-card small">
+          <div class="card-kicker">Result</div>
+          <h3>Selective Execution Only</h3>
+          <p>
+            The goal is not constant action. The goal is reducing bad entries and waiting for higher-clarity zones.
+          </p>
+          <div class="card-sub">CLEARER SETUPS ONLY</div>
+        </div>
+      </div>
+
+      <div class="spacer-28"></div>
+
+      <div class="section-title-wrap" id="reviews">
+        <div class="section-kicker">User Signal</div>
+        <div class="section-title">Built to feel active without looking fake.</div>
+        <div class="section-desc">
+          These review blocks are intentionally varied in rhythm and tone so the page feels used,
+          not mass-produced.
+        </div>
+      </div>
+
+      <div class="review-wall">
+        <div class="review-row">
+          <div class="quote-card">
+            <div class="quote-text">“The biggest difference is that it does not try to force entries all day.”</div>
+            <div class="quote-meta">US • BTC User</div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-text">“Cleaner than the usual signal rooms. It feels more selective.”</div>
+            <div class="quote-meta">UK • Swing Trader</div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-text">“I like that unclear range movement is treated as something to ignore.”</div>
+            <div class="quote-meta">KR • Futures User</div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-text">“The engine style is what stood out first. It looks like a system, not a random alert feed.”</div>
+            <div class="quote-meta">CA • Chart User</div>
+          </div>
+        </div>
+
+        <div class="review-row">
+          <div class="quote-card">
+            <div class="quote-text">“Less signal spam. More waiting. That alone made it feel different.”</div>
+            <div class="quote-meta">AU • BTC Pair</div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-text">“The structure-first approach makes sense. It does not feel rushed.”</div>
+            <div class="quote-meta">JP • Private Member</div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-text">“Most services try to impress with quantity. This one pushes selectivity instead.”</div>
+            <div class="quote-meta">DE • Intraday</div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-text">“The interface already tells you the philosophy. Confirmation first.”</div>
+            <div class="quote-meta">SG • Engine Watch</div>
+          </div>
+        </div>
+
+        <div class="review-row">
+          <div class="quote-card">
+            <div class="quote-text">“It feels closer to a private trading tool than a normal retail landing page.”</div>
+            <div class="quote-meta">FR • BTC/USDT</div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-text">“I prefer fewer setups if the filters are actually doing something.”</div>
+            <div class="quote-meta">ES • Futures</div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-text">“The range-trap idea is what sold it for me.”</div>
+            <div class="quote-meta">NL • Market User</div>
+          </div>
+          <div class="quote-card">
+            <div class="quote-text">“Looks premium. More importantly, it looks disciplined.”</div>
+            <div class="quote-meta">US • Private Access</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer-28"></div>
+
+      <div class="section-title-wrap" id="pricing">
+        <div class="section-kicker">Pricing</div>
+        <div class="section-title">Choose your access level.</div>
+        <div class="section-desc">
+          Start with monthly access or unlock the full private engine permanently.
+        </div>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-tag">Basic</div>
+          <div class="pricing-name">Basic</div>
+          <div class="pricing-price">49<span>USDT / month</span></div>
+          <div class="pricing-desc">
+            Entry-level access for users who want the core signal environment and private system flow.
+          </div>
+          <ul class="pricing-list">
+            <li>Monthly engine access</li>
+            <li>Core signal environment</li>
+            <li>Private system positioning</li>
+            <li>Clean entry-focused structure</li>
+          </ul>
+          <a class="btn btn-secondary" href="https://nowpayments.io/payment/?iid=5591005023" target="_blank" rel="noopener noreferrer">Choose Basic</a>
+        </div>
+
+        <div class="pricing-card featured">
+          <div class="pricing-tag">Most Popular</div>
+          <div class="pricing-name">Pro</div>
+          <div class="pricing-price">99<span>USDT / month</span></div>
+          <div class="pricing-desc">
+            For users who want the stronger positioning tier with the main premium offer.
+          </div>
+          <ul class="pricing-list">
+            <li>Full monthly premium tier</li>
+            <li>Priority product positioning</li>
+            <li>Private engine experience</li>
+            <li>Higher-value access path</li>
+          </ul>
+          <a class="btn btn-primary" href="https://nowpayments.io/payment/?iid=5873457649" target="_blank" rel="noopener noreferrer">Choose Pro</a>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pricing-tag">Lifetime</div>
+          <div class="pricing-name">Lifetime</div>
+          <div class="pricing-price">399<span>USDT one-time</span></div>
+          <div class="pricing-desc">
+            One payment for long-term users who want permanent access to the private engine offer.
+          </div>
+          <ul class="pricing-list">
+            <li>One-time payment</li>
+            <li>Permanent access tier</li>
+            <li>No recurring monthly billing</li>
+            <li>Best long-term positioning</li>
+          </ul>
+          <a class="btn btn-secondary" href="https://nowpayments.io/payment/?iid=5068278820" target="_blank" rel="noopener noreferrer">Choose Lifetime</a>
+        </div>
+      </div>
+
+      <div class="spacer-28"></div>
+
+      <div class="cta-card">
+        <div>
+          <h3>Private engine. Selective logic. Cleaner execution.</h3>
+          <p>
+            If you want a system that tries to do less but do it with more discipline,
+            TCPS Smart Entry AI is built for that direction.
+          </p>
+        </div>
+        <a class="btn btn-primary" href="https://nowpayments.io/payment/?iid=5873457649" target="_blank" rel="noopener noreferrer">Get Access</a>
       </div>
     </section>
   </main>
-
-  <script>
-    const dashboardFrames = [
-      {
-        engineState: "Market Analysis Active",
-        runState: "Awaiting Confirmation",
-        scanState: "Structure Check",
-        heroMain: "Market Analysis Active",
-        heroSub: "Awaiting Confirmation",
-        marketValue: "BTC / USDT",
-        filterValue: "Trend Active",
-        liquidityValue: "Monitoring",
-        updateValue: "Just now",
-        logicMain: "No Forced Trades",
-        logicSub: "Selective Execution Only",
-        heroLead: "This is not a signal provider. This is a filtering engine. It doesn’t trade more. It trades less — but better.",
-        heroFocus: "Structure first. Timing second. Execution last."
-      },
-      {
-        engineState: "Liquidity Sweep Detected",
-        runState: "Condition Filtering",
-        scanState: "Range Tracking",
-        heroMain: "Liquidity Sweep Detected",
-        heroSub: "Condition Filtering",
-        marketValue: "BTC / USDT",
-        filterValue: "Range Filter Active",
-        liquidityValue: "Sweep Confirmed",
-        updateValue: "3s ago",
-        logicMain: "Noise Is Excluded",
-        logicSub: "Only Confirmed Zones",
-        heroLead: "The engine checks where liquidity is taken first, then waits for reaction before anything is allowed.",
-        heroFocus: "Sweep first. Reaction next. Entry later."
-      },
-      {
-        engineState: "Trend Re-Alignment",
-        runState: "Hold Entry",
-        scanState: "Timing Compression",
-        heroMain: "Trend Re-Alignment",
-        heroSub: "Hold Entry",
-        marketValue: "BTC / USDT",
-        filterValue: "Risk Suppression",
-        liquidityValue: "Pullback Tracking",
-        updateValue: "7s ago",
-        logicMain: "Confirmation Over Frequency",
-        logicSub: "Only Clear Structure",
-        heroLead: "Trend direction matters first. Pullbacks are tracked, but execution waits until alignment is clear.",
-        heroFocus: "Direction first. Pullback second. Continuation last."
-      },
-      {
-        engineState: "Fake Breakout Review",
-        runState: "Reaction Zone Analysis",
-        scanState: "Return Flow Check",
-        heroMain: "Fake Breakout Review",
-        heroSub: "Reaction Zone Analysis",
-        marketValue: "BTC / USDT",
-        filterValue: "Sideways Block Active",
-        liquidityValue: "Structure Return",
-        updateValue: "Just now",
-        logicMain: "Avoid Unclear Entries",
-        logicSub: "Preserve Clean Setups",
-        heroLead: "Most false breaks are ignored. The engine waits for rejection and return before trust is given.",
-        heroFocus: "Trap detected. Rejection confirmed. Reset complete."
-      },
-      {
-        engineState: "Timing Filter Passed",
-        runState: "Ready But Selective",
-        scanState: "Entry Compression",
-        heroMain: "Timing Filter Passed",
-        heroSub: "Ready But Selective",
-        marketValue: "BTC / USDT",
-        filterValue: "Filter Alignment",
-        liquidityValue: "Retest Tracking",
-        updateValue: "5s ago",
-        logicMain: "Mechanical Discipline",
-        logicSub: "Only High-Clarity Setups",
-        heroLead: "Momentum alone is not enough. Entry is released only when structure, timing, and filter logic are aligned.",
-        heroFocus: "Condition met. Timing aligned. Trigger controlled."
-      }
-    ];
-
-    const fieldIds = [
-      "engineState",
-      "runState",
-      "scanState",
-      "heroMain",
-      "heroSub",
-      "marketValue",
-      "filterValue",
-      "liquidityValue",
-      "updateValue",
-      "logicMain",
-      "logicSub",
-      "heroLead",
-      "heroFocus"
-    ];
-
-    let dashboardIndex = 0;
-
-    function applyDashboardFrame(frame) {
-      fieldIds.forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = frame[id];
-      });
-    }
-
-    applyDashboardFrame(dashboardFrames[0]);
-
-    setInterval(() => {
-      dashboardIndex = (dashboardIndex + 1) % dashboardFrames.length;
-      applyDashboardFrame(dashboardFrames[dashboardIndex]);
-    }, 2400);
-
-    const line = document.getElementById("priceLine");
-    const glow = document.getElementById("priceLineGlow");
-    const dot = document.getElementById("priceDot");
-
-    const WIDTH = 640;
-    const HEIGHT = 560;
-
-    const basePoints = [
-      [0, 250],
-      [56, 248],
-      [102, 256],
-      [148, 276],
-      [194, 308],
-      [240, 336],
-      [286, 342],
-      [330, 328],
-      [370, 286],
-      [410, 214],
-      [454, 132],
-      [500, 92],
-      [540, 88],
-      [580, 112],
-      [610, 146]
-    ];
-
-    function buildAnimatedPoints(t) {
-      return basePoints.map((point, i) => {
-        const x = point[0];
-        let y = point[1];
-
-        if (i > 1 && i < 7) {
-          y += Math.sin(t * 1.55 + i * 0.8) * 7;
-        }
-
-        if (i >= 7 && i < 11) {
-          y += Math.sin(t * 2.1 + i * 0.65) * 15;
-        }
-
-        if (i >= 11) {
-          y += Math.sin(t * 2.6 + i * 0.9) * 18;
-        }
-
-        if (i === basePoints.length - 1) {
-          y += Math.sin(t * 3.6) * 22;
-        }
-
-        if (i === basePoints.length - 2) {
-          y += Math.sin(t * 3.2 + 0.4) * 16;
-        }
-
-        return [x, y];
-      });
-    }
-
-    function drawChart(points) {
-      const pointsString = points.map(([x, y]) => `${x},${y}`).join(" ");
-      line.setAttribute("points", pointsString);
-      glow.setAttribute("points", pointsString);
-
-      const last = points[points.length - 1];
-      const xPercent = last[0] / WIDTH;
-      const yPercent = last[1] / HEIGHT;
-
-      dot.style.left = `${xPercent * 100}%`;
-      dot.style.top = `${yPercent * 100}%`;
-    }
-
-    let start = null;
-
-    function animate(ts) {
-      if (!start) start = ts;
-      const t = (ts - start) / 1000;
-      const points = buildAnimatedPoints(t);
-      drawChart(points);
-      requestAnimationFrame(animate);
-    }
-
-    requestAnimationFrame(animate);
-
-    window.addEventListener("resize", () => {
-      const t = performance.now() / 1000;
-      drawChart(buildAnimatedPoints(t));
-    });
-  </script>
 </body>
 </html>
