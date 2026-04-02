@@ -272,6 +272,7 @@
       border-radius:999px;
       border:1px solid rgba(62,215,126,0.22);
       background:rgba(62,215,126,0.10);
+      white-space:nowrap;
     }
 
     .engine-monitor{
@@ -287,7 +288,7 @@
       background:rgba(7,12,21,0.95);
       border:1px solid rgba(255,255,255,0.06);
       overflow:hidden;
-      min-height:118px;
+      min-height:120px;
     }
 
     .monitor-card::before{
@@ -315,6 +316,7 @@
     .monitor-label{
       font-size:13px;
       color:#8ea4c7;
+      flex:0 0 auto;
     }
 
     .monitor-value{
@@ -322,6 +324,11 @@
       font-weight:700;
       color:#ffffff;
       text-align:right;
+      min-height:20px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      white-space:nowrap;
     }
 
     .monitor-main{
@@ -331,7 +338,13 @@
       line-height:1.1;
       color:#8fd6ff;
       text-align:right;
-      min-height:32px;
+      min-height:64px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      max-width:280px;
+      margin-left:auto;
+      word-break:keep-all;
     }
 
     .monitor-grid{
@@ -371,7 +384,9 @@
       font-weight:800;
       color:#f5f8ff;
       line-height:1.35;
-      min-height:24px;
+      min-height:46px;
+      display:flex;
+      align-items:center;
     }
 
     .section-head{
@@ -772,47 +787,43 @@
       pointer-events:none;
     }
 
+    .price-glow{
+      fill:none;
+      stroke:rgba(255,70,93,0.22);
+      stroke-width:12;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      filter:blur(7px);
+    }
+
     .price-path{
       fill:none;
       stroke:#ff465d;
-      stroke-width:3.4;
+      stroke-width:4.1;
       stroke-linecap:round;
       stroke-linejoin:round;
       filter:drop-shadow(0 0 8px rgba(255,70,93,0.95));
     }
 
-    .pulse-dot{
-      position:absolute;
-      width:15px;
-      height:15px;
-      border-radius:50%;
-      background:#ff465d;
-      box-shadow:0 0 12px rgba(255,70,93,1), 0 0 28px rgba(255,70,93,0.95);
-      z-index:5;
-      animation:tcpsPulse 1.05s infinite;
+    .price-end{
+      fill:#ff465d;
+      filter:drop-shadow(0 0 8px rgba(255,70,93,1)) drop-shadow(0 0 18px rgba(255,70,93,0.95));
+      animation:tcpsPulseSvg 1.08s infinite;
+      transform-origin:center;
     }
 
-    .p1{ right:28px; top:140px; }
-    .p2{ right:32px; top:120px; }
-    .p3{ right:30px; top:98px; }
-    .p4{ right:30px; top:154px; }
-    .p5{ right:30px; top:128px; }
-
-    @keyframes tcpsPulse{
+    @keyframes tcpsPulseSvg{
       0%{
         transform:scale(1);
         opacity:1;
-        box-shadow:0 0 12px rgba(255,70,93,1), 0 0 28px rgba(255,70,93,0.95);
       }
       50%{
-        transform:scale(2.1);
+        transform:scale(1.65);
         opacity:0.38;
-        box-shadow:0 0 22px rgba(255,70,93,1), 0 0 48px rgba(255,70,93,1);
       }
       100%{
         transform:scale(1);
         opacity:1;
-        box-shadow:0 0 12px rgba(255,70,93,1), 0 0 28px rgba(255,70,93,0.95);
       }
     }
 
@@ -861,6 +872,7 @@
       animation-timing-function:linear;
       animation-iteration-count:infinite;
       animation-play-state:running;
+      transform:translateZ(0);
     }
 
     .review-row:hover .review-marquee{
@@ -1145,6 +1157,15 @@
     }
 
     @media (max-width: 760px){
+      body::after{
+        display:none;
+      }
+
+      .topbar{
+        backdrop-filter:none;
+        background:rgba(4,6,11,0.96);
+      }
+
       .nav{
         display:none;
       }
@@ -1209,6 +1230,52 @@
         width:42px;
         height:42px;
         font-size:24px;
+        backdrop-filter:none;
+      }
+
+      .panel,
+      .card,
+      .slide-card,
+      .engine-card,
+      .pricing-card{
+        box-shadow:none;
+      }
+
+      .nav-cta,
+      .btn-primary,
+      .price-btn{
+        box-shadow:none;
+      }
+
+      .review-row:nth-child(4),
+      .review-row:nth-child(5){
+        display:none;
+      }
+
+      .review-marquee{
+        will-change:auto;
+      }
+
+      .chart-grid{
+        opacity:0.14;
+      }
+
+      .range-zone{
+        box-shadow:none;
+      }
+
+      .price-glow{
+        filter:blur(4px);
+        stroke-width:9;
+      }
+
+      .monitor-main{
+        font-size:24px;
+        min-height:58px;
+      }
+
+      .mini-value{
+        min-height:24px;
       }
     }
   </style>
@@ -1464,9 +1531,10 @@
               <div class="trend-line t1"></div>
               <div class="trend-line t2"></div>
               <svg class="price-svg" viewBox="0 0 700 440" preserveAspectRatio="none">
-                <path class="price-path" d="M20 320 C100 270 130 210 190 190 C240 172 300 168 350 204 C390 232 425 258 470 240 C520 220 545 110 600 104 C628 102 648 118 680 140"></path>
+                <polyline class="price-glow" points="18,318 76,286 132,226 188,194 246,176 306,178 362,208 418,236 476,228 530,172 580,112 624,104 656,118 682,140"></polyline>
+                <polyline class="price-path" points="18,318 76,286 132,226 188,194 246,176 306,178 362,208 418,236 476,228 530,172 580,112 624,104 656,118 682,140"></polyline>
+                <circle class="price-end" cx="682" cy="140" r="7"></circle>
               </svg>
-              <div class="pulse-dot p1"></div>
               <div class="chart-fade-left"></div>
             </div>
           </div>
@@ -1483,9 +1551,10 @@
               <div class="range-zone band"></div>
               <div class="trend-line t3"></div>
               <svg class="price-svg" viewBox="0 0 700 440" preserveAspectRatio="none">
-                <path class="price-path" d="M18 220 C70 170 125 170 175 222 C228 276 288 170 342 210 C394 248 450 286 500 224 C548 164 592 150 640 170 C662 178 672 172 682 120"></path>
+                <polyline class="price-glow" points="18,222 72,182 124,178 172,220 224,272 276,222 330,204 384,244 434,282 488,226 538,164 590,152 642,168 682,120"></polyline>
+                <polyline class="price-path" points="18,222 72,182 124,178 172,220 224,272 276,222 330,204 384,244 434,282 488,226 538,164 590,152 642,168 682,120"></polyline>
+                <circle class="price-end" cx="682" cy="120" r="7"></circle>
               </svg>
-              <div class="pulse-dot p2"></div>
               <div class="chart-fade-left"></div>
             </div>
           </div>
@@ -1503,9 +1572,10 @@
               <div class="trend-line t5"></div>
               <div class="range-zone retest"></div>
               <svg class="price-svg" viewBox="0 0 700 440" preserveAspectRatio="none">
-                <path class="price-path" d="M20 320 C90 304 130 250 188 210 C246 170 300 194 342 234 C382 272 424 278 462 214 C506 138 548 114 610 110 C640 108 660 100 680 98"></path>
+                <polyline class="price-glow" points="18,320 72,308 126,268 182,214 238,182 294,194 346,234 398,274 448,266 500,184 548,132 596,114 646,104 682,98"></polyline>
+                <polyline class="price-path" points="18,320 72,308 126,268 182,214 238,182 294,194 346,234 398,274 448,266 500,184 548,132 596,114 646,104 682,98"></polyline>
+                <circle class="price-end" cx="682" cy="98" r="7"></circle>
               </svg>
-              <div class="pulse-dot p3"></div>
               <div class="chart-fade-left"></div>
             </div>
           </div>
@@ -1523,9 +1593,10 @@
               <div class="trend-line t7"></div>
               <div class="range-zone top" style="top:20%; left:48%; width:26%; height:12%;"></div>
               <svg class="price-svg" viewBox="0 0 700 440" preserveAspectRatio="none">
-                <path class="price-path" d="M20 130 C84 144 132 180 190 208 C248 236 290 250 348 232 C406 214 444 168 496 146 C546 124 596 140 642 150 C660 154 670 154 682 154"></path>
+                <polyline class="price-glow" points="18,130 78,142 132,176 186,206 242,232 296,246 350,232 404,212 460,176 516,150 572,142 628,150 664,154 682,154"></polyline>
+                <polyline class="price-path" points="18,130 78,142 132,176 186,206 242,232 296,246 350,232 404,212 460,176 516,150 572,142 628,150 664,154 682,154"></polyline>
+                <circle class="price-end" cx="682" cy="154" r="7"></circle>
               </svg>
-              <div class="pulse-dot p4"></div>
               <div class="chart-fade-left"></div>
             </div>
           </div>
@@ -1544,9 +1615,10 @@
               <div class="trend-line t5"></div>
               <div class="trend-line t2" style="top:66%; left:44%; width:28%;"></div>
               <svg class="price-svg" viewBox="0 0 700 440" preserveAspectRatio="none">
-                <path class="price-path" d="M20 280 C74 244 118 194 178 204 C236 214 272 270 332 256 C390 242 430 162 484 142 C536 122 590 140 636 136 C656 134 670 128 682 128"></path>
+                <polyline class="price-glow" points="18,280 74,244 128,206 184,204 238,214 292,258 346,252 400,206 456,152 514,132 570,140 626,136 664,132 682,128"></polyline>
+                <polyline class="price-path" points="18,280 74,244 128,206 184,204 238,214 292,258 346,252 400,206 456,152 514,132 570,140 626,136 664,132 682,128"></polyline>
+                <circle class="price-end" cx="682" cy="128" r="7"></circle>
               </svg>
-              <div class="pulse-dot p5"></div>
               <div class="chart-fade-left"></div>
             </div>
           </div>
@@ -1781,6 +1853,83 @@
       startAutoSlider('solution-track', 5600);
       startAutoSlider('engine-track', 6000);
 
+      /* ===== ENGINE TEXT LOOP ===== */
+      const engineStates = [
+        "MARKET SCAN ACTIVE",
+        "TREND RE-ALIGNMENT",
+        "LIQUIDITY DETECTED",
+        "WAITING CONFIRMATION",
+        "STRUCTURE FORMING"
+      ];
+
+      const executionStates = [
+        "Awaiting Confirmation",
+        "Hold Entry",
+        "No Trade Zone",
+        "Entry Window Opening",
+        "Filter Active"
+      ];
+
+      const scanStates = [
+        "Checking Structure",
+        "Timing Alignment",
+        "Liquidity Sweep",
+        "Volatility Compression",
+        "Trend Confirmation"
+      ];
+
+      const regimeStates = [
+        "Trend Active",
+        "Range Filter",
+        "Trend Active",
+        "Risk Reduced",
+        "Trend Active"
+      ];
+
+      const liquidityStates = [
+        "Monitoring",
+        "Sweep Detected",
+        "Monitoring",
+        "Pullback Tracking",
+        "Monitoring"
+      ];
+
+      const updateStates = [
+        "just now",
+        "2 sec ago",
+        "5 sec ago",
+        "7 sec ago",
+        "just now"
+      ];
+
+      const logicStates = [
+        "No forced trades",
+        "Selective execution only",
+        "No forced trades",
+        "Selective execution only",
+        "No forced trades"
+      ];
+
+      let engineIndex = 0;
+
+      setInterval(() => {
+        const main = document.querySelector(".monitor-main");
+        const monitorValues = document.querySelectorAll(".monitor-card .monitor-value");
+        const miniValues = document.querySelectorAll(".mini-card .mini-value");
+
+        if(!main || monitorValues.length < 4 || miniValues.length < 4) return;
+
+        engineIndex = (engineIndex + 1) % engineStates.length;
+
+        main.textContent = engineStates[engineIndex];
+        monitorValues[0].textContent = executionStates[engineIndex];
+        monitorValues[1].textContent = scanStates[engineIndex];
+        miniValues[1].textContent = regimeStates[engineIndex];
+        miniValues[2].textContent = liquidityStates[engineIndex];
+        miniValues[3].textContent = updateStates[engineIndex];
+        monitorValues[2].textContent = logicStates[engineIndex];
+      }, 2200);
+
       const reviews = [
         { name:"Ethan", country:"US", text:"I was expecting another overhyped signal page, but this feels more disciplined than most tools I tested." },
         { name:"Lucas", country:"CA", text:"The biggest difference was not taking random trades anymore. That alone changed my routine." },
@@ -1896,9 +2045,11 @@
         const wall = document.getElementById('review-wall');
         if(!wall) return;
 
-        const rowCount = 5;
+        const rowCount = window.innerWidth <= 760 ? 3 : 5;
         const reviewsPerRow = 15;
         const shuffled = shuffle(reviews);
+
+        wall.innerHTML = "";
 
         for(let rowIndex = 0; rowIndex < rowCount; rowIndex++){
           const row = document.createElement('div');
@@ -1907,7 +2058,7 @@
           const marquee = document.createElement('div');
           marquee.className = 'review-marquee';
 
-          const speed = 42 + (rowIndex * 5);
+          const speed = window.innerWidth <= 760 ? (58 + (rowIndex * 6)) : (42 + (rowIndex * 5));
           marquee.style.animationDuration = `${speed}s`;
 
           const start = rowIndex * reviewsPerRow;
@@ -1925,6 +2076,12 @@
       }
 
       createReviewWall();
+
+      let resizeTimer = null;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(createReviewWall, 180);
+      });
     })();
   </script>
 
