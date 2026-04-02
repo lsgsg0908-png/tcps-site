@@ -273,12 +273,12 @@
       background:rgba(62,215,126,0.10);
     }
 
-    .signal-box{
+    .engine-monitor{
       display:grid;
       gap:14px;
     }
 
-    .signal-item{
+    .monitor-card{
       position:relative;
       padding:20px;
       border-radius:20px;
@@ -287,7 +287,7 @@
       overflow:hidden;
     }
 
-    .signal-item::before{
+    .monitor-card::before{
       content:"";
       position:absolute;
       top:0;
@@ -297,37 +297,99 @@
       background:linear-gradient(90deg, rgba(80,219,255,0), rgba(80,219,255,0.45), rgba(80,219,255,0));
     }
 
-    .signal-row{
+    .monitor-row{
       display:flex;
       justify-content:space-between;
       gap:14px;
-      margin-bottom:8px;
+      margin-bottom:10px;
+      align-items:flex-start;
     }
 
-    .signal-label{
+    .monitor-row:last-child{
+      margin-bottom:0;
+    }
+
+    .monitor-label{
       font-size:13px;
       color:#8ea4c7;
     }
 
-    .signal-value{
+    .monitor-value{
       font-size:14px;
       font-weight:700;
       color:#ffffff;
       text-align:right;
+      transition:opacity 0.25s ease, transform 0.25s ease;
     }
 
-    .signal-main{
-      font-size:24px;
+    .monitor-main{
+      font-size:28px;
       font-weight:800;
-      letter-spacing:-0.5px;
+      letter-spacing:-0.6px;
+      line-height:1.1;
+      transition:opacity 0.25s ease, transform 0.25s ease;
     }
 
-    .long{
+    .monitor-main.active{
       color:#72f4ba;
     }
 
-    .short{
-      color:#ff8d9a;
+    .monitor-main.neutral{
+      color:#8fd6ff;
+    }
+
+    .monitor-main.watch{
+      color:#ffc978;
+    }
+
+    .monitor-main.fade-out,
+    .monitor-value.fade-out{
+      opacity:0.25;
+      transform:translateY(4px);
+    }
+
+    .monitor-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .mini-card{
+      position:relative;
+      padding:18px;
+      border-radius:18px;
+      background:rgba(7,12,21,0.95);
+      border:1px solid rgba(255,255,255,0.06);
+      overflow:hidden;
+    }
+
+    .mini-card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(80,219,255,0), rgba(80,219,255,0.35), rgba(80,219,255,0));
+    }
+
+    .mini-label{
+      font-size:12px;
+      color:#87a0c5;
+      margin-bottom:8px;
+    }
+
+    .mini-value{
+      font-size:17px;
+      font-weight:800;
+      color:#f5f8ff;
+      line-height:1.35;
+      transition:opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .mini-value.fade-out{
+      opacity:0.25;
+      transform:translateY(4px);
     }
 
     .section-head{
@@ -420,6 +482,21 @@
     .card p{
       font-size:15px;
       color:#a9b9d4;
+    }
+
+    .step-number{
+      display:inline-flex;
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+      font-weight:800;
+      margin-bottom:14px;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:0 0 20px rgba(53,207,255,0.25);
     }
 
     .results-card{
@@ -669,6 +746,10 @@
         grid-template-columns:1fr 1fr;
       }
 
+      .monitor-grid{
+        grid-template-columns:1fr;
+      }
+
       .hero h1{
         font-size:50px;
       }
@@ -711,6 +792,10 @@
       .pricing-card.featured{
         transform:none;
       }
+
+      .monitor-main{
+        font-size:24px;
+      }
     }
   </style>
 </head>
@@ -725,6 +810,7 @@
 
       <nav class="nav">
         <a href="#engine">Engine</a>
+        <a href="#process">Access Flow</a>
         <a href="#reviews">Reviews</a>
         <a href="#pricing">Pricing</a>
         <a href="#cta" class="nav-cta">Get Access</a>
@@ -769,45 +855,52 @@
           <div class="screen-status">Engine Online</div>
         </div>
 
-        <div class="signal-box">
-          <div class="signal-item">
-            <div class="signal-row">
-              <div class="signal-label">Market</div>
-              <div class="signal-value">BTCUSDT</div>
+        <div class="engine-monitor">
+          <div class="monitor-card">
+            <div class="monitor-row">
+              <div class="monitor-label">Engine State</div>
+              <div class="monitor-main neutral" id="engine-state">MARKET SCAN ACTIVE</div>
             </div>
-            <div class="signal-row">
-              <div class="signal-label">Signal</div>
-              <div class="signal-main long">LONG SETUP</div>
+            <div class="monitor-row">
+              <div class="monitor-label">Execution State</div>
+              <div class="monitor-value" id="execution-state">Awaiting Confirmation</div>
             </div>
-            <div class="signal-row">
-              <div class="signal-label">Model State</div>
-              <div class="signal-value">Liquidity Sweep Confirmed</div>
-            </div>
-          </div>
-
-          <div class="signal-item">
-            <div class="signal-row">
-              <div class="signal-label">Filter</div>
-              <div class="signal-value">Trend + Volatility OK</div>
-            </div>
-            <div class="signal-row">
-              <div class="signal-label">Execution</div>
-              <div class="signal-value">Timing Window Open</div>
-            </div>
-            <div class="signal-row">
-              <div class="signal-label">Noise Level</div>
-              <div class="signal-value">Low</div>
+            <div class="monitor-row">
+              <div class="monitor-label">Scan Status</div>
+              <div class="monitor-value" id="scan-status">Checking Structure</div>
             </div>
           </div>
 
-          <div class="signal-item">
-            <div class="signal-row">
-              <div class="signal-label">Next Action</div>
-              <div class="signal-main short">WAIT FOR CLEAN ENTRY</div>
+          <div class="monitor-grid">
+            <div class="mini-card">
+              <div class="mini-label">Market</div>
+              <div class="mini-value" id="market-value">BTCUSDT</div>
             </div>
-            <div class="signal-row">
-              <div class="signal-label">Engine Logic</div>
-              <div class="signal-value">No forced trades</div>
+
+            <div class="mini-card">
+              <div class="mini-label">Regime Filter</div>
+              <div class="mini-value" id="regime-value">Trend Active</div>
+            </div>
+
+            <div class="mini-card">
+              <div class="mini-label">Liquidity Model</div>
+              <div class="mini-value" id="liquidity-value">Monitoring</div>
+            </div>
+
+            <div class="mini-card">
+              <div class="mini-label">Last Update</div>
+              <div class="mini-value" id="update-value">just now</div>
+            </div>
+          </div>
+
+          <div class="monitor-card">
+            <div class="monitor-row">
+              <div class="monitor-label">Engine Logic</div>
+              <div class="monitor-value" id="engine-logic">No forced trades</div>
+            </div>
+            <div class="monitor-row">
+              <div class="monitor-label">Priority</div>
+              <div class="monitor-value" id="priority-value">Selective execution only</div>
             </div>
           </div>
         </div>
@@ -925,6 +1018,38 @@
     </div>
   </section>
 
+  <section id="process">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker">Access Flow</div>
+        <h2>Simple purchase flow. No confusion.</h2>
+        <p>
+          The entire process is built to move users from payment to verification to access with minimal friction.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="step-number">1</div>
+          <h3>Choose a Plan</h3>
+          <p>Select Basic, Pro, or Lifetime and complete payment through the checkout link.</p>
+        </div>
+
+        <div class="card">
+          <div class="step-number">2</div>
+          <h3>Submit Verification</h3>
+          <p>After payment, the user enters their invoice details through the verification flow.</p>
+        </div>
+
+        <div class="card">
+          <div class="step-number">3</div>
+          <h3>Get Access</h3>
+          <p>Approved users move into the product access flow and receive the correct entry path.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="results">
     <div class="container">
       <div class="section-head">
@@ -961,9 +1086,9 @@
     <div class="container">
       <div class="section-head">
         <div class="section-kicker">Trader Reviews</div>
-        <h2>Realistic social proof, not copy-paste looking blocks.</h2>
+        <h2>Natural-looking social proof built for trust.</h2>
         <p>
-          Review length, tone, and time labels are intentionally varied so the section feels more natural.
+          Review length, timing, and rating are varied so the section feels less synthetic and more believable.
         </p>
       </div>
 
@@ -1186,6 +1311,140 @@
       `;
       reviewsGrid.appendChild(card);
     });
+
+    const engineStates = [
+      {
+        main:"MARKET SCAN ACTIVE",
+        mainClass:"neutral",
+        execution:"Awaiting Confirmation",
+        scan:"Checking Structure",
+        market:"BTCUSDT",
+        regime:"Trend Active",
+        liquidity:"Monitoring",
+        logic:"No forced trades",
+        priority:"Selective execution only"
+      },
+      {
+        main:"STRUCTURE FILTERING",
+        mainClass:"watch",
+        execution:"Filtering Noise",
+        scan:"Evaluating Regime",
+        market:"ETHUSDT",
+        regime:"Range Condition",
+        liquidity:"Tracking Sweep Zones",
+        logic:"Skip low quality timing",
+        priority:"Protect entry quality"
+      },
+      {
+        main:"CONFLUENCE WATCH",
+        mainClass:"active",
+        execution:"Watching Confirmation",
+        scan:"Cross-checking Conditions",
+        market:"NASDAQ",
+        regime:"Momentum Building",
+        liquidity:"Potential Sweep Detected",
+        logic:"Wait for cleaner trigger",
+        priority:"Quality over frequency"
+      },
+      {
+        main:"ENGINE MONITORING",
+        mainClass:"neutral",
+        execution:"Monitoring Flow",
+        scan:"Scanning Volatility",
+        market:"BTCUSDT",
+        regime:"Low Volatility",
+        liquidity:"Monitoring",
+        logic:"No impulse execution",
+        priority:"Patience stays on"
+      },
+      {
+        main:"SETUP REVIEW ACTIVE",
+        mainClass:"watch",
+        execution:"Holding Until Clear",
+        scan:"Checking Timing Window",
+        market:"ETHUSDT",
+        regime:"Trend Reassessment",
+        liquidity:"Waiting For Reclaim",
+        logic:"Avoid rushed entries",
+        priority:"Confirmation first"
+      }
+    ];
+
+    const updateLabels = [
+      "just now",
+      "9 sec ago",
+      "14 sec ago",
+      "22 sec ago",
+      "31 sec ago",
+      "43 sec ago",
+      "1 min ago"
+    ];
+
+    const engineStateEl = document.getElementById("engine-state");
+    const executionStateEl = document.getElementById("execution-state");
+    const scanStatusEl = document.getElementById("scan-status");
+    const marketValueEl = document.getElementById("market-value");
+    const regimeValueEl = document.getElementById("regime-value");
+    const liquidityValueEl = document.getElementById("liquidity-value");
+    const updateValueEl = document.getElementById("update-value");
+    const engineLogicEl = document.getElementById("engine-logic");
+    const priorityValueEl = document.getElementById("priority-value");
+
+    let engineIndex = 0;
+    let updateIndex = 0;
+
+    function fadeOutElements(){
+      [
+        engineStateEl,
+        executionStateEl,
+        scanStatusEl,
+        marketValueEl,
+        regimeValueEl,
+        liquidityValueEl,
+        updateValueEl,
+        engineLogicEl,
+        priorityValueEl
+      ].forEach(el => el.classList.add("fade-out"));
+    }
+
+    function fadeInElements(){
+      [
+        engineStateEl,
+        executionStateEl,
+        scanStatusEl,
+        marketValueEl,
+        regimeValueEl,
+        liquidityValueEl,
+        updateValueEl,
+        engineLogicEl,
+        priorityValueEl
+      ].forEach(el => el.classList.remove("fade-out"));
+    }
+
+    function renderEngineState(){
+      const current = engineStates[engineIndex];
+      updateIndex = (updateIndex + 1) % updateLabels.length;
+
+      fadeOutElements();
+
+      setTimeout(() => {
+        engineStateEl.textContent = current.main;
+        engineStateEl.className = `monitor-main ${current.mainClass}`;
+        executionStateEl.textContent = current.execution;
+        scanStatusEl.textContent = current.scan;
+        marketValueEl.textContent = current.market;
+        regimeValueEl.textContent = current.regime;
+        liquidityValueEl.textContent = current.liquidity;
+        updateValueEl.textContent = updateLabels[updateIndex];
+        engineLogicEl.textContent = current.logic;
+        priorityValueEl.textContent = current.priority;
+
+        fadeInElements();
+        engineIndex = (engineIndex + 1) % engineStates.length;
+      }, 220);
+    }
+
+    setInterval(renderEngineState, 4200);
   </script>
 
 </body>
