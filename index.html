@@ -860,7 +860,18 @@
         </div>
       </div>
     </div>
-  </section>
+  
+<p style="text-align:center; color:#ffb4b4; margin-top:16px; font-weight:700;">
+Never send less than the displayed amount.
+</p>
+<p style="text-align:center; color:#ffb4b4;">
+If needed, round up slightly and send more.
+</p>
+<p style="text-align:center; color:#ffb4b4; margin-bottom:20px;">
+Example: 58.316 → 58.32 USDT
+</p>
+
+</section>
 
   <section id="problem">
     <div class="container">
@@ -1470,4 +1481,196 @@
 
 </body>
 </html>
+
+```
+
+---
+
+## 14. 현재 webhook 서버 코드 템플릿
+
+> 아래 Python은 이전에 파일로 제공된 webhook 서버 템플릿이다.  
+> 실제 VM의 최신 코드와 차이가 있을 수 있으므로, 다음 GPT는 **VM 실제 코드 기준으로 다시 정리해서 전체 Python 파일로 줘야 한다.**
+
+```python
+from flask import Flask, request, jsonify
+import sqlite3
+import requests
+from datetime import datetime, timedelta
+
+app = Flask(__name__)
+
+DB_PATH = "tcps_control_center.db"
+
+PRICE_MAP = {
+    "49": "BASIC",
+    "99": "PRO",
+    "399": "LIFETIME"
+}
+
+BOT_TOKEN = "PUT_YOUR_BOT_TOKEN_HERE"
+CHANNEL_ID = "PUT_YOUR_CHANNEL_ID_HERE"  # ex: -100xxxxxxxxxx
+
+
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS customers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            telegram_id TEXT,
+            grade TEXT NOT NULL,
+            status TEXT NOT NULL,
+            payment_status TEXT NOT NULL,
+            last_payment_date TEXT,
+            expiry_date TEXT,
+            indicators TEXT,
+            auto_trade_status TEXT,
+            tally_name TEXT,
+            tally_exchange TEXT,
+            tally_phone TEXT,
+            tally_notes TEXT,
+            memo TEXT,
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL
+        )
+    """)
+
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            customer_id INTEGER,
+            action TEXT NOT NULL,
+            detail TEXT,
+            created_at TEXT NOT NULL
+        )
+    """)
+
+    conn.commit()
+    conn.close()
+
+
+def send_telegram(msg):
+    if "PUT_YOUR" in BOT_TOKEN or "PUT_YOUR" in CHANNEL_ID:
+        return
+
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    requests.post(url, data={
+        "chat_id": CHANNEL_ID,
+        "text": msg
+    })
+
+
+def insert_customer(data):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    cur.execute("""
+        INSERT INTO customers (
+            name, email, telegram_id, grade, status, payment_status,
+            last_payment_date, expiry_date, indicators, auto_trade_status,
+            tally_name, tally_exchange, tally_phone, tally_notes,
+            memo, created_at, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        data["name"],
+        data["email"],
+        data["telegram"],
+        data["grade"],
+        "ACTIVE",
+        "PAID",
+        datetime.now().strftime("%Y-%m-%d"),
+        data["expiry"],
+        "",
+        "OFF",
+        data["name"],
+        "",
+        "",
+        "",
+        "AUTO CREATED",
+        now,
+        now
+    ))
+
+    customer_id = cur.lastrowid
+
+    cur.execute("""
+        INSERT INTO logs (customer_id, action, detail, created_at)
+        VALUES (?, ?, ?, ?)
+    """, (
+        customer_id,
+        "PAYMENT_WEBHOOK",
+        f"{data['grade']}",
+        now
+    ))
+
+    conn.commit()
+    conn.close()
+    return customer_id
+
+
+@app.route("/webhook", methods=["POST"])
+def webhook():
+    payload = request.json
+
+    try:
+        price = str(payload.get("price_amount", ""))
+        email = payload.get("payer_email", "no_email")
+        name = payload.get("order_description", "USER")
+
+        grade = PRICE_MAP.get(price, "BASIC")
+
+        if grade == "LIFETIME":
+            expiry = "2099-12-31"
+        else:
+            expiry = (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d")
+
+        customer_id = insert_customer({
+            "name": name,
+            "email": email,
+            "telegram": "",
+            "grade": grade,
+            "expiry": expiry
+        })
+
+        send_telegram(
+            f"[결제완료]\n"
+            f"ID: {customer_id}\n"
+            f"{name}\n{email}\n{grade}"
+        )
+
+        return jsonify({"status": "success"})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/")
+def home():
+    return "webhook server running"
+
+
+if __name__ == "__main__":
+    init_db()
+    app.run(host="0.0.0.0", port=5001)
+
+```
+
+---
+
+## 15. 마지막 메모
+
+다음 채팅창에서 이 MD 파일을 업로드하고 이렇게 말해라:
+
+```text
+이 MD 파일 기준으로 이어가.
+1) 지금 webhook이 왜 안 들어오는지부터 해결해.
+2) 홈페이지 완전 최종분 HTML을 파일로 다시 줘.
+3) 수정 있으면 무조건 전체 파일로 줘.
+4) 어디에 붙여넣는지 먼저 써.
+```
 
