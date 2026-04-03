@@ -1,133 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TCPS Smart Entry AI</title>
-
-<style>
-body {
-  margin:0;
-  font-family: Arial, sans-serif;
-  background:#0d0d0d;
-  color:white;
-  text-align:center;
-}
-
-.container {
-  padding:80px 20px;
-}
-
-h1 {
-  font-size:36px;
-}
-
-.price {
-  font-size:28px;
-  margin:20px 0;
-}
-
-.btn {
-  display:inline-block;
-  padding:15px 30px;
-  background:#00c853;
-  color:white;
-  border-radius:8px;
-  text-decoration:none;
-  margin:10px;
-}
-
-.btn-guide {
-  display:inline-block;
-  padding:12px 20px;
-  background:#222;
-  color:white;
-  border-radius:8px;
-  text-decoration:none;
-  margin-top:10px;
-}
-
-.btn-guide:hover {
-  background:#444;
-}
-
-#payment-guide {
-  padding:60px 20px;
-  background:#111;
-}
-
-.guide-box {
-  max-width:800px;
-  margin:auto;
-  text-align:left;
-}
-
-h3 {
-  margin-top:25px;
-}
-
-.note {
-  color:#aaa;
-  font-size:14px;
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-  <h1>TCPS Smart Entry AI</h1>
-
-  <div class="price">Basic — 49 USDT</div>
-
-  <a href="https://nowpayments.io/payment/?iid=5591005023" class="btn">
-    Buy Now
-  </a>
-
-  <br>
-
-  <a href="#payment-guide" class="btn-guide">
-    How to Pay (Beginner Guide)
-  </a>
-
-  <p class="note">
-    All payments are processed in USDT (TRC20).
-  </p>
-
-</div>
-
-<section id="payment-guide">
-
-  <h2>How to Pay with USDT (TRC20)</h2>
-
-  <p class="note">
-    Follow these steps to complete your payment.
-  </p>
-
-  <div class="guide-box">
-
-    <h3>Step 1 — Create Exchange Account</h3>
-    <p>Sign up on Binance, Bithumb, or Upbit.</p>
-
-    <h3>Step 2 — Buy USDT</h3>
-    <p>Purchase USDT using your local currency.</p>
-
-    <h3>Step 3 — Select TRC20 Network</h3>
-    <p>Always choose TRC20 when sending USDT.</p>
-
-    <h3>Step 4 — Copy Payment Address</h3>
-    <p>Copy the address from the payment page.</p>
-
-    <h3>Step 5 — Send Payment</h3>
-    <p>Send the exact USDT amount.</p>
-
-    <h3>Step 6 — Access Activated</h3>
-    <p>Your access will be activated automatically.</p>
-
-  </div>
-
-</section>
-
-</body>
-</html>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TCPS Liquidity Engine</title>
+  <meta name="description" content="TCPS Smart Entry AI delivers clean, high-probability trading signals with a premium execution-focused experience." />
+  <style>
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      font-family: Arial, sans-serif;
+      color:#f5f7fb;
+      background:#04060b;
+      line-height:1.6;
+      overflow-x:hidden;
+      position:relative;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-3;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(55,140,255,0.18), transparent 30%),
+        radial-gradient(circle at 82% 20%, rgba(90,70,255,0.16), transparent 28%),
+        radial-gradient(circle at 70% 78%, rgba(0,210,255,0.12), transparent 24%),
+        radial-gradient(circle at 30% 85%, rgba(123,97,255,0.10), transparent 26%),
+        linear-gradient(180deg, #05070d 0%, #03050a 100%);
+    }
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      opacity:0.055;
+      pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      mix-blend-mode:soft-light;
+    }
+    a{ text-decoration:none; color:inherit; }
+    .container{
+      width:100%;
+      max-width:1180px;
+      margin:0 auto;
+      padding:0 20px;
+      position:relative;
+      z-index:2;
+    }
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:999;
+      backdrop-filter:blur(14px);
+      background:rgba(4,6,11,0.74);
+      border-bottom:1px solid rgba(255,255,255,0.06);
+    }
+    .topbar-inner{
+      min-height:74px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+    .brand{ display:flex; flex-direction:column; gap:3px; }
+    .brand-name{ font-size:18px; font-weight:800; letter-spacing:0.3px; }
+    .brand-sub{ font-size:12px; color:#91a3c4; }
+    .nav{ display:flex; align-items:center; gap:16px; }
+    .nav a{ font-size:14px; color:#cad5ea; transition:0.2s ease; }
+    .nav a:hover{ color:#ffffff; }
+    .nav-cta{
+      padding:12px 18px;
+      border-radius:999px;
+      font-weight:700;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:0 12px 30px rgba(73,104,255,0.28);
+    }
+    section{ padding:92px 0; }
+    .hero{ padding:88px 0 72px; }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.04fr 0.96fr;
+      gap:34px;
+      align-items:center;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.03);
+      color:#cfdbef;
+      font-size:13px;
+      margin-bottom:20px;
+    }
+    .badge-dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#63ffb2;
+      box-shadow:0 0 12px rgba(99,255,178,0.8);
+    }
+    .hero h1{
+      font-size:60px;
+      line-height:1.03;
+      letter-spacing:-1.8px;
+      margin-bottom:18px;
+      max-width:760px;
+    }
+    .hero h1 span{
+      background:linear-gradient(135deg,#68e6ff,#9f8cff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .hero p{ font-size:18px; color:#afbed8; max-width:650px; margin-bottom:28px; }
+    .hero-actions{ display:flex; flex-wrap:wrap; gap:14px; margin-bottom:22px; }
+    .btn-primary,.btn-secondary{
+      min-height:52px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 22px;
+      border-radius:999px;
+      font-size:15px;
+      font-weight:800;
+      transition:transform 0.18s ease, opacity 0.18s ease;
+    }
+    .btn-primary:hover,.btn-secondary:hover,.nav-cta:hover,.price-btn:hover{
+      transform:translateY(-2px);
+      opacity:0.96;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      color:#fff;
+      box-shadow:0 14px 34px rgba(86,104,255,0.30);
+    }
+    .btn-secondary{
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.03);
+      color:#e8eefb;
+    }
+    .hero-proof{ display:flex; flex-wrap:wrap; gap:18px; color:#97a9c9; font-size:14px; }
+    .panel{
+      position:relative;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
+      box-shadow:0 28px 70px rgba(0,0,0,0.34);
+      overflow:hidden;
+    }
+    .panel::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(67,210,255,0), rgba(67,210,255,0.85), rgba(123,97,255,0.9), rgba(123,97,255,0));
+    }
+    .hero-card{ padding:28px; min-height:470px; }
+    .screen-head{ display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:20px; }
+    .screen-title{ font-size:15px; font-weight:800; color:#e8eefb; }
+    .screen-status{
+      font-size:12px;
+      color:#85ffbe;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(62,215,126,0.22);
+      background:rgba(62,215,126,0.10);
+      white-space:nowrap;
+    }
+    .engine-monitor{ display:grid; gap:14px; min-height:380px; }
+    .monitor-card{
+      position:relative;
+      padding:20px;
+      border-radius:20px;
+      background:rgba(7,12,21,0.95);
+      border:1px solid rgba(255,255,255,0.06);
+      overflow:hidden;
+      min-height:120px;
+    }
+    .monitor-card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(80,219,255,
