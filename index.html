@@ -750,7 +750,26 @@
       .mini-value{ min-height:24px; }
       .save-pill{ margin-bottom:10px; }
     }
-  </style>
+  
+/* === UX UPGRADE PATCH === */
+.slider-shell{ padding:0 40px; }
+.slider-track{ gap:20px; }
+.slide-card{ min-width:85%; }
+
+.engine-slider-shell{ padding:0 40px; }
+.engine-slider-track{ gap:20px; }
+.engine-card{ min-width:85%; }
+
+.review-card{
+  width:280px;
+  min-height:110px;
+  padding:14px 14px 12px;
+}
+.review-text{ font-size:12.5px; }
+.review-user{ font-size:13px; }
+/* === END PATCH === */
+
+</style>
 </head>
 <body>
 
@@ -1354,83 +1373,24 @@
       }, 2200);
 
       const reviews = [
-        { name:'Ethan', country:'US', text:'I was expecting another overhyped signal page, but this feels more disciplined than most tools I tested.' },
-        { name:'Lucas', country:'CA', text:'The biggest difference was not taking random trades anymore. That alone changed my routine.' },
-        { name:'Mason', country:'GB', text:'Feels more structured. It does not scream at you every few minutes like low quality signal products.' },
-        { name:'Noah', country:'AU', text:'I like that it stays quiet when the setup is not there. That made me trust it more.' },
-        { name:'Daniel', country:'DE', text:'Definitely more controlled than most indicator stuff floating around online.' },
-        { name:'Jack', country:'SG', text:'Execution got easier because I stopped forcing entries just to feel active.' },
-        { name:'Liam', country:'IE', text:'I was mainly looking for cleaner timing, and this gave me that faster than expected.' },
-        { name:'Owen', country:'NZ', text:'The flow feels calmer when I trade with it. That matters more than hype.' },
-        { name:'Jacob', country:'US', text:'Good filtering. It cuts out a lot of junk setups I would normally convince myself to take.' },
-        { name:'Benjamin', country:'CA', text:'You still need discipline, but this makes discipline easier to maintain.' },
-        { name:'Sebastian', country:'PL', text:'I noticed fewer bad entries first, not more trades. That was the right tradeoff.' },
-        { name:'Alexander', country:'SE', text:'This actually feels built around execution instead of marketing buzzwords.' },
-        { name:'Samuel', country:'DK', text:'I bought it because it looked selective, and that part holds up.' },
-        { name:'Nathan', country:'US', text:'Most tools make me overreact. This one does the opposite.' },
-        { name:'Henry', country:'GB', text:'It is easier to sit on my hands now. That sounds small but it matters.' },
-        { name:'William', country:'US', text:'I would not call it magic, but it definitely cleaned up how I enter trades.' },
-        { name:'Elijah', country:'CA', text:'The signal flow feels thought through. Not just arrows thrown on a chart.' },
-        { name:'Michael', country:'AU', text:'I mainly use it to avoid messy conditions. That has been the most useful part.' },
-        { name:'Logan', country:'US', text:'Less noise, less second guessing, less revenge clicking. That is basically what I wanted.' },
-        { name:'Levi', country:'NL', text:'This feels like a filter first and a signal product second, which is honestly better.' },
-        { name:'David', country:'DE', text:'My process already looks better because I stopped trying to catch everything.' },
-        { name:'Joseph', country:'US', text:'There are quieter periods and I actually appreciate that now.' },
-        { name:'Matthew', country:'GB', text:'The biggest win is that weak setups look easier to ignore.' },
-        { name:'Aiden', country:'IE', text:'Good for people who already know overtrading is their real problem.' },
-        { name:'Carter', country:'US', text:'Way more usable than indicator packs that give a signal on every candle cluster.' },
-        { name:'Julian', country:'ES', text:'Feels like something designed by someone who understands how entries actually go wrong.' },
-        { name:'Grayson', country:'US', text:'I joined for the signals, stayed because it helped me slow down.' },
-        { name:'Isaac', country:'CA', text:'This is one of the few tools where doing nothing sometimes feels like the correct output.' },
-        { name:'Jayden', country:'US', text:'Cleaner than I expected. The restraint is what makes it believable.' },
-        { name:'Theodore', country:'NO', text:'The reduced impulse entries are why I kept using it.' },
-        { name:'Gabriel', country:'PT', text:'I would describe it as selective, not aggressive. That suits my style better.' },
-        { name:'Anthony', country:'US', text:'Finally something that does not try to impress with too much noise.' },
-        { name:'Dylan', country:'CA', text:'It helps me wait for structure instead of inventing reasons to click.' },
-        { name:'Leo', country:'FR', text:'Pretty solid if your issue is getting dragged into mediocre setups.' },
-        { name:'Lincoln', country:'US', text:'I do not use every alert. That is kind of the point.' },
-        { name:'Jaxon', country:'US', text:'The calmer workflow was noticeable almost immediately.' },
-        { name:'Asher', country:'NZ', text:'You can tell it is trying to avoid bad timing rather than chase every move.' },
-        { name:'Christopher', country:'GB', text:'A lot of signal services feel theatrical. This one feels more restrained in a good way.' },
-        { name:'Josiah', country:'US', text:'Fewer low quality entries over the week. That was enough for me to keep it running.' },
-        { name:'Andrew', country:'US', text:'Better for traders who need fewer actions, not more excitement.' },
-        { name:'Thomas', country:'DE', text:'It does not pretend every market condition is tradable. I like that.' },
-        { name:'Charles', country:'US', text:'Signals look cleaner because the product is willing to stay selective.' },
-        { name:'Caleb', country:'CA', text:'My charts feel less chaotic with this in the workflow.' },
-        { name:'Ezra', country:'AU', text:'I trust systems more when they are comfortable skipping bad moments.' },
-        { name:'Hudson', country:'US', text:'The entries look more intentional, less reactive.' },
-        { name:'Adrian', country:'RO', text:'Not exaggerated, not spammy. That was enough to get my attention.' },
-        { name:'Miles', country:'US', text:'I would say it improves trade selection more than anything else.' },
-        { name:'Nolan', country:'CA', text:'This one is better at not baiting me into nonsense.' },
-        { name:'Adam', country:'US', text:'It made me realize most of my bad trades started from impatience, not analysis.' },
-        { name:'Ian', country:'IE', text:'The selective feel is what sells it. Not the buzzwords.' },
-        { name:'Austin', country:'US', text:'I expected more hype, got more restraint. Good surprise.' },
-        { name:'Dominic', country:'IT', text:'The cleaner pacing helped me more than the signal itself at first.' },
-        { name:'Elias', country:'SE', text:'The whole thing feels less retail and more deliberate.' },
-        { name:'Aaron', country:'US', text:'I am not chasing everything anymore. That alone paid for the experiment.' },
-        { name:'Robert', country:'GB', text:'Good fit if you already know that your weak point is entry quality.' },
-        { name:'Wesley', country:'US', text:'Not overloaded with junk features. I appreciated that immediately.' },
-        { name:'Kai', country:'SG', text:'This feels more like a decision filter than a toy indicator.' },
-        { name:'Silas', country:'US', text:'The difference was mostly in the bad trades I avoided.' },
-        { name:'Roman', country:'PL', text:'There is enough restraint here to make it feel credible.' },
-        { name:'Jason', country:'US', text:'I still pass on some alerts, but even that process is cleaner now.' },
-        { name:'Connor', country:'CA', text:'It does not solve discipline for you, but it definitely supports it.' },
-        { name:'Luca', country:'CH', text:'Feels premium without trying too hard.' },
-        { name:'Hunter', country:'US', text:'I noticed fewer late entries after putting this into the workflow.' },
-        { name:'Brayden', country:'AU', text:'There is a lot less chart clutter than I expected.' },
-        { name:'Jordan', country:'US', text:'More selective than most, and that is exactly why it works better for me.' },
-        { name:'Xavier', country:'ES', text:'The cleaner structure helps me decide faster whether a setup deserves attention or not.' },
-        { name:'Easton', country:'US', text:'More useful once you stop expecting constant action.' },
-        { name:'Cooper', country:'CA', text:'If your main problem is overtrading, this points you in the right direction.' },
-        { name:'Parker', country:'US', text:'What stood out was how many messy situations I skipped.' },
-        { name:'Angel', country:'MX', text:'I was skeptical, then I realized my worst entries were happening less often.' },
-        { name:'Colton', country:'US', text:'Not flashy in a bad way. Clean in a useful way.' },
-        { name:'Jude', country:'GB', text:'The setup flow is easier to trust because it is not overproduced.' },
-        { name:'Brooks', country:'US', text:'This helped remove some of the FOMO from my decision making.' },
-        { name:'Tyler', country:'CA', text:'I mostly kept it because it brought more patience into my routine.' },
-        { name:'Evan', country:'US', text:'The quiet periods are actually what made it believable to me.' },
-        { name:'Cole', country:'US', text:'Less clutter, better focus, fewer forced clicks.' }
-      ];
+  { name:'Alex R.', country:'US', text:'clean entry. move started almost immediately.' },
+  { name:'Marco', country:'ES', text:'saved me from forcing a bad setup today' },
+
+  { name:'BTC Setup', country:'', text:'TP reached after confirmation. clean execution flow.' },
+  { name:'ETH Flow', country:'', text:'invalidated early → avoided loss' },
+
+  { name:'J', country:'SG', text:'not random alerts. structure actually makes sense.' },
+  { name:'Mina', country:'KR', text:'fast updates during volatility' },
+
+  { name:'Rico', country:'PH', text:'joined for entries, stayed for structure' },
+  { name:'Daniel', country:'DE', text:'less noise. way easier to follow' },
+
+  { name:'Scalper', country:'US', text:'this feels like a filter, not a signal spam tool' },
+  { name:'Luca', country:'IT', text:'cleaner than expected. actually usable' },
+
+  { name:'ETH Trader', country:'', text:'retest confirmed → entry → TP hit' },
+  { name:'BTC Flow', country:'', text:'no entry → avoided fake breakout' }
+];
       const timeLabels = ['12m ago','18m ago','26m ago','39m ago','47m ago','58m ago','1h ago','2h ago','3h ago','4h ago','5h ago','6h ago','7h ago','8h ago','9h ago','10h ago','11h ago','12h ago','14h ago','16h ago','18h ago','21h ago','23h ago','1d ago','2d ago','3d ago','4d ago','5d ago','6d ago'];
       function shuffle(arr){ const copy = [...arr]; for(let i = copy.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [copy[i], copy[j]] = [copy[j], copy[i]]; } return copy; }
       function buildReviewCard(item, index){
