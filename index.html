@@ -589,7 +589,6 @@
       position:relative;
       overflow:hidden;
       flex:0 0 auto;
-      transition:transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
     }
     .review-card::before{
       content:"";
@@ -599,11 +598,6 @@
       width:100%;
       height:1px;
       background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.55), rgba(117,96,255,0.55), rgba(117,96,255,0));
-    }
-    .review-card:hover{
-      transform:translateY(-3px);
-      border-color:rgba(0,150,255,0.4);
-      background:linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.025));
     }
     .review-top{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; margin-bottom:8px; }
     .review-user{ font-size:14px; font-weight:800; color:#f4f8ff; letter-spacing:0.1px; }
@@ -620,12 +614,9 @@
       vertical-align:middle;
     }
     .review-time{ font-size:11px; color:#8fa3c6; white-space:nowrap; padding-top:2px; }
-    .review-source{
-      font-size:11px;
-      color:#7f93b7;
-      margin-top:3px;
-      letter-spacing:0.2px;
-    }
+    .review-source{ font-size:11px; color:#7f93b7; margin-top:4px; }
+    .review-card{ transition:transform 0.25s ease, border-color 0.25s ease; }
+    .review-card:hover{ transform:translateY(-3px); border-color:rgba(0,150,255,0.4); }
     .review-stars{ font-size:13px; color:#ffd76a; letter-spacing:2px; margin-bottom:8px; }
     .review-text{ color:#b7c6de; font-size:13px; line-height:1.56; }
     .reviews-meta-wrap{ display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; margin-bottom:22px; }
@@ -678,7 +669,8 @@
       margin-bottom:14px;
     }
     .price-wrap{ margin-bottom:24px; }
-    .price{ font-size:44px; font-weight:800; letter-spacing:-1.2px; margin-bottom:4px; }
+    .price{ font-size:44px; font-weight:800; letter-spacing:-1.2px; margin-bottom:4px; display:flex; align-items:baseline; gap:8px; white-space:nowrap; }
+    .price span{ font-size:20px; font-weight:700; opacity:0.92; }
     .price-sub{ font-size:14px; color:#8da2c4; }
     .feature-list{ list-style:none; display:grid; gap:12px; margin-bottom:28px; flex:1; }
     .feature-list li{
@@ -1185,7 +1177,7 @@
           <div class="plan-desc">For traders who want indicator access only.</div>
           <div class="save-pill">Save 15%</div>
           <div class="price-wrap">
-            <div class="price">49 USDT</div>
+            <div class="price">49 <span>USDT</span></div>
             <div class="price-sub">per month</div>
           </div>
           <ul class="feature-list">
@@ -1205,7 +1197,7 @@
           <div class="plan-desc">Main product for signal-focused traders.</div>
           <div class="save-pill">Save 25%</div>
           <div class="price-wrap">
-            <div class="price">99 USDT</div>
+            <div class="price">99 <span>USDT</span></div>
             <div class="price-sub">per month</div>
           </div>
           <ul class="feature-list">
@@ -1222,19 +1214,19 @@
         <div class="card pricing-card">
           <div class="card-topline"></div>
           <div class="plan-name">Elite</div>
-          <div class="plan-desc">For traders who want signals plus automation access.</div>
-          <div class="save-pill">Save 30%</div>
+          <div class="plan-desc">For traders who want signals plus deeper execution support.</div>
+          <div class="save-pill">Save 32%</div>
           <div class="price-wrap">
-            <div class="price">199 USDT</div>
+            <div class="price">199 <span>USDT</span></div>
             <div class="price-sub">per month</div>
           </div>
           <ul class="feature-list">
             <li>Everything in Pro</li>
-            <li>Automation access</li>
-            <li>Advanced workflow support</li>
-            <li>Built for power users</li>
+            <li>Advanced signal workflow</li>
+            <li>Extended execution support</li>
+            <li>Higher access tier</li>
           </ul>
-          <a href="https://tally.so/r/XxYE6z" target="_blank" rel="noopener noreferrer">
+          <a href="https://nowpayments.io/payment/?iid=5591005023" target="_blank" rel="noopener noreferrer">
             <button class="price-btn" type="button">Get Elite</button>
           </a>
         </div>
@@ -1245,11 +1237,11 @@
           <div class="plan-desc">For users who want full long-term access.</div>
           <div class="save-pill">Save 40%</div>
           <div class="price-wrap">
-            <div class="price">399 USDT</div>
+            <div class="price">399 <span>USDT</span></div>
             <div class="price-sub">one-time payment</div>
           </div>
           <ul class="feature-list">
-            <li>Everything in Elite</li>
+            <li>Everything in Pro</li>
             <li>Lifetime access</li>
             <li>Automation included</li>
             <li>Best long-term value</li>
@@ -1464,13 +1456,13 @@
         { name:'Cole', country:'US', text:'Less clutter, better focus, fewer forced clicks.' }
       ];
       const timeLabels = ['12m ago','18m ago','26m ago','39m ago','47m ago','58m ago','1h ago','2h ago','3h ago','4h ago','5h ago','6h ago','7h ago','8h ago','9h ago','10h ago','11h ago','12h ago','14h ago','16h ago','18h ago','21h ago','23h ago','1d ago','2d ago','3d ago','4d ago','5d ago','6d ago'];
-      const reviewSources = ['TradingView', 'Discord', 'Telegram', 'Email'];
       function shuffle(arr){ const copy = [...arr]; for(let i = copy.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [copy[i], copy[j]] = [copy[j], copy[i]]; } return copy; }
       function buildReviewCard(item, index){
         const starsCount = Math.random() > 0.83 ? 4 : 5;
         const stars = '★'.repeat(starsCount) + '☆'.repeat(5 - starsCount);
         const time = timeLabels[index % timeLabels.length];
-        const source = reviewSources[index % reviewSources.length];
+        const sources = ['TradingView', 'Discord', 'Telegram', 'Email'];
+        const source = sources[index % sources.length];
         return `<div class="review-card"><div class="review-top"><div><div class="review-user">${item.name}<span class="review-country">${item.country}</span></div><div class="review-source">${source}</div></div><div class="review-time">${time}</div></div><div class="review-stars">${stars}</div><div class="review-text">${item.text}</div></div>`;
       }
       function createReviewWall(){
