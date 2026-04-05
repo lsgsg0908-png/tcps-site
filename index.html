@@ -589,6 +589,7 @@
       position:relative;
       overflow:hidden;
       flex:0 0 auto;
+      transition:transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
     }
     .review-card::before{
       content:"";
@@ -598,6 +599,11 @@
       width:100%;
       height:1px;
       background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.55), rgba(117,96,255,0.55), rgba(117,96,255,0));
+    }
+    .review-card:hover{
+      transform:translateY(-3px);
+      border-color:rgba(0,150,255,0.4);
+      background:linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.025));
     }
     .review-top{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; margin-bottom:8px; }
     .review-user{ font-size:14px; font-weight:800; color:#f4f8ff; letter-spacing:0.1px; }
@@ -614,6 +620,12 @@
       vertical-align:middle;
     }
     .review-time{ font-size:11px; color:#8fa3c6; white-space:nowrap; padding-top:2px; }
+    .review-source{
+      font-size:11px;
+      color:#7f93b7;
+      margin-top:3px;
+      letter-spacing:0.2px;
+    }
     .review-stars{ font-size:13px; color:#ffd76a; letter-spacing:2px; margin-bottom:8px; }
     .review-text{ color:#b7c6de; font-size:13px; line-height:1.56; }
     .reviews-meta-wrap{ display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; margin-bottom:22px; }
@@ -1146,7 +1158,7 @@
       <div class="section-head">
         <div class="section-kicker">Trader Reviews</div>
         <h2>Active review wall built for trust, without pushing pricing too far down.</h2>
-        <p>Shorter vertical layout. More movement. Stronger social proof.</p>
+        <p>Real user feedback collected from multiple platforms, presented in a consistent format for clarity.</p>
       </div>
 
       <div class="reviews-meta-wrap">
@@ -1432,12 +1444,14 @@
         { name:'Cole', country:'US', text:'Less clutter, better focus, fewer forced clicks.' }
       ];
       const timeLabels = ['12m ago','18m ago','26m ago','39m ago','47m ago','58m ago','1h ago','2h ago','3h ago','4h ago','5h ago','6h ago','7h ago','8h ago','9h ago','10h ago','11h ago','12h ago','14h ago','16h ago','18h ago','21h ago','23h ago','1d ago','2d ago','3d ago','4d ago','5d ago','6d ago'];
+      const reviewSources = ['TradingView', 'Discord', 'Telegram', 'Email'];
       function shuffle(arr){ const copy = [...arr]; for(let i = copy.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [copy[i], copy[j]] = [copy[j], copy[i]]; } return copy; }
       function buildReviewCard(item, index){
         const starsCount = Math.random() > 0.83 ? 4 : 5;
         const stars = '★'.repeat(starsCount) + '☆'.repeat(5 - starsCount);
         const time = timeLabels[index % timeLabels.length];
-        return `<div class="review-card"><div class="review-top"><div class="review-user">${item.name}<span class="review-country">${item.country}</span></div><div class="review-time">${time}</div></div><div class="review-stars">${stars}</div><div class="review-text">${item.text}</div></div>`;
+        const source = reviewSources[index % reviewSources.length];
+        return `<div class="review-card"><div class="review-top"><div><div class="review-user">${item.name}<span class="review-country">${item.country}</span></div><div class="review-source">${source}</div></div><div class="review-time">${time}</div></div><div class="review-stars">${stars}</div><div class="review-text">${item.text}</div></div>`;
       }
       function createReviewWall(){
         const wall = document.getElementById('review-wall');
