@@ -1475,7 +1475,7 @@
             <li>Core chart logic</li>
             <li>Simple setup workflow</li>
           </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('4662421736', this)" data-payment-url="https://nowpayments.io/payment/?iid=4662421736">Get Basic</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('BASIC', 49)">Get Basic</button>
         </div>
 
         <div class="card pricing-card featured">
@@ -1494,7 +1494,7 @@
             <li>Priority execution workflow</li>
             <li>Main TCPS product</li>
           </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('5471719473', this)" data-payment-url="https://nowpayments.io/payment/?iid=5471719473">Get Pro</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('PRO', 99)">Get Pro</button>
         </div>
 
         <div class="card pricing-card">
@@ -1512,7 +1512,7 @@
             <li>Extended execution support</li>
             <li>Higher access tier</li>
           </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('5591005023', this)" data-payment-url="https://nowpayments.io/payment/?iid=5591005023">Get Elite</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('ELITE', 199)">Get Elite</button>
         </div>
 
         <div class="card pricing-card">
@@ -1530,7 +1530,7 @@
             <li>Automation included</li>
             <li>Best long-term value</li>
           </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('5692188100', this)" data-payment-url="https://nowpayments.io/payment/?iid=5692188100">Get Lifetime</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('LIFETIME', 399)">Get Lifetime</button>
         </div>
       </div>
       <p style="text-align:center; color:#8da2c4; margin-top:20px;">All payments are processed in USDT (TRC20).</p>
@@ -1539,6 +1539,46 @@
       <p style="text-align:center; color:#8da2c4; margin-top:8px;">Example: 58.316 → send 58.32 USDT</p>
       <p style="text-align:center; color:#8da2c4; margin-top:8px;">Never send less than the required amount.</p>
       <p style="text-align:center; color:#8da2c4; margin-top:8px;">Access will be activated automatically after payment confirmation.</p>
+    </div>
+  </section>
+
+
+
+  <section id="payment-guide">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker">Payment Guide</div>
+        <h2>Send the correct amount from your Trust Wallet.</h2>
+        <p>Your selected plan will be pre-filled below. Then submit your TXID to connect the payment to your account.</p>
+      </div>
+
+      <div class="member-section-grid">
+        <div class="member-card">
+          <h3>Selected Plan</h3>
+          <p id="selectedPlanSummary">Choose a plan card above to continue.</p>
+          <div class="member-inline">
+            <span class="member-pill" id="selectedPlanName">Plan: NONE</span>
+            <span class="member-pill" id="selectedPlanAmount">Amount: 0 USDT</span>
+          </div>
+          <ul class="member-list">
+            <li>Open Trust Wallet or another personal wallet</li>
+            <li>Send the exact plan amount using USDT (TRC20)</li>
+            <li>Copy the TXID after payment completes</li>
+            <li>Submit the TXID in the verification form</li>
+          </ul>
+        </div>
+
+        <div class="member-card">
+          <h3>Wallet Address</h3>
+          <p>Use this address for the selected plan payment.</p>
+          <div class="auth-field" style="margin-bottom:12px;">
+            <label>USDT (TRC20) Wallet Address</label>
+            <input type="text" id="walletAddress" readonly value="YOUR_TRUST_WALLET_ADDRESS_HERE" />
+          </div>
+          <button class="verify-btn" type="button" onclick="copyWalletAddress()">Copy Wallet Address</button>
+          <div class="verify-message" id="walletMessage"></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1599,7 +1639,7 @@
 
           <form class="verify-form" onsubmit="submitVerification(event)">
             <input type="email" id="verifyEmail" placeholder="Logged-in email" readonly />
-            <select id="verifyPlan" required>
+            <select id="verifyPlan" required onchange="updatePlanPreview(this.value)">
               <option value="">Select your plan</option>
               <option value="BASIC">BASIC — 49 USDT</option>
               <option value="PRO">PRO — 99 USDT</option>
@@ -2089,7 +2129,42 @@
         document.querySelectorAll('.unlock-card').forEach(card => card.classList.remove('plan-focus'));
       }
 
-      function updatePlanPreview(plan){
+
+      function updatePaymentGuide(plan, amount){
+        const planNames = {
+          BASIC:'Basic',
+          PRO:'Pro',
+          ELITE:'Elite',
+          LIFETIME:'Lifetime'
+        };
+        const planTexts = {
+          BASIC:'Basic plan selected. Indicator access and starter workflow.',
+          PRO:'Pro plan selected. Stronger execution framework and deeper trader workflow.',
+          ELITE:'Elite plan selected. Advanced execution support and higher-level structure.',
+          LIFETIME:'Lifetime plan selected. Full long-term access with the highest coverage.'
+        };
+        const nameEl = document.getElementById('selectedPlanName');
+        const amountEl = document.getElementById('selectedPlanAmount');
+        const summaryEl = document.getElementById('selectedPlanSummary');
+        if(nameEl) nameEl.textContent = 'Plan: ' + (planNames[plan] || 'NONE');
+        if(amountEl) amountEl.textContent = 'Amount: ' + (amount || 0) + ' USDT';
+        if(summaryEl) summaryEl.textContent = planTexts[plan] || 'Choose a plan card above to continue.';
+      }
+
+      function copyWalletAddress(){
+        const input = document.getElementById('walletAddress');
+        input.select();
+        input.setSelectionRange(0, 99999);
+        try{
+          document.execCommand('copy');
+          document.getElementById('walletMessage').textContent = 'Wallet address copied.';
+        }catch(e){
+          document.getElementById('walletMessage').textContent = 'Copy failed. Copy it manually.';
+        }
+      }
+
+
+            function updatePlanPreview(plan){
         if(!plan || !PLAN_INFO[plan]){
           setDashboardDefault();
           return;
@@ -2152,15 +2227,19 @@
         }
       }
 
-      window.handlePlanClick = function(paymentId, button){
+      window.handlePlanClick = function(plan, amount){
         const member = getCurrentMember();
+        document.getElementById('verifyPlan').value = plan;
+        updatePlanPreview(plan);
+        updatePaymentGuide(plan, amount);
+
         if(!member){
           openAuthModal('register');
           document.getElementById('authMessage').textContent = 'Create or log in to continue with your selected plan.';
           return;
         }
-        const url = button.getAttribute('data-payment-url');
-        window.open(url, '_blank', 'noopener,noreferrer');
+
+        document.getElementById('payment-guide').scrollIntoView({ behavior:'smooth', block:'start' });
       }
 
       window.submitVerification = function(e){
