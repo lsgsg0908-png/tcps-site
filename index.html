@@ -1475,7 +1475,7 @@
             <li>Core chart logic</li>
             <li>Simple setup workflow</li>
           </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('BASIC', 49)">Get Basic</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('BASIC')">Get Basic</button>
         </div>
 
         <div class="card pricing-card featured">
@@ -1494,7 +1494,7 @@
             <li>Priority execution workflow</li>
             <li>Main TCPS product</li>
           </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('PRO', 99)">Get Pro</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('PRO')">Get Pro</button>
         </div>
 
         <div class="card pricing-card">
@@ -1512,7 +1512,7 @@
             <li>Extended execution support</li>
             <li>Higher access tier</li>
           </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('ELITE', 199)">Get Elite</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('ELITE')">Get Elite</button>
         </div>
 
         <div class="card pricing-card">
@@ -1530,7 +1530,7 @@
             <li>Automation included</li>
             <li>Best long-term value</li>
           </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('LIFETIME', 399)">Get Lifetime</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('LIFETIME')">Get Lifetime</button>
         </div>
       </div>
       <p style="text-align:center; color:#8da2c4; margin-top:20px;">All payments are processed in USDT (TRC20).</p>
@@ -1542,48 +1542,7 @@
     </div>
   </section>
 
-
-
-  <section id="payment-guide">
-    <div class="container">
-      <div class="section-head">
-        <div class="section-kicker">Payment Guide</div>
-        <h2>Send the correct amount from your Trust Wallet.</h2>
-        <p>Your selected plan will be pre-filled below. Then submit your TXID to connect the payment to your account.</p>
-      </div>
-
-      <div class="member-section-grid">
-        <div class="member-card">
-          <h3>Selected Plan</h3>
-          <p id="selectedPlanSummary">Choose a plan card above to continue.</p>
-          <div class="member-inline">
-            <span class="member-pill" id="selectedPlanName">Plan: NONE</span>
-            <span class="member-pill" id="selectedPlanAmount">Amount: 0 USDT</span>
-          </div>
-          <ul class="member-list">
-            <li>Open Trust Wallet or another personal wallet</li>
-            <li>Send the exact plan amount using USDT (TRC20)</li>
-            <li>Copy the TXID after payment completes</li>
-            <li>Submit the TXID in the verification form</li>
-          </ul>
-        </div>
-
-        <div class="member-card">
-          <h3>Wallet Address</h3>
-          <p>Use this address for the selected plan payment.</p>
-          <div class="auth-field" style="margin-bottom:12px;">
-            <label>USDT (TRC20) Wallet Address</label>
-            <input type="text" id="walletAddress" readonly value="YOUR_TRUST_WALLET_ADDRESS_HERE" />
-          </div>
-          <button class="verify-btn" type="button" onclick="copyWalletAddress()">Copy Wallet Address</button>
-          <div class="verify-message" id="walletMessage"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <section id="member-access">
+<section id="member-access">
     <div class="container">
       <div class="section-head">
         <div class="section-kicker">Member Access</div>
@@ -1593,9 +1552,10 @@
 
       <div class="member-section-grid">
         
+
 <div class="member-card">
           <h3 id="planDynamicTitle">Access Dashboard</h3>
-          <p id="planDynamicDesc">Select a plan on the right to instantly see what is included, who it is for, and what gets unlocked.</p>
+          <p id="planDynamicDesc">Select a plan on the right to instantly see exactly what is included in that tier.</p>
 
           <div class="member-inline">
             <span class="member-pill" id="dashEmail">Not logged in</span>
@@ -1605,27 +1565,27 @@
           <ul class="member-list" id="planDynamicList">
             <li>Create your account with email and password</li>
             <li>Log in before submitting your TXID</li>
-            <li>Select a plan to preview the included access</li>
+            <li>Select a plan on the right to preview that tier</li>
             <li>Unlock starts after payment verification</li>
           </ul>
 
           <div class="unlock-grid">
-            <div class="unlock-card">
+            <div class="unlock-card" id="previewCard1">
               <h4 id="previewCard1Title">Foundation Pack</h4>
               <p id="previewCard1Desc">Core market basics and starter workflow.</p>
               <span class="unlock-badge" id="basicBadge">Locked</span>
             </div>
-            <div class="unlock-card">
+            <div class="unlock-card" id="previewCard2">
               <h4 id="previewCard2Title">Trader System</h4>
               <p id="previewCard2Desc">Execution framework and training flow.</p>
               <span class="unlock-badge" id="proBadge">Locked</span>
             </div>
-            <div class="unlock-card">
+            <div class="unlock-card" id="previewCard3">
               <h4 id="previewCard3Title">Advanced Execution</h4>
               <p id="previewCard3Desc">Higher-precision execution support.</p>
               <span class="unlock-badge" id="eliteBadge">Locked</span>
             </div>
-            <div class="unlock-card">
+            <div class="unlock-card" id="previewCard4">
               <h4 id="previewCard4Title">Master Access</h4>
               <p id="previewCard4Desc">Full library access and long-term coverage.</p>
               <span class="unlock-badge" id="lifetimeBadge">Locked</span>
@@ -2032,143 +1992,6 @@
         };
         saveMembers(members);
         setSessionEmail(email);
-  
-      const PLAN_INFO = {
-        BASIC: {
-          title: 'Foundation Pack',
-          desc: 'Best for beginners who want to understand market structure, use the core indicator, and build a clean starting workflow without advanced execution layers.',
-          items: [
-            'Core indicator access',
-            'Liquidity sweep foundation',
-            'Basic chart logic and structure reading',
-            'Starter workflow for early-stage users'
-          ],
-          cards: [
-            ['What you get', 'Indicator access, chart basics, and structure-focused starting tools.'],
-            ['Best for', 'New traders who want clarity before moving into signal-driven execution.'],
-            ['Not included', 'No advanced confluence tools, no deeper execution layers, no automation.'],
-            ['Upgrade path', 'Move to Pro when you want better entry context and a stronger execution framework.']
-          ]
-        },
-        PRO: {
-          title: 'Trader System',
-          desc: 'Best for users who want a stronger trading framework with clearer execution logic, deeper structure reading, and a more practical system for real trade decisions.',
-          items: [
-            'Everything in Basic',
-            'Expanded execution framework',
-            'Trendline and entry timing workflow',
-            'Training-based system for more consistent execution'
-          ],
-          cards: [
-            ['What you get', 'A more complete trading system with stronger execution structure.'],
-            ['Best for', 'Traders who are ready to move beyond basics and want a practical workflow.'],
-            ['Core advantage', 'Better timing, better structure alignment, and stronger trade organization.'],
-            ['Upgrade path', 'Move to Elite when you want deeper execution support and advanced-level tools.']
-          ]
-        },
-        ELITE: {
-          title: 'Advanced Execution',
-          desc: 'Best for serious users who want deeper execution support, stronger confluence, and more advanced trade organization beyond the standard trader workflow.',
-          items: [
-            'Everything in Pro',
-            'Advanced execution support',
-            'Higher-precision trade structure',
-            'Expanded framework for serious users'
-          ],
-          cards: [
-            ['What you get', 'More advanced execution logic and higher-tier trade support.'],
-            ['Best for', 'Users who want stronger confluence and more detailed execution planning.'],
-            ['Core advantage', 'Better structure depth, better precision, and stronger decision support.'],
-            ['Upgrade path', 'Move to Lifetime if you want permanent access and full long-term coverage.']
-          ]
-        },
-        LIFETIME: {
-          title: 'Master Access',
-          desc: 'Best for long-term users who want the full system, permanent access, and the most complete version of the TCPS ecosystem without monthly renewal.',
-          items: [
-            'Everything in Elite',
-            'Lifetime access',
-            'Full library coverage',
-            'Best long-term value'
-          ],
-          cards: [
-            ['What you get', 'Permanent access to the highest-tier package.'],
-            ['Best for', 'Users who want the complete system without recurring renewal.'],
-            ['Core advantage', 'Full access, long-term convenience, and the strongest value over time.'],
-            ['Coverage', 'Highest plan level with the broadest content and access path.']
-          ]
-        }
-      };
-
-      function setDashboardDefault(){
-        document.getElementById('planDynamicTitle').textContent = 'Access Dashboard';
-        document.getElementById('planDynamicTitle').classList.remove('plan-highlight-title');
-        document.getElementById('planDynamicDesc').textContent = 'Select a plan on the right to instantly see what is included, who it is for, and what gets unlocked.';
-        const list = document.getElementById('planDynamicList');
-        list.innerHTML = '';
-        [
-          'Create your account with email and password',
-          'Log in before submitting your TXID',
-          'Select a plan to preview the included access',
-          'Unlock starts after payment verification'
-        ].forEach(item => {
-          const li = document.createElement('li');
-          li.textContent = item;
-          list.appendChild(li);
-        });
-        const defaults = [
-          ['Foundation Pack', 'Core market basics and starter workflow.'],
-          ['Trader System', 'Execution framework and training flow.'],
-          ['Advanced Execution', 'Higher-precision execution support.'],
-          ['Master Access', 'Full library access and long-term coverage.']
-        ];
-        defaults.forEach((row, idx) => {
-          document.getElementById('previewCard' + (idx+1) + 'Title').textContent = row[0];
-          document.getElementById('previewCard' + (idx+1) + 'Desc').textContent = row[1];
-        });
-        document.querySelectorAll('.unlock-card').forEach(card => card.classList.remove('plan-focus'));
-      }
-
-
-      function updatePaymentGuide(plan, amount){
-        const planNames = {
-          BASIC:'Basic',
-          PRO:'Pro',
-          ELITE:'Elite',
-          LIFETIME:'Lifetime'
-        };
-        const planTexts = {
-          BASIC:'Basic plan selected. Indicator access and starter workflow.',
-          PRO:'Pro plan selected. Stronger execution framework and deeper trader workflow.',
-          ELITE:'Elite plan selected. Advanced execution support and higher-level structure.',
-          LIFETIME:'Lifetime plan selected. Full long-term access with the highest coverage.'
-        };
-        const nameEl = document.getElementById('selectedPlanName');
-        const amountEl = document.getElementById('selectedPlanAmount');
-        const summaryEl = document.getElementById('selectedPlanSummary');
-        if(nameEl) nameEl.textContent = 'Plan: ' + (planNames[plan] || 'NONE');
-        if(amountEl) amountEl.textContent = 'Amount: ' + (amount || 0) + ' USDT';
-        if(summaryEl) summaryEl.textContent = planTexts[plan] || 'Choose a plan card above to continue.';
-      }
-
-      function copyWalletAddress(){
-        const input = document.getElementById('walletAddress');
-        input.select();
-        input.setSelectionRange(0, 99999);
-        try{
-          document.execCommand('copy');
-          document.getElementById('walletMessage').textContent = 'Wallet address copied.';
-        }catch(e){
-          document.getElementById('walletMessage').textContent = 'Copy failed. Copy it manually.';
-        }
-      }
-
-
-            function updatePlanPreview(plan){
-        if(!plan || !PLAN_INFO[plan]){
-          setDashboardDefault();
-          return;
-        }
         const info = PLAN_INFO[plan];
         document.getElementById('planDynamicTitle').textContent = info.title;
         document.getElementById('planDynamicTitle').classList.add('plan-highlight-title');
@@ -2195,7 +2018,134 @@
 
 
       document.getElementById('verifyPlan').addEventListener('change', function(){ updatePlanPreview(this.value); });
+
+      const PLAN_INFO = {
+        BASIC: {
+          title: 'Foundation Pack',
+          desc: 'Best for beginners who want the core indicator, market basics, and a simple starter workflow before moving into deeper execution.',
+          items: [
+            'Core indicator access',
+            'Core chart logic',
+            'Simple setup workflow',
+            'Best starting tier for new users'
+          ],
+          cards: [
+            ['Included', 'Indicator access, chart basics, and entry-level structure reading.'],
+            ['Best for', 'Traders who want a clean starting point without advanced complexity.'],
+            ['Not included', 'No advanced execution layer, no deeper confluence, no premium support.'],
+            ['Upgrade reason', 'Move to Pro when you want stronger execution and better trade structure.']
+          ]
+        },
+        PRO: {
+          title: 'Trader System',
+          desc: 'Best for users who want a more complete trading workflow with stronger execution structure and more practical trade organization.',
+          items: [
+            'Everything in Basic',
+            'Core signal access',
+            'Priority execution workflow',
+            'Main TCPS product tier'
+          ],
+          cards: [
+            ['Included', 'Basic access plus stronger execution and signal workflow.'],
+            ['Best for', 'Traders who are ready to move beyond the foundation tier.'],
+            ['Core edge', 'Better timing structure and better overall workflow for live use.'],
+            ['Upgrade reason', 'Move to Elite when you want deeper execution support and higher-level tools.']
+          ]
+        },
+        ELITE: {
+          title: 'Advanced Execution',
+          desc: 'Best for serious users who want stronger execution depth, more support, and a higher-tier framework for better decision quality.',
+          items: [
+            'Everything in Pro',
+            'Advanced signal workflow',
+            'Extended execution support',
+            'Higher access tier'
+          ],
+          cards: [
+            ['Included', 'Pro features plus deeper execution support and stronger structure depth.'],
+            ['Best for', 'Users who want a more advanced and more precise working tier.'],
+            ['Core edge', 'Better execution planning, better structure depth, stronger decision support.'],
+            ['Upgrade reason', 'Move to Lifetime for permanent access and the best long-term value.']
+          ]
+        },
+        LIFETIME: {
+          title: 'Master Access',
+          desc: 'Best for long-term users who want the full system with permanent access and no monthly renewal.',
+          items: [
+            'Everything in Elite',
+            'Lifetime access',
+            'Automation included',
+            'Best long-term value'
+          ],
+          cards: [
+            ['Included', 'The highest tier with the broadest and longest access.'],
+            ['Best for', 'Users who want the complete package without recurring payments.'],
+            ['Core edge', 'Permanent access and the strongest long-term value.'],
+            ['Coverage', 'Highest overall tier with the fullest access path.']
+          ]
+        }
+      };
+
+      function setDashboardDefault(){
+        document.getElementById('planDynamicTitle').textContent = 'Access Dashboard';
+        document.getElementById('planDynamicTitle').classList.remove('plan-highlight-title');
+        document.getElementById('planDynamicDesc').textContent = 'Select a plan on the right to instantly see exactly what is included in that tier.';
+        const list = document.getElementById('planDynamicList');
+        list.innerHTML = '';
+        [
+          'Create your account with email and password',
+          'Log in before submitting your TXID',
+          'Select a plan on the right to preview that tier',
+          'Unlock starts after payment verification'
+        ].forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          list.appendChild(li);
+        });
+        const defaults = [
+          ['Foundation Pack', 'Core market basics and starter workflow.'],
+          ['Trader System', 'Execution framework and training flow.'],
+          ['Advanced Execution', 'Higher-precision execution support.'],
+          ['Master Access', 'Full library access and long-term coverage.']
+        ];
+        defaults.forEach((row, idx) => {
+          document.getElementById('previewCard' + (idx+1) + 'Title').textContent = row[0];
+          document.getElementById('previewCard' + (idx+1) + 'Desc').textContent = row[1];
+        });
+        document.querySelectorAll('.unlock-card').forEach(card => card.classList.remove('plan-focus'));
+      }
+
+      function updatePlanPreview(plan){
+        if(!plan || !PLAN_INFO[plan]){
+          setDashboardDefault();
+          return;
+        }
+        const info = PLAN_INFO[plan];
+        document.getElementById('planDynamicTitle').textContent = info.title;
+        document.getElementById('planDynamicTitle').classList.add('plan-highlight-title');
+        document.getElementById('planDynamicDesc').textContent = info.desc;
+
+        const list = document.getElementById('planDynamicList');
+        list.innerHTML = '';
+        info.items.forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          list.appendChild(li);
+        });
+
+        info.cards.forEach((row, idx) => {
+          document.getElementById('previewCard' + (idx+1) + 'Title').textContent = row[0];
+          document.getElementById('previewCard' + (idx+1) + 'Desc').textContent = row[1];
+        });
+
+        document.querySelectorAll('.unlock-card').forEach(card => card.classList.remove('plan-focus'));
+        const map = { BASIC:'previewCard1', PRO:'previewCard2', ELITE:'previewCard3', LIFETIME:'previewCard4' };
+        const target = document.getElementById(map[plan]);
+        if(target) target.classList.add('plan-focus');
+      }
+
       refreshMemberState();
+      setDashboardDefault();
       setDashboardDefault();
         document.getElementById('authMessage').textContent = 'Account created successfully.';
         closeAuthModal();
@@ -2227,17 +2177,16 @@
         }
       }
 
-      window.handlePlanClick = function(plan, amount){
+      window.handlePlanClick = function(plan){
         const member = getCurrentMember();
         document.getElementById('verifyPlan').value = plan;
         updatePlanPreview(plan);
-        updatePaymentGuide(plan, amount);
-
+        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
         if(!member){
           openAuthModal('register');
           document.getElementById('authMessage').textContent = 'Create or log in to continue with your selected plan.';
-          return;
         }
+      }
 
         document.getElementById('payment-guide').scrollIntoView({ behavior:'smooth', block:'start' });
       }
