@@ -1347,7 +1347,28 @@
       .member-step-strip{grid-template-columns:1fr;}
     }
 
-  </style>
+  
+/* SLIDER IMPROVEMENT */
+.slide-card{
+  min-width: 84%;
+  margin: 0 8%;
+  opacity:0.6;
+  transition: all 0.4s ease;
+}
+.slide-card.active{
+  opacity:1;
+  transform: scale(1.02);
+}
+.slider-shell{
+  overflow:hidden;
+  padding:0 20px;
+}
+.slider-track{
+  display:flex;
+  align-items:stretch;
+}
+
+</style>
 </head>
 <body>
 
