@@ -1750,7 +1750,7 @@
 
             <div class="wallet-box">
               <div class="wallet-label">USDT (TRC20) Wallet Address</div>
-              <div class="wallet-address" id="walletAddress">PASTE_YOUR_REAL_TRC20_WALLET_ADDRESS_HERE</div>
+              <div class="wallet-address" id="walletAddress">TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ</div>
               <button class="wallet-copy-btn" type="button" onclick="copyWalletAddress()">Copy Wallet Address</button>
               <div class="wallet-msg" id="walletMessage"></div>
             </div>
@@ -2246,11 +2246,27 @@
       }
 
       function copyWalletAddress(){
-        const walletText = document.getElementById('walletAddress').textContent;
+        const walletText = document.getElementById('walletAddress').textContent.trim();
         if(navigator.clipboard && window.isSecureContext){
           navigator.clipboard.writeText(walletText).then(() => {
             document.getElementById('walletMessage').textContent = 'Wallet address copied.';
           }).catch(() => {
+            document.getElementById('walletMessage').textContent = 'Copy failed. Copy it manually.';
+          });
+        } else {
+          const temp = document.createElement('textarea');
+          temp.value = walletText;
+          document.body.appendChild(temp);
+          temp.select();
+          try{
+            document.execCommand('copy');
+            document.getElementById('walletMessage').textContent = 'Wallet address copied.';
+          }catch(e){
+            document.getElementById('walletMessage').textContent = 'Copy failed. Copy it manually.';
+          }
+          document.body.removeChild(temp);
+        }
+      }).catch(() => {
             document.getElementById('walletMessage').textContent = 'Copy failed. Copy it manually.';
           });
         } else {
