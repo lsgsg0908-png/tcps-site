@@ -1614,7 +1614,7 @@
             <li>Core chart logic</li>
             <li>Simple setup workflow</li>
           </ul>
-          <button class="price-btn" type="button" onclick="window.location.href='basic.html'">View Basic</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('BASIC')">Get Basic</button>
         </div>
 
         <div class="card pricing-card featured">
@@ -1633,7 +1633,7 @@
             <li>Priority execution workflow</li>
             <li>Main TCPS product</li>
           </ul>
-          <button class="price-btn" type="button" onclick="window.location.href='pro.html'">View Pro</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('PRO')">Get Pro</button>
         </div>
 
         <div class="card pricing-card">
@@ -1651,7 +1651,7 @@
             <li>Extended execution support</li>
             <li>Higher access tier</li>
           </ul>
-          <button class="price-btn" type="button" onclick="window.location.href='elite.html'">View Elite</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('ELITE')">Get Elite</button>
         </div>
 
         <div class="card pricing-card">
@@ -1669,11 +1669,10 @@
             <li>Automation included</li>
             <li>Best long-term value</li>
           </ul>
-          <button class="price-btn" type="button" onclick="window.location.href='lifetime.html'">View Lifetime</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('LIFETIME')">Get Lifetime</button>
         </div>
       </div>
-      <p style="text-align:center; color:#8da2c4; margin-top:20px;">Click any plan card to see the full plan page first, then return here for payment verification.</p>
-      <p style="text-align:center; color:#8da2c4; margin-top:8px;">All payments are processed in USDT (TRC20).</p>
+      <p style="text-align:center; color:#8da2c4; margin-top:20px;">All payments are processed in USDT (TRC20).</p>
       <p style="text-align:center; color:#8da2c4; margin-top:8px;">No setup needed — just scan the QR code and send the amount shown.</p>
       <p style="text-align:center; color:#8da2c4; margin-top:8px;">⚠ Important: Always round UP and send slightly more than the displayed amount.</p>
       <p style="text-align:center; color:#8da2c4; margin-top:8px;">Example: 58.316 → send 58.32 USDT</p>
@@ -1746,6 +1745,9 @@
               <option value="ELITE">ELITE — 199 USDT</option>
               <option value="LIFETIME">LIFETIME — 399 USDT</option>
             </select>
+            <div id="planLockedNotice" style="display:none;margin-top:10px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#dce7fb;font-size:13px;line-height:1.55;">
+              Selected plan locked from the detail page. Go back to Pricing if you want to switch plans.
+            </div>
             <input type="text" id="verifyTelegram" placeholder="Telegram Username (@)" />
             <input type="text" id="verifyTxid" placeholder="TXID (Transaction ID)" required />
 
@@ -1762,6 +1764,9 @@
                 Select a plan above to load the correct explanation and payment guide.
               </div>
             </div>
+
+            <p style="margin:4px 0 0;color:#ff7d7d;font-size:13px;font-weight:800;line-height:1.55;">⚠ Send the exact amount for the selected plan only. Incorrect amount or wrong plan will be automatically rejected.</p>
+            <p style="margin:2px 0 0;color:#8fd6ff;font-size:13px;line-height:1.55;">No refunds for incorrect transactions. Double-check the plan and payment amount before sending.</p>
 
             <button class="verify-btn" type="submit">Save Verification Data</button>
           </form>
@@ -2469,6 +2474,24 @@ document.addEventListener('DOMContentLoaded', function(){
   };
 
   function qs(id) { return document.getElementById(id); }
+  function applyPlanFromQuery() {
+    const rawPlan = new URLSearchParams(window.location.search).get("plan");
+    const plan = (rawPlan || "").trim().toUpperCase();
+    if (!plan || !PLAN_INFO[plan]) return;
+
+    const select = qs("verifyPlan");
+    if (select) {
+      select.value = plan;
+      select.disabled = true;
+      select.dataset.lockedByQuery = "1";
+      select.style.opacity = "1";
+      select.style.cursor = "not-allowed";
+    }
+
+    if (qs("planLockedNotice")) qs("planLockedNotice").style.display = "block";
+    updatePlanPreview(plan);
+    if (qs("dashPlan")) qs("dashPlan").textContent = "Plan: " + plan;
+  }
 
   function getMembers() {
     return JSON.parse(localStorage.getItem(MEMBER_DB_KEY) || "{}");
@@ -2784,6 +2807,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     refreshMemberState();
     setDashboardDefault();
+    applyPlanFromQuery();
   });
 })();
 </script>
