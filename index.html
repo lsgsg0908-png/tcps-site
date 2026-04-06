@@ -69,12 +69,18 @@
     .nav a{ font-size:14px; color:#cad5ea; transition:0.2s ease; }
     .nav a:hover{ color:#ffffff; }
     .nav-cta{
-      padding:12px 18px;
+      min-height:48px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 22px;
       border-radius:999px;
-      font-weight:700;
+      font-size:14px;
+      font-weight:800;
       color:#fff;
       background:linear-gradient(135deg,#35cfff,#7560ff);
       box-shadow:0 12px 30px rgba(73,104,255,0.28);
+      transition:transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
     }
     section{ padding:92px 0; }
     .hero{ padding:88px 0 72px; }
@@ -82,7 +88,7 @@
       display:grid;
       grid-template-columns:1.04fr 0.96fr;
       gap:34px;
-      align-items:start;
+      align-items:center;
     }
     .badge{
       display:inline-flex;
@@ -163,7 +169,7 @@
     .hero-card{
       padding:30px;
       min-height:470px;
-      transform:translateY(-42px);
+      transform:translateY(-18px);
     }
     .screen-head{
       display:flex;
@@ -798,24 +804,35 @@
     /* MEMBER / AUTH */
     .member-actions{ display:flex; align-items:center; gap:10px; }
     .member-btn{
-      min-height:42px;
+      min-height:48px;
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      padding:0 16px;
+      padding:0 22px;
       border-radius:999px;
-      font-size:13px;
+      font-size:14px;
       font-weight:800;
       cursor:pointer;
       border:none;
       color:#fff;
       background:linear-gradient(135deg,#35cfff,#7560ff);
       box-shadow:0 10px 24px rgba(73,104,255,0.22);
+      transition:transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    }
+    .member-btn:hover{
+      transform:translateY(-2px);
+      opacity:0.97;
+      box-shadow:0 14px 30px rgba(73,104,255,0.28);
     }
     .member-btn.secondary{
       color:#dce7fb;
       background:rgba(255,255,255,0.04);
       border:1px solid rgba(255,255,255,0.10);
+      box-shadow:none;
+    }
+    .member-btn.secondary:hover{
+      background:rgba(255,255,255,0.08);
+      border-color:rgba(255,255,255,0.16);
       box-shadow:none;
     }
     .member-label{
