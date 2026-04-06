@@ -1125,6 +1125,59 @@
       .payment-form-grid{ grid-template-columns:1fr; }
     }
 
+  
+    .plan-focus{
+      border-color:rgba(53,207,255,0.35);
+      background:linear-gradient(180deg, rgba(53,207,255,0.08), rgba(255,255,255,0.03));
+      box-shadow:0 0 0 1px rgba(53,207,255,0.08) inset;
+    }
+    .plan-highlight-title{
+      background:linear-gradient(135deg,#66e6ff,#9d8fff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .wallet-box{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      padding:16px;
+    }
+    .wallet-label{
+      font-size:12px;
+      color:#9eb1cf;
+      margin-bottom:8px;
+    }
+    .wallet-address{
+      width:100%;
+      min-height:48px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.04);
+      color:#fff;
+      padding:12px 14px;
+      font-size:13px;
+      word-break:break-all;
+      line-height:1.5;
+    }
+    .wallet-copy-btn{
+      min-height:44px;
+      padding:0 16px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:800;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      margin-top:12px;
+    }
+    .wallet-msg{
+      min-height:18px;
+      font-size:13px;
+      color:#8fd6ff;
+      margin-top:8px;
+    }
+
   </style>
 </head>
 <body>
@@ -1629,12 +1682,13 @@
   </section>
 
 
+  
   <section id="member-access">
     <div class="container">
       <div class="section-head">
         <div class="section-kicker">Member Access</div>
         <h2>Create your account, verify your TXID, and unlock your plan.</h2>
-        <p>Select a plan on the right. The Access Dashboard and Payment Form update instantly to match that plan.</p>
+        <p>Select a plan on the right. The Access Dashboard updates instantly to explain that exact tier.</p>
       </div>
 
       <div class="member-section-grid">
@@ -1680,11 +1734,11 @@
 
         <div class="member-card">
           <h3>Payment Verification</h3>
-          <p>Log in first, then choose your plan, copy the wallet address, make the payment, and submit the TXID below.</p>
+          <p>Log in first, select your plan, send the exact amount from Trust Wallet, then paste the TXID below.</p>
 
           <form class="verify-form" onsubmit="submitVerification(event)">
             <input type="email" id="verifyEmail" placeholder="Logged-in email" readonly />
-            <select id="verifyPlan" required onchange="updatePlanPreview(this.value); updatePaymentForm(this.value);">
+            <select id="verifyPlan" required onchange="updatePlanPreview(this.value)">
               <option value="">Select your plan</option>
               <option value="BASIC">BASIC — 49 USDT</option>
               <option value="PRO">PRO — 99 USDT</option>
@@ -1693,37 +1747,24 @@
             </select>
             <input type="text" id="verifyTelegram" placeholder="Telegram Username (@)" />
             <input type="text" id="verifyTxid" placeholder="TXID (Transaction ID)" required />
+
+            <div class="wallet-box">
+              <div class="wallet-label">USDT (TRC20) Wallet Address</div>
+              <div class="wallet-address" id="walletAddress">YOUR_TRUST_WALLET_ADDRESS_HERE</div>
+              <button class="wallet-copy-btn" type="button" onclick="copyWalletAddress()">Copy Wallet Address</button>
+              <div class="wallet-msg" id="walletMessage"></div>
+            </div>
+
+            <div class="wallet-box" style="margin-top:12px;">
+              <div class="wallet-label">Selected Plan Guide</div>
+              <div id="paymentGuideText" style="color:#dce7fb;font-size:14px;line-height:1.7;">
+                Select a plan above to load the correct explanation and payment guide.
+              </div>
+            </div>
+
             <button class="verify-btn" type="submit">Save Verification Data</button>
           </form>
           <div class="verify-message" id="verifyMessage"></div>
-
-          <div class="payment-form-grid">
-            <div class="unlock-card">
-              <h4 id="paymentPlanTitle">Selected Plan</h4>
-              <p id="paymentPlanDesc">Choose a plan above to load the correct payment instructions.</p>
-              <div class="member-inline" style="margin-top:10px;">
-                <span class="member-pill" id="paymentPlanName">Plan: NONE</span>
-                <span class="member-pill" id="paymentPlanAmount">Amount: 0 USDT</span>
-              </div>
-              <ul class="payment-step-list" id="paymentStepList">
-                <li>Select your plan</li>
-                <li>Copy the wallet address</li>
-                <li>Send the correct amount from your wallet</li>
-                <li>Paste the TXID above and save</li>
-              </ul>
-            </div>
-
-            <div class="unlock-card">
-              <h4>Payment Form</h4>
-              <p>Use the wallet address below for the plan you selected.</p>
-              <div class="wallet-box">
-                <div class="wallet-label">USDT (TRC20) Wallet Address</div>
-                <div class="wallet-address" id="walletAddress">YOUR_TRUST_WALLET_ADDRESS_HERE</div>
-                <button class="wallet-copy-btn" type="button" onclick="copyWalletAddress()">Copy Wallet Address</button>
-                <div class="wallet-msg" id="walletMessage"></div>
-              </div>
-            </div>
-          </div>
 
           <p style="margin-top:16px; margin-bottom:0;">
             If the selected plan amount does not match the actual payment amount, the service will be automatically rejected and no refunds will be issued.
@@ -1732,6 +1773,7 @@
       </div>
     </div>
   </section>
+
 
 
 
