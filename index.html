@@ -2246,152 +2246,42 @@
       }
 
       function copyWalletAddress(){
-        const walletText = document.getElementById('walletAddress').textContent.trim();
+        const walletEl = document.getElementById('walletAddress');
+        const msgEl = document.getElementById('walletMessage');
+        if(!walletEl || !msgEl) return;
+
+        const walletText = walletEl.textContent.trim();
+
         if(navigator.clipboard && window.isSecureContext){
-          navigator.clipboard.writeText(walletText).then(() => {
-            document.getElementById('walletMessage').textContent = 'Wallet address copied.';
-          }).catch(() => {
-            document.getElementById('walletMessage').textContent = 'Copy failed. Copy it manually.';
+          navigator.clipboard.writeText(walletText).then(function(){
+            msgEl.textContent = 'Wallet address copied.';
+          }).catch(function(){
+            fallbackCopy(walletText, msgEl);
           });
         } else {
-          const temp = document.createElement('textarea');
-          temp.value = walletText;
-          document.body.appendChild(temp);
-          temp.select();
-          try{
-            document.execCommand('copy');
-            document.getElementById('walletMessage').textContent = 'Wallet address copied.';
-          }catch(e){
-            document.getElementById('walletMessage').textContent = 'Copy failed. Copy it manually.';
-          }
-          document.body.removeChild(temp);
-        }
-      }).catch(() => {
-            document.getElementById('walletMessage').textContent = 'Copy failed. Copy it manually.';
-          });
-        } else {
-          const temp = document.createElement('textarea');
-          temp.value = walletText;
-          document.body.appendChild(temp);
-          temp.select();
-          try{
-            document.execCommand('copy');
-            document.getElementById('walletMessage').textContent = 'Wallet address copied.';
-          }catch(e){
-            document.getElementById('walletMessage').textContent = 'Copy failed. Copy it manually.';
-          }
-          document.body.removeChild(temp);
+          fallbackCopy(walletText, msgEl);
         }
       }
 
-      window.openAuthModal = function(mode){
-        document.getElementById('authModal').classList.add('active');
-        switchAuthTab(mode || 'register');
-      }
-      window.closeAuthModal = function(){
-        document.getElementById('authModal').classList.remove('active');
-      }
-      window.switchAuthTab = function(mode){
-        const registerMode = mode === 'register';
-        document.getElementById('registerTab').classList.toggle('active', registerMode);
-        document.getElementById('loginTab').classList.toggle('active', !registerMode);
-        document.getElementById('registerForm').classList.toggle('active', registerMode);
-        document.getElementById('loginForm').classList.toggle('active', !registerMode);
-        document.getElementById('authMessage').textContent = registerMode
-          ? 'Create your account first, then complete payment verification.'
-          : 'Log in to continue with your selected plan.';
-      }
-
-      window.registerMember = function(e){
-        e.preventDefault();
-        const email = document.getElementById('registerEmail').value.trim().toLowerCase();
-        const password = document.getElementById('registerPassword').value.trim();
-        const telegram = document.getElementById('registerTelegram').value.trim();
-        if(!email || !password) return;
-
-        const members = getMembers();
-        if(members[email]){
-          document.getElementById('authMessage').textContent = 'This email is already registered.';
-          return;
+      function fallbackCopy(text, msgEl){
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        temp.setAttribute('readonly', '');
+        temp.style.position = 'absolute';
+        temp.style.left = '-9999px';
+        document.body.appendChild(temp);
+        temp.select();
+        temp.setSelectionRange(0, 99999);
+        try{
+          const ok = document.execCommand('copy');
+          msgEl.textContent = ok ? 'Wallet address copied.' : 'Copy failed. Copy it manually.';
+        }catch(e){
+          msgEl.textContent = 'Copy failed. Copy it manually.';
         }
-
-        members[email] = {
-          email: email,
-          password: password,
-          telegram: telegram,
-          plan: 'NONE',
-          txid: '',
-          verification_plan: '',
-          created_at: new Date().toISOString()
-        };
-        saveMembers(members);
-        setSessionEmail(email);
-        refreshMemberState();
-        closeAuthModal();
-        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
+        document.body.removeChild(temp);
       }
 
-      window.loginMember = function(e){
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-        const password = document.getElementById('loginPassword').value.trim();
-        const members = getMembers();
-        if(!members[email] || members[email].password !== password){
-          document.getElementById('authMessage').textContent = 'Invalid email or password.';
-          return;
-        }
-        setSessionEmail(email);
-        refreshMemberState();
-        closeAuthModal();
-        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
-      }
-
-      window.handlePlanClick = function(plan){
-        document.getElementById('verifyPlan').value = plan;
-        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
-        const member = getCurrentMember();
-        if(!member){
-          openAuthModal('register');
-          document.getElementById('authMessage').textContent = 'Create or log in to continue with your selected plan.';
-        }
-      };
-
-      window.submitVerification = function(e){
-        e.preventDefault();
-        const email = getSessionEmail();
-        if(!email){
-          document.getElementById('verifyMessage').textContent = 'Please register or log in first.';
-          openAuthModal('login');
-          return;
-        }
-
-        const plan = document.getElementById('verifyPlan').value;
-        const telegram = document.getElementById('verifyTelegram').value.trim();
-        const txid = document.getElementById('verifyTxid').value.trim();
-
-        if(!plan || !txid){
-          document.getElementById('verifyMessage').textContent = 'Plan and TXID are required.';
-          return;
-        }
-
-        const members = getMembers();
-        const member = members[email];
-        member.telegram = telegram || member.telegram || '';
-        member.plan = plan;
-        member.verification_plan = plan;
-        member.txid = txid;
-        member.updated_at = new Date().toISOString();
-        members[email] = member;
-        saveMembers(members);
-        refreshMemberState();
-        document.getElementById('dashPlan').textContent = 'Plan: ' + plan;
-        document.getElementById('verifyMessage').textContent = 'Verification data saved for this account.';
-      };
-
-
-
-
-document.addEventListener('DOMContentLoaded', function(){
+      document.addEventListener('DOMContentLoaded', function(){
         const select = document.getElementById('verifyPlan');
         if (select) {
           select.addEventListener('change', function(){
