@@ -82,7 +82,7 @@
       display:grid;
       grid-template-columns:1.04fr 0.96fr;
       gap:34px;
-      align-items:center;
+      align-items:start;
     }
     .badge{
       display:inline-flex;
@@ -160,19 +160,59 @@
       height:1px;
       background:linear-gradient(90deg, rgba(67,210,255,0), rgba(67,210,255,0.85), rgba(123,97,255,0.9), rgba(123,97,255,0));
     }
-    .hero-card{ padding:28px; min-height:470px; }
-    .screen-head{ display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:20px; }
-    .screen-title{ font-size:15px; font-weight:800; color:#e8eefb; }
-    .screen-status{
-      font-size:12px;
-      color:#85ffbe;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(62,215,126,0.22);
-      background:rgba(62,215,126,0.10);
-      white-space:nowrap;
+    .hero-card{
+      padding:30px;
+      min-height:470px;
+      transform:translateY(-42px);
     }
-    .engine-monitor{ display:grid; gap:14px; min-height:380px; }
+    .screen-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:22px;
+    }
+    .screen-title{
+      font-size:20px;
+      font-weight:900;
+      letter-spacing:0.8px;
+      text-transform:uppercase;
+      color:#f4f8ff;
+    }
+    .screen-status{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      font-size:13px;
+      font-weight:800;
+      color:#bfffdc;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(62,215,126,0.28);
+      background:rgba(62,215,126,0.12);
+      white-space:nowrap;
+      box-shadow:0 0 18px rgba(62,215,126,0.10);
+    }
+    .screen-status::before{
+      content:"";
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:#63ffb2;
+      box-shadow:0 0 14px rgba(99,255,178,0.95);
+      animation:pulseStatus 1.8s infinite;
+      flex:0 0 auto;
+    }
+    @keyframes pulseStatus{
+      0%{ transform:scale(0.95); opacity:1; }
+      50%{ transform:scale(1.15); opacity:0.75; }
+      100%{ transform:scale(0.95); opacity:1; }
+    }
+    .engine-monitor{
+      display:grid;
+      gap:14px;
+      min-height:380px;
+    }
     .monitor-card{
       position:relative;
       padding:20px;
@@ -212,17 +252,17 @@
       white-space:nowrap;
     }
     .monitor-main{
-      font-size:28px;
-      font-weight:800;
-      letter-spacing:-0.6px;
-      line-height:1.1;
+      font-size:34px;
+      font-weight:900;
+      letter-spacing:-0.8px;
+      line-height:1.05;
       color:#8fd6ff;
       text-align:right;
-      min-height:64px;
+      min-height:72px;
       display:flex;
       align-items:center;
       justify-content:flex-end;
-      max-width:280px;
+      max-width:320px;
       margin-left:auto;
       word-break:keep-all;
     }
@@ -1349,35 +1389,6 @@
 
   
 
-.slide-card.active{
-  opacity:1;
-  transform: scale(1.02);
-}
-.slider-shell{
-  overflow:hidden;
-  padding:0 20px;
-}
-.slider-track{
-  display:flex;
-  align-items:stretch;
-}
-
-
-/* FIX */
-.hero-card{ transform: translateY(-60px); }
-
-/* SAFE SLIDER ONLY */
-#problem .slide-card,
-#solution .slide-card{
-  min-width:80%;
-  margin:0 10%;
-}
-#problem .slider-track,
-#solution .slider-track{
-  display:flex;
-  gap:20px;
-}
-
 </style>
 </head>
 <body>
@@ -1462,52 +1473,52 @@
 
       <div class="panel hero-card">
         <div class="screen-head">
-          <div class="screen-title">TCPS Smart Entry AI</div>
-          <div class="screen-status">Engine Online</div>
+          <div class="screen-title">Execution Engine Status</div>
+          <div class="screen-status">Engine Active</div>
         </div>
 
         <div class="engine-monitor">
           <div class="monitor-card">
             <div class="monitor-row">
               <div class="monitor-label">Engine State</div>
-              <div class="monitor-main">FAKE SIGNAL FILTER ACTIVE</div>
+              <div class="monitor-main">SIGNAL ENGINE<br>RUNNING</div>
             </div>
             <div class="monitor-row">
-              <div class="monitor-label">Best Entry Tier</div>
-              <div class="monitor-value">PRO is the core workflow</div>
+              <div class="monitor-label">Current Mode</div>
+              <div class="monitor-value">Noise filter active</div>
             </div>
             <div class="monitor-row">
-              <div class="monitor-label">Verification Flow</div>
-              <div class="monitor-value">Select plan → Send USDT → Paste TXID</div>
+              <div class="monitor-label">Core Route</div>
+              <div class="monitor-value">PRO is the main workflow</div>
             </div>
           </div>
 
           <div class="monitor-grid">
             <div class="mini-card">
-              <div class="mini-label">Primary Market</div>
-              <div class="mini-value">BTCUSDT / Major Pairs</div>
+              <div class="mini-label">Trend Alignment</div>
+              <div class="mini-value">Monitoring structure</div>
             </div>
 
             <div class="mini-card">
-              <div class="mini-label">Signal Style</div>
-              <div class="mini-value">Selective, not constant</div>
+              <div class="mini-label">Confirmed Entries</div>
+              <div class="mini-value">Waiting for clean setup</div>
             </div>
 
             <div class="mini-card">
-              <div class="mini-label">Access Structure</div>
-              <div class="mini-value">Basic → Pro → Elite → Lifetime</div>
+              <div class="mini-label">Liquidity Flow</div>
+              <div class="mini-value">Ready for detection</div>
             </div>
 
             <div class="mini-card">
-              <div class="mini-label">Payment Method</div>
-              <div class="mini-value">USDT (TRC20)</div>
+              <div class="mini-label">Verification</div>
+              <div class="mini-value">TXID + plan check ready</div>
             </div>
           </div>
 
           <div class="monitor-card">
             <div class="monitor-row">
-              <div class="monitor-label">Conversion Message</div>
-              <div class="monitor-value">Choose the right tier once, verify once, move cleanly.</div>
+              <div class="monitor-label">Access Structure</div>
+              <div class="monitor-value">Basic → Pro → Elite → Lifetime</div>
             </div>
             <div class="monitor-row">
               <div class="monitor-label">Long-Term Best Value</div>
