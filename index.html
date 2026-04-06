@@ -2057,8 +2057,80 @@
         resizeTimer = setTimeout(createReviewWall, 180);
       });
 
-      const MEMBER_DB_KEY = 'tcps_members_v2';
-      const MEMBER_SESSION_KEY = 'tcps_member_session_v2';
+      
+      const MEMBER_DB_KEY = 'tcps_members_v3';
+      const MEMBER_SESSION_KEY = 'tcps_member_session_v3';
+
+      const PLAN_INFO = {
+        BASIC: {
+          title: 'Foundation Pack',
+          desc: 'Basic is for users who want the core indicator, core chart logic, and a simple setup workflow without advanced execution layers.',
+          list: [
+            'Core indicator access',
+            'Core chart logic',
+            'Simple setup workflow',
+            'Best for first-time users'
+          ],
+          cards: [
+            ['Indicator Access', 'Use the core indicator only. Clean starting access without deeper execution layers.'],
+            ['Core Chart Logic', 'Understand the basic chart structure and the core logic behind the setup.'],
+            ['Simple Workflow', 'Follow a starter workflow built for clarity, not complexity.'],
+            ['Who It Fits', 'Best for users who want a simple starting tier before upgrading.']
+          ],
+          guide: 'Send exactly 49 USDT using USDT (TRC20), then paste the TXID above and save. This tier is for users who want the foundation only.'
+        },
+        PRO: {
+          title: 'Trader System',
+          desc: 'Pro is the main trading tier for users who want a stronger workflow, signal-based structure, and better execution organization.',
+          list: [
+            'Everything in Basic',
+            'Core signal access',
+            'Priority execution workflow',
+            'Main TCPS product tier'
+          ],
+          cards: [
+            ['Everything in Basic', 'All Basic features remain included inside Pro.'],
+            ['Signal Access', 'Get the core signal layer needed for a more practical trading workflow.'],
+            ['Priority Workflow', 'Use a better organized execution flow built for real trading use.'],
+            ['Who It Fits', 'Best for users who are ready to move beyond the starter tier.']
+          ],
+          guide: 'Send exactly 99 USDT using USDT (TRC20), then paste the TXID above and save. This is the main trader workflow tier.'
+        },
+        ELITE: {
+          title: 'Advanced Execution',
+          desc: 'Elite is for users who want stronger execution depth, higher-level support, and a more advanced workflow than the Pro tier.',
+          list: [
+            'Everything in Pro',
+            'Advanced signal workflow',
+            'Extended execution support',
+            'Higher access tier'
+          ],
+          cards: [
+            ['Everything in Pro', 'All Pro features remain included inside Elite.'],
+            ['Advanced Workflow', 'Use a deeper workflow built for stronger execution quality.'],
+            ['Extended Support', 'Gain a higher-level structure for more serious trading use.'],
+            ['Who It Fits', 'Best for users who want stronger support than standard Pro access.']
+          ],
+          guide: 'Send exactly 199 USDT using USDT (TRC20), then paste the TXID above and save. This tier is for advanced execution users.'
+        },
+        LIFETIME: {
+          title: 'Master Access',
+          desc: 'Lifetime is for users who want the full package, no monthly renewal, and the strongest long-term value.',
+          list: [
+            'Everything in Elite',
+            'Lifetime access',
+            'Automation included',
+            'Best long-term value'
+          ],
+          cards: [
+            ['Everything in Elite', 'All Elite features remain included.'],
+            ['Lifetime Access', 'No monthly renewal. One payment for the highest long-term tier.'],
+            ['Automation Included', 'Highest-value tier with full long-term access coverage.'],
+            ['Who It Fits', 'Best for users who want the complete package permanently.']
+          ],
+          guide: 'Send exactly 399 USDT using USDT (TRC20), then paste the TXID above and save. This is the full permanent-access tier.'
+        }
+      };
 
       function getMembers(){
         return JSON.parse(localStorage.getItem(MEMBER_DB_KEY) || '{}');
@@ -2105,6 +2177,97 @@
         updateUnlocks(member ? (member.plan || 'NONE') : 'NONE');
       }
 
+      function setDashboardDefault(){
+        document.getElementById('planDynamicTitle').textContent = 'Access Dashboard';
+        document.getElementById('planDynamicTitle').classList.remove('plan-highlight-title');
+        document.getElementById('planDynamicDesc').textContent = 'Select a plan on the right to instantly see the exact difference between Basic, Pro, Elite, and Lifetime.';
+        const list = document.getElementById('planDynamicList');
+        list.innerHTML = '';
+        [
+          'Create your account with email and password',
+          'Log in before submitting your TXID',
+          'Select a plan on the right to preview that tier',
+          'Unlock starts after payment verification'
+        ].forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          list.appendChild(li);
+        });
+
+        const defaults = [
+          ['Foundation Pack', 'Core market basics and starter workflow.'],
+          ['Trader System', 'Execution framework and training flow.'],
+          ['Advanced Execution', 'Higher-precision execution support.'],
+          ['Master Access', 'Full library access and long-term coverage.']
+        ];
+        defaults.forEach((row, idx) => {
+          document.getElementById('previewCard' + (idx+1) + 'Title').textContent = row[0];
+          document.getElementById('previewCard' + (idx+1) + 'Desc').textContent = row[1];
+        });
+        document.querySelectorAll('.unlock-card').forEach(card => card.classList.remove('plan-focus'));
+        const guide = document.getElementById('paymentGuideText');
+        if (guide) {
+          guide.textContent = 'Select a plan above to load the correct explanation and payment guide.';
+        }
+      }
+
+      function updatePlanPreview(plan){
+        if(!plan || !PLAN_INFO[plan]){
+          setDashboardDefault();
+          return;
+        }
+        const info = PLAN_INFO[plan];
+        document.getElementById('planDynamicTitle').textContent = info.title;
+        document.getElementById('planDynamicTitle').classList.add('plan-highlight-title');
+        document.getElementById('planDynamicDesc').textContent = info.desc;
+
+        const list = document.getElementById('planDynamicList');
+        list.innerHTML = '';
+        info.list.forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          list.appendChild(li);
+        });
+
+        info.cards.forEach((row, idx) => {
+          document.getElementById('previewCard' + (idx+1) + 'Title').textContent = row[0];
+          document.getElementById('previewCard' + (idx+1) + 'Desc').textContent = row[1];
+        });
+
+        document.querySelectorAll('.unlock-card').forEach(card => card.classList.remove('plan-focus'));
+        const focusMap = { BASIC:'previewCard1', PRO:'previewCard2', ELITE:'previewCard3', LIFETIME:'previewCard4' };
+        const target = document.getElementById(focusMap[plan]);
+        if(target) target.classList.add('plan-focus');
+
+        const guide = document.getElementById('paymentGuideText');
+        if (guide) {
+          guide.textContent = info.guide;
+        }
+      }
+
+      function copyWalletAddress(){
+        const walletText = document.getElementById('walletAddress').textContent;
+        if(navigator.clipboard && window.isSecureContext){
+          navigator.clipboard.writeText(walletText).then(() => {
+            document.getElementById('walletMessage').textContent = 'Wallet address copied.';
+          }).catch(() => {
+            document.getElementById('walletMessage').textContent = 'Copy failed. Copy it manually.';
+          });
+        } else {
+          const temp = document.createElement('textarea');
+          temp.value = walletText;
+          document.body.appendChild(temp);
+          temp.select();
+          try{
+            document.execCommand('copy');
+            document.getElementById('walletMessage').textContent = 'Wallet address copied.';
+          }catch(e){
+            document.getElementById('walletMessage').textContent = 'Copy failed. Copy it manually.';
+          }
+          document.body.removeChild(temp);
+        }
+      }
+
       window.openAuthModal = function(mode){
         document.getElementById('authModal').classList.add('active');
         switchAuthTab(mode || 'register');
@@ -2147,32 +2310,71 @@
         };
         saveMembers(members);
         setSessionEmail(email);
-        const info = PLAN_INFO[plan];
-        document.getElementById('planDynamicTitle').textContent = info.title;
-        document.getElementById('planDynamicTitle').classList.add('plan-highlight-title');
-        document.getElementById('planDynamicDesc').textContent = info.desc;
-
-        const list = document.getElementById('planDynamicList');
-        list.innerHTML = '';
-        info.items.forEach(item => {
-          const li = document.createElement('li');
-          li.textContent = item;
-          list.appendChild(li);
-        });
-
-        info.cards.forEach((row, idx) => {
-          document.getElementById('previewCard' + (idx+1) + 'Title').textContent = row[0];
-          document.getElementById('previewCard' + (idx+1) + 'Desc').textContent = row[1];
-        });
-
-        document.querySelectorAll('.unlock-card').forEach(card => card.classList.remove('plan-focus'));
-        const map = { BASIC:0, PRO:1, ELITE:2, LIFETIME:3 };
-        const cards = document.querySelectorAll('.unlock-card');
-        if(cards[map[plan]]) cards[map[plan]].classList.add('plan-focus');
+        refreshMemberState();
+        closeAuthModal();
+        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
       }
 
+      window.loginMember = function(e){
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+        const password = document.getElementById('loginPassword').value.trim();
+        const members = getMembers();
+        if(!members[email] || members[email].password !== password){
+          document.getElementById('authMessage').textContent = 'Invalid email or password.';
+          return;
+        }
+        setSessionEmail(email);
+        refreshMemberState();
+        closeAuthModal();
+        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
+      }
 
-      document.getElementById('verifyPlan').addEventListener('change', function(){ updatePlanPreview(this.value); });
+      window.handlePlanClick = function(plan){
+        document.getElementById('verifyPlan').value = plan;
+        updatePlanPreview(plan);
+        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
+        const member = getCurrentMember();
+        if(!member){
+          openAuthModal('register');
+          document.getElementById('authMessage').textContent = 'Create or log in to continue with your selected plan.';
+        }
+      };
+
+      window.submitVerification = function(e){
+        e.preventDefault();
+        const email = getSessionEmail();
+        if(!email){
+          document.getElementById('verifyMessage').textContent = 'Please register or log in first.';
+          openAuthModal('login');
+          return;
+        }
+
+        const plan = document.getElementById('verifyPlan').value;
+        const telegram = document.getElementById('verifyTelegram').value.trim();
+        const txid = document.getElementById('verifyTxid').value.trim();
+
+        if(!plan || !txid){
+          document.getElementById('verifyMessage').textContent = 'Plan and TXID are required.';
+          return;
+        }
+
+        const members = getMembers();
+        const member = members[email];
+        member.telegram = telegram || member.telegram || '';
+        member.plan = plan;
+        member.verification_plan = plan;
+        member.txid = txid;
+        member.updated_at = new Date().toISOString();
+        members[email] = member;
+        saveMembers(members);
+        refreshMemberState();
+        updatePlanPreview(plan);
+        document.getElementById('verifyMessage').textContent = 'Verification data saved for this account.';
+      };
+
+      refreshMemberState();
+      setDashboardDefault();
 
 
     })();
