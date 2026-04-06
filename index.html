@@ -1751,7 +1751,7 @@
             <div class="wallet-box">
               <div class="wallet-label">USDT (TRC20) Wallet Address</div>
               <input class="wallet-address" id="walletAddress" type="text" readonly value="TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ" />
-              <button class="wallet-copy-btn" type="button" onclick="copyWalletAddress()">Copy Wallet Address</button>
+              <button class="wallet-copy-btn" id="copyWalletBtn" type="button">Copy Wallet Address</button>
               <div class="wallet-msg" id="walletMessage"></div>
             </div>
 
@@ -2371,43 +2371,38 @@
 
 
 
-      window.copyWalletAddress = function(){
+      function copyWalletAddressNow(){
         const input = document.getElementById('walletAddress');
         const msg = document.getElementById('walletMessage');
         if(!input || !msg) return;
 
-        const text = input.value.trim();
+        const text = input.value || input.textContent || '';
+        let copied = false;
 
-        function done(ok){
-          msg.textContent = ok ? 'Wallet address copied.' : 'Copy failed. Copy it manually.';
+        try{
+          input.focus();
+          input.removeAttribute('readonly');
+          input.select();
+          input.setSelectionRange(0, text.length);
+          copied = document.execCommand('copy');
+          input.setAttribute('readonly', 'readonly');
+          input.blur();
+        }catch(e){
+          copied = false;
+          input.setAttribute('readonly', 'readonly');
         }
 
-        if(navigator.clipboard && window.isSecureContext){
+        if(!copied && navigator.clipboard && window.isSecureContext){
           navigator.clipboard.writeText(text).then(function(){
-            done(true);
+            msg.textContent = 'Wallet address copied.';
           }).catch(function(){
-            tryLegacyCopy();
+            msg.textContent = 'Copy failed. Copy it manually.';
           });
           return;
         }
 
-        tryLegacyCopy();
-
-        function tryLegacyCopy(){
-          try{
-            input.removeAttribute('readonly');
-            input.select();
-            input.setSelectionRange(0, 99999);
-            const ok = document.execCommand('copy');
-            input.setAttribute('readonly', 'readonly');
-            input.blur();
-            done(!!ok);
-          }catch(e){
-            input.setAttribute('readonly', 'readonly');
-            done(false);
-          }
-        }
-      };
+        msg.textContent = copied ? 'Wallet address copied.' : 'Copy failed. Copy it manually.';
+      }
 
       document.addEventListener('DOMContentLoaded', function(){
         const select = document.getElementById('verifyPlan');
@@ -2416,6 +2411,14 @@
             updatePlanPreview(this.value);
           });
         }
+        const copyBtn = document.getElementById('copyWalletBtn');
+        if(copyBtn){
+          copyBtn.addEventListener('click', function(e){
+            e.preventDefault();
+            copyWalletAddressNow();
+          });
+        }
+
         refreshMemberState();
         setDashboardDefault();
       });
