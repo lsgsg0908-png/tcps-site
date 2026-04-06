@@ -2332,7 +2332,6 @@
 
       window.handlePlanClick = function(plan){
         document.getElementById('verifyPlan').value = plan;
-        updatePlanPreview(plan);
         document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
         const member = getCurrentMember();
         if(!member){
@@ -2369,13 +2368,23 @@
         members[email] = member;
         saveMembers(members);
         refreshMemberState();
-        updatePlanPreview(plan);
+        document.getElementById('dashPlan').textContent = 'Plan: ' + plan;
         document.getElementById('verifyMessage').textContent = 'Verification data saved for this account.';
       };
 
-      refreshMemberState();
-      setDashboardDefault();
 
+
+
+document.addEventListener('DOMContentLoaded', function(){
+        const select = document.getElementById('verifyPlan');
+        if (select) {
+          select.addEventListener('change', function(){
+            updatePlanPreview(this.value);
+          });
+        }
+        refreshMemberState();
+        setDashboardDefault();
+      });
 
     })();
   </script>
