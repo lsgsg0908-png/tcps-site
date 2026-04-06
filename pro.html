@@ -1,0 +1,2309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TCPS Liquidity Engine</title>
+  <meta name="description" content="TCPS Smart Entry AI delivers clean, high-probability trading signals with a premium execution-focused experience." />
+  <style>
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      font-family: Arial, sans-serif;
+      color:#f5f7fb;
+      background:#04060b;
+      line-height:1.6;
+      overflow-x:hidden;
+      position:relative;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-3;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(55,140,255,0.18), transparent 30%),
+        radial-gradient(circle at 82% 20%, rgba(90,70,255,0.16), transparent 28%),
+        radial-gradient(circle at 70% 78%, rgba(0,210,255,0.12), transparent 24%),
+        radial-gradient(circle at 30% 85%, rgba(123,97,255,0.10), transparent 26%),
+        linear-gradient(180deg, #05070d 0%, #03050a 100%);
+    }
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      opacity:0.055;
+      pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      mix-blend-mode:soft-light;
+    }
+    a{ text-decoration:none; color:inherit; }
+    .container{
+      width:100%;
+      max-width:1180px;
+      margin:0 auto;
+      padding:0 20px;
+      position:relative;
+      z-index:2;
+    }
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:999;
+      backdrop-filter:blur(14px);
+      background:rgba(4,6,11,0.74);
+      border-bottom:1px solid rgba(255,255,255,0.06);
+    }
+    .topbar-inner{
+      min-height:74px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+    .brand{ display:flex; flex-direction:column; gap:3px; }
+    .brand-name{ font-size:18px; font-weight:800; letter-spacing:0.3px; }
+    .brand-sub{ font-size:12px; color:#91a3c4; }
+    .nav{ display:flex; align-items:center; gap:16px; }
+    .nav a{ font-size:14px; color:#cad5ea; transition:0.2s ease; }
+    .nav a:hover{ color:#ffffff; }
+    .nav-cta{
+      padding:12px 18px;
+      border-radius:999px;
+      font-weight:700;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:0 12px 30px rgba(73,104,255,0.28);
+    }
+    section{ padding:92px 0; }
+    .hero{ padding:88px 0 72px; }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.04fr 0.96fr;
+      gap:34px;
+      align-items:center;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.03);
+      color:#cfdbef;
+      font-size:13px;
+      margin-bottom:20px;
+    }
+    .badge-dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#63ffb2;
+      box-shadow:0 0 12px rgba(99,255,178,0.8);
+    }
+    .hero h1{
+      font-size:60px;
+      line-height:1.03;
+      letter-spacing:-1.8px;
+      margin-bottom:18px;
+      max-width:760px;
+    }
+    .hero h1 span{
+      background:linear-gradient(135deg,#68e6ff,#9f8cff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .hero p{ font-size:18px; color:#afbed8; max-width:650px; margin-bottom:28px; }
+    .hero-actions{ display:flex; flex-wrap:wrap; gap:14px; margin-bottom:22px; }
+    .btn-primary,.btn-secondary{
+      min-height:52px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 22px;
+      border-radius:999px;
+      font-size:15px;
+      font-weight:800;
+      transition:transform 0.18s ease, opacity 0.18s ease;
+    }
+    .btn-primary:hover,.btn-secondary:hover,.nav-cta:hover,.price-btn:hover{
+      transform:translateY(-2px);
+      opacity:0.96;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      color:#fff;
+      box-shadow:0 14px 34px rgba(86,104,255,0.30);
+    }
+    .btn-secondary{
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.03);
+      color:#e8eefb;
+    }
+    .hero-proof{ display:flex; flex-wrap:wrap; gap:18px; color:#97a9c9; font-size:14px; }
+    .panel{
+      position:relative;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
+      box-shadow:0 28px 70px rgba(0,0,0,0.34);
+      overflow:hidden;
+    }
+    .panel::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(67,210,255,0), rgba(67,210,255,0.85), rgba(123,97,255,0.9), rgba(123,97,255,0));
+    }
+    .hero-card{ padding:28px; min-height:470px; }
+    .screen-head{ display:flex; align-items:center; justify-content:space-between; gap:18px; margin-bottom:20px; }
+    .screen-title{ font-size:15px; font-weight:800; color:#e8eefb; }
+    .screen-status{
+      font-size:12px;
+      color:#85ffbe;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(62,215,126,0.22);
+      background:rgba(62,215,126,0.10);
+      white-space:nowrap;
+    }
+    .engine-monitor{ display:grid; gap:14px; min-height:380px; }
+    .monitor-card{
+      position:relative;
+      padding:20px;
+      border-radius:20px;
+      background:rgba(7,12,21,0.95);
+      border:1px solid rgba(255,255,255,0.06);
+      overflow:hidden;
+      min-height:120px;
+    }
+    .monitor-card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(80,219,255,0), rgba(80,219,255,0.45), rgba(80,219,255,0));
+    }
+    .monitor-row{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:10px;
+      align-items:flex-start;
+    }
+    .monitor-row:last-child{ margin-bottom:0; }
+    .monitor-label{ font-size:13px; color:#8ea4c7; flex:0 0 auto; }
+    .monitor-value{
+      font-size:14px;
+      font-weight:700;
+      color:#ffffff;
+      text-align:right;
+      min-height:20px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      white-space:nowrap;
+    }
+    .monitor-main{
+      font-size:28px;
+      font-weight:800;
+      letter-spacing:-0.6px;
+      line-height:1.1;
+      color:#8fd6ff;
+      text-align:right;
+      min-height:64px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      max-width:280px;
+      margin-left:auto;
+      word-break:keep-all;
+    }
+    .monitor-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .mini-card{
+      position:relative;
+      padding:18px;
+      border-radius:18px;
+      background:rgba(7,12,21,0.95);
+      border:1px solid rgba(255,255,255,0.06);
+      overflow:hidden;
+      min-height:92px;
+    }
+    .mini-card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(80,219,255,0), rgba(80,219,255,0.35), rgba(80,219,255,0));
+    }
+    .mini-label{ font-size:12px; color:#87a0c5; margin-bottom:8px; }
+    .mini-value{
+      font-size:17px;
+      font-weight:800;
+      color:#f5f8ff;
+      line-height:1.35;
+      min-height:46px;
+      display:flex;
+      align-items:center;
+    }
+    .section-head{ text-align:center; max-width:800px; margin:0 auto 54px; }
+    .section-kicker{
+      display:inline-block;
+      margin-bottom:14px;
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:1.6px;
+      text-transform:uppercase;
+      color:#7fdfff;
+    }
+    .section-head h2{
+      font-size:48px;
+      line-height:1.12;
+      letter-spacing:-1.1px;
+      margin-bottom:16px;
+    }
+    .section-head p{ font-size:17px; color:#a6b6d2; }
+    .grid-3,.results-grid,.pricing-grid{ display:grid; gap:22px; }
+    .grid-3,.results-grid{ grid-template-columns:repeat(3,1fr); }
+    .pricing-grid{ grid-template-columns:repeat(4,1fr); align-items:stretch; }
+    .card{
+      position:relative;
+      padding:28px;
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+      box-shadow:0 20px 50px rgba(0,0,0,0.22);
+      overflow:hidden;
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.75), rgba(117,96,255,0.75), rgba(117,96,255,0));
+    }
+    .card-topline{
+      width:42px;
+      height:4px;
+      border-radius:999px;
+      margin-bottom:18px;
+      background:linear-gradient(90deg,#35cfff,#7560ff);
+      box-shadow:0 0 18px rgba(53,207,255,0.35);
+    }
+    .card h3{ font-size:22px; line-height:1.28; margin-bottom:10px; letter-spacing:-0.5px; }
+    .card p{ font-size:15px; color:#a9b9d4; }
+    .step-number{
+      position:relative;
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+      font-weight:800;
+      color:#ffffff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.08),
+        0 8px 20px rgba(53,207,255,0.25),
+        0 0 30px rgba(117,96,255,0.35);
+      overflow:hidden;
+      margin-bottom:14px;
+    }
+    .step-number::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.35), transparent 40%);
+      opacity:0.6;
+    }
+    .step-number::after{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,0.12);
+    }
+    .step-number span{ position:relative; z-index:1; }
+    .results-card{ text-align:center; padding:30px 24px; }
+    .results-number{
+      font-size:40px;
+      font-weight:800;
+      letter-spacing:-1px;
+      margin-bottom:8px;
+      background:linear-gradient(135deg,#66e6ff,#9d8fff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .results-label{ font-size:16px; color:#edf3ff; margin-bottom:6px; }
+    .results-sub{ font-size:14px; color:#99accb; }
+
+    .slider-shell{ position:relative; overflow:hidden; }
+    .slider-track{ display:flex; transition:transform 0.65s ease; }
+    .slide-card{
+      min-width:100%;
+      padding:42px;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+      box-shadow:0 24px 60px rgba(0,0,0,0.24);
+      min-height:320px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .slide-card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.7), rgba(117,96,255,0.7), rgba(117,96,255,0));
+    }
+    .slide-tag{
+      display:inline-flex;
+      width:max-content;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.04);
+      color:#81ddff;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:1.1px;
+      text-transform:uppercase;
+      margin-bottom:18px;
+    }
+    .slide-card h3{ font-size:34px; line-height:1.1; letter-spacing:-0.9px; margin-bottom:16px; max-width:760px; }
+    .slide-card p{ font-size:16px; color:#aebfda; max-width:760px; margin-bottom:10px; }
+    .slide-highlight{ color:#eef4ff !important; font-weight:700; margin-top:8px; }
+    .slider-nav{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:20;
+      width:46px;
+      height:46px;
+      border:none;
+      border-radius:50%;
+      cursor:pointer;
+      color:#fff;
+      font-size:26px;
+      line-height:1;
+      background:rgba(255,255,255,0.08);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    .slider-nav:hover{ background:rgba(255,255,255,0.14); }
+    .slider-nav.left{ left:12px; }
+    .slider-nav.right{ right:12px; }
+
+    .engine-slider-shell{ position:relative; overflow:hidden; }
+    .engine-slider-track{ display:flex; transition:transform 0.7s ease; }
+    .engine-card{
+      min-width:100%;
+      min-height:440px;
+      display:grid;
+      grid-template-columns:0.42fr 0.58fr;
+      border-radius:30px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.08);
+      background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+      box-shadow:0 24px 60px rgba(0,0,0,0.28);
+      position:relative;
+    }
+    .engine-card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.7), rgba(117,96,255,0.7), rgba(117,96,255,0));
+      z-index:3;
+    }
+    .engine-copy{
+      position:relative;
+      z-index:2;
+      padding:42px 36px 42px 40px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      background:linear-gradient(180deg, rgba(8,12,22,0.92), rgba(6,10,18,0.98));
+    }
+    .engine-label{
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:1.4px;
+      text-transform:uppercase;
+      color:#81ddff;
+      margin-bottom:16px;
+    }
+    .engine-copy h3{ font-size:33px; line-height:1.1; letter-spacing:-0.9px; margin-bottom:18px; color:#f4f8ff; }
+    .engine-copy p{ font-size:15px; line-height:1.72; color:#aebfda; margin-bottom:12px; }
+    .engine-highlight{ color:#eef4ff !important; font-weight:700; }
+    .engine-visual{
+      position:relative;
+      overflow:hidden;
+      min-height:440px;
+      background:
+        radial-gradient(circle at 76% 30%, rgba(255,62,86,0.06), transparent 22%),
+        radial-gradient(circle at 68% 60%, rgba(123,97,255,0.10), transparent 30%),
+        linear-gradient(180deg, rgba(4,8,16,0.98), rgba(5,9,18,1));
+    }
+    .chart-grid{
+      position:absolute;
+      inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size:58px 58px;
+      opacity:0.26;
+    }
+    .chart-fade-left{
+      position:absolute;
+      left:0;
+      top:0;
+      width:48%;
+      height:100%;
+      background:linear-gradient(90deg, rgba(5,9,18,1) 0%, rgba(5,9,18,0.96) 26%, rgba(5,9,18,0.78) 48%, rgba(5,9,18,0.45) 68%, rgba(5,9,18,0) 100%);
+      z-index:4;
+      pointer-events:none;
+    }
+    .range-zone{
+      position:absolute;
+      border:1px solid rgba(161,108,255,0.34);
+      background:rgba(120,90,255,0.06);
+      box-shadow:0 0 26px rgba(123,97,255,0.14);
+      border-radius:10px;
+    }
+    .range-zone.top{ top:14%; left:36%; width:42%; height:16%; }
+    .range-zone.bottom{ top:63%; left:30%; width:48%; height:14%; }
+    .range-zone.mid{ top:34%; left:38%; width:34%; height:23%; }
+    .range-zone.band{ top:42%; left:28%; width:52%; height:22%; }
+    .range-zone.retest{ top:52%; left:43%; width:28%; height:12%; }
+    .trend-line{
+      position:absolute;
+      height:2px;
+      border-radius:999px;
+      background:linear-gradient(90deg, rgba(125,92,255,0), rgba(125,92,255,0.95), rgba(170,95,255,0.95));
+      box-shadow:0 0 16px rgba(125,92,255,0.52);
+      z-index:2;
+    }
+    .t1{ width:40%; top:26%; left:34%; transform:rotate(-12deg); }
+    .t2{ width:44%; top:63%; left:32%; transform:rotate(10deg); }
+    .t3{ width:46%; top:52%; left:28%; transform:rotate(-4deg); }
+    .t4{ width:42%; top:58%; left:35%; transform:rotate(-16deg); }
+    .t5{ width:36%; top:34%; left:40%; transform:rotate(14deg); }
+    .t6{ width:40%; top:47%; left:36%; transform:rotate(-8deg); }
+    .t7{ width:44%; top:37%; left:31%; transform:rotate(12deg); }
+    .price-svg{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:3;
+      pointer-events:none;
+    }
+    .price-glow{
+      fill:none;
+      stroke:rgba(255,70,93,0.22);
+      stroke-width:12;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      filter:blur(7px);
+    }
+    .price-path{
+      fill:none;
+      stroke:#ff465d;
+      stroke-width:4.1;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+      filter:drop-shadow(0 0 8px rgba(255,70,93,0.95));
+    }
+
+    .review-wall{ display:grid; gap:14px; margin-top:14px; }
+    .review-row{
+      position:relative;
+      overflow:hidden;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.06);
+      background:linear-gradient(180deg, rgba(255,255,255,0.028), rgba(255,255,255,0.018));
+      padding:14px 0;
+    }
+    .review-row::before,.review-row::after{
+      content:"";
+      position:absolute;
+      top:0;
+      width:110px;
+      height:100%;
+      z-index:3;
+      pointer-events:none;
+    }
+    .review-row::before{
+      left:0;
+      background:linear-gradient(90deg, rgba(4,6,11,1) 0%, rgba(4,6,11,0.9) 42%, rgba(4,6,11,0) 100%);
+    }
+    .review-row::after{
+      right:0;
+      background:linear-gradient(270deg, rgba(4,6,11,1) 0%, rgba(4,6,11,0.9) 42%, rgba(4,6,11,0) 100%);
+    }
+    .review-marquee{
+      display:flex;
+      width:max-content;
+      gap:14px;
+      will-change:transform;
+      animation-timing-function:linear;
+      animation-iteration-count:infinite;
+      animation-play-state:running;
+      transform:translateZ(0);
+    }
+    .review-row:hover .review-marquee{ animation-play-state:paused; }
+    .review-row.dir-left .review-marquee{ animation-name:marqueeLeft; }
+    .review-row.dir-right .review-marquee{ animation-name:marqueeRight; }
+    @keyframes marqueeLeft{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-50%); } }
+    @keyframes marqueeRight{ 0%{ transform:translateX(-50%); } 100%{ transform:translateX(0); } }
+    .review-card{
+      width:300px;
+      min-height:124px;
+      padding:16px 16px 15px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      position:relative;
+      overflow:hidden;
+      flex:0 0 auto;
+    }
+    .review-card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.55), rgba(117,96,255,0.55), rgba(117,96,255,0));
+    }
+    .review-top{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; margin-bottom:8px; }
+    .review-user{ font-size:14px; font-weight:800; color:#f4f8ff; letter-spacing:0.1px; }
+    .review-country{
+      display:inline-flex;
+      margin-left:8px;
+      padding:3px 7px;
+      border-radius:999px;
+      font-size:10px;
+      font-weight:800;
+      color:#dfe8f7;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+      vertical-align:middle;
+    }
+    .review-time{ font-size:11px; color:#8fa3c6; white-space:nowrap; padding-top:2px; }
+    .review-source{ font-size:11px; color:#7f93b7; margin-top:4px; }
+    .review-card{ transition:transform 0.25s ease, border-color 0.25s ease; }
+    .review-card:hover{ transform:translateY(-3px); border-color:rgba(0,150,255,0.4); }
+    .review-stars{ font-size:13px; color:#ffd76a; letter-spacing:2px; margin-bottom:8px; }
+    .review-text{ color:#b7c6de; font-size:13px; line-height:1.56; }
+    .reviews-meta-wrap{ display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; margin-bottom:22px; }
+    .reviews-meta{ color:#93a6c7; font-size:14px; }
+    .reviews-badge{
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      color:#d6e1f4;
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .pricing-card{
+      position:relative;
+      padding:30px;
+      display:flex;
+      flex-direction:column;
+    }
+    .pricing-card.featured{
+      border:1px solid rgba(102,214,255,0.42);
+      box-shadow:0 26px 60px rgba(66,96,255,0.24);
+      transform:scale(1.02);
+    }
+    .tag{
+      position:absolute;
+      top:18px;
+      right:18px;
+      padding:7px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+    }
+    .plan-name{ font-size:24px; font-weight:800; margin-bottom:10px; }
+    .plan-desc{ min-height:42px; font-size:14px; color:#9eb1cf; margin-bottom:18px; }
+    .save-pill{
+      display:inline-flex;
+      width:max-content;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:0.2px;
+      color:#dff7ff;
+      background:rgba(53,207,255,0.10);
+      border:1px solid rgba(53,207,255,0.18);
+      margin-bottom:14px;
+    }
+    .price-wrap{ margin-bottom:24px; }
+    .price{ font-size:44px; font-weight:800; letter-spacing:-1.2px; margin-bottom:4px; display:flex; align-items:baseline; gap:8px; white-space:nowrap; }
+    .price span{ font-size:20px; font-weight:700; opacity:0.92; }
+    .price-sub{ font-size:14px; color:#8da2c4; }
+    .feature-list{ list-style:none; display:grid; gap:12px; margin-bottom:28px; flex:1; }
+    .feature-list li{
+      position:relative;
+      padding-left:22px;
+      font-size:15px;
+      color:#dde6f6;
+    }
+    .feature-list li::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:9px;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:0 0 10px rgba(53,207,255,0.45);
+    }
+    .price-btn{
+      width:100%;
+      min-height:52px;
+      border:none;
+      border-radius:16px;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:800;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:0 14px 30px rgba(82,101,255,0.28);
+      margin-top:auto;
+    }
+    .cta-box{ text-align:center; padding:44px 28px; }
+    .cta-box h2{ font-size:44px; letter-spacing:-1px; margin-bottom:14px; }
+    .cta-box p{ font-size:17px; color:#a7b8d3; max-width:760px; margin:0 auto 24px; }
+    .footer{ padding:36px 0 52px; border-top:1px solid rgba(255,255,255,0.06); }
+    .footer-inner{ display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; color:#90a3c4; font-size:13px; }
+    .footer-links{ display:flex; gap:16px; flex-wrap:wrap; }
+
+    @media (max-width: 1100px){
+      .hero-grid{ grid-template-columns:1fr; }
+      .grid-3,.results-grid,.pricing-grid{ grid-template-columns:1fr 1fr; }
+      .hero h1{ font-size:50px; }
+      .engine-card{ grid-template-columns:1fr; }
+      .engine-visual{ min-height:300px; order:2; }
+      .engine-copy{ order:1; }
+      .chart-fade-left{
+        width:100%;
+        height:42%;
+        top:auto;
+        bottom:0;
+        left:0;
+        background:linear-gradient(180deg, rgba(5,9,18,0) 0%, rgba(5,9,18,0.45) 38%, rgba(5,9,18,0.8) 68%, rgba(5,9,18,1) 100%);
+      }
+    }
+    @media (max-width: 760px){
+      body::after{ display:none; }
+      .topbar{ backdrop-filter:none; background:rgba(4,6,11,0.96); }
+      .nav{ display:none; }
+      section{ padding:72px 0; }
+      .hero{ padding-top:60px; }
+      .grid-3,.results-grid,.pricing-grid{ grid-template-columns:1fr; }
+      .monitor-grid{ grid-template-columns:1fr; }
+      .hero h1,.section-head h2,.cta-box h2{ font-size:34px; }
+      .hero p,.section-head p,.cta-box p{ font-size:16px; }
+      .slide-card{ min-height:350px; padding:32px 24px; }
+      .slide-card h3{ font-size:28px; }
+      .engine-copy{ padding:30px 24px; }
+      .engine-copy h3{ font-size:26px; }
+      .review-card{ width:260px; min-height:130px; }
+      .pricing-card.featured{ transform:none; }
+      .slider-nav{ width:42px; height:42px; font-size:24px; backdrop-filter:none; }
+      .panel,.card,.slide-card,.engine-card,.pricing-card{ box-shadow:none; }
+      .nav-cta,.btn-primary,.price-btn{ box-shadow:none; }
+      .review-row:nth-child(4),.review-row:nth-child(5){ display:none; }
+      .review-marquee{ will-change:auto; }
+      .chart-grid{ opacity:0.14; }
+      .range-zone{ box-shadow:none; }
+      .price-glow{ filter:blur(4px); stroke-width:9; }
+      .monitor-main{ font-size:24px; min-height:58px; max-width:220px; }
+      .mini-value{ min-height:24px; }
+      .save-pill{ margin-bottom:10px; }
+    }
+  
+    /* MEMBER / AUTH */
+    .member-actions{ display:flex; align-items:center; gap:10px; }
+    .member-btn{
+      min-height:42px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 16px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+      cursor:pointer;
+      border:none;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:0 10px 24px rgba(73,104,255,0.22);
+    }
+    .member-btn.secondary{
+      color:#dce7fb;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10);
+      box-shadow:none;
+    }
+    .member-label{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      color:#dce7fb;
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .member-label strong{ color:#fff; }
+
+    .auth-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:2000;
+      padding:20px;
+      background:rgba(3,5,10,0.82);
+      backdrop-filter:blur(10px);
+    }
+    .auth-modal.active{ display:flex; }
+    .auth-panel{
+      width:100%;
+      max-width:460px;
+      padding:28px;
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:linear-gradient(180deg, rgba(14,18,30,0.96), rgba(8,11,20,0.98));
+      box-shadow:0 28px 70px rgba(0,0,0,0.34);
+      position:relative;
+      overflow:hidden;
+    }
+    .auth-panel::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.75), rgba(117,96,255,0.75), rgba(117,96,255,0));
+    }
+    .auth-close{
+      position:absolute;
+      top:14px;
+      right:14px;
+      width:36px;
+      height:36px;
+      border:none;
+      border-radius:50%;
+      cursor:pointer;
+      font-size:18px;
+      color:#fff;
+      background:rgba(255,255,255,0.08);
+    }
+    .auth-title{ font-size:30px; font-weight:800; margin-bottom:8px; }
+    .auth-sub{ font-size:14px; color:#9eb1cf; margin-bottom:18px; }
+    .auth-tabs{ display:flex; gap:10px; margin-bottom:16px; }
+    .auth-tab{
+      flex:1;
+      min-height:44px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      color:#dce7fb;
+      background:rgba(255,255,255,0.05);
+      font-weight:800;
+    }
+    .auth-tab.active{
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+    }
+    .auth-form{ display:none; }
+    .auth-form.active{ display:block; }
+    .auth-field{ margin-bottom:12px; }
+    .auth-field label{
+      display:block;
+      font-size:13px;
+      color:#aab9d3;
+      margin-bottom:6px;
+    }
+    .auth-field input{
+      width:100%;
+      min-height:48px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.04);
+      color:#fff;
+      padding:0 14px;
+      outline:none;
+    }
+    .auth-submit{
+      width:100%;
+      min-height:50px;
+      border:none;
+      border-radius:16px;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:800;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      margin-top:6px;
+    }
+    .auth-message{
+      min-height:18px;
+      font-size:13px;
+      color:#8fd6ff;
+      margin-top:12px;
+      text-align:center;
+    }
+
+    .member-section-grid{
+      display:grid;
+      grid-template-columns:1.06fr 0.94fr;
+      gap:22px;
+    }
+    .member-card{
+      position:relative;
+      padding:28px;
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+      box-shadow:0 20px 50px rgba(0,0,0,0.22);
+      overflow:hidden;
+    }
+    .member-card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.75), rgba(117,96,255,0.75), rgba(117,96,255,0));
+    }
+    .member-card h3{ font-size:24px; margin-bottom:10px; }
+    .member-card p{ font-size:14px; color:#9eb1cf; margin-bottom:14px; }
+    .member-inline{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+    .member-pill{
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      color:#dff7ff;
+      background:rgba(53,207,255,0.10);
+      border:1px solid rgba(53,207,255,0.18);
+    }
+    .member-list{ list-style:none; display:grid; gap:10px; }
+    .member-list li{
+      position:relative;
+      padding-left:22px;
+      color:#e6eefc;
+      font-size:14px;
+    }
+    .member-list li::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:8px;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:0 0 10px rgba(53,207,255,0.45);
+    }
+    .unlock-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+    .unlock-card{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      padding:18px;
+    }
+    .unlock-card h4{ font-size:16px; margin-bottom:8px; }
+    .unlock-card p{ font-size:13px; color:#93a6c7; margin-bottom:10px; }
+    .unlock-badge{
+      display:inline-flex;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      color:#dce7fb;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    .verify-form{ display:grid; gap:12px; }
+    .verify-form input,.verify-form select{
+      width:100%;
+      min-height:48px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.04);
+      color:#fff;
+      padding:0 14px;
+      outline:none;
+      -webkit-appearance:none;
+      -moz-appearance:none;
+      appearance:none;
+    }
+    .verify-form select{
+      background-image:
+        linear-gradient(45deg, transparent 50%, #dce7fb 50%),
+        linear-gradient(135deg, #dce7fb 50%, transparent 50%);
+      background-position:
+        calc(100% - 22px) calc(50% - 3px),
+        calc(100% - 16px) calc(50% - 3px);
+      background-size:6px 6px, 6px 6px;
+      background-repeat:no-repeat;
+      padding-right:44px;
+    }
+    .verify-form select option{
+      background:#0c1220;
+      color:#f5f7fb;
+    }
+    .verify-form select:focus{
+      border-color:rgba(53,207,255,0.5);
+      box-shadow:0 0 0 3px rgba(53,207,255,0.10);
+    }
+    .verify-btn{
+      min-height:50px;
+      border:none;
+      border-radius:16px;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:800;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+    }
+    .verify-message{
+      min-height:20px;
+      font-size:13px;
+      color:#8fd6ff;
+      margin-top:8px;
+    }
+
+
+    @media (max-width: 900px){
+      .member-section-grid{ grid-template-columns:1fr; }
+      .unlock-grid{ grid-template-columns:1fr; }
+    }
+
+  
+    .plan-focus{
+      border-color:rgba(53,207,255,0.35);
+      background:linear-gradient(180deg, rgba(53,207,255,0.08), rgba(255,255,255,0.03));
+      box-shadow:0 0 0 1px rgba(53,207,255,0.08) inset;
+    }
+    .plan-highlight-title{
+      background:linear-gradient(135deg,#66e6ff,#9d8fff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+  
+    .plan-focus{
+      border-color:rgba(53,207,255,0.35);
+      background:linear-gradient(180deg, rgba(53,207,255,0.08), rgba(255,255,255,0.03));
+      box-shadow:0 0 0 1px rgba(53,207,255,0.08) inset;
+    }
+    .plan-highlight-title{
+      background:linear-gradient(135deg,#66e6ff,#9d8fff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .payment-form-grid{
+      display:grid;
+      grid-template-columns:0.95fr 1.05fr;
+      gap:22px;
+      margin-top:22px;
+    }
+    .payment-step-list{
+      list-style:none;
+      display:grid;
+      gap:10px;
+      margin-top:14px;
+    }
+    .payment-step-list li{
+      position:relative;
+      padding-left:22px;
+      font-size:14px;
+      color:#e6eefc;
+    }
+    .payment-step-list li::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:8px;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:0 0 10px rgba(53,207,255,0.45);
+    }
+    .wallet-box{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      padding:16px;
+      margin-top:14px;
+    }
+    .wallet-label{
+      font-size:12px;
+      color:#9eb1cf;
+      margin-bottom:8px;
+    }
+    .wallet-address{
+      width:100%;
+      min-height:48px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.04);
+      color:#fff;
+      padding:12px 14px;
+      font-size:13px;
+      word-break:break-all;
+      line-height:1.5;
+    }
+    .wallet-copy-btn{
+      min-height:44px;
+      padding:0 16px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:800;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      margin-top:12px;
+    }
+    .wallet-msg{
+      min-height:18px;
+      font-size:13px;
+      color:#8fd6ff;
+      margin-top:8px;
+    }
+    @media (max-width: 900px){
+      .payment-form-grid{ grid-template-columns:1fr; }
+    }
+
+  
+    .plan-focus{
+      border-color:rgba(53,207,255,0.35);
+      background:linear-gradient(180deg, rgba(53,207,255,0.08), rgba(255,255,255,0.03));
+      box-shadow:0 0 0 1px rgba(53,207,255,0.08) inset;
+    }
+    .plan-highlight-title{
+      background:linear-gradient(135deg,#66e6ff,#9d8fff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .wallet-box{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      padding:16px;
+    }
+    .wallet-label{
+      font-size:12px;
+      color:#9eb1cf;
+      margin-bottom:8px;
+    }
+    .wallet-address{
+      width:100%;
+      min-height:48px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.04);
+      color:#fff;
+      padding:12px 14px;
+      font-size:13px;
+      word-break:break-all;
+      line-height:1.5;
+    }
+    .wallet-copy-btn{
+      min-height:44px;
+      padding:0 16px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:800;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      margin-top:12px;
+    }
+    .wallet-msg{
+      min-height:18px;
+      font-size:13px;
+      color:#8fd6ff;
+      margin-top:8px;
+    }
+
+  </style>
+
+  <style>
+    .plan-hero{padding:88px 0 40px;}
+    .plan-shell{display:grid;grid-template-columns:1.02fr 0.98fr;gap:28px;align-items:stretch;}
+    .plan-stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px;}
+    .plan-stat{padding:18px;border-radius:18px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);}
+    .plan-stat-label{font-size:12px;color:#8ea4c7;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.8px;}
+    .plan-stat-value{font-size:18px;font-weight:800;color:#fff;line-height:1.3;}
+    .plan-side{padding:28px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;}
+    .plan-price{font-size:58px;font-weight:800;line-height:1;letter-spacing:-1.5px;display:flex;align-items:flex-end;gap:10px;white-space:nowrap;}
+    .plan-price span{font-size:22px;color:#cdd9ef;}
+    .plan-price-sub{font-size:14px;color:#8da2c4;}
+    .plan-chip{display:inline-flex;width:max-content;padding:7px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.10);background:rgba(255,255,255,0.04);font-size:12px;font-weight:800;color:#dce7fb;}
+    .plan-copy{font-size:15px;color:#aabbd7;line-height:1.75;}
+    .feature-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
+    .feature-list.tight li{font-size:14px;}
+    .mini-kicker{font-size:12px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:#81ddff;margin-bottom:12px;}
+    .compare-box{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+    .compare-item{padding:22px;border-radius:22px;border:1px solid rgba(255,255,255,0.08);background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));}
+    .compare-item.active{border-color:rgba(102,214,255,0.42);box-shadow:0 0 0 1px rgba(102,214,255,0.16) inset;}
+    .compare-item h4{font-size:20px;margin-bottom:8px;}
+    .compare-item p{font-size:14px;color:#9eb1cf;margin-bottom:14px;min-height:62px;}
+    .flow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+    .cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+    .chart-stage{position:relative;min-height:100%;border-radius:28px;overflow:hidden;background:linear-gradient(180deg, rgba(4,8,16,0.98), rgba(5,9,18,1));}
+    .chart-stage .chart-grid{opacity:0.24;}
+    .chart-card-copy{position:absolute;left:28px;top:28px;z-index:5;max-width:46%;}
+    .chart-card-copy h3{font-size:30px;line-height:1.08;letter-spacing:-0.8px;margin-bottom:14px;}
+    .chart-card-copy p{font-size:15px;color:#b6c6df;line-height:1.7;}
+    .chart-label-stack{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
+    .chart-pill{display:inline-flex;padding:7px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.05);font-size:12px;font-weight:700;color:#e8eefb;}
+    .chart-stage .chart-fade-left{width:58%;}
+    .hhll{position:absolute;font-size:13px;font-weight:800;color:#fff;padding:6px 8px;border-radius:999px;background:rgba(117,96,255,0.22);border:1px solid rgba(117,96,255,0.35);z-index:4;backdrop-filter:blur(6px);}
+    .hh{top:18%;left:64%;}.hl{top:58%;left:54%;}.lh{top:32%;left:36%;}.ll{top:68%;left:26%;}
+    .entry-dot{position:absolute;width:16px;height:16px;border-radius:50%;background:#63ffb2;box-shadow:0 0 0 6px rgba(99,255,178,0.16),0 0 16px rgba(99,255,178,0.8);z-index:5;}
+    .entry-dot.one{top:61%;left:61%;}.entry-dot.two{top:38%;left:69%;}.entry-dot.three{top:52%;left:73%;}
+    .ob-zone{position:absolute;border:1px solid rgba(102,214,255,0.38);background:rgba(53,207,255,0.09);border-radius:10px;box-shadow:0 0 24px rgba(53,207,255,0.14);z-index:2;}
+    .ob-zone.a{top:23%;left:48%;width:18%;height:11%;}.ob-zone.b{top:50%;left:58%;width:16%;height:10%;}
+    .life-ring{position:absolute;right:6%;bottom:10%;width:150px;height:150px;border-radius:50%;border:1px solid rgba(255,255,255,0.09);box-shadow:0 0 0 18px rgba(117,96,255,0.03),0 0 0 36px rgba(53,207,255,0.03);display:flex;align-items:center;justify-content:center;z-index:3;background:radial-gradient(circle at 50% 50%, rgba(102,214,255,0.16), rgba(117,96,255,0.06));}
+    .life-ring span{font-size:14px;font-weight:800;letter-spacing:1.2px;color:#eef4ff;text-align:center;line-height:1.4;}
+    @media (max-width: 1100px){.plan-shell,.feature-grid-2,.compare-box,.flow-grid{grid-template-columns:1fr 1fr;}.chart-card-copy{position:relative;max-width:none;left:auto;top:auto;padding:28px 28px 0;}.chart-stage .chart-fade-left{width:100%;height:42%;top:auto;bottom:0;left:0;background:linear-gradient(180deg, rgba(5,9,18,0) 0%, rgba(5,9,18,0.45) 38%, rgba(5,9,18,0.8) 68%, rgba(5,9,18,1) 100%);} }
+    @media (max-width: 760px){.plan-shell,.feature-grid-2,.compare-box,.flow-grid,.plan-stat-grid{grid-template-columns:1fr;}.plan-price{font-size:44px;}.chart-card-copy h3{font-size:24px;}.chart-card-copy{padding:24px 24px 0;}.hhll{font-size:11px;padding:5px 7px;}.life-ring{width:112px;height:112px;}}
+  </style>
+</head>
+<body>
+<header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="brand-name">TCPS Liquidity Engine</div>
+        <div class="brand-sub">Smart signal infrastructure for disciplined traders</div>
+      </div>
+
+      <nav class="nav">
+        <a href="#problem">Problem</a>
+        <a href="#solution">Solution</a>
+        <a href="#engine">Engine</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#cta" class="nav-cta">Get Access</a>
+      </nav>
+      <div class="member-actions">
+        <div class="member-label" id="memberLabel">Guest Mode</div>
+        <button class="member-btn secondary" type="button" onclick="openAuthModal('login')">Login</button>
+        <button class="member-btn" type="button" onclick="openAuthModal('register')">Register</button>
+      </div>
+    </div>
+  </header>
+
+  
+<section class="plan-hero">
+  <div class="container">
+    <div class="plan-shell">
+      <div>
+        <div class="badge"><span class="badge-dot"></span><span>PRO Access Page</span></div>
+        <h1>The main weapon: structure plus liquidity timing.</h1>
+        <p>PRO includes everything in BASIC and adds the Liquidity Engine, the core entry logic designed to detect sweeps, reduce fake signals, and improve execution timing.</p>
+        <div class="hero-actions">
+          <a href="index_updated.html?plan=PRO#member-access" class="btn-primary">Unlock PRO</a>
+          <a href="index_updated.html#pricing" class="btn-secondary">Back to Pricing</a>
+        </div>
+        <div class="plan-stat-grid"><div class="plan-stat"><div class="plan-stat-label">Best For</div><div class="plan-stat-value">Signal-focused traders</div></div><div class="plan-stat"><div class="plan-stat-label">Main Tool</div><div class="plan-stat-value">Liquidity Engine</div></div><div class="plan-stat"><div class="plan-stat-label">Focus</div><div class="plan-stat-value">Entry timing</div></div></div>
+      </div>
+      <div class="panel plan-side">
+        <div>
+          <div class="plan-chip">Main selling plan</div>
+          <div class="plan-price">99 <span>USDT</span></div>
+          <div class="plan-price-sub">per month</div>
+        </div>
+        <div class="plan-copy">PRO focuses on where price takes liquidity first. This page keeps the same premium visual style as the homepage so the plan feels like a natural continuation, not a separate product.</div>
+        <ul class="feature-list"><li>Everything included in BASIC</li><li>Liquidity Engine access</li><li>Higher-quality entry confirmation</li><li>Reduced fake breakout exposure</li></ul>
+        <a href="index_updated.html?plan=PRO#member-access" class="btn-primary" style="width:100%;">Go to Verification</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="chart-stage panel"><div class="chart-grid"></div><div class="chart-card-copy"><div class="mini-kicker">Main Weapon</div><h3>Liquidity first. Entry second.</h3><p>The page is built around the core Z1 idea: price often sweeps liquidity before the clean move begins. PRO helps traders wait for that sequence instead of reacting too early.</p><div class="chart-label-stack"><span class="chart-pill">Includes BASIC</span><span class="chart-pill">Liquidity sweep logic</span><span class="chart-pill">Cleaner entries</span></div></div><div class="range-zone band" style="top:39%;left:35%;width:44%;height:20%;"></div><div class="trend-line t3"></div><div class="trend-line t4"></div><div class="entry-dot one"></div><div class="entry-dot two"></div><svg class="price-svg" viewBox="0 0 700 440" preserveAspectRatio="none"><polyline class="price-glow" points="18,244 78,198 136,184 190,210 246,266 304,222 362,198 418,240 472,288 530,218 588,146 642,124 682,104"></polyline><polyline class="price-path" points="18,244 78,198 136,184 190,210 246,266 304,222 362,198 418,240 472,288 530,218 588,146 642,124 682,104"></polyline></svg><div class="chart-fade-left"></div></div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div class="section-kicker">What You Get</div>
+      <h2>PRO is designed to make the next trading decision cleaner.</h2>
+      <p>Each block below is written to match the Z1 sales direction: show the edge quickly, keep theory short, and make the value feel obvious.</p>
+    </div>
+    <div class="feature-grid-2">
+      <div class="card">
+        <div class="card-topline"></div>
+        <h3>Core package</h3>
+        <ul class="feature-list tight"><li>Everything included in BASIC</li><li>Liquidity Engine access</li><li>Higher-quality entry confirmation</li><li>Reduced fake breakout exposure</li></ul>
+      </div>
+      <div class="card">
+        <div class="card-topline"></div>
+        <h3>Why it matters</h3>
+        <ul class="feature-list tight"><li>Core Z1 entry timing logic</li><li>Better trade selection through filtering</li><li>Cleaner execution workflow for active users</li><li>Best balance of price and power</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div class="section-kicker">Plan Ladder</div>
+      <h2>See exactly where this tier sits inside Z1.</h2>
+      <p>Users can compare the four plans fast, then jump back to the homepage verification flow with the correct plan preselected.</p>
+    </div>
+    <div class="compare-box"><div class="compare-item"><h4>BASIC</h4><p>Wave Structure foundation</p><a class="btn-secondary" href="index_updated.html?plan=BASIC#member-access">Choose BASIC</a></div><div class="compare-item active"><h4>PRO</h4><p>Basic + Liquidity Engine</p><a class="btn-secondary" href="index_updated.html?plan=PRO#member-access">Choose PRO</a></div><div class="compare-item"><h4>ELITE</h4><p>Pro + Order Block confluence</p><a class="btn-secondary" href="index_updated.html?plan=ELITE#member-access">Choose ELITE</a></div><div class="compare-item"><h4>LIFETIME</h4><p>Elite + future updates</p><a class="btn-secondary" href="index_updated.html?plan=LIFETIME#member-access">Choose LIFETIME</a></div></div>
+  </div>
+</section>
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div class="section-kicker">Access Flow</div>
+      <h2>Simple path from plan page to activation.</h2>
+      <p>No extra maze. Review the plan, go back to the verification section, send payment, and submit the TXID.</p>
+    </div>
+    <div class="flow-grid"><div class="card"><div class="step-number"><span>1</span></div><h3>Step 1</h3><p>Read structure first so direction makes sense.</p></div><div class="card"><div class="step-number"><span>2</span></div><h3>Step 2</h3><p>Wait for liquidity behavior and confirmation instead of chasing candles.</p></div><div class="card"><div class="step-number"><span>3</span></div><h3>Step 3</h3><p>Return to the homepage verification form and unlock PRO with your TXID.</p></div></div>
+  </div>
+</section>
+<section id="cta">
+  <div class="container">
+    <div class="panel cta-box">
+      <h2>Ready to unlock PRO?</h2>
+      <p>Use the same homepage verification system already built in the project. This page is the detailed sales layer. The homepage remains the conversion and verification hub.</p>
+      <div class="cta-actions">
+        <a href="index_updated.html?plan=PRO#member-access" class="btn-primary">Continue with PRO</a>
+        <a href="index_updated.html#pricing" class="btn-secondary">Back to Homepage</a>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2026 TCPS Liquidity Engine. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Support</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const sliderState = {};
+      window.moveSlider = function(trackId, direction){
+        const track = document.getElementById(trackId);
+        if(!track) return;
+        const total = track.children.length;
+        if(!total) return;
+        if(typeof sliderState[trackId] !== 'number') sliderState[trackId] = 0;
+        sliderState[trackId] += direction;
+        if(sliderState[trackId] < 0) sliderState[trackId] = total - 1;
+        if(sliderState[trackId] >= total) sliderState[trackId] = 0;
+        track.style.transform = `translateX(-${sliderState[trackId] * 100}%)`;
+      };
+
+      function startAutoSlider(trackId, intervalMs){
+        const shell = document.getElementById(trackId)?.parentElement;
+        if(!shell) return;
+        let timer = null;
+        function start(){ stop(); timer = setInterval(() => window.moveSlider(trackId, 1), intervalMs); }
+        function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+        shell.addEventListener('mouseenter', stop);
+        shell.addEventListener('mouseleave', start);
+        start();
+      }
+
+      startAutoSlider('problem-track', 5200);
+      startAutoSlider('solution-track', 5600);
+      startAutoSlider('engine-track', 6000);
+
+      const engineStates = [
+        'MARKET SCAN ACTIVE',
+        'TREND RE-ALIGNMENT',
+        'LIQUIDITY DETECTED',
+        'WAITING CONFIRMATION',
+        'STRUCTURE FORMING'
+      ];
+      const executionStates = [
+        'Awaiting Confirmation',
+        'Hold Entry',
+        'No Trade Zone',
+        'Entry Window Opening',
+        'Filter Active'
+      ];
+      const scanStates = [
+        'Checking Structure',
+        'Timing Alignment',
+        'Liquidity Sweep',
+        'Volatility Compression',
+        'Trend Confirmation'
+      ];
+      const regimeStates = [
+        'Trend Active',
+        'Range Filter',
+        'Trend Active',
+        'Risk Reduced',
+        'Trend Active'
+      ];
+      const liquidityStates = [
+        'Monitoring',
+        'Sweep Detected',
+        'Monitoring',
+        'Pullback Tracking',
+        'Monitoring'
+      ];
+      const updateStates = [
+        'just now',
+        '2 sec ago',
+        '5 sec ago',
+        '7 sec ago',
+        'just now'
+      ];
+      const logicStates = [
+        'No forced trades',
+        'Selective execution only',
+        'No forced trades',
+        'Selective execution only',
+        'No forced trades'
+      ];
+
+      let engineIndex = 0;
+      setInterval(() => {
+        const main = document.querySelector('.monitor-main');
+        const monitorValues = document.querySelectorAll('.monitor-card .monitor-value');
+        const miniValues = document.querySelectorAll('.mini-card .mini-value');
+        if(!main || monitorValues.length < 4 || miniValues.length < 4) return;
+        engineIndex = (engineIndex + 1) % engineStates.length;
+        main.textContent = engineStates[engineIndex];
+        monitorValues[0].textContent = executionStates[engineIndex];
+        monitorValues[1].textContent = scanStates[engineIndex];
+        miniValues[1].textContent = regimeStates[engineIndex];
+        miniValues[2].textContent = liquidityStates[engineIndex];
+        miniValues[3].textContent = updateStates[engineIndex];
+        monitorValues[2].textContent = logicStates[engineIndex];
+      }, 2200);
+
+      const reviews = [
+        { name:'Ethan', country:'US', text:'I was expecting another overhyped signal page, but this feels more disciplined than most tools I tested.' },
+        { name:'Lucas', country:'CA', text:'The biggest difference was not taking random trades anymore. That alone changed my routine.' },
+        { name:'Mason', country:'GB', text:'Feels more structured. It does not scream at you every few minutes like low quality signal products.' },
+        { name:'Noah', country:'AU', text:'I like that it stays quiet when the setup is not there. That made me trust it more.' },
+        { name:'Daniel', country:'DE', text:'Definitely more controlled than most indicator stuff floating around online.' },
+        { name:'Jack', country:'SG', text:'Execution got easier because I stopped forcing entries just to feel active.' },
+        { name:'Liam', country:'IE', text:'I was mainly looking for cleaner timing, and this gave me that faster than expected.' },
+        { name:'Owen', country:'NZ', text:'The flow feels calmer when I trade with it. That matters more than hype.' },
+        { name:'Jacob', country:'US', text:'Good filtering. It cuts out a lot of junk setups I would normally convince myself to take.' },
+        { name:'Benjamin', country:'CA', text:'You still need discipline, but this makes discipline easier to maintain.' },
+        { name:'Sebastian', country:'PL', text:'I noticed fewer bad entries first, not more trades. That was the right tradeoff.' },
+        { name:'Alexander', country:'SE', text:'This actually feels built around execution instead of marketing buzzwords.' },
+        { name:'Samuel', country:'DK', text:'I bought it because it looked selective, and that part holds up.' },
+        { name:'Nathan', country:'US', text:'Most tools make me overreact. This one does the opposite.' },
+        { name:'Henry', country:'GB', text:'It is easier to sit on my hands now. That sounds small but it matters.' },
+        { name:'William', country:'US', text:'I would not call it magic, but it definitely cleaned up how I enter trades.' },
+        { name:'Elijah', country:'CA', text:'The signal flow feels thought through. Not just arrows thrown on a chart.' },
+        { name:'Michael', country:'AU', text:'I mainly use it to avoid messy conditions. That has been the most useful part.' },
+        { name:'Logan', country:'US', text:'Less noise, less second guessing, less revenge clicking. That is basically what I wanted.' },
+        { name:'Levi', country:'NL', text:'This feels like a filter first and a signal product second, which is honestly better.' },
+        { name:'David', country:'DE', text:'My process already looks better because I stopped trying to catch everything.' },
+        { name:'Joseph', country:'US', text:'There are quieter periods and I actually appreciate that now.' },
+        { name:'Matthew', country:'GB', text:'The biggest win is that weak setups look easier to ignore.' },
+        { name:'Aiden', country:'IE', text:'Good for people who already know overtrading is their real problem.' },
+        { name:'Carter', country:'US', text:'Way more usable than indicator packs that give a signal on every candle cluster.' },
+        { name:'Julian', country:'ES', text:'Feels like something designed by someone who understands how entries actually go wrong.' },
+        { name:'Grayson', country:'US', text:'I joined for the signals, stayed because it helped me slow down.' },
+        { name:'Isaac', country:'CA', text:'This is one of the few tools where doing nothing sometimes feels like the correct output.' },
+        { name:'Jayden', country:'US', text:'Cleaner than I expected. The restraint is what makes it believable.' },
+        { name:'Theodore', country:'NO', text:'The reduced impulse entries are why I kept using it.' },
+        { name:'Gabriel', country:'PT', text:'I would describe it as selective, not aggressive. That suits my style better.' },
+        { name:'Anthony', country:'US', text:'Finally something that does not try to impress with too much noise.' },
+        { name:'Dylan', country:'CA', text:'It helps me wait for structure instead of inventing reasons to click.' },
+        { name:'Leo', country:'FR', text:'Pretty solid if your issue is getting dragged into mediocre setups.' },
+        { name:'Lincoln', country:'US', text:'I do not use every alert. That is kind of the point.' },
+        { name:'Jaxon', country:'US', text:'The calmer workflow was noticeable almost immediately.' },
+        { name:'Asher', country:'NZ', text:'You can tell it is trying to avoid bad timing rather than chase every move.' },
+        { name:'Christopher', country:'GB', text:'A lot of signal services feel theatrical. This one feels more restrained in a good way.' },
+        { name:'Josiah', country:'US', text:'Fewer low quality entries over the week. That was enough for me to keep it running.' },
+        { name:'Andrew', country:'US', text:'Better for traders who need fewer actions, not more excitement.' },
+        { name:'Thomas', country:'DE', text:'It does not pretend every market condition is tradable. I like that.' },
+        { name:'Charles', country:'US', text:'Signals look cleaner because the product is willing to stay selective.' },
+        { name:'Caleb', country:'CA', text:'My charts feel less chaotic with this in the workflow.' },
+        { name:'Ezra', country:'AU', text:'I trust systems more when they are comfortable skipping bad moments.' },
+        { name:'Hudson', country:'US', text:'The entries look more intentional, less reactive.' },
+        { name:'Adrian', country:'RO', text:'Not exaggerated, not spammy. That was enough to get my attention.' },
+        { name:'Miles', country:'US', text:'I would say it improves trade selection more than anything else.' },
+        { name:'Nolan', country:'CA', text:'This one is better at not baiting me into nonsense.' },
+        { name:'Adam', country:'US', text:'It made me realize most of my bad trades started from impatience, not analysis.' },
+        { name:'Ian', country:'IE', text:'The selective feel is what sells it. Not the buzzwords.' },
+        { name:'Austin', country:'US', text:'I expected more hype, got more restraint. Good surprise.' },
+        { name:'Dominic', country:'IT', text:'The cleaner pacing helped me more than the signal itself at first.' },
+        { name:'Elias', country:'SE', text:'The whole thing feels less retail and more deliberate.' },
+        { name:'Aaron', country:'US', text:'I am not chasing everything anymore. That alone paid for the experiment.' },
+        { name:'Robert', country:'GB', text:'Good fit if you already know that your weak point is entry quality.' },
+        { name:'Wesley', country:'US', text:'Not overloaded with junk features. I appreciated that immediately.' },
+        { name:'Kai', country:'SG', text:'This feels more like a decision filter than a toy indicator.' },
+        { name:'Silas', country:'US', text:'The difference was mostly in the bad trades I avoided.' },
+        { name:'Roman', country:'PL', text:'There is enough restraint here to make it feel credible.' },
+        { name:'Jason', country:'US', text:'I still pass on some alerts, but even that process is cleaner now.' },
+        { name:'Connor', country:'CA', text:'It does not solve discipline for you, but it definitely supports it.' },
+        { name:'Luca', country:'CH', text:'Feels premium without trying too hard.' },
+        { name:'Hunter', country:'US', text:'I noticed fewer late entries after putting this into the workflow.' },
+        { name:'Brayden', country:'AU', text:'There is a lot less chart clutter than I expected.' },
+        { name:'Jordan', country:'US', text:'More selective than most, and that is exactly why it works better for me.' },
+        { name:'Xavier', country:'ES', text:'The cleaner structure helps me decide faster whether a setup deserves attention or not.' },
+        { name:'Easton', country:'US', text:'More useful once you stop expecting constant action.' },
+        { name:'Cooper', country:'CA', text:'If your main problem is overtrading, this points you in the right direction.' },
+        { name:'Parker', country:'US', text:'What stood out was how many messy situations I skipped.' },
+        { name:'Angel', country:'MX', text:'I was skeptical, then I realized my worst entries were happening less often.' },
+        { name:'Colton', country:'US', text:'Not flashy in a bad way. Clean in a useful way.' },
+        { name:'Jude', country:'GB', text:'The setup flow is easier to trust because it is not overproduced.' },
+        { name:'Brooks', country:'US', text:'This helped remove some of the FOMO from my decision making.' },
+        { name:'Tyler', country:'CA', text:'I mostly kept it because it brought more patience into my routine.' },
+        { name:'Evan', country:'US', text:'The quiet periods are actually what made it believable to me.' },
+        { name:'Cole', country:'US', text:'Less clutter, better focus, fewer forced clicks.' }
+      ];
+      const timeLabels = ['12m ago','18m ago','26m ago','39m ago','47m ago','58m ago','1h ago','2h ago','3h ago','4h ago','5h ago','6h ago','7h ago','8h ago','9h ago','10h ago','11h ago','12h ago','14h ago','16h ago','18h ago','21h ago','23h ago','1d ago','2d ago','3d ago','4d ago','5d ago','6d ago'];
+      function shuffle(arr){ const copy = [...arr]; for(let i = copy.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [copy[i], copy[j]] = [copy[j], copy[i]]; } return copy; }
+      function buildReviewCard(item, index){
+        const starsCount = Math.random() > 0.83 ? 4 : 5;
+        const stars = '★'.repeat(starsCount) + '☆'.repeat(5 - starsCount);
+        const time = timeLabels[index % timeLabels.length];
+        const sources = ['TradingView', 'Discord', 'Telegram', 'Email'];
+        const source = sources[index % sources.length];
+        return `<div class="review-card"><div class="review-top"><div><div class="review-user">${item.name}<span class="review-country">${item.country}</span></div><div class="review-source">${source}</div></div><div class="review-time">${time}</div></div><div class="review-stars">${stars}</div><div class="review-text">${item.text}</div></div>`;
+      }
+      function createReviewWall(){
+        const wall = document.getElementById('review-wall');
+        if(!wall) return;
+        const rowCount = window.innerWidth <= 760 ? 3 : 5;
+        const reviewsPerRow = 15;
+        const shuffled = shuffle(reviews);
+        wall.innerHTML = '';
+        for(let rowIndex = 0; rowIndex < rowCount; rowIndex++){
+          const row = document.createElement('div');
+          row.className = `review-row ${rowIndex % 2 === 0 ? 'dir-left' : 'dir-right'}`;
+          const marquee = document.createElement('div');
+          marquee.className = 'review-marquee';
+          const speed = window.innerWidth <= 760 ? (58 + (rowIndex * 6)) : (42 + (rowIndex * 5));
+          marquee.style.animationDuration = `${speed}s`;
+          const start = rowIndex * reviewsPerRow;
+          const slice = [];
+          for(let i = 0; i < reviewsPerRow; i++) slice.push(shuffled[(start + i) % shuffled.length]);
+          const html = slice.map((item, idx) => buildReviewCard(item, start + idx)).join('');
+          marquee.innerHTML = html + html;
+          row.appendChild(marquee);
+          wall.appendChild(row);
+        }
+      }
+      createReviewWall();
+      let resizeTimer = null;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(createReviewWall, 180);
+      });
+
+      
+      const MEMBER_DB_KEY = 'tcps_members_v3';
+      const MEMBER_SESSION_KEY = 'tcps_member_session_v3';
+
+      const PLAN_INFO = {
+        BASIC: {
+          title: 'Foundation Pack',
+          desc: 'Basic is for users who want the core indicator, core chart logic, and a simple setup workflow without advanced execution layers.',
+          list: [
+            'Core indicator access',
+            'Core chart logic',
+            'Simple setup workflow',
+            'Best for first-time users'
+          ],
+          cards: [
+            ['Indicator Access', 'Use the core indicator only. Clean starting access without deeper execution layers.'],
+            ['Core Chart Logic', 'Understand the basic chart structure and the core logic behind the setup.'],
+            ['Simple Workflow', 'Follow a starter workflow built for clarity, not complexity.'],
+            ['Who It Fits', 'Best for users who want a simple starting tier before upgrading.']
+          ],
+          guide: 'Send exactly 49 USDT using USDT (TRC20), then paste the TXID above and save. This tier is for users who want the foundation only.'
+        },
+        PRO: {
+          title: 'Trader System',
+          desc: 'Pro is the main trading tier for users who want a stronger workflow, signal-based structure, and better execution organization.',
+          list: [
+            'Everything in Basic',
+            'Core signal access',
+            'Priority execution workflow',
+            'Main TCPS product tier'
+          ],
+          cards: [
+            ['Everything in Basic', 'All Basic features remain included inside Pro.'],
+            ['Signal Access', 'Get the core signal layer needed for a more practical trading workflow.'],
+            ['Priority Workflow', 'Use a better organized execution flow built for real trading use.'],
+            ['Who It Fits', 'Best for users who are ready to move beyond the starter tier.']
+          ],
+          guide: 'Send exactly 99 USDT using USDT (TRC20), then paste the TXID above and save. This is the main trader workflow tier.'
+        },
+        ELITE: {
+          title: 'Advanced Execution',
+          desc: 'Elite is for users who want stronger execution depth, higher-level support, and a more advanced workflow than the Pro tier.',
+          list: [
+            'Everything in Pro',
+            'Advanced signal workflow',
+            'Extended execution support',
+            'Higher access tier'
+          ],
+          cards: [
+            ['Everything in Pro', 'All Pro features remain included inside Elite.'],
+            ['Advanced Workflow', 'Use a deeper workflow built for stronger execution quality.'],
+            ['Extended Support', 'Gain a higher-level structure for more serious trading use.'],
+            ['Who It Fits', 'Best for users who want stronger support than standard Pro access.']
+          ],
+          guide: 'Send exactly 199 USDT using USDT (TRC20), then paste the TXID above and save. This tier is for advanced execution users.'
+        },
+        LIFETIME: {
+          title: 'Master Access',
+          desc: 'Lifetime is for users who want the full package, no monthly renewal, and the strongest long-term value.',
+          list: [
+            'Everything in Elite',
+            'Lifetime access',
+            'Automation included',
+            'Best long-term value'
+          ],
+          cards: [
+            ['Everything in Elite', 'All Elite features remain included.'],
+            ['Lifetime Access', 'No monthly renewal. One payment for the highest long-term tier.'],
+            ['Automation Included', 'Highest-value tier with full long-term access coverage.'],
+            ['Who It Fits', 'Best for users who want the complete package permanently.']
+          ],
+          guide: 'Send exactly 399 USDT using USDT (TRC20), then paste the TXID above and save. This is the full permanent-access tier.'
+        }
+      };
+
+      function getMembers(){
+        return JSON.parse(localStorage.getItem(MEMBER_DB_KEY) || '{}');
+      }
+      function saveMembers(data){
+        localStorage.setItem(MEMBER_DB_KEY, JSON.stringify(data));
+      }
+      function getSessionEmail(){
+        return localStorage.getItem(MEMBER_SESSION_KEY) || '';
+      }
+      function setSessionEmail(email){
+        localStorage.setItem(MEMBER_SESSION_KEY, email || '');
+      }
+      function getCurrentMember(){
+        const email = getSessionEmail();
+        const members = getMembers();
+        return email && members[email] ? members[email] : null;
+      }
+      function getRank(plan){
+        return { NONE:0, BASIC:1, PRO:2, ELITE:3, LIFETIME:4 }[plan || 'NONE'] || 0;
+      }
+      function updateUnlocks(plan){
+        const rank = getRank(plan);
+        document.getElementById('basicBadge').textContent = rank >= 1 ? 'Unlocked' : 'Locked';
+        document.getElementById('proBadge').textContent = rank >= 2 ? 'Unlocked' : 'Locked';
+        document.getElementById('eliteBadge').textContent = rank >= 3 ? 'Unlocked' : 'Locked';
+        document.getElementById('lifetimeBadge').textContent = rank >= 4 ? 'Unlocked' : 'Locked';
+      }
+      function refreshMemberState(){
+        const email = getSessionEmail();
+        const members = getMembers();
+        const member = email && members[email] ? members[email] : null;
+
+        document.getElementById('memberLabel').innerHTML = member
+          ? 'Logged in: <strong>' + email + '</strong>'
+          : 'Guest Mode';
+
+        document.getElementById('dashEmail').textContent = member ? email : 'Not logged in';
+        document.getElementById('dashPlan').textContent = 'Plan: ' + (member ? (member.plan || 'NONE') : 'NONE');
+        document.getElementById('verifyEmail').value = member ? email : '';
+        if(member && member.telegram){
+          document.getElementById('verifyTelegram').value = member.telegram;
+        }
+        updateUnlocks(member ? (member.plan || 'NONE') : 'NONE');
+      }
+
+      function setDashboardDefault(){
+        document.getElementById('planDynamicTitle').textContent = 'Access Dashboard';
+        document.getElementById('planDynamicTitle').classList.remove('plan-highlight-title');
+        document.getElementById('planDynamicDesc').textContent = 'Select a plan on the right to instantly see the exact difference between Basic, Pro, Elite, and Lifetime.';
+        const list = document.getElementById('planDynamicList');
+        list.innerHTML = '';
+        [
+          'Create your account with email and password',
+          'Log in before submitting your TXID',
+          'Select a plan on the right to preview that tier',
+          'Unlock starts after payment verification'
+        ].forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          list.appendChild(li);
+        });
+
+        const defaults = [
+          ['Foundation Pack', 'Core market basics and starter workflow.'],
+          ['Trader System', 'Execution framework and training flow.'],
+          ['Advanced Execution', 'Higher-precision execution support.'],
+          ['Master Access', 'Full library access and long-term coverage.']
+        ];
+        defaults.forEach((row, idx) => {
+          document.getElementById('previewCard' + (idx+1) + 'Title').textContent = row[0];
+          document.getElementById('previewCard' + (idx+1) + 'Desc').textContent = row[1];
+        });
+        document.querySelectorAll('.unlock-card').forEach(card => card.classList.remove('plan-focus'));
+        const guide = document.getElementById('paymentGuideText');
+        if (guide) {
+          guide.textContent = 'Select a plan above to load the correct explanation and payment guide.';
+        }
+      }
+
+      function updatePlanPreview(plan){
+        if(!plan || !PLAN_INFO[plan]){
+          setDashboardDefault();
+          return;
+        }
+        const info = PLAN_INFO[plan];
+        document.getElementById('planDynamicTitle').textContent = info.title;
+        document.getElementById('planDynamicTitle').classList.add('plan-highlight-title');
+        document.getElementById('planDynamicDesc').textContent = info.desc;
+
+        const list = document.getElementById('planDynamicList');
+        list.innerHTML = '';
+        info.list.forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = item;
+          list.appendChild(li);
+        });
+
+        info.cards.forEach((row, idx) => {
+          document.getElementById('previewCard' + (idx+1) + 'Title').textContent = row[0];
+          document.getElementById('previewCard' + (idx+1) + 'Desc').textContent = row[1];
+        });
+
+        document.querySelectorAll('.unlock-card').forEach(card => card.classList.remove('plan-focus'));
+        const focusMap = { BASIC:'previewCard1', PRO:'previewCard2', ELITE:'previewCard3', LIFETIME:'previewCard4' };
+        const target = document.getElementById(focusMap[plan]);
+        if(target) target.classList.add('plan-focus');
+
+        const guide = document.getElementById('paymentGuideText');
+        if (guide) {
+          guide.textContent = info.guide;
+        }
+      }
+
+      function copyWalletAddress(){
+        const walletText = document.getElementById('walletAddress').textContent;
+        if(navigator.clipboard && window.isSecureContext){
+          navigator.clipboard.writeText(walletText).then(() => {
+            document.getElementById('walletMessage').textContent = 'Wallet address copied.';
+          }).catch(() => {
+            document.getElementById('walletMessage').textContent = 'Copy failed. Copy it manually.';
+          });
+        } else {
+          const temp = document.createElement('textarea');
+          temp.value = walletText;
+          document.body.appendChild(temp);
+          temp.select();
+          try{
+            document.execCommand('copy');
+            document.getElementById('walletMessage').textContent = 'Wallet address copied.';
+          }catch(e){
+            document.getElementById('walletMessage').textContent = 'Copy failed. Copy it manually.';
+          }
+          document.body.removeChild(temp);
+        }
+      }
+
+      window.openAuthModal = function(mode){
+        document.getElementById('authModal').classList.add('active');
+        switchAuthTab(mode || 'register');
+      }
+      window.closeAuthModal = function(){
+        document.getElementById('authModal').classList.remove('active');
+      }
+      window.switchAuthTab = function(mode){
+        const registerMode = mode === 'register';
+        document.getElementById('registerTab').classList.toggle('active', registerMode);
+        document.getElementById('loginTab').classList.toggle('active', !registerMode);
+        document.getElementById('registerForm').classList.toggle('active', registerMode);
+        document.getElementById('loginForm').classList.toggle('active', !registerMode);
+        document.getElementById('authMessage').textContent = registerMode
+          ? 'Create your account first, then complete payment verification.'
+          : 'Log in to continue with your selected plan.';
+      }
+
+      window.registerMember = function(e){
+        e.preventDefault();
+        const email = document.getElementById('registerEmail').value.trim().toLowerCase();
+        const password = document.getElementById('registerPassword').value.trim();
+        const telegram = document.getElementById('registerTelegram').value.trim();
+        if(!email || !password) return;
+
+        const members = getMembers();
+        if(members[email]){
+          document.getElementById('authMessage').textContent = 'This email is already registered.';
+          return;
+        }
+
+        members[email] = {
+          email: email,
+          password: password,
+          telegram: telegram,
+          plan: 'NONE',
+          txid: '',
+          verification_plan: '',
+          created_at: new Date().toISOString()
+        };
+        saveMembers(members);
+        setSessionEmail(email);
+        refreshMemberState();
+        closeAuthModal();
+        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+
+      window.loginMember = function(e){
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+        const password = document.getElementById('loginPassword').value.trim();
+        const members = getMembers();
+        if(!members[email] || members[email].password !== password){
+          document.getElementById('authMessage').textContent = 'Invalid email or password.';
+          return;
+        }
+        setSessionEmail(email);
+        refreshMemberState();
+        closeAuthModal();
+        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+
+      window.handlePlanClick = function(plan){
+        document.getElementById('verifyPlan').value = plan;
+        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
+        const member = getCurrentMember();
+        if(!member){
+          openAuthModal('register');
+          document.getElementById('authMessage').textContent = 'Create or log in to continue with your selected plan.';
+        }
+      };
+
+      window.submitVerification = function(e){
+        e.preventDefault();
+        const email = getSessionEmail();
+        if(!email){
+          document.getElementById('verifyMessage').textContent = 'Please register or log in first.';
+          openAuthModal('login');
+          return;
+        }
+
+        const plan = document.getElementById('verifyPlan').value;
+        const telegram = document.getElementById('verifyTelegram').value.trim();
+        const txid = document.getElementById('verifyTxid').value.trim();
+
+        if(!plan || !txid){
+          document.getElementById('verifyMessage').textContent = 'Plan and TXID are required.';
+          return;
+        }
+
+        const members = getMembers();
+        const member = members[email];
+        member.telegram = telegram || member.telegram || '';
+        member.plan = plan;
+        member.verification_plan = plan;
+        member.txid = txid;
+        member.updated_at = new Date().toISOString();
+        members[email] = member;
+        saveMembers(members);
+        refreshMemberState();
+        document.getElementById('dashPlan').textContent = 'Plan: ' + plan;
+        document.getElementById('verifyMessage').textContent = 'Verification data saved for this account.';
+      };
+
+
+
+
+document.addEventListener('DOMContentLoaded', function(){
+        const select = document.getElementById('verifyPlan');
+        if (select) {
+          select.addEventListener('change', function(){
+            updatePlanPreview(this.value);
+          });
+        }
+        refreshMemberState();
+        setDashboardDefault();
+      });
+
+    })();
+  
+  (function(){
+    const params = new URLSearchParams(window.location.search);
+    const prePlan = (params.get("plan") || "").toUpperCase();
+    if (!prePlan) return;
+    const select = document.getElementById("verifyPlan");
+    if (select) select.value = prePlan;
+    if (typeof window.updatePlanPreview === "function") window.updatePlanPreview(prePlan);
+  })();
+</script>
+
+
+<script>
+(function(){
+  const WALLET_ADDRESS = "TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ";
+  const MEMBER_DB_KEY = "tcps_members_stable_v1";
+  const MEMBER_SESSION_KEY = "tcps_member_session_stable_v1";
+
+  const PLAN_INFO = {
+    BASIC: {
+      title: "Foundation Pack",
+      desc: "Basic은 핵심 지표와 기본 차트 로직, 그리고 초보자가 가장 쉽게 시작할 수 있는 단순 워크플로에 집중된 입문 플랜입니다.",
+      list: [
+        "핵심 지표 접근",
+        "기본 차트 로직 이해",
+        "간단한 세팅 워크플로",
+        "처음 시작하는 사용자용"
+      ],
+      cards: [
+        ["핵심 지표", "복잡한 추가 기능 없이 코어 인디케이터 중심으로 시작합니다."],
+        ["기본 차트 로직", "차트의 핵심 구조와 기본적인 해석 흐름을 이해합니다."],
+        ["간단한 워크플로", "초보자도 따라가기 쉬운 최소한의 실행 흐름입니다."],
+        ["추천 대상", "가볍게 시작하고 이후 상위 플랜으로 넘어갈 사용자에게 적합합니다."]
+      ],
+      guide: "BASIC 선택 상태입니다. Trust Wallet에서 USDT(TRC20) 49 USDT를 보내고, 완료 후 TXID를 위에 입력하세요."
+    },
+    PRO: {
+      title: "Trader System",
+      desc: "Pro는 Basic 위에 신호 접근과 더 강한 실행 흐름이 추가된 메인 플랜입니다. 가장 실전형에 가까운 기본 선택지입니다.",
+      list: [
+        "Basic의 모든 내용 포함",
+        "핵심 신호 접근",
+        "우선 실행 워크플로",
+        "메인 TCPS 제품"
+      ],
+      cards: [
+        ["Basic 포함", "Basic에서 제공되는 모든 기초 접근이 그대로 유지됩니다."],
+        ["핵심 신호 접근", "실전에 더 가까운 핵심 신호 레이어를 사용할 수 있습니다."],
+        ["우선 실행 흐름", "더 정리된 실행 흐름으로 실제 사용성이 좋아집니다."],
+        ["추천 대상", "입문 단계를 넘어서 실전형 흐름이 필요한 사용자에게 적합합니다."]
+      ],
+      guide: "PRO 선택 상태입니다. Trust Wallet에서 USDT(TRC20) 99 USDT를 보내고, 완료 후 TXID를 위에 입력하세요."
+    },
+    ELITE: {
+      title: "Advanced Execution",
+      desc: "Elite는 Pro보다 더 깊은 실행 지원과 상위 구조를 제공하는 고급 플랜입니다. 더 정밀한 운영이 필요한 사용자를 위한 단계입니다.",
+      list: [
+        "Pro의 모든 내용 포함",
+        "고급 신호 워크플로",
+        "확장 실행 지원",
+        "상위 접근 티어"
+      ],
+      cards: [
+        ["Pro 포함", "Pro에 들어있는 기능이 전부 그대로 유지됩니다."],
+        ["고급 실행 구조", "더 깊은 실행 흐름과 상위 수준의 구조를 제공합니다."],
+        ["확장 지원", "더 높은 정밀도와 더 강한 실행 보조를 목표로 합니다."],
+        ["추천 대상", "단순 신호 이상으로 더 깊은 실행 지원이 필요한 사용자에게 적합합니다."]
+      ],
+      guide: "ELITE 선택 상태입니다. Trust Wallet에서 USDT(TRC20) 199 USDT를 보내고, 완료 후 TXID를 위에 입력하세요."
+    },
+    LIFETIME: {
+      title: "Master Access",
+      desc: "Lifetime은 월 결제 없이 전체 패키지에 장기적으로 접근하려는 사용자를 위한 최상위 플랜입니다.",
+      list: [
+        "Elite의 모든 내용 포함",
+        "평생 이용권",
+        "자동화 포함",
+        "가장 높은 장기 가치"
+      ],
+      cards: [
+        ["Elite 포함", "Elite 기능이 모두 유지된 상태에서 장기 접근이 가능합니다."],
+        ["평생 이용", "월 갱신 없이 한 번의 결제로 장기 사용이 가능합니다."],
+        ["자동화 포함", "최상위 패키지 기준의 장기 사용 혜택이 포함됩니다."],
+        ["추천 대상", "전체 시스템을 길게 가져가려는 사용자에게 가장 적합합니다."]
+      ],
+      guide: "LIFETIME 선택 상태입니다. Trust Wallet에서 USDT(TRC20) 399 USDT를 보내고, 완료 후 TXID를 위에 입력하세요."
+    }
+  };
+
+  function qs(id) { return document.getElementById(id); }
+
+  function getMembers() {
+    return JSON.parse(localStorage.getItem(MEMBER_DB_KEY) || "{}");
+  }
+  function saveMembers(data) {
+    localStorage.setItem(MEMBER_DB_KEY, JSON.stringify(data));
+  }
+  function getSessionEmail() {
+    return localStorage.getItem(MEMBER_SESSION_KEY) || "";
+  }
+  function setSessionEmail(email) {
+    localStorage.setItem(MEMBER_SESSION_KEY, email || "");
+  }
+  function getCurrentMember() {
+    const email = getSessionEmail();
+    const members = getMembers();
+    return email && members[email] ? members[email] : null;
+  }
+  function rank(plan) {
+    return { NONE:0, BASIC:1, PRO:2, ELITE:3, LIFETIME:4 }[plan || "NONE"] || 0;
+  }
+
+  function updateUnlocks(plan) {
+    const r = rank(plan);
+    const pairs = [
+      ["basicBadge", r >= 1],
+      ["proBadge", r >= 2],
+      ["eliteBadge", r >= 3],
+      ["lifetimeBadge", r >= 4],
+      ["libraryBasicStatus", r >= 1],
+      ["libraryProStatus", r >= 2],
+      ["libraryEliteStatus", r >= 3],
+      ["libraryLifetimeStatus", r >= 4]
+    ];
+    pairs.forEach(([id, ok]) => {
+      const el = qs(id);
+      if (el) el.textContent = ok ? "Unlocked" : "Locked";
+    });
+
+    [["libraryBasic", r >= 1], ["libraryPro", r >= 2], ["libraryElite", r >= 3], ["libraryLifetime", r >= 4]].forEach(([id, ok]) => {
+      const el = qs(id);
+      if (!el) return;
+      el.classList.remove("locked", "unlocked");
+      el.classList.add(ok ? "unlocked" : "locked");
+    });
+  }
+
+  function refreshMemberState() {
+    const member = getCurrentMember();
+    const email = getSessionEmail();
+
+    if (qs("memberLabel")) {
+      qs("memberLabel").innerHTML = member ? 'Logged in: <strong>' + email + '</strong>' : 'Guest Mode';
+    }
+    if (qs("dashEmail")) qs("dashEmail").textContent = member ? email : "Not logged in";
+    if (qs("dashPlan")) qs("dashPlan").textContent = "Plan: " + (member ? (member.plan || "NONE") : "NONE");
+    if (qs("verifyEmail")) qs("verifyEmail").value = member ? email : "";
+    if (qs("verifyTelegram") && member && member.telegram) qs("verifyTelegram").value = member.telegram;
+    updateUnlocks(member ? (member.plan || "NONE") : "NONE");
+  }
+
+  function setDashboardDefault() {
+    if (qs("planDynamicTitle")) {
+      qs("planDynamicTitle").textContent = "Access Dashboard";
+      qs("planDynamicTitle").classList.remove("plan-highlight-title");
+    }
+    if (qs("planDynamicDesc")) {
+      qs("planDynamicDesc").textContent = "Select a plan on the right to instantly see the exact difference between Basic, Pro, Elite, and Lifetime.";
+    }
+
+    const list = qs("planDynamicList");
+    if (list) {
+      list.innerHTML = "";
+      [
+        "Create your account with email and password",
+        "Log in before submitting your TXID",
+        "Select a plan on the right to preview that tier",
+        "Unlock starts after payment verification"
+      ].forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        list.appendChild(li);
+      });
+    }
+
+    const defaults = [
+      ["previewCard1Title", "Foundation Pack"], ["previewCard1Desc", "Core market basics and starter workflow."],
+      ["previewCard2Title", "Trader System"], ["previewCard2Desc", "Execution framework and training flow."],
+      ["previewCard3Title", "Advanced Execution"], ["previewCard3Desc", "Higher-precision execution support."],
+      ["previewCard4Title", "Master Access"], ["previewCard4Desc", "Full library access and long-term coverage."]
+    ];
+    defaults.forEach(([id, text]) => { if (qs(id)) qs(id).textContent = text; });
+    document.querySelectorAll(".unlock-card").forEach(card => card.classList.remove("plan-focus"));
+    if (qs("paymentGuideText")) qs("paymentGuideText").textContent = "Select a plan above to load the correct explanation and payment guide.";
+  }
+
+  function updatePlanPreview(plan) {
+    if (!plan || !PLAN_INFO[plan]) {
+      setDashboardDefault();
+      return;
+    }
+    const info = PLAN_INFO[plan];
+    if (qs("planDynamicTitle")) {
+      qs("planDynamicTitle").textContent = info.title;
+      qs("planDynamicTitle").classList.add("plan-highlight-title");
+    }
+    if (qs("planDynamicDesc")) qs("planDynamicDesc").textContent = info.desc;
+    if (qs("dashPlan")) qs("dashPlan").textContent = "Preview: " + plan;
+
+    const list = qs("planDynamicList");
+    if (list) {
+      list.innerHTML = "";
+      info.list.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        list.appendChild(li);
+      });
+    }
+
+    info.cards.forEach((row, idx) => {
+      const t = qs("previewCard" + (idx + 1) + "Title");
+      const d = qs("previewCard" + (idx + 1) + "Desc");
+      if (t) t.textContent = row[0];
+      if (d) d.textContent = row[1];
+    });
+
+    document.querySelectorAll(".unlock-card").forEach(card => card.classList.remove("plan-focus"));
+    const focusMap = { BASIC:"previewCard1", PRO:"previewCard2", ELITE:"previewCard3", LIFETIME:"previewCard4" };
+    const target = qs(focusMap[plan]);
+    if (target) target.classList.add("plan-focus");
+
+    if (qs("paymentGuideText")) qs("paymentGuideText").textContent = info.guide;
+  }
+
+  function copyAddress() {
+    const msg = qs("walletMessage");
+    const text = WALLET_ADDRESS;
+
+    function done(ok) {
+      if (msg) msg.textContent = ok ? "Wallet address copied." : "Copy failed. Copy it manually.";
+    }
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => done(true)).catch(() => legacyCopy());
+      return;
+    }
+    legacyCopy();
+
+    function legacyCopy() {
+      const temp = document.createElement("textarea");
+      temp.value = text;
+      temp.setAttribute("readonly", "");
+      temp.style.position = "absolute";
+      temp.style.left = "-9999px";
+      document.body.appendChild(temp);
+      temp.select();
+      temp.setSelectionRange(0, 99999);
+      let ok = false;
+      try {
+        ok = document.execCommand("copy");
+      } catch (e) {
+        ok = false;
+      }
+      document.body.removeChild(temp);
+      done(ok);
+    }
+  }
+
+  window.copyWalletAddress = copyAddress;
+  window.copyWalletAddressNow = copyAddress;
+
+  window.openAuthModal = function(mode) {
+    if (!qs("authModal")) return;
+    qs("authModal").classList.add("active");
+    window.switchAuthTab(mode || "register");
+  };
+  window.closeAuthModal = function() {
+    if (qs("authModal")) qs("authModal").classList.remove("active");
+  };
+  window.switchAuthTab = function(mode) {
+    const isRegister = mode === "register";
+    if (qs("registerTab")) qs("registerTab").classList.toggle("active", isRegister);
+    if (qs("loginTab")) qs("loginTab").classList.toggle("active", !isRegister);
+    if (qs("registerForm")) qs("registerForm").classList.toggle("active", isRegister);
+    if (qs("loginForm")) qs("loginForm").classList.toggle("active", !isRegister);
+    if (qs("authMessage")) {
+      qs("authMessage").textContent = isRegister
+        ? "Create your account first, then complete payment verification."
+        : "Log in to continue with your selected plan.";
+    }
+  };
+
+  window.registerMember = function(e) {
+    e.preventDefault();
+    const email = (qs("registerEmail")?.value || "").trim().toLowerCase();
+    const password = (qs("registerPassword")?.value || "").trim();
+    const telegram = (qs("registerTelegram")?.value || "").trim();
+    if (!email || !password) return;
+
+    const members = getMembers();
+    if (members[email]) {
+      if (qs("authMessage")) qs("authMessage").textContent = "This email is already registered.";
+      return;
+    }
+
+    members[email] = {
+      email, password, telegram,
+      plan: "NONE",
+      txid: "",
+      verification_plan: "",
+      created_at: new Date().toISOString()
+    };
+    saveMembers(members);
+    setSessionEmail(email);
+    refreshMemberState();
+    closeAuthModal();
+    qs("member-access")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  window.loginMember = function(e) {
+    e.preventDefault();
+    const email = (qs("loginEmail")?.value || "").trim().toLowerCase();
+    const password = (qs("loginPassword")?.value || "").trim();
+    const members = getMembers();
+    if (!members[email] || members[email].password !== password) {
+      if (qs("authMessage")) qs("authMessage").textContent = "Invalid email or password.";
+      return;
+    }
+    setSessionEmail(email);
+    refreshMemberState();
+    closeAuthModal();
+    qs("member-access")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  window.handlePlanClick = function(plan) {
+    const select = qs("verifyPlan");
+    if (select) select.value = plan;
+    updatePlanPreview(plan);
+    qs("member-access")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (!getCurrentMember()) {
+      openAuthModal("register");
+      if (qs("authMessage")) qs("authMessage").textContent = "Create or log in to continue with your selected plan.";
+    }
+  };
+
+  window.guardedOpenPricing = function(e) {
+    // keep homepage behavior simple; no blocking
+  };
+
+  window.submitVerification = function(e) {
+    e.preventDefault();
+    const email = getSessionEmail();
+    if (!email) {
+      if (qs("verifyMessage")) qs("verifyMessage").textContent = "Please register or log in first.";
+      openAuthModal("login");
+      return;
+    }
+
+    const plan = qs("verifyPlan")?.value || "";
+    const telegram = (qs("verifyTelegram")?.value || "").trim();
+    const txid = (qs("verifyTxid")?.value || "").trim();
+
+    if (!plan || !txid) {
+      if (qs("verifyMessage")) qs("verifyMessage").textContent = "Plan and TXID are required.";
+      return;
+    }
+
+    const members = getMembers();
+    const member = members[email] || { email };
+    member.telegram = telegram || member.telegram || "";
+    member.plan = plan;
+    member.verification_plan = plan;
+    member.txid = txid;
+    member.updated_at = new Date().toISOString();
+    members[email] = member;
+    saveMembers(members);
+
+    refreshMemberState();
+    if (qs("verifyMessage")) qs("verifyMessage").textContent = "Verification data saved for this account.";
+  };
+
+  document.addEventListener("DOMContentLoaded", function(){
+    const walletInput = qs("walletAddress");
+    if (walletInput) {
+      if (walletInput.tagName === "INPUT") {
+        walletInput.value = WALLET_ADDRESS;
+      } else {
+        walletInput.textContent = WALLET_ADDRESS;
+      }
+    }
+
+    const copyBtn = qs("copyWalletBtn") || document.querySelector(".wallet-copy-btn");
+    if (copyBtn) {
+      copyBtn.setAttribute("type", "button");
+      copyBtn.onclick = function(ev) {
+        ev.preventDefault();
+        copyAddress();
+      };
+    }
+
+    const select = qs("verifyPlan");
+    if (select) {
+      select.onchange = function() {
+        updatePlanPreview(this.value);
+      };
+      select.addEventListener("change", function() {
+        updatePlanPreview(this.value);
+      });
+    }
+
+    if (qs("registerForm")) qs("registerForm").onsubmit = registerMember;
+    if (qs("loginForm")) qs("loginForm").onsubmit = loginMember;
+
+    refreshMemberState();
+    setDashboardDefault();
+  });
+})();
+
+  (function(){
+    const params = new URLSearchParams(window.location.search);
+    const prePlan = (params.get("plan") || "").toUpperCase();
+    if (!prePlan) return;
+    const select = document.getElementById("verifyPlan");
+    if (select) select.value = prePlan;
+    if (typeof window.updatePlanPreview === "function") window.updatePlanPreview(prePlan);
+  })();
+</script>
+
+</body>
+</html>
