@@ -754,6 +754,257 @@
       .mini-value{ min-height:24px; }
       .save-pill{ margin-bottom:10px; }
     }
+  
+    /* MEMBER / AUTH */
+    .member-actions{ display:flex; align-items:center; gap:10px; }
+    .member-btn{
+      min-height:42px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 16px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+      cursor:pointer;
+      border:none;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:0 10px 24px rgba(73,104,255,0.22);
+    }
+    .member-btn.secondary{
+      color:#dce7fb;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10);
+      box-shadow:none;
+    }
+    .member-label{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      color:#dce7fb;
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .member-label strong{ color:#fff; }
+
+    .auth-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:2000;
+      padding:20px;
+      background:rgba(3,5,10,0.82);
+      backdrop-filter:blur(10px);
+    }
+    .auth-modal.active{ display:flex; }
+    .auth-panel{
+      width:100%;
+      max-width:460px;
+      padding:28px;
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:linear-gradient(180deg, rgba(14,18,30,0.96), rgba(8,11,20,0.98));
+      box-shadow:0 28px 70px rgba(0,0,0,0.34);
+      position:relative;
+      overflow:hidden;
+    }
+    .auth-panel::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.75), rgba(117,96,255,0.75), rgba(117,96,255,0));
+    }
+    .auth-close{
+      position:absolute;
+      top:14px;
+      right:14px;
+      width:36px;
+      height:36px;
+      border:none;
+      border-radius:50%;
+      cursor:pointer;
+      font-size:18px;
+      color:#fff;
+      background:rgba(255,255,255,0.08);
+    }
+    .auth-title{ font-size:30px; font-weight:800; margin-bottom:8px; }
+    .auth-sub{ font-size:14px; color:#9eb1cf; margin-bottom:18px; }
+    .auth-tabs{ display:flex; gap:10px; margin-bottom:16px; }
+    .auth-tab{
+      flex:1;
+      min-height:44px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      color:#dce7fb;
+      background:rgba(255,255,255,0.05);
+      font-weight:800;
+    }
+    .auth-tab.active{
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+    }
+    .auth-form{ display:none; }
+    .auth-form.active{ display:block; }
+    .auth-field{ margin-bottom:12px; }
+    .auth-field label{
+      display:block;
+      font-size:13px;
+      color:#aab9d3;
+      margin-bottom:6px;
+    }
+    .auth-field input{
+      width:100%;
+      min-height:48px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.04);
+      color:#fff;
+      padding:0 14px;
+      outline:none;
+    }
+    .auth-submit{
+      width:100%;
+      min-height:50px;
+      border:none;
+      border-radius:16px;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:800;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      margin-top:6px;
+    }
+    .auth-message{
+      min-height:18px;
+      font-size:13px;
+      color:#8fd6ff;
+      margin-top:12px;
+      text-align:center;
+    }
+
+    .member-section-grid{
+      display:grid;
+      grid-template-columns:1.06fr 0.94fr;
+      gap:22px;
+    }
+    .member-card{
+      position:relative;
+      padding:28px;
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+      box-shadow:0 20px 50px rgba(0,0,0,0.22);
+      overflow:hidden;
+    }
+    .member-card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.75), rgba(117,96,255,0.75), rgba(117,96,255,0));
+    }
+    .member-card h3{ font-size:24px; margin-bottom:10px; }
+    .member-card p{ font-size:14px; color:#9eb1cf; margin-bottom:14px; }
+    .member-inline{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+    .member-pill{
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      color:#dff7ff;
+      background:rgba(53,207,255,0.10);
+      border:1px solid rgba(53,207,255,0.18);
+    }
+    .member-list{ list-style:none; display:grid; gap:10px; }
+    .member-list li{
+      position:relative;
+      padding-left:22px;
+      color:#e6eefc;
+      font-size:14px;
+    }
+    .member-list li::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:8px;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:0 0 10px rgba(53,207,255,0.45);
+    }
+    .unlock-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+    .unlock-card{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      padding:18px;
+    }
+    .unlock-card h4{ font-size:16px; margin-bottom:8px; }
+    .unlock-card p{ font-size:13px; color:#93a6c7; margin-bottom:10px; }
+    .unlock-badge{
+      display:inline-flex;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      color:#dce7fb;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    .verify-form{ display:grid; gap:12px; }
+    .verify-form input,.verify-form select{
+      width:100%;
+      min-height:48px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.04);
+      color:#fff;
+      padding:0 14px;
+      outline:none;
+    }
+    .verify-btn{
+      min-height:50px;
+      border:none;
+      border-radius:16px;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:800;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+    }
+    .verify-message{
+      min-height:20px;
+      font-size:13px;
+      color:#8fd6ff;
+      margin-top:8px;
+    }
+
+
+    @media (max-width: 900px){
+      .member-section-grid{ grid-template-columns:1fr; }
+      .unlock-grid{ grid-template-columns:1fr; }
+    }
+
   </style>
 </head>
 <body>
@@ -773,6 +1024,11 @@
         <a href="#pricing">Pricing</a>
         <a href="#cta" class="nav-cta">Get Access</a>
       </nav>
+      <div class="member-actions">
+        <div class="member-label" id="memberLabel">Guest Mode</div>
+        <button class="member-btn secondary" type="button" onclick="openAuthModal('login')">Login</button>
+        <button class="member-btn" type="button" onclick="openAuthModal('register')">Register</button>
+      </div>
     </div>
   </header>
 
@@ -796,7 +1052,7 @@
         </p>
 
         <div class="hero-actions">
-          <a href="#pricing" class="btn-primary">View Plans</a>
+          <a href="#pricing" class="btn-primary" onclick="guardedOpenPricing(event)">View Plans</a>
           <a href="#engine" class="btn-secondary">See How It Works</a>
         </div>
 
@@ -1185,9 +1441,7 @@
             <li>Core chart logic</li>
             <li>Simple setup workflow</li>
           </ul>
-          <a href="https://nowpayments.io/payment/?iid=4662421736" target="_blank" rel="noopener noreferrer">
-            <button class="price-btn" type="button">Get Basic</button>
-          </a>
+          <button class="price-btn" type="button" onclick="handlePlanClick('4662421736', this)" data-payment-url="https://nowpayments.io/payment/?iid=4662421736">Get Basic</button>
         </div>
 
         <div class="card pricing-card featured">
@@ -1206,9 +1460,7 @@
             <li>Priority execution workflow</li>
             <li>Main TCPS product</li>
           </ul>
-          <a href="https://nowpayments.io/payment/?iid=5471719473" target="_blank" rel="noopener noreferrer">
-            <button class="price-btn" type="button">Get Pro</button>
-          </a>
+          <button class="price-btn" type="button" onclick="handlePlanClick('5471719473', this)" data-payment-url="https://nowpayments.io/payment/?iid=5471719473">Get Pro</button>
         </div>
 
         <div class="card pricing-card">
@@ -1226,9 +1478,7 @@
             <li>Extended execution support</li>
             <li>Higher access tier</li>
           </ul>
-          <a href="https://nowpayments.io/payment/?iid=5591005023" target="_blank" rel="noopener noreferrer">
-            <button class="price-btn" type="button">Get Elite</button>
-          </a>
+          <button class="price-btn" type="button" onclick="handlePlanClick('5591005023', this)" data-payment-url="https://nowpayments.io/payment/?iid=5591005023">Get Elite</button>
         </div>
 
         <div class="card pricing-card">
@@ -1246,9 +1496,7 @@
             <li>Automation included</li>
             <li>Best long-term value</li>
           </ul>
-          <a href="https://nowpayments.io/payment/?iid=5692188100" target="_blank" rel="noopener noreferrer">
-            <button class="price-btn" type="button">Get Lifetime</button>
-          </a>
+          <button class="price-btn" type="button" onclick="handlePlanClick('5692188100', this)" data-payment-url="https://nowpayments.io/payment/?iid=5692188100">Get Lifetime</button>
         </div>
       </div>
       <p style="text-align:center; color:#8da2c4; margin-top:20px;">All payments are processed in USDT (TRC20).</p>
@@ -1260,15 +1508,139 @@
     </div>
   </section>
 
+
+  <section id="member-access">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker">Member Access</div>
+        <h2>Create your account, verify your TXID, and unlock your plan.</h2>
+        <p>Homepage first. Account second. Payment verification connects your selected plan to your member account.</p>
+      </div>
+
+      <div class="member-section-grid">
+        <div class="member-card">
+          <h3>Your Access Dashboard</h3>
+          <p>After login, your account becomes the base for plan access, PDF unlocks, and future member-only content.</p>
+
+          <div class="member-inline">
+            <span class="member-pill" id="dashEmail">Not logged in</span>
+            <span class="member-pill" id="dashPlan">Plan: NONE</span>
+          </div>
+
+          <ul class="member-list">
+            <li>Register once with email and password</li>
+            <li>Log in before submitting your TXID</li>
+            <li>Your selected plan is tied to your account</li>
+            <li>Content unlocks after successful verification</li>
+          </ul>
+
+          <div class="unlock-grid">
+            <div class="unlock-card">
+              <h4>Foundation Pack</h4>
+              <p>Basics, wave structure, and starter workflow.</p>
+              <span class="unlock-badge" id="basicBadge">Locked</span>
+            </div>
+            <div class="unlock-card">
+              <h4>Trader System</h4>
+              <p>Trendline system, entry framework, and training flow.</p>
+              <span class="unlock-badge" id="proBadge">Locked</span>
+            </div>
+            <div class="unlock-card">
+              <h4>Advanced Execution</h4>
+              <p>Order block strategy, risk management, and deeper execution support.</p>
+              <span class="unlock-badge" id="eliteBadge">Locked</span>
+            </div>
+            <div class="unlock-card">
+              <h4>Master Access</h4>
+              <p>Full library access with lifetime coverage.</p>
+              <span class="unlock-badge" id="lifetimeBadge">Locked</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <h3>Payment Verification</h3>
+          <p>Log in first, then submit your TXID here so your payment can be tied to the correct account.</p>
+
+          <form class="verify-form" onsubmit="submitVerification(event)">
+            <input type="email" id="verifyEmail" placeholder="Logged-in email" readonly />
+            <select id="verifyPlan" required>
+              <option value="">Select your plan</option>
+              <option value="BASIC">BASIC — 49 USDT</option>
+              <option value="PRO">PRO — 99 USDT</option>
+              <option value="ELITE">ELITE — 199 USDT</option>
+              <option value="LIFETIME">LIFETIME — 399 USDT</option>
+            </select>
+            <input type="text" id="verifyTelegram" placeholder="Telegram Username (@)" />
+            <input type="text" id="verifyTxid" placeholder="TXID (Transaction ID)" required />
+            <button class="verify-btn" type="submit">Save Verification Data</button>
+          </form>
+
+          <div class="verify-message" id="verifyMessage"></div>
+
+          <p style="margin-top:16px; margin-bottom:0;">
+            If the selected plan amount does not match the actual payment amount, the service will be automatically rejected and no refunds will be issued.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
   <section id="cta">
     <div class="container">
       <div class="panel cta-box">
         <h2>Get access to TCPS Smart Entry AI</h2>
         <p>Clean signals. Less noise. Better execution. Choose your plan and move into the verification flow.</p>
-        <a href="#pricing" class="btn-primary">Start Now</a>
+        <a href="#pricing" class="btn-primary" onclick="guardedOpenPricing(event)">Start Now</a>
       </div>
     </div>
   </section>
+
+
+  <div class="auth-modal" id="authModal">
+    <div class="auth-panel">
+      <button class="auth-close" type="button" onclick="closeAuthModal()">×</button>
+      <div class="auth-title">Member Access</div>
+      <div class="auth-sub">Register or log in when you are ready to start. The homepage stays open first, and access begins after account + TXID verification.</div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" type="button" id="registerTab" onclick="switchAuthTab('register')">Register</button>
+        <button class="auth-tab" type="button" id="loginTab" onclick="switchAuthTab('login')">Login</button>
+      </div>
+
+      <form class="auth-form active" id="registerForm" onsubmit="registerMember(event)">
+        <div class="auth-field">
+          <label>Email</label>
+          <input type="email" id="registerEmail" required />
+        </div>
+        <div class="auth-field">
+          <label>Password</label>
+          <input type="password" id="registerPassword" required />
+        </div>
+        <div class="auth-field">
+          <label>Telegram Username (@)</label>
+          <input type="text" id="registerTelegram" />
+        </div>
+        <button class="auth-submit" type="submit">Create Account</button>
+      </form>
+
+      <form class="auth-form" id="loginForm" onsubmit="loginMember(event)">
+        <div class="auth-field">
+          <label>Email</label>
+          <input type="email" id="loginEmail" required />
+        </div>
+        <div class="auth-field">
+          <label>Password</label>
+          <input type="password" id="loginPassword" required />
+        </div>
+        <button class="auth-submit" type="submit">Log In</button>
+      </form>
+
+      <div class="auth-message" id="authMessage">Create your account first, then complete payment verification.</div>
+    </div>
+  </div>
+
 
   <footer class="footer">
     <div class="container footer-inner">
@@ -1494,31 +1866,174 @@
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(createReviewWall, 180);
       });
+
+      const MEMBER_DB_KEY = 'tcps_members_v2';
+      const MEMBER_SESSION_KEY = 'tcps_member_session_v2';
+
+      function getMembers(){
+        return JSON.parse(localStorage.getItem(MEMBER_DB_KEY) || '{}');
+      }
+      function saveMembers(data){
+        localStorage.setItem(MEMBER_DB_KEY, JSON.stringify(data));
+      }
+      function getSessionEmail(){
+        return localStorage.getItem(MEMBER_SESSION_KEY) || '';
+      }
+      function setSessionEmail(email){
+        localStorage.setItem(MEMBER_SESSION_KEY, email || '');
+      }
+      function getCurrentMember(){
+        const email = getSessionEmail();
+        const members = getMembers();
+        return email && members[email] ? members[email] : null;
+      }
+      function getRank(plan){
+        return { NONE:0, BASIC:1, PRO:2, ELITE:3, LIFETIME:4 }[plan || 'NONE'] || 0;
+      }
+      function updateUnlocks(plan){
+        const rank = getRank(plan);
+        document.getElementById('basicBadge').textContent = rank >= 1 ? 'Unlocked' : 'Locked';
+        document.getElementById('proBadge').textContent = rank >= 2 ? 'Unlocked' : 'Locked';
+        document.getElementById('eliteBadge').textContent = rank >= 3 ? 'Unlocked' : 'Locked';
+        document.getElementById('lifetimeBadge').textContent = rank >= 4 ? 'Unlocked' : 'Locked';
+      }
+      function refreshMemberState(){
+        const email = getSessionEmail();
+        const members = getMembers();
+        const member = email && members[email] ? members[email] : null;
+
+        document.getElementById('memberLabel').innerHTML = member
+          ? 'Logged in: <strong>' + email + '</strong>'
+          : 'Guest Mode';
+
+        document.getElementById('dashEmail').textContent = member ? email : 'Not logged in';
+        document.getElementById('dashPlan').textContent = 'Plan: ' + (member ? (member.plan || 'NONE') : 'NONE');
+        document.getElementById('verifyEmail').value = member ? email : '';
+        if(member && member.telegram){
+          document.getElementById('verifyTelegram').value = member.telegram;
+        }
+        updateUnlocks(member ? (member.plan || 'NONE') : 'NONE');
+      }
+
+      window.openAuthModal = function(mode){
+        document.getElementById('authModal').classList.add('active');
+        switchAuthTab(mode || 'register');
+      }
+      window.closeAuthModal = function(){
+        document.getElementById('authModal').classList.remove('active');
+      }
+      window.switchAuthTab = function(mode){
+        const registerMode = mode === 'register';
+        document.getElementById('registerTab').classList.toggle('active', registerMode);
+        document.getElementById('loginTab').classList.toggle('active', !registerMode);
+        document.getElementById('registerForm').classList.toggle('active', registerMode);
+        document.getElementById('loginForm').classList.toggle('active', !registerMode);
+        document.getElementById('authMessage').textContent = registerMode
+          ? 'Create your account first, then complete payment verification.'
+          : 'Log in to continue with your selected plan.';
+      }
+
+      window.registerMember = function(e){
+        e.preventDefault();
+        const email = document.getElementById('registerEmail').value.trim().toLowerCase();
+        const password = document.getElementById('registerPassword').value.trim();
+        const telegram = document.getElementById('registerTelegram').value.trim();
+        if(!email || !password) return;
+
+        const members = getMembers();
+        if(members[email]){
+          document.getElementById('authMessage').textContent = 'This email is already registered.';
+          return;
+        }
+
+        members[email] = {
+          email: email,
+          password: password,
+          telegram: telegram,
+          plan: 'NONE',
+          txid: '',
+          verification_plan: '',
+          created_at: new Date().toISOString()
+        };
+        saveMembers(members);
+        setSessionEmail(email);
+        refreshMemberState();
+        document.getElementById('authMessage').textContent = 'Account created successfully.';
+        closeAuthModal();
+        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+
+      window.loginMember = function(e){
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+        const password = document.getElementById('loginPassword').value.trim();
+        const members = getMembers();
+        if(!members[email] || members[email].password !== password){
+          document.getElementById('authMessage').textContent = 'Invalid email or password.';
+          return;
+        }
+        setSessionEmail(email);
+        refreshMemberState();
+        document.getElementById('authMessage').textContent = 'Logged in successfully.';
+        closeAuthModal();
+        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+
+      window.guardedOpenPricing = function(e){
+        const member = getCurrentMember();
+        if(!member){
+          e.preventDefault();
+          document.getElementById('pricing').scrollIntoView({ behavior:'smooth', block:'start' });
+          return;
+        }
+      }
+
+      window.handlePlanClick = function(paymentId, button){
+        const member = getCurrentMember();
+        if(!member){
+          openAuthModal('register');
+          document.getElementById('authMessage').textContent = 'Create or log in to continue with your selected plan.';
+          return;
+        }
+        const url = button.getAttribute('data-payment-url');
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+
+      window.submitVerification = function(e){
+        e.preventDefault();
+        const email = getSessionEmail();
+        if(!email){
+          document.getElementById('verifyMessage').textContent = 'Please register or log in first.';
+          openAuthModal('login');
+          return;
+        }
+
+        const plan = document.getElementById('verifyPlan').value;
+        const telegram = document.getElementById('verifyTelegram').value.trim();
+        const txid = document.getElementById('verifyTxid').value.trim();
+
+        if(!plan || !txid){
+          document.getElementById('verifyMessage').textContent = 'Plan and TXID are required.';
+          return;
+        }
+
+        const members = getMembers();
+        const member = members[email];
+        member.telegram = telegram || member.telegram || '';
+        member.verification_plan = plan;
+        member.txid = txid;
+        member.plan = plan;
+        member.updated_at = new Date().toISOString();
+        members[email] = member;
+        saveMembers(members);
+        refreshMemberState();
+        document.getElementById('verifyMessage').textContent = 'Verification data saved for this account.';
+      }
+
+      refreshMemberState();
+
     })();
   </script>
-
-
-<!-- AUTH SYSTEM (INTEGRATED) -->
-<script>
-let users = JSON.parse(localStorage.getItem("users")||"{}");
-let currentUser=null;
-function register(){
-  let e=prompt("email");
-  let p=prompt("password");
-  if(!e||!p)return;
-  users[e]={password:p,plan:"NONE"};
-  localStorage.setItem("users",JSON.stringify(users));
-  alert("registered");
-}
-function login(){
-  let e=prompt("email");
-  let p=prompt("password");
-  if(users[e]&&users[e].password===p){
-    currentUser=e;
-    alert("login success");
-  }else alert("fail");
-}
-</script>
 
 </body>
 </html>
