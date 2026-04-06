@@ -1348,13 +1348,7 @@
     }
 
   
-/* SLIDER IMPROVEMENT */
-.slide-card{
-  min-width: 84%;
-  margin: 0 8%;
-  opacity:0.6;
-  transition: all 0.4s ease;
-}
+
 .slide-card.active{
   opacity:1;
   transform: scale(1.02);
@@ -1366,6 +1360,22 @@
 .slider-track{
   display:flex;
   align-items:stretch;
+}
+
+
+/* FIX */
+.hero-card{ transform: translateY(-60px); }
+
+/* SAFE SLIDER ONLY */
+#problem .slide-card,
+#solution .slide-card{
+  min-width:80%;
+  margin:0 10%;
+}
+#problem .slider-track,
+#solution .slider-track{
+  display:flex;
+  gap:20px;
 }
 
 </style>
