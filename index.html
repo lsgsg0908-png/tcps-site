@@ -1178,6 +1178,175 @@
       margin-top:8px;
     }
 
+  
+    .hero-copy-stack{display:grid;gap:18px;}
+    .hero-lead-strong{font-size:19px;color:#e9f0ff;font-weight:700;max-width:690px;}
+    .hero-trust-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+    .hero-trust-card{
+      padding:18px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      box-shadow:0 16px 34px rgba(0,0,0,0.18);
+    }
+    .hero-trust-kicker{
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      color:#86dfff;
+      margin-bottom:8px;
+    }
+    .hero-trust-card h3{
+      font-size:18px;
+      line-height:1.25;
+      margin-bottom:6px;
+    }
+    .hero-trust-card p{
+      font-size:14px;
+      color:#aebfda;
+      line-height:1.55;
+    }
+    .proof-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.035);
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    .proof-dot{
+      width:7px;height:7px;border-radius:50%;
+      background:#85ffbe;
+      box-shadow:0 0 10px rgba(133,255,190,0.85);
+    }
+
+    .reviews-helper{
+      margin-top:18px;
+      text-align:center;
+      color:#8fa3c6;
+      font-size:13px;
+    }
+
+    .pricing-headnote{
+      max-width:920px;
+      margin:0 auto 28px;
+      padding:18px 20px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+      color:#cfdbef;
+      text-align:center;
+      line-height:1.7;
+    }
+    .pricing-card{
+      min-height:100%;
+    }
+    .plan-label-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .mini-plan-tag{
+      display:inline-flex;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:0.2px;
+      color:#dce7fb;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.04);
+    }
+    .plan-microcopy{
+      margin-top:-8px;
+      margin-bottom:18px;
+      font-size:13px;
+      color:#90a4c8;
+      line-height:1.55;
+      min-height:40px;
+    }
+    .price-link{
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+      min-height:46px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.03);
+      color:#edf3ff;
+      font-size:14px;
+      font-weight:800;
+      margin-top:10px;
+    }
+    .price-link:hover{transform:translateY(-2px);opacity:0.96;}
+    .pricing-warning{
+      max-width:860px;
+      margin:26px auto 0;
+      padding:18px 20px;
+      border-radius:20px;
+      border:1px solid rgba(255,125,125,0.18);
+      background:rgba(255,88,88,0.06);
+      text-align:center;
+      color:#ffd8d8;
+      line-height:1.7;
+      font-size:14px;
+    }
+
+    .member-step-strip{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin:18px 0 0;
+    }
+    .member-step-box{
+      padding:16px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+    }
+    .member-step-box strong{
+      display:block;
+      font-size:13px;
+      margin-bottom:6px;
+      color:#f5f8ff;
+    }
+    .member-step-box span{
+      font-size:13px;
+      color:#9db0d0;
+      line-height:1.5;
+    }
+    .verify-alert{
+      margin:16px 0 14px;
+      padding:14px 16px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      color:#dfe8f7;
+      font-size:13px;
+      line-height:1.65;
+    }
+    .verify-alert strong{color:#fff;}
+    .member-mini-note{
+      margin-top:16px;
+      font-size:13px;
+      color:#90a4c8;
+      line-height:1.6;
+    }
+
+    @media (max-width: 900px){
+      .hero-trust-grid{grid-template-columns:1fr;}
+      .member-step-strip{grid-template-columns:1fr;}
+    }
+
   </style>
 </head>
 <body>
@@ -1205,34 +1374,58 @@
     </div>
   </header>
 
+  
   <section class="hero">
     <div class="container hero-grid">
-      <div>
+      <div class="hero-copy-stack">
         <div class="badge">
           <span class="badge-dot"></span>
-          <span>AI Signal Engine Active</span>
+          <span>TradingView Execution System • TRC20 Verification Ready</span>
         </div>
 
         <h1>
-          Stop chasing noise.
+          Stop paying for noisy indicators.
           <br />
-          Trade with <span>clean execution signals.</span>
+          Use a <span>clean execution-focused system</span> built for real traders.
         </h1>
 
+        <p class="hero-lead-strong">
+          TCPS Liquidity Engine is designed for traders who care more about entry quality, structure,
+          and decision clarity than constant flashy signals.
+        </p>
+
         <p>
-          TCPS Smart Entry AI helps traders avoid fake entries, reduce emotional trading,
-          and focus only on high-probability setups.
+          Pick the access tier that fits your level, move to verification in one flow,
+          and keep your chart process cleaner from the first day.
         </p>
 
         <div class="hero-actions">
-          <a href="#pricing" class="btn-primary" onclick="guardedOpenPricing(event)">View Plans</a>
-          <a href="#engine" class="btn-secondary">See How It Works</a>
+          <a href="#pricing" class="btn-primary" onclick="guardedOpenPricing(event)">Choose Your Plan</a>
+          <a href="#member-access" class="btn-secondary">See Verification Flow</a>
         </div>
 
         <div class="hero-proof">
-          <div>Used by 300+ traders</div>
-          <div>No noise</div>
-          <div>Execution-focused</div>
+          <div class="proof-chip"><span class="proof-dot"></span><span>300+ trader interest</span></div>
+          <div class="proof-chip"><span class="proof-dot"></span><span>4 access tiers</span></div>
+          <div class="proof-chip"><span class="proof-dot"></span><span>TRC20 payment verification</span></div>
+        </div>
+
+        <div class="hero-trust-grid">
+          <div class="hero-trust-card">
+            <div class="hero-trust-kicker">What you buy</div>
+            <h3>Execution, not theory.</h3>
+            <p>Built around structure, liquidity logic, and cleaner timing instead of random indicator clutter.</p>
+          </div>
+          <div class="hero-trust-card">
+            <div class="hero-trust-kicker">Why it converts</div>
+            <h3>Clear difference by plan.</h3>
+            <p>Basic for foundations, Pro for the main workflow, Elite for deeper execution, Lifetime for full long-term access.</p>
+          </div>
+          <div class="hero-trust-card">
+            <div class="hero-trust-kicker">What happens next</div>
+            <h3>Fast purchase path.</h3>
+            <p>Choose a plan, verify your payment, and move directly into the correct access route without confusion.</p>
+          </div>
         </div>
       </div>
 
@@ -1246,54 +1439,55 @@
           <div class="monitor-card">
             <div class="monitor-row">
               <div class="monitor-label">Engine State</div>
-              <div class="monitor-main">MARKET SCAN ACTIVE</div>
+              <div class="monitor-main">FAKE SIGNAL FILTER ACTIVE</div>
             </div>
             <div class="monitor-row">
-              <div class="monitor-label">Execution State</div>
-              <div class="monitor-value">Awaiting Confirmation</div>
+              <div class="monitor-label">Best Entry Tier</div>
+              <div class="monitor-value">PRO is the core workflow</div>
             </div>
             <div class="monitor-row">
-              <div class="monitor-label">Scan Status</div>
-              <div class="monitor-value">Checking Structure</div>
+              <div class="monitor-label">Verification Flow</div>
+              <div class="monitor-value">Select plan → Send USDT → Paste TXID</div>
             </div>
           </div>
 
           <div class="monitor-grid">
             <div class="mini-card">
-              <div class="mini-label">Market</div>
-              <div class="mini-value">BTCUSDT</div>
+              <div class="mini-label">Primary Market</div>
+              <div class="mini-value">BTCUSDT / Major Pairs</div>
             </div>
 
             <div class="mini-card">
-              <div class="mini-label">Regime Filter</div>
-              <div class="mini-value">Trend Active</div>
+              <div class="mini-label">Signal Style</div>
+              <div class="mini-value">Selective, not constant</div>
             </div>
 
             <div class="mini-card">
-              <div class="mini-label">Liquidity Model</div>
-              <div class="mini-value">Monitoring</div>
+              <div class="mini-label">Access Structure</div>
+              <div class="mini-value">Basic → Pro → Elite → Lifetime</div>
             </div>
 
             <div class="mini-card">
-              <div class="mini-label">Last Update</div>
-              <div class="mini-value">just now</div>
+              <div class="mini-label">Payment Method</div>
+              <div class="mini-value">USDT (TRC20)</div>
             </div>
           </div>
 
           <div class="monitor-card">
             <div class="monitor-row">
-              <div class="monitor-label">Engine Logic</div>
-              <div class="monitor-value">No forced trades</div>
+              <div class="monitor-label">Conversion Message</div>
+              <div class="monitor-value">Choose the right tier once, verify once, move cleanly.</div>
             </div>
             <div class="monitor-row">
-              <div class="monitor-label">Priority</div>
-              <div class="monitor-value">Selective execution only</div>
+              <div class="monitor-label">Long-Term Best Value</div>
+              <div class="monitor-value">Lifetime for full package access</div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
 
   <section id="problem">
     <div class="container">
@@ -1574,110 +1768,145 @@
     </div>
   </section>
 
+  
   <section id="reviews">
     <div class="container">
       <div class="section-head">
         <div class="section-kicker">Trader Reviews</div>
-        <h2>Active review wall built for trust, without pushing pricing too far down.</h2>
-        <p>Real user feedback collected from multiple platforms, presented in a consistent format for clarity.</p>
+        <h2>Trust should feel active, mixed, and believable — not copied and pasted.</h2>
+        <p>The review wall below is intentionally varied by source, time, and location so the page feels like a live product, not a fake landing page.</p>
       </div>
 
       <div class="reviews-meta-wrap">
-        <div class="reviews-meta">Live-style review wall for conversion</div>
-        <div class="reviews-badge">72+ trader reviews</div>
+        <div class="reviews-meta">Mixed sources • rolling wall • different countries</div>
+        <div class="reviews-badge">72+ collected review snippets</div>
       </div>
 
       <div class="review-wall" id="review-wall"></div>
+      <div class="reviews-helper">Users care less about perfect claims and more about whether the product feels real, clear, and consistently useful.</div>
     </div>
   </section>
 
+
+  
   <section id="pricing">
     <div class="container">
       <div class="section-head">
         <div class="section-kicker">Pricing</div>
-        <h2>Choose your access level.</h2>
-        <p>Start simple. Upgrade when you want more signal power and automation.</p>
+        <h2>Choose the tier that matches how serious you are about execution.</h2>
+        <p>Basic gets people in. Pro is the main product. Elite is deeper support. Lifetime is the strongest long-term value.</p>
+      </div>
+
+      <div class="pricing-headnote">
+        Do not make users think too much here. The page should make the choice feel obvious:
+        <strong>Basic</strong> for starting,
+        <strong>Pro</strong> for the core trader workflow,
+        <strong>Elite</strong> for a more advanced execution tier,
+        and <strong>Lifetime</strong> for users who want the full package without monthly renewal.
       </div>
 
       <div class="pricing-grid">
         <div class="card pricing-card">
           <div class="card-topline"></div>
+          <div class="plan-label-row">
+            <div class="mini-plan-tag">Starter Tier</div>
+          </div>
           <div class="plan-name">Basic</div>
-          <div class="plan-desc">For traders who want indicator access only.</div>
-          <div class="save-pill">Save 15%</div>
+          <div class="plan-desc">Entry-level access for traders who want the foundation first.</div>
+          <div class="save-pill">Fastest way to start</div>
           <div class="price-wrap">
             <div class="price">49 <span>USDT</span></div>
             <div class="price-sub">per month</div>
           </div>
+          <div class="plan-microcopy">Good for users who want the core indicator and chart logic without the deeper execution layers yet.</div>
           <ul class="feature-list">
-            <li>Indicator access</li>
-            <li>Core chart logic</li>
+            <li>Wave structure foundation</li>
+            <li>Core chart logic access</li>
             <li>Simple setup workflow</li>
+            <li>Best entry point for first-time users</li>
           </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('BASIC')">Get Basic</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('BASIC')">Choose Basic</button>
+          <a class="price-link" href="basic.html">View Basic Details</a>
         </div>
 
         <div class="card pricing-card featured">
           <div class="card-topline"></div>
           <div class="tag">Most Popular</div>
+          <div class="plan-label-row">
+            <div class="mini-plan-tag">Main Product</div>
+            <div class="mini-plan-tag">Best balance</div>
+          </div>
           <div class="plan-name">Pro</div>
-          <div class="plan-desc">Main product for signal-focused traders.</div>
-          <div class="save-pill">Save 25%</div>
+          <div class="plan-desc">The main TCPS workflow for users who want the real signal-focused product.</div>
+          <div class="save-pill">Best conversion tier</div>
           <div class="price-wrap">
             <div class="price">99 <span>USDT</span></div>
             <div class="price-sub">per month</div>
           </div>
+          <div class="plan-microcopy">This is the plan most users should end up choosing if they want the practical execution workflow, not just the foundation.</div>
           <ul class="feature-list">
             <li>Everything in Basic</li>
-            <li>Core signal access</li>
-            <li>Priority execution workflow</li>
-            <li>Main TCPS product</li>
+            <li>Liquidity Engine core workflow</li>
+            <li>Priority execution structure</li>
+            <li>Best overall fit for active traders</li>
           </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('PRO')">Get Pro</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('PRO')">Choose Pro</button>
+          <a class="price-link" href="pro.html">View Pro Details</a>
         </div>
 
         <div class="card pricing-card">
           <div class="card-topline"></div>
+          <div class="plan-label-row">
+            <div class="mini-plan-tag">Advanced Tier</div>
+          </div>
           <div class="plan-name">Elite</div>
-          <div class="plan-desc">For traders who want signals plus deeper execution support.</div>
-          <div class="save-pill">Save 32%</div>
+          <div class="plan-desc">For users who want stronger execution depth and a higher support tier.</div>
+          <div class="save-pill">Deeper workflow</div>
           <div class="price-wrap">
             <div class="price">199 <span>USDT</span></div>
             <div class="price-sub">per month</div>
           </div>
+          <div class="plan-microcopy">For traders who already know they want more than the main Pro workflow and need stronger execution support.</div>
           <ul class="feature-list">
             <li>Everything in Pro</li>
             <li>Advanced signal workflow</li>
             <li>Extended execution support</li>
-            <li>Higher access tier</li>
+            <li>Higher-tier access path</li>
           </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('ELITE')">Get Elite</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('ELITE')">Choose Elite</button>
+          <a class="price-link" href="elite.html">View Elite Details</a>
         </div>
 
         <div class="card pricing-card">
           <div class="card-topline"></div>
+          <div class="plan-label-row">
+            <div class="mini-plan-tag">One-Time Access</div>
+            <div class="mini-plan-tag">Best long-term value</div>
+          </div>
           <div class="plan-name">Lifetime</div>
-          <div class="plan-desc">For users who want full long-term access.</div>
-          <div class="save-pill">Save 40%</div>
+          <div class="plan-desc">For users who want the strongest package and no monthly renewal.</div>
+          <div class="save-pill">Highest value option</div>
           <div class="price-wrap">
             <div class="price">399 <span>USDT</span></div>
             <div class="price-sub">one-time payment</div>
           </div>
+          <div class="plan-microcopy">Best for serious users who want full package access, future updates, and the cleanest long-term decision.</div>
           <ul class="feature-list">
-            <li>Everything in Pro</li>
-            <li>Lifetime access</li>
-            <li>Automation included</li>
-            <li>Best long-term value</li>
+            <li>Everything in Elite</li>
+            <li>Full long-term access</li>
+            <li>Future updates included</li>
+            <li>Strongest value over time</li>
           </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('LIFETIME')">Get Lifetime</button>
+          <button class="price-btn" type="button" onclick="handlePlanClick('LIFETIME')">Choose Lifetime</button>
+          <a class="price-link" href="lifetime.html">View Lifetime Details</a>
         </div>
       </div>
-      <p style="text-align:center; color:#8da2c4; margin-top:20px;">All payments are processed in USDT (TRC20).</p>
-      <p style="text-align:center; color:#8da2c4; margin-top:8px;">No setup needed — just scan the QR code and send the amount shown.</p>
-      <p style="text-align:center; color:#8da2c4; margin-top:8px;">⚠ Important: Always round UP and send slightly more than the displayed amount.</p>
-      <p style="text-align:center; color:#8da2c4; margin-top:8px;">Example: 58.316 → send 58.32 USDT</p>
-      <p style="text-align:center; color:#8da2c4; margin-top:8px;">Never send less than the required amount.</p>
-      <p style="text-align:center; color:#8da2c4; margin-top:8px;">Access will be activated automatically after payment confirmation.</p>
+
+      <div class="pricing-warning">
+        <strong>Important payment rule:</strong> send the exact amount for the selected plan only.
+        Wrong amount, wrong network, or wrong plan selection may be automatically rejected.
+        No refunds for incorrect transactions.
+      </div>
     </div>
   </section>
 
@@ -1687,11 +1916,26 @@
     <div class="container">
       <div class="section-head">
         <div class="section-kicker">Member Access</div>
-        <h2>Create your account, verify your TXID, and unlock your plan.</h2>
-        <p>Select a plan on the right. The Access Dashboard updates instantly to explain that exact tier.</p>
+        <h2>Register once, verify once, and unlock the exact plan you selected.</h2>
+        <p>This section should feel simple and trustworthy. The selected plan loads on the right, and the dashboard on the left explains what that tier actually unlocks.</p>
       </div>
 
-      <div class="member-section-grid">
+      <div class="member-step-strip">
+        <div class="member-step-box">
+          <strong>Step 1 — Create or log in</strong>
+          <span>Use your email and password first so the payment can be matched to the correct account.</span>
+        </div>
+        <div class="member-step-box">
+          <strong>Step 2 — Send USDT (TRC20)</strong>
+          <span>Choose the correct plan, send the exact amount, then wait for the wallet transaction to complete.</span>
+        </div>
+        <div class="member-step-box">
+          <strong>Step 3 — Paste TXID</strong>
+          <span>Submit the transaction ID and your Telegram username so the correct access route can be handled faster.</span>
+        </div>
+      </div>
+
+      <div class="member-section-grid" style="margin-top:22px;">
         <div class="member-card">
           <h3 id="planDynamicTitle">Access Dashboard</h3>
           <p id="planDynamicDesc">Select a plan on the right to instantly see the exact difference between Basic, Pro, Elite, and Lifetime.</p>
@@ -1730,11 +1974,20 @@
               <span class="unlock-badge" id="lifetimeBadge">Locked</span>
             </div>
           </div>
+
+          <div class="member-mini-note">
+            Tip: this dashboard is meant to reduce hesitation. The user should immediately understand what changes when they move from Basic to Pro, from Pro to Elite, and from Elite to Lifetime.
+          </div>
         </div>
 
         <div class="member-card">
           <h3>Payment Verification</h3>
-          <p>Log in first, select your plan, send the exact amount from Trust Wallet, then paste the TXID below.</p>
+          <p>Log in first, keep the correct plan selected, send the payment from the correct network, and paste the TXID exactly as shown by your wallet.</p>
+
+          <div class="verify-alert">
+            <strong>Before you send payment:</strong> use <strong>USDT (TRC20)</strong> only, match the exact plan amount,
+            and make sure the selected plan on this page is the one you actually paid for.
+          </div>
 
           <form class="verify-form" onsubmit="submitVerification(event)">
             <input type="email" id="verifyEmail" placeholder="Logged-in email" readonly />
@@ -1765,22 +2018,20 @@
               </div>
             </div>
 
-            <p style="margin:4px 0 0;color:#ff7d7d;font-size:13px;font-weight:800;line-height:1.55;">⚠ Send the exact amount for the selected plan only. Incorrect amount or wrong plan will be automatically rejected.</p>
-            <p style="margin:2px 0 0;color:#8fd6ff;font-size:13px;line-height:1.55;">No refunds for incorrect transactions. Double-check the plan and payment amount before sending.</p>
+            <p style="margin:4px 0 0;color:#ff7d7d;font-size:13px;font-weight:800;line-height:1.55;">⚠ Incorrect amount, wrong network, or mismatched plan information may be automatically rejected.</p>
+            <p style="margin:2px 0 0;color:#8fd6ff;font-size:13px;line-height:1.55;">Double-check the amount before sending. No refunds for incorrect transactions.</p>
 
             <button class="verify-btn" type="submit">Save Verification Data</button>
           </form>
           <div class="verify-message" id="verifyMessage"></div>
 
-          <p style="margin-top:16px; margin-bottom:0;">
-            If the selected plan amount does not match the actual payment amount, the service will be automatically rejected and no refunds will be issued.
+          <p class="member-mini-note">
+            The job of this form is simple: reduce support problems, reduce wrong payments, and make it obvious what the user must do next.
           </p>
         </div>
       </div>
     </div>
   </section>
-
-
 
 
   <section id="cta">
