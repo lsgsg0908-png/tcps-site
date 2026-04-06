@@ -1039,6 +1039,92 @@
       -webkit-text-fill-color:transparent;
     }
 
+  
+    .plan-focus{
+      border-color:rgba(53,207,255,0.35);
+      background:linear-gradient(180deg, rgba(53,207,255,0.08), rgba(255,255,255,0.03));
+      box-shadow:0 0 0 1px rgba(53,207,255,0.08) inset;
+    }
+    .plan-highlight-title{
+      background:linear-gradient(135deg,#66e6ff,#9d8fff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .payment-form-grid{
+      display:grid;
+      grid-template-columns:0.95fr 1.05fr;
+      gap:22px;
+      margin-top:22px;
+    }
+    .payment-step-list{
+      list-style:none;
+      display:grid;
+      gap:10px;
+      margin-top:14px;
+    }
+    .payment-step-list li{
+      position:relative;
+      padding-left:22px;
+      font-size:14px;
+      color:#e6eefc;
+    }
+    .payment-step-list li::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:8px;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:0 0 10px rgba(53,207,255,0.45);
+    }
+    .wallet-box{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      padding:16px;
+      margin-top:14px;
+    }
+    .wallet-label{
+      font-size:12px;
+      color:#9eb1cf;
+      margin-bottom:8px;
+    }
+    .wallet-address{
+      width:100%;
+      min-height:48px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.04);
+      color:#fff;
+      padding:12px 14px;
+      font-size:13px;
+      word-break:break-all;
+      line-height:1.5;
+    }
+    .wallet-copy-btn{
+      min-height:44px;
+      padding:0 16px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:800;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      margin-top:12px;
+    }
+    .wallet-msg{
+      min-height:18px;
+      font-size:13px;
+      color:#8fd6ff;
+      margin-top:8px;
+    }
+    @media (max-width: 900px){
+      .payment-form-grid{ grid-template-columns:1fr; }
+    }
+
   </style>
 </head>
 <body>
@@ -1542,20 +1628,19 @@
     </div>
   </section>
 
-<section id="member-access">
+
+  <section id="member-access">
     <div class="container">
       <div class="section-head">
         <div class="section-kicker">Member Access</div>
         <h2>Create your account, verify your TXID, and unlock your plan.</h2>
-        <p>Homepage first. Account second. Payment verification connects your selected plan to your member account.</p>
+        <p>Select a plan on the right. The Access Dashboard and Payment Form update instantly to match that plan.</p>
       </div>
 
       <div class="member-section-grid">
-        
-
-<div class="member-card">
+        <div class="member-card">
           <h3 id="planDynamicTitle">Access Dashboard</h3>
-          <p id="planDynamicDesc">Select a plan on the right to instantly see exactly what is included in that tier.</p>
+          <p id="planDynamicDesc">Select a plan on the right to instantly see the exact difference between Basic, Pro, Elite, and Lifetime.</p>
 
           <div class="member-inline">
             <span class="member-pill" id="dashEmail">Not logged in</span>
@@ -1595,11 +1680,11 @@
 
         <div class="member-card">
           <h3>Payment Verification</h3>
-          <p>Log in first, then submit your TXID here so your payment can be tied to the correct account.</p>
+          <p>Log in first, then choose your plan, copy the wallet address, make the payment, and submit the TXID below.</p>
 
           <form class="verify-form" onsubmit="submitVerification(event)">
             <input type="email" id="verifyEmail" placeholder="Logged-in email" readonly />
-            <select id="verifyPlan" required onchange="updatePlanPreview(this.value)">
+            <select id="verifyPlan" required onchange="updatePlanPreview(this.value); updatePaymentForm(this.value);">
               <option value="">Select your plan</option>
               <option value="BASIC">BASIC — 49 USDT</option>
               <option value="PRO">PRO — 99 USDT</option>
@@ -1610,8 +1695,35 @@
             <input type="text" id="verifyTxid" placeholder="TXID (Transaction ID)" required />
             <button class="verify-btn" type="submit">Save Verification Data</button>
           </form>
-
           <div class="verify-message" id="verifyMessage"></div>
+
+          <div class="payment-form-grid">
+            <div class="unlock-card">
+              <h4 id="paymentPlanTitle">Selected Plan</h4>
+              <p id="paymentPlanDesc">Choose a plan above to load the correct payment instructions.</p>
+              <div class="member-inline" style="margin-top:10px;">
+                <span class="member-pill" id="paymentPlanName">Plan: NONE</span>
+                <span class="member-pill" id="paymentPlanAmount">Amount: 0 USDT</span>
+              </div>
+              <ul class="payment-step-list" id="paymentStepList">
+                <li>Select your plan</li>
+                <li>Copy the wallet address</li>
+                <li>Send the correct amount from your wallet</li>
+                <li>Paste the TXID above and save</li>
+              </ul>
+            </div>
+
+            <div class="unlock-card">
+              <h4>Payment Form</h4>
+              <p>Use the wallet address below for the plan you selected.</p>
+              <div class="wallet-box">
+                <div class="wallet-label">USDT (TRC20) Wallet Address</div>
+                <div class="wallet-address" id="walletAddress">YOUR_TRUST_WALLET_ADDRESS_HERE</div>
+                <button class="wallet-copy-btn" type="button" onclick="copyWalletAddress()">Copy Wallet Address</button>
+                <div class="wallet-msg" id="walletMessage"></div>
+              </div>
+            </div>
+          </div>
 
           <p style="margin-top:16px; margin-bottom:0;">
             If the selected plan amount does not match the actual payment amount, the service will be automatically rejected and no refunds will be issued.
@@ -1620,6 +1732,7 @@
       </div>
     </div>
   </section>
+
 
 
   <section id="cta">
@@ -2019,210 +2132,6 @@
 
       document.getElementById('verifyPlan').addEventListener('change', function(){ updatePlanPreview(this.value); });
 
-      const PLAN_INFO = {
-        BASIC: {
-          title: 'Foundation Pack',
-          desc: 'Best for beginners who want the core indicator, market basics, and a simple starter workflow before moving into deeper execution.',
-          items: [
-            'Core indicator access',
-            'Core chart logic',
-            'Simple setup workflow',
-            'Best starting tier for new users'
-          ],
-          cards: [
-            ['Included', 'Indicator access, chart basics, and entry-level structure reading.'],
-            ['Best for', 'Traders who want a clean starting point without advanced complexity.'],
-            ['Not included', 'No advanced execution layer, no deeper confluence, no premium support.'],
-            ['Upgrade reason', 'Move to Pro when you want stronger execution and better trade structure.']
-          ]
-        },
-        PRO: {
-          title: 'Trader System',
-          desc: 'Best for users who want a more complete trading workflow with stronger execution structure and more practical trade organization.',
-          items: [
-            'Everything in Basic',
-            'Core signal access',
-            'Priority execution workflow',
-            'Main TCPS product tier'
-          ],
-          cards: [
-            ['Included', 'Basic access plus stronger execution and signal workflow.'],
-            ['Best for', 'Traders who are ready to move beyond the foundation tier.'],
-            ['Core edge', 'Better timing structure and better overall workflow for live use.'],
-            ['Upgrade reason', 'Move to Elite when you want deeper execution support and higher-level tools.']
-          ]
-        },
-        ELITE: {
-          title: 'Advanced Execution',
-          desc: 'Best for serious users who want stronger execution depth, more support, and a higher-tier framework for better decision quality.',
-          items: [
-            'Everything in Pro',
-            'Advanced signal workflow',
-            'Extended execution support',
-            'Higher access tier'
-          ],
-          cards: [
-            ['Included', 'Pro features plus deeper execution support and stronger structure depth.'],
-            ['Best for', 'Users who want a more advanced and more precise working tier.'],
-            ['Core edge', 'Better execution planning, better structure depth, stronger decision support.'],
-            ['Upgrade reason', 'Move to Lifetime for permanent access and the best long-term value.']
-          ]
-        },
-        LIFETIME: {
-          title: 'Master Access',
-          desc: 'Best for long-term users who want the full system with permanent access and no monthly renewal.',
-          items: [
-            'Everything in Elite',
-            'Lifetime access',
-            'Automation included',
-            'Best long-term value'
-          ],
-          cards: [
-            ['Included', 'The highest tier with the broadest and longest access.'],
-            ['Best for', 'Users who want the complete package without recurring payments.'],
-            ['Core edge', 'Permanent access and the strongest long-term value.'],
-            ['Coverage', 'Highest overall tier with the fullest access path.']
-          ]
-        }
-      };
-
-      function setDashboardDefault(){
-        document.getElementById('planDynamicTitle').textContent = 'Access Dashboard';
-        document.getElementById('planDynamicTitle').classList.remove('plan-highlight-title');
-        document.getElementById('planDynamicDesc').textContent = 'Select a plan on the right to instantly see exactly what is included in that tier.';
-        const list = document.getElementById('planDynamicList');
-        list.innerHTML = '';
-        [
-          'Create your account with email and password',
-          'Log in before submitting your TXID',
-          'Select a plan on the right to preview that tier',
-          'Unlock starts after payment verification'
-        ].forEach(item => {
-          const li = document.createElement('li');
-          li.textContent = item;
-          list.appendChild(li);
-        });
-        const defaults = [
-          ['Foundation Pack', 'Core market basics and starter workflow.'],
-          ['Trader System', 'Execution framework and training flow.'],
-          ['Advanced Execution', 'Higher-precision execution support.'],
-          ['Master Access', 'Full library access and long-term coverage.']
-        ];
-        defaults.forEach((row, idx) => {
-          document.getElementById('previewCard' + (idx+1) + 'Title').textContent = row[0];
-          document.getElementById('previewCard' + (idx+1) + 'Desc').textContent = row[1];
-        });
-        document.querySelectorAll('.unlock-card').forEach(card => card.classList.remove('plan-focus'));
-      }
-
-      function updatePlanPreview(plan){
-        if(!plan || !PLAN_INFO[plan]){
-          setDashboardDefault();
-          return;
-        }
-        const info = PLAN_INFO[plan];
-        document.getElementById('planDynamicTitle').textContent = info.title;
-        document.getElementById('planDynamicTitle').classList.add('plan-highlight-title');
-        document.getElementById('planDynamicDesc').textContent = info.desc;
-
-        const list = document.getElementById('planDynamicList');
-        list.innerHTML = '';
-        info.items.forEach(item => {
-          const li = document.createElement('li');
-          li.textContent = item;
-          list.appendChild(li);
-        });
-
-        info.cards.forEach((row, idx) => {
-          document.getElementById('previewCard' + (idx+1) + 'Title').textContent = row[0];
-          document.getElementById('previewCard' + (idx+1) + 'Desc').textContent = row[1];
-        });
-
-        document.querySelectorAll('.unlock-card').forEach(card => card.classList.remove('plan-focus'));
-        const map = { BASIC:'previewCard1', PRO:'previewCard2', ELITE:'previewCard3', LIFETIME:'previewCard4' };
-        const target = document.getElementById(map[plan]);
-        if(target) target.classList.add('plan-focus');
-      }
-
-      refreshMemberState();
-      setDashboardDefault();
-      setDashboardDefault();
-        document.getElementById('authMessage').textContent = 'Account created successfully.';
-        closeAuthModal();
-        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
-      }
-
-      window.loginMember = function(e){
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-        const password = document.getElementById('loginPassword').value.trim();
-        const members = getMembers();
-        if(!members[email] || members[email].password !== password){
-          document.getElementById('authMessage').textContent = 'Invalid email or password.';
-          return;
-        }
-        setSessionEmail(email);
-        refreshMemberState();
-        document.getElementById('authMessage').textContent = 'Logged in successfully.';
-        closeAuthModal();
-        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
-      }
-
-      window.guardedOpenPricing = function(e){
-        const member = getCurrentMember();
-        if(!member){
-          e.preventDefault();
-          document.getElementById('pricing').scrollIntoView({ behavior:'smooth', block:'start' });
-          return;
-        }
-      }
-
-      window.handlePlanClick = function(plan){
-        const member = getCurrentMember();
-        document.getElementById('verifyPlan').value = plan;
-        updatePlanPreview(plan);
-        document.getElementById('member-access').scrollIntoView({ behavior:'smooth', block:'start' });
-        if(!member){
-          openAuthModal('register');
-          document.getElementById('authMessage').textContent = 'Create or log in to continue with your selected plan.';
-        }
-      }
-
-        document.getElementById('payment-guide').scrollIntoView({ behavior:'smooth', block:'start' });
-      }
-
-      window.submitVerification = function(e){
-        e.preventDefault();
-        const email = getSessionEmail();
-        if(!email){
-          document.getElementById('verifyMessage').textContent = 'Please register or log in first.';
-          openAuthModal('login');
-          return;
-        }
-
-        const plan = document.getElementById('verifyPlan').value;
-        const telegram = document.getElementById('verifyTelegram').value.trim();
-        const txid = document.getElementById('verifyTxid').value.trim();
-
-        if(!plan || !txid){
-          document.getElementById('verifyMessage').textContent = 'Plan and TXID are required.';
-          return;
-        }
-
-        const members = getMembers();
-        const member = members[email];
-        member.telegram = telegram || member.telegram || '';
-        member.verification_plan = plan;
-        member.txid = txid;
-        member.plan = plan;
-        member.updated_at = new Date().toISOString();
-        members[email] = member;
-        saveMembers(members);
-        refreshMemberState();
-        document.getElementById('verifyMessage').textContent = 'Verification data saved for this account.';
-      }
-
-      refreshMemberState();
 
     })();
   </script>
