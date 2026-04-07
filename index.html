@@ -1438,6 +1438,85 @@
   justify-content:flex-start;
 }
 
+
+    .is-hidden{ display:none !important; }
+    .auth-note{
+      margin-top:2px;
+      font-size:12px;
+      line-height:1.55;
+      color:#8fa3c6;
+    }
+    .admin-panel-section .section-head{ margin-bottom:30px; }
+    .admin-summary-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-bottom:18px;
+    }
+    .admin-summary-card{
+      padding:18px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+    }
+    .admin-summary-card strong{
+      display:block;
+      font-size:26px;
+      line-height:1;
+      margin-bottom:8px;
+      color:#f5f8ff;
+    }
+    .admin-summary-card span{
+      font-size:13px;
+      color:#93a6c7;
+    }
+    .admin-toolbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:16px;
+    }
+    .admin-table-wrap{
+      overflow:auto;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+    }
+    .admin-table{
+      width:100%;
+      min-width:820px;
+      border-collapse:collapse;
+    }
+    .admin-table th,
+    .admin-table td{
+      padding:14px 16px;
+      text-align:left;
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      font-size:13px;
+      color:#dce7fb;
+      vertical-align:top;
+    }
+    .admin-table th{
+      font-size:12px;
+      letter-spacing:0.8px;
+      text-transform:uppercase;
+      color:#8fa3c6;
+      background:rgba(255,255,255,0.02);
+      white-space:nowrap;
+    }
+    .admin-table td small{ color:#8fa3c6; display:block; margin-top:4px; }
+    .admin-empty{
+      padding:18px;
+      font-size:14px;
+      color:#93a6c7;
+    }
+    @media (max-width: 900px){
+      .admin-summary-grid{ grid-template-columns:1fr 1fr; }
+    }
+    @media (max-width: 640px){
+      .admin-summary-grid{ grid-template-columns:1fr; }
+    }
+
 </style>
 </head>
 <body>
@@ -1458,9 +1537,10 @@
         <a href="#cta" class="nav-cta">Get Access</a>
       </nav>
       <div class="member-actions">
-        <div class="member-label" id="memberLabel">Guest Mode</div><button class="member-btn secondary" onclick="logout()">Logout</button>
-        <button class="member-btn secondary" type="button" onclick="openAuthModal('login')">Login</button>
-        <button class="member-btn" type="button" onclick="openAuthModal('register')">Register</button>
+        <div class="member-label" id="memberLabel">Guest Mode</div>
+        <button class="member-btn secondary is-hidden" id="logoutBtn" type="button" onclick="logout()">Logout</button>
+        <button class="member-btn secondary" id="loginBtn" type="button" onclick="openAuthModal('login')">Login</button>
+        <button class="member-btn" id="registerBtn" type="button" onclick="openAuthModal('register')">Register</button>
       </div>
     </div>
   </header>
@@ -2163,16 +2243,21 @@ Example: 58.316 → 58.32 USDT (round up slightly).
       <form class="auth-form active" id="registerForm" onsubmit="registerMember(event)">
         <div class="auth-field">
           <label>Email</label>
-          <input type="email" id="registerEmail" required />
+          <input type="email" id="registerEmail" autocomplete="email" required />
         </div>
         <div class="auth-field">
           <label>Password</label>
-          <input type="password" id="registerPassword" required />
+          <input type="password" id="registerPassword" autocomplete="new-password" minlength="8" required />
+        </div>
+        <div class="auth-field">
+          <label>Confirm Password</label>
+          <input type="password" id="registerPasswordConfirm" autocomplete="new-password" minlength="8" required />
         </div>
         <div class="auth-field">
           <label>Telegram Username (@)</label>
-          <input type="text" id="registerTelegram" />
+          <input type="text" id="registerTelegram" autocomplete="username" />
         </div>
+        <div class="auth-note">One account per email. Password must match exactly before account creation.</div>
         <button class="auth-submit" type="submit">Create Account</button>
       </form>
 
@@ -2192,6 +2277,46 @@ Example: 58.316 → 58.32 USDT (round up slightly).
     </div>
   </div>
 
+
+
+  <section id="adminPanelSection" class="admin-panel-section is-hidden">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker">Admin Panel</div>
+        <h2>Member registrations and verification data</h2>
+        <p>Open this page with <strong>?admin=1</strong> to review records from this browser.</p>
+      </div>
+      <div class="member-card">
+        <div class="admin-summary-grid">
+          <div class="admin-summary-card"><strong id="adminTotalMembers">0</strong><span>Total members</span></div>
+          <div class="admin-summary-card"><strong id="adminVerifiedMembers">0</strong><span>Verified submissions</span></div>
+          <div class="admin-summary-card"><strong id="adminPaidPlans">0</strong><span>Plan selected</span></div>
+          <div class="admin-summary-card"><strong id="adminTelegramCount">0</strong><span>Telegram filled</span></div>
+        </div>
+        <div class="admin-toolbar">
+          <button class="member-btn secondary" id="adminRefreshBtn" type="button">Refresh Data</button>
+          <button class="member-btn secondary" id="adminExportJsonBtn" type="button">Export JSON</button>
+          <button class="member-btn secondary" id="adminExportCsvBtn" type="button">Export CSV</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Telegram</th>
+                <th>Plan</th>
+                <th>TXID</th>
+                <th>Created</th>
+                <th>Updated</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody"></tbody>
+          </table>
+          <div class="admin-empty is-hidden" id="adminEmptyState">No member data saved in this browser yet.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer class="footer">
     <div class="container footer-inner">
@@ -3169,10 +3294,277 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
 <script>
-function logout(){
-  localStorage.removeItem('tcps_user');
-  location.reload();
-}
+(function(){
+  const MEMBER_DB_KEY = 'tcps_members_stable_v1';
+  const MEMBER_SESSION_KEY = 'tcps_member_session_stable_v1';
+
+  function qs(id){ return document.getElementById(id); }
+  function getMembers(){
+    try { return JSON.parse(localStorage.getItem(MEMBER_DB_KEY) || '{}'); }
+    catch(e){ return {}; }
+  }
+  function saveMembers(data){ localStorage.setItem(MEMBER_DB_KEY, JSON.stringify(data)); }
+  function getSessionEmail(){ return (localStorage.getItem(MEMBER_SESSION_KEY) || '').trim().toLowerCase(); }
+  function setSessionEmail(email){
+    const value = (email || '').trim().toLowerCase();
+    if(value){ localStorage.setItem(MEMBER_SESSION_KEY, value); }
+    else { localStorage.removeItem(MEMBER_SESSION_KEY); }
+  }
+  function normalizeEmail(value){ return (value || '').trim().toLowerCase(); }
+  function validEmail(value){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
+  function showAuthMessage(message){ if(qs('authMessage')) qs('authMessage').textContent = message; }
+  function showVerifyMessage(message){ if(qs('verifyMessage')) qs('verifyMessage').textContent = message; }
+  function getRank(plan){ return { NONE:0, BASIC:1, PRO:2, ELITE:3, LIFETIME:4 }[plan || 'NONE'] || 0; }
+  function setText(id, value){ const el = qs(id); if(el) el.textContent = value; }
+  function setValue(id, value){ const el = qs(id); if(el) el.value = value; }
+  function toggleHidden(id, hidden){ const el = qs(id); if(el) el.classList.toggle('is-hidden', !!hidden); }
+
+  function syncUnlocks(plan){
+    const rank = getRank(plan);
+    [
+      ['basicBadge', rank >= 1],
+      ['proBadge', rank >= 2],
+      ['eliteBadge', rank >= 3],
+      ['lifetimeBadge', rank >= 4],
+      ['libraryBasicStatus', rank >= 1],
+      ['libraryProStatus', rank >= 2],
+      ['libraryEliteStatus', rank >= 3],
+      ['libraryLifetimeStatus', rank >= 4]
+    ].forEach(function(entry){
+      const el = qs(entry[0]);
+      if(el) el.textContent = entry[1] ? 'Unlocked' : 'Locked';
+    });
+  }
+
+  function getCurrentMember(){
+    const email = getSessionEmail();
+    const members = getMembers();
+    return email && members[email] ? members[email] : null;
+  }
+
+  function resetAuthForms(){
+    const registerForm = qs('registerForm');
+    const loginForm = qs('loginForm');
+    if(registerForm) registerForm.reset();
+    if(loginForm) loginForm.reset();
+  }
+
+  function renderMemberState(){
+    const email = getSessionEmail();
+    const members = getMembers();
+    const member = email && members[email] ? members[email] : null;
+
+    if(qs('memberLabel')){
+      qs('memberLabel').innerHTML = member ? 'Logged in: <strong>' + email + '</strong>' : 'Guest Mode';
+    }
+    toggleHidden('logoutBtn', !member);
+    toggleHidden('loginBtn', !!member);
+    toggleHidden('registerBtn', !!member);
+
+    setText('dashEmail', member ? email : 'Not logged in');
+    setText('dashPlan', 'Plan: ' + (member ? (member.plan || 'NONE') : 'NONE'));
+    setValue('verifyEmail', member ? email : '');
+    if(qs('verifyTelegram')) qs('verifyTelegram').value = member && member.telegram ? member.telegram : '';
+    syncUnlocks(member ? (member.plan || 'NONE') : 'NONE');
+    renderAdminPanel();
+  }
+
+  function downloadFile(filename, content, type){
+    const blob = new Blob([content], { type: type || 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(function(){
+      URL.revokeObjectURL(link.href);
+      link.remove();
+    }, 0);
+  }
+
+  function renderAdminPanel(){
+    const section = qs('adminPanelSection');
+    if(!section) return;
+    const isAdminMode = new URLSearchParams(window.location.search).get('admin') === '1';
+    section.classList.toggle('is-hidden', !isAdminMode);
+    if(!isAdminMode) return;
+
+    const members = Object.values(getMembers()).sort(function(a,b){
+      return new Date(b.updated_at || b.created_at || 0).getTime() - new Date(a.updated_at || a.created_at || 0).getTime();
+    });
+    const verified = members.filter(function(member){ return !!(member.txid && member.verification_plan); });
+    const paid = members.filter(function(member){ return !!(member.plan && member.plan !== 'NONE'); });
+    const telegram = members.filter(function(member){ return !!member.telegram; });
+
+    setText('adminTotalMembers', String(members.length));
+    setText('adminVerifiedMembers', String(verified.length));
+    setText('adminPaidPlans', String(paid.length));
+    setText('adminTelegramCount', String(telegram.length));
+
+    const tbody = qs('adminTableBody');
+    const empty = qs('adminEmptyState');
+    if(!tbody || !empty) return;
+
+    if(!members.length){
+      tbody.innerHTML = '';
+      empty.classList.remove('is-hidden');
+      return;
+    }
+
+    empty.classList.add('is-hidden');
+    tbody.innerHTML = members.map(function(member){
+      const email = member.email || '-';
+      const telegram = member.telegram || '-';
+      const plan = member.plan || 'NONE';
+      const txid = member.txid ? (member.txid.length > 18 ? member.txid.slice(0,18) + '…' : member.txid) : '-';
+      const created = member.created_at ? new Date(member.created_at).toLocaleString() : '-';
+      const updated = member.updated_at ? new Date(member.updated_at).toLocaleString() : '-';
+      return '<tr>' +
+        '<td>' + email + '</td>' +
+        '<td>' + telegram + '</td>' +
+        '<td>' + plan + '</td>' +
+        '<td>' + txid + '<small>' + (member.verification_plan || '') + '</small></td>' +
+        '<td>' + created + '</td>' +
+        '<td>' + updated + '</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  window.registerMember = function(event){
+    if(event) event.preventDefault();
+    const email = normalizeEmail(qs('registerEmail') && qs('registerEmail').value);
+    const password = ((qs('registerPassword') && qs('registerPassword').value) || '').trim();
+    const confirmPassword = ((qs('registerPasswordConfirm') && qs('registerPasswordConfirm').value) || '').trim();
+    const telegram = ((qs('registerTelegram') && qs('registerTelegram').value) || '').trim();
+
+    if(!validEmail(email)){
+      showAuthMessage('Enter a valid email address.');
+      return;
+    }
+    if(password.length < 8){
+      showAuthMessage('Password must be at least 8 characters.');
+      return;
+    }
+    if(password !== confirmPassword){
+      showAuthMessage('Passwords do not match.');
+      return;
+    }
+
+    const members = getMembers();
+    if(members[email]){
+      showAuthMessage('This email is already registered. Please log in.');
+      if(typeof window.switchAuthTab === 'function') window.switchAuthTab('login');
+      if(qs('loginEmail')) qs('loginEmail').value = email;
+      return;
+    }
+
+    members[email] = {
+      email: email,
+      password: password,
+      telegram: telegram,
+      plan: 'NONE',
+      txid: '',
+      verification_plan: '',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+    saveMembers(members);
+    setSessionEmail(email);
+    resetAuthForms();
+    renderMemberState();
+    if(typeof window.closeAuthModal === 'function') window.closeAuthModal();
+    const target = qs('member-access');
+    if(target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+  };
+
+  window.loginMember = function(event){
+    if(event) event.preventDefault();
+    const email = normalizeEmail(qs('loginEmail') && qs('loginEmail').value);
+    const password = ((qs('loginPassword') && qs('loginPassword').value) || '').trim();
+    const members = getMembers();
+    if(!members[email] || members[email].password !== password){
+      showAuthMessage('Invalid email or password.');
+      return;
+    }
+    setSessionEmail(email);
+    renderMemberState();
+    if(typeof window.closeAuthModal === 'function') window.closeAuthModal();
+    const target = qs('member-access');
+    if(target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+  };
+
+  window.submitVerification = function(event){
+    if(event) event.preventDefault();
+    const email = getSessionEmail();
+    if(!email){
+      showVerifyMessage('Please register or log in first.');
+      if(typeof window.openAuthModal === 'function') window.openAuthModal('login');
+      return;
+    }
+
+    const plan = ((qs('verifyPlan') && qs('verifyPlan').value) || '').trim();
+    const telegram = ((qs('verifyTelegram') && qs('verifyTelegram').value) || '').trim();
+    const txid = ((qs('verifyTxid') && qs('verifyTxid').value) || '').trim();
+    if(!plan || !txid){
+      showVerifyMessage('Plan and TXID are required.');
+      return;
+    }
+    if(txid.length < 10){
+      showVerifyMessage('Enter the full TXID.');
+      return;
+    }
+
+    const members = getMembers();
+    const member = members[email] || { email: email, created_at: new Date().toISOString() };
+    member.telegram = telegram || member.telegram || '';
+    member.plan = plan;
+    member.verification_plan = plan;
+    member.txid = txid;
+    member.updated_at = new Date().toISOString();
+    members[email] = member;
+    saveMembers(members);
+
+    renderMemberState();
+    showVerifyMessage('Verification data saved for this account.');
+  };
+
+  window.logout = function(){
+    setSessionEmail('');
+    renderMemberState();
+    showVerifyMessage('');
+    showAuthMessage('Create your account first, then complete payment verification.');
+    if(qs('verifyTxid')) qs('verifyTxid').value = '';
+    if(typeof window.closeAuthModal === 'function') window.closeAuthModal();
+  };
+
+  function bindForms(){
+    if(qs('registerForm')) qs('registerForm').onsubmit = window.registerMember;
+    if(qs('loginForm')) qs('loginForm').onsubmit = window.loginMember;
+    if(qs('adminRefreshBtn')) qs('adminRefreshBtn').onclick = renderAdminPanel;
+    if(qs('adminExportJsonBtn')) qs('adminExportJsonBtn').onclick = function(){
+      downloadFile('tcps-members.json', JSON.stringify(getMembers(), null, 2), 'application/json;charset=utf-8');
+    };
+    if(qs('adminExportCsvBtn')) qs('adminExportCsvBtn').onclick = function(){
+      const rows = Object.values(getMembers());
+      const header = ['email','telegram','plan','verification_plan','txid','created_at','updated_at'];
+      const csv = [header.join(',')].concat(rows.map(function(row){
+        return header.map(function(key){
+          const value = String(row[key] || '').replace(/"/g, '""');
+          return '"' + value + '"';
+        }).join(',');
+      })).join('\\n');
+      downloadFile('tcps-members.csv', csv, 'text/csv;charset=utf-8');
+    };
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){ bindForms(); renderMemberState(); renderAdminPanel(); });
+  } else {
+    bindForms();
+    renderMemberState();
+    renderAdminPanel();
+  }
+})();
 </script>
 
 </body>
