@@ -2265,8 +2265,12 @@ Example: 58.316 → 58.32 USDT (round up slightly).
           <input type="password" id="registerPasswordConfirm" autocomplete="new-password" minlength="8" required />
         </div>
         <div class="auth-field">
+          <label>TradingView ID</label>
+          <input type="text" id="registerTradingView" autocomplete="off" required />
+        </div>
+        <div class="auth-field">
           <label>Telegram Username (@)</label>
-          <input type="text" id="registerTelegram" autocomplete="username" />
+          <input type="text" id="registerTelegram" autocomplete="username" required />
         </div>
         <div class="auth-note">One account per email. Password must match exactly before account creation.</div>
         <button class="auth-submit" type="submit">Create Account</button>
@@ -3304,31 +3308,42 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 
 
+
 <script>
 (function(){
-  const MEMBER_DB_KEY = 'tcps_members_stable_v1';
-  const MEMBER_SESSION_KEY = 'tcps_member_session_stable_v1';
+  const API_BASE = (location.hostname === '34.50.56.156' || location.hostname === '127.0.0.1' || location.hostname === 'localhost')
+    ? ''
+    : 'http://34.50.56.156';
+  const MEMBER_SESSION_KEY = 'tcps_member_session_v2';
 
   function qs(id){ return document.getElementById(id); }
-  function getMembers(){
-    try { return JSON.parse(localStorage.getItem(MEMBER_DB_KEY) || '{}'); }
-    catch(e){ return {}; }
-  }
-  function saveMembers(data){ localStorage.setItem(MEMBER_DB_KEY, JSON.stringify(data)); }
-  function getSessionEmail(){ return (localStorage.getItem(MEMBER_SESSION_KEY) || '').trim().toLowerCase(); }
-  function setSessionEmail(email){
-    const value = (email || '').trim().toLowerCase();
-    if(value){ localStorage.setItem(MEMBER_SESSION_KEY, value); }
-    else { localStorage.removeItem(MEMBER_SESSION_KEY); }
-  }
   function normalizeEmail(value){ return (value || '').trim().toLowerCase(); }
   function validEmail(value){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value); }
   function showAuthMessage(message){ if(qs('authMessage')) qs('authMessage').textContent = message; }
   function showVerifyMessage(message){ if(qs('verifyMessage')) qs('verifyMessage').textContent = message; }
-  function getRank(plan){ return { NONE:0, BASIC:1, PRO:2, ELITE:3, LIFETIME:4 }[plan || 'NONE'] || 0; }
+  function getRank(plan){ return { NONE:0, BASIC:1, PRO:2, ELITE:3, LIFETIME:4 }[(plan || 'NONE').toUpperCase()] || 0; }
   function setText(id, value){ const el = qs(id); if(el) el.textContent = value; }
   function setValue(id, value){ const el = qs(id); if(el) el.value = value; }
   function toggleHidden(id, hidden){ const el = qs(id); if(el) el.classList.toggle('is-hidden', !!hidden); }
+
+  function getSession(){
+    try { return JSON.parse(localStorage.getItem(MEMBER_SESSION_KEY) || 'null'); }
+    catch(e){ return null; }
+  }
+  function setSession(member){
+    if(member) localStorage.setItem(MEMBER_SESSION_KEY, JSON.stringify(member));
+    else localStorage.removeItem(MEMBER_SESSION_KEY);
+  }
+
+  async function api(path, options){
+    const res = await fetch(API_BASE + path, options || {});
+    let data = {};
+    try { data = await res.json(); } catch(e) {}
+    if(!res.ok || data.success === false){
+      throw new Error(data.message || 'Request failed');
+    }
+    return data;
+  }
 
   function syncUnlocks(plan){
     const rank = getRank(plan);
@@ -3347,12 +3362,6 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
 
-  function getCurrentMember(){
-    const email = getSessionEmail();
-    const members = getMembers();
-    return email && members[email] ? members[email] : null;
-  }
-
   function resetAuthForms(){
     const registerForm = qs('registerForm');
     const loginForm = qs('loginForm');
@@ -3360,10 +3369,25 @@ document.addEventListener('DOMContentLoaded', function(){
     if(loginForm) loginForm.reset();
   }
 
+  function renderAdminPanel(){
+    const section = qs('adminPanelSection');
+    if(!section) return;
+    const isAdminMode = new URLSearchParams(window.location.search).get('admin') === '1';
+    section.classList.toggle('is-hidden', !isAdminMode);
+    if(!isAdminMode) return;
+    const empty = qs('adminEmptyState');
+    const tbody = qs('adminTableBody');
+    if(empty) empty.classList.remove('is-hidden');
+    if(tbody) tbody.innerHTML = '';
+    setText('adminTotalMembers', 'Use /admin on server');
+    setText('adminVerifiedMembers', 'Use /admin on server');
+    setText('adminPaidPlans', 'Use /admin on server');
+    setText('adminTelegramCount', 'Use /admin on server');
+  }
+
   function renderMemberState(){
-    const email = getSessionEmail();
-    const members = getMembers();
-    const member = email && members[email] ? members[email] : null;
+    const member = getSession();
+    const email = member && member.email ? member.email : '';
 
     if(qs('memberLabel')){
       qs('memberLabel').innerHTML = member ? 'Logged in: <strong>' + email + '</strong>' : 'Guest Mode';
@@ -3375,78 +3399,18 @@ document.addEventListener('DOMContentLoaded', function(){
     setText('dashEmail', member ? email : 'Not logged in');
     setText('dashPlan', 'Plan: ' + (member ? (member.plan || 'NONE') : 'NONE'));
     setValue('verifyEmail', member ? email : '');
-    if(qs('verifyTelegram')) qs('verifyTelegram').value = member && member.telegram ? member.telegram : '';
+    if(qs('verifyTelegram')) qs('verifyTelegram').value = member && member.telegramId ? member.telegramId : '';
     syncUnlocks(member ? (member.plan || 'NONE') : 'NONE');
     renderAdminPanel();
   }
 
-  function downloadFile(filename, content, type){
-    const blob = new Blob([content], { type: type || 'text/plain;charset=utf-8' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    setTimeout(function(){
-      URL.revokeObjectURL(link.href);
-      link.remove();
-    }, 0);
-  }
-
-  function renderAdminPanel(){
-    const section = qs('adminPanelSection');
-    if(!section) return;
-    const isAdminMode = new URLSearchParams(window.location.search).get('admin') === '1';
-    section.classList.toggle('is-hidden', !isAdminMode);
-    if(!isAdminMode) return;
-
-    const members = Object.values(getMembers()).sort(function(a,b){
-      return new Date(b.updated_at || b.created_at || 0).getTime() - new Date(a.updated_at || a.created_at || 0).getTime();
-    });
-    const verified = members.filter(function(member){ return !!(member.txid && member.verification_plan); });
-    const paid = members.filter(function(member){ return !!(member.plan && member.plan !== 'NONE'); });
-    const telegram = members.filter(function(member){ return !!member.telegram; });
-
-    setText('adminTotalMembers', String(members.length));
-    setText('adminVerifiedMembers', String(verified.length));
-    setText('adminPaidPlans', String(paid.length));
-    setText('adminTelegramCount', String(telegram.length));
-
-    const tbody = qs('adminTableBody');
-    const empty = qs('adminEmptyState');
-    if(!tbody || !empty) return;
-
-    if(!members.length){
-      tbody.innerHTML = '';
-      empty.classList.remove('is-hidden');
-      return;
-    }
-
-    empty.classList.add('is-hidden');
-    tbody.innerHTML = members.map(function(member){
-      const email = member.email || '-';
-      const telegram = member.telegram || '-';
-      const plan = member.plan || 'NONE';
-      const txid = member.txid ? (member.txid.length > 18 ? member.txid.slice(0,18) + '…' : member.txid) : '-';
-      const created = member.created_at ? new Date(member.created_at).toLocaleString() : '-';
-      const updated = member.updated_at ? new Date(member.updated_at).toLocaleString() : '-';
-      return '<tr>' +
-        '<td>' + email + '</td>' +
-        '<td>' + telegram + '</td>' +
-        '<td>' + plan + '</td>' +
-        '<td>' + txid + '<small>' + (member.verification_plan || '') + '</small></td>' +
-        '<td>' + created + '</td>' +
-        '<td>' + updated + '</td>' +
-      '</tr>';
-    }).join('');
-  }
-
-  window.registerMember = function(event){
+  window.registerMember = async function(event){
     if(event) event.preventDefault();
     const email = normalizeEmail(qs('registerEmail') && qs('registerEmail').value);
     const password = ((qs('registerPassword') && qs('registerPassword').value) || '').trim();
     const confirmPassword = ((qs('registerPasswordConfirm') && qs('registerPasswordConfirm').value) || '').trim();
-    const telegram = ((qs('registerTelegram') && qs('registerTelegram').value) || '').trim();
+    const tradingViewId = ((qs('registerTradingView') && qs('registerTradingView').value) || '').trim();
+    const telegramId = ((qs('registerTelegram') && qs('registerTelegram').value) || '').trim();
 
     if(!validEmail(email)){
       showAuthMessage('Enter a valid email address.');
@@ -3460,123 +3424,124 @@ document.addEventListener('DOMContentLoaded', function(){
       showAuthMessage('Passwords do not match.');
       return;
     }
-
-    const members = getMembers();
-    if(members[email]){
-      showAuthMessage('This email is already registered. Please log in.');
-      if(typeof window.switchAuthTab === 'function') window.switchAuthTab('login');
-      if(qs('loginEmail')) qs('loginEmail').value = email;
+    if(!tradingViewId){
+      showAuthMessage('TradingView ID is required.');
+      return;
+    }
+    if(!telegramId){
+      showAuthMessage('Telegram username is required.');
       return;
     }
 
-    members[email] = {
-      email: email,
-      password: password,
-      telegram: telegram,
-      plan: 'NONE',
-      txid: '',
-      verification_plan: '',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    };
-    saveMembers(members);
-    setSessionEmail(email);
-    resetAuthForms();
-    renderMemberState();
-    if(typeof window.closeAuthModal === 'function') window.closeAuthModal();
-    const target = qs('member-access');
-    if(target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+    showAuthMessage('Creating account...');
+    try{
+      const result = await api('/api/signup', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ email, password, tradingViewId, telegramId })
+      });
+      setSession(result.member);
+      resetAuthForms();
+      renderMemberState();
+      showAuthMessage('Account created.');
+      if(typeof window.closeAuthModal === 'function') window.closeAuthModal();
+      const target = qs('member-access');
+      if(target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+    }catch(err){
+      showAuthMessage(err.message || 'Failed to create account.');
+    }
   };
 
-  window.loginMember = function(event){
+  window.loginMember = async function(event){
     if(event) event.preventDefault();
     const email = normalizeEmail(qs('loginEmail') && qs('loginEmail').value);
     const password = ((qs('loginPassword') && qs('loginPassword').value) || '').trim();
-    const members = getMembers();
-    if(!members[email] || members[email].password !== password){
-      showAuthMessage('Invalid email or password.');
-      return;
+    showAuthMessage('Logging in...');
+    try{
+      const result = await api('/api/member-login', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      setSession(result.member);
+      renderMemberState();
+      showAuthMessage('Logged in.');
+      if(typeof window.closeAuthModal === 'function') window.closeAuthModal();
+      const target = qs('member-access');
+      if(target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+    }catch(err){
+      showAuthMessage(err.message || 'Invalid email or password.');
     }
-    setSessionEmail(email);
-    renderMemberState();
-    if(typeof window.closeAuthModal === 'function') window.closeAuthModal();
-    const target = qs('member-access');
-    if(target) target.scrollIntoView({ behavior:'smooth', block:'start' });
   };
 
-  window.submitVerification = function(event){
+  window.submitVerification = async function(event){
     if(event) event.preventDefault();
-    const email = getSessionEmail();
-    if(!email){
+    const member = getSession();
+    if(!member || !member.email){
       showVerifyMessage('Please register or log in first.');
-      if(typeof window.openAuthModal === 'function') window.openAuthModal('login');
       return;
     }
-
-    const plan = ((qs('verifyPlan') && qs('verifyPlan').value) || '').trim();
-    const telegram = ((qs('verifyTelegram') && qs('verifyTelegram').value) || '').trim();
+    const verificationPlan = ((qs('verifyPlan') && qs('verifyPlan').value) || '').trim();
+    const amount = Number(((qs('verifyAmount') && qs('verifyAmount').value) || '0').trim());
     const txid = ((qs('verifyTxid') && qs('verifyTxid').value) || '').trim();
-    if(!plan || !txid){
-      showVerifyMessage('Plan and TXID are required.');
+    const wallet = ((qs('verifyWalletAddress') && qs('verifyWalletAddress').value) || '').trim();
+
+    if(!verificationPlan){
+      showVerifyMessage('Select a plan first.');
       return;
     }
-    if(txid.length < 10){
-      showVerifyMessage('Enter the full TXID.');
+    if(!amount || amount <= 0){
+      showVerifyMessage('Enter the paid amount.');
+      return;
+    }
+    if(!txid){
+      showVerifyMessage('Enter your TXID.');
       return;
     }
 
-    const members = getMembers();
-    const member = members[email] || { email: email, created_at: new Date().toISOString() };
-    member.telegram = telegram || member.telegram || '';
-    member.plan = plan;
-    member.verification_plan = plan;
-    member.txid = txid;
-    member.updated_at = new Date().toISOString();
-    members[email] = member;
-    saveMembers(members);
-
-    renderMemberState();
-    showVerifyMessage('Verification data saved for this account.');
+    showVerifyMessage('Saving verification...');
+    try{
+      const result = await api('/api/submit-payment', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({
+          email: member.email,
+          plan: verificationPlan,
+          amount,
+          txid,
+          wallet
+        })
+      });
+      if(result.member){
+        setSession(result.member);
+      }else{
+        const next = Object.assign({}, member, {
+          plan: result.plan || member.plan,
+          status: result.memberStatus || member.status || 'pending'
+        });
+        setSession(next);
+      }
+      renderMemberState();
+      showVerifyMessage(result.note || ('Saved: ' + (result.status || 'submitted')));
+      if(qs('verifyTxid')) qs('verifyTxid').value = '';
+    }catch(err){
+      showVerifyMessage(err.message || 'Failed to save verification.');
+    }
   };
 
   window.logout = function(){
-    setSessionEmail('');
+    setSession(null);
     renderMemberState();
-    showVerifyMessage('');
-    showAuthMessage('Create your account first, then complete payment verification.');
-    if(qs('verifyTxid')) qs('verifyTxid').value = '';
-    if(typeof window.closeAuthModal === 'function') window.closeAuthModal();
   };
 
-  function bindForms(){
-    if(qs('registerForm')) qs('registerForm').onsubmit = window.registerMember;
-    if(qs('loginForm')) qs('loginForm').onsubmit = window.loginMember;
-    if(qs('adminRefreshBtn')) qs('adminRefreshBtn').onclick = renderAdminPanel;
-    if(qs('adminExportJsonBtn')) qs('adminExportJsonBtn').onclick = function(){
-      downloadFile('tcps-members.json', JSON.stringify(getMembers(), null, 2), 'application/json;charset=utf-8');
-    };
-    if(qs('adminExportCsvBtn')) qs('adminExportCsvBtn').onclick = function(){
-      const rows = Object.values(getMembers());
-      const header = ['email','telegram','plan','verification_plan','txid','created_at','updated_at'];
-      const csv = [header.join(',')].concat(rows.map(function(row){
-        return header.map(function(key){
-          const value = String(row[key] || '').replace(/"/g, '""');
-          return '"' + value + '"';
-        }).join(',');
-      })).join('\\n');
-      downloadFile('tcps-members.csv', csv, 'text/csv;charset=utf-8');
-    };
-  }
-
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', function(){ bindForms(); renderMemberState(); renderAdminPanel(); });
-  } else {
-    bindForms();
+  document.addEventListener('DOMContentLoaded', function(){
+    if(qs('registerForm')) qs('registerForm').onsubmit = registerMember;
+    if(qs('loginForm')) qs('loginForm').onsubmit = loginMember;
     renderMemberState();
-    renderAdminPanel();
-  }
+  });
 })();
 </script>
+
 
 
 <script>
