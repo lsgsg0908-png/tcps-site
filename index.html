@@ -1425,17 +1425,48 @@
   
 
 
-.price{
-  display:flex;
-  align-items:baseline;
-  justify-content:flex-start;
-  gap:8px;
-  min-height:56px;
-}
 .price-wrap{
   display:flex;
   flex-direction:column;
   justify-content:flex-start;
+  align-items:flex-start;
+  margin-bottom:22px;
+  min-height:118px;
+}
+.price{
+  display:flex;
+  align-items:flex-end;
+  justify-content:flex-start;
+  gap:10px;
+  min-height:76px;
+  line-height:0.92;
+  white-space:nowrap;
+}
+.price-number{
+  font-size:64px;
+  font-weight:900;
+  letter-spacing:-2.4px;
+  display:inline-block;
+}
+.price-currency{
+  font-size:22px;
+  font-weight:800;
+  line-height:1.1;
+  opacity:0.96;
+  padding-bottom:8px;
+  display:inline-block;
+}
+.price-sub{
+  font-size:15px;
+  color:#8da2c4;
+  line-height:1.25;
+  min-height:20px;
+}
+@media (max-width: 760px){
+  .price-wrap{min-height:auto; margin-bottom:18px;}
+  .price{min-height:64px; gap:8px;}
+  .price-number{font-size:52px; letter-spacing:-1.8px;}
+  .price-currency{font-size:18px; padding-bottom:6px;}
 }
 
 
@@ -2004,7 +2035,7 @@ Each plan is built around a different stage of execution.<br>
           <div class="plan-desc">Entry-level access for traders who want the foundation first.</div>
           <div class="save-pill">Fastest way to start</div>
           <div class="price-wrap">
-            <div class="price">49 <span>USDT</span></div>
+            <div class="price"><span class="price-number">49</span><span class="price-currency">USDT</span></div>
             <div class="price-sub">per month</div>
           </div>
           <div class="plan-microcopy">Good for users who want the core indicator and chart logic without the deeper execution layers yet.</div>
@@ -2029,7 +2060,7 @@ Each plan is built around a different stage of execution.<br>
           <div class="plan-desc">The main TCPS workflow for users who want the real signal-focused product.</div>
           <div class="save-pill">Best conversion tier</div>
           <div class="price-wrap">
-            <div class="price">99 <span>USDT</span></div>
+            <div class="price"><span class="price-number">99</span><span class="price-currency">USDT</span></div>
             <div class="price-sub">per month</div>
           </div>
           <div class="plan-microcopy">This is the plan most users should end up choosing if they want the practical execution workflow, not just the foundation.</div>
@@ -2052,7 +2083,7 @@ Each plan is built around a different stage of execution.<br>
           <div class="plan-desc">For users who want stronger execution depth and a higher support tier.</div>
           <div class="save-pill">Deeper workflow</div>
           <div class="price-wrap">
-            <div class="price">199 <span>USDT</span></div>
+            <div class="price"><span class="price-number">199</span><span class="price-currency">USDT</span></div>
             <div class="price-sub">per month</div>
           </div>
           <div class="plan-microcopy">For traders who already know they want more than the main Pro workflow and need stronger execution support.</div>
@@ -2076,7 +2107,7 @@ Each plan is built around a different stage of execution.<br>
           <div class="plan-desc">For users who want the strongest package and no monthly renewal.</div>
           <div class="save-pill">Highest value option</div>
           <div class="price-wrap">
-            <div class="price">399 <span>USDT</span></div>
+            <div class="price"><span class="price-number">399</span><span class="price-currency">USDT</span></div>
             <div class="price-sub">one-time payment</div>
           </div>
           <div class="plan-microcopy">Best for serious users who want full package access, future updates, and the cleanest long-term decision.</div>
@@ -3592,13 +3623,15 @@ function goLogin(){
     const logoutBtn = document.getElementById("logoutBtn");
 
     if(savedUser){
-      if(loginBtn) loginBtn.style.display = "none";
-      if(registerBtn){
-        registerBtn.textContent = savedUser;
-        registerBtn.onclick = function(){ window.location.href = "http://34.50.56.156/dashboard.html"; };
-      }
-      if(memberLabel) memberLabel.innerHTML = "<strong>" + savedUser + "</strong>";
+      if(loginBtn) loginBtn.classList.add("is-hidden");
+      if(registerBtn) registerBtn.classList.add("is-hidden");
+      if(memberLabel) memberLabel.innerHTML = 'Logged in: <strong>' + savedUser + '</strong>';
       if(logoutBtn) logoutBtn.classList.remove("is-hidden");
+    } else {
+      if(loginBtn) loginBtn.classList.remove("is-hidden");
+      if(registerBtn) registerBtn.classList.remove("is-hidden");
+      if(memberLabel) memberLabel.textContent = "Guest Mode";
+      if(logoutBtn) logoutBtn.classList.add("is-hidden");
     }
 
     if(logoutBtn){
