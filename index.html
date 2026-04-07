@@ -727,9 +727,10 @@
       border:1px solid rgba(53,207,255,0.18);
       margin-bottom:14px;
     }
-    .price-wrap{ margin-bottom:24px; }
-    .price{ font-size:44px; font-weight:800; letter-spacing:-1.2px; margin-bottom:4px; display:flex; align-items:baseline; gap:8px; white-space:nowrap; }
-    .price span{ font-size:20px; font-weight:700; opacity:0.92; }
+    .price-wrap{ margin-bottom:24px; display:grid; align-content:start; gap:6px; }
+    .price{ display:flex; align-items:flex-end; gap:10px; min-height:74px; line-height:1; white-space:nowrap; }
+    .price-value{ font-size:58px; font-weight:900; letter-spacing:-1.8px; color:#f5f8ff; }
+    .price-unit{ font-size:22px; font-weight:800; opacity:0.95; transform:translateY(-8px); }
     .price-sub{ font-size:14px; color:#8da2c4; }
     .feature-list{ list-style:none; display:grid; gap:12px; margin-bottom:28px; flex:1; }
     .feature-list li{
@@ -812,6 +813,9 @@
       .monitor-main{ font-size:24px; min-height:58px; max-width:220px; }
       .mini-value{ min-height:24px; }
       .save-pill{ margin-bottom:10px; }
+      .price{ min-height:64px; }
+      .price-value{ font-size:50px; }
+      .price-unit{ font-size:20px; transform:translateY(-6px); }
     }
   
     /* MEMBER / AUTH */
@@ -1425,48 +1429,17 @@
   
 
 
-.price-wrap{
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
-  align-items:flex-start;
-  margin-bottom:22px;
-  min-height:118px;
-}
 .price{
   display:flex;
   align-items:flex-end;
   justify-content:flex-start;
   gap:10px;
-  min-height:76px;
-  line-height:0.92;
-  white-space:nowrap;
+  min-height:74px;
 }
-.price-number{
-  font-size:64px;
-  font-weight:900;
-  letter-spacing:-2.4px;
-  display:inline-block;
-}
-.price-currency{
-  font-size:22px;
-  font-weight:800;
-  line-height:1.1;
-  opacity:0.96;
-  padding-bottom:8px;
-  display:inline-block;
-}
-.price-sub{
-  font-size:15px;
-  color:#8da2c4;
-  line-height:1.25;
-  min-height:20px;
-}
-@media (max-width: 760px){
-  .price-wrap{min-height:auto; margin-bottom:18px;}
-  .price{min-height:64px; gap:8px;}
-  .price-number{font-size:52px; letter-spacing:-1.8px;}
-  .price-currency{font-size:18px; padding-bottom:6px;}
+.price-wrap{
+  display:grid;
+  align-content:start;
+  gap:6px;
 }
 
 
@@ -2035,7 +2008,7 @@ Each plan is built around a different stage of execution.<br>
           <div class="plan-desc">Entry-level access for traders who want the foundation first.</div>
           <div class="save-pill">Fastest way to start</div>
           <div class="price-wrap">
-            <div class="price"><span class="price-number">49</span><span class="price-currency">USDT</span></div>
+            <div class="price"><span class="price-value">49</span><span class="price-unit">USDT</span></div>
             <div class="price-sub">per month</div>
           </div>
           <div class="plan-microcopy">Good for users who want the core indicator and chart logic without the deeper execution layers yet.</div>
@@ -2060,7 +2033,7 @@ Each plan is built around a different stage of execution.<br>
           <div class="plan-desc">The main TCPS workflow for users who want the real signal-focused product.</div>
           <div class="save-pill">Best conversion tier</div>
           <div class="price-wrap">
-            <div class="price"><span class="price-number">99</span><span class="price-currency">USDT</span></div>
+            <div class="price"><span class="price-value">99</span><span class="price-unit">USDT</span></div>
             <div class="price-sub">per month</div>
           </div>
           <div class="plan-microcopy">This is the plan most users should end up choosing if they want the practical execution workflow, not just the foundation.</div>
@@ -2083,7 +2056,7 @@ Each plan is built around a different stage of execution.<br>
           <div class="plan-desc">For users who want stronger execution depth and a higher support tier.</div>
           <div class="save-pill">Deeper workflow</div>
           <div class="price-wrap">
-            <div class="price"><span class="price-number">199</span><span class="price-currency">USDT</span></div>
+            <div class="price"><span class="price-value">199</span><span class="price-unit">USDT</span></div>
             <div class="price-sub">per month</div>
           </div>
           <div class="plan-microcopy">For traders who already know they want more than the main Pro workflow and need stronger execution support.</div>
@@ -2107,7 +2080,7 @@ Each plan is built around a different stage of execution.<br>
           <div class="plan-desc">For users who want the strongest package and no monthly renewal.</div>
           <div class="save-pill">Highest value option</div>
           <div class="price-wrap">
-            <div class="price"><span class="price-number">399</span><span class="price-currency">USDT</span></div>
+            <div class="price"><span class="price-value">399</span><span class="price-unit">USDT</span></div>
             <div class="price-sub">one-time payment</div>
           </div>
           <div class="plan-microcopy">Best for serious users who want full package access, future updates, and the cleanest long-term decision.</div>
@@ -3598,12 +3571,13 @@ async function register(){
 </script>
 
 
+
 <script>
 function goRegister(){
-  window.location.href = "http://34.50.56.156/register.html";
+  window.location.href = "http://34.50.56.156:5000/register.html";
 }
 function goLogin(){
-  window.location.href = "http://34.50.56.156/register.html";
+  window.location.href = "http://34.50.56.156:5000/register.html";
 }
 
 (function(){
@@ -3615,7 +3589,7 @@ function goLogin(){
     window.history.replaceState({}, document.title, window.location.pathname);
   }
 
-  window.addEventListener("DOMContentLoaded", function(){
+  function syncTopbarUser(){
     const savedUser = localStorage.getItem("tcps_logged_user");
     const loginBtn = document.getElementById("loginBtn");
     const registerBtn = document.getElementById("registerBtn");
@@ -3625,7 +3599,7 @@ function goLogin(){
     if(savedUser){
       if(loginBtn) loginBtn.classList.add("is-hidden");
       if(registerBtn) registerBtn.classList.add("is-hidden");
-      if(memberLabel) memberLabel.innerHTML = 'Logged in: <strong>' + savedUser + '</strong>';
+      if(memberLabel) memberLabel.innerHTML = "<strong>" + savedUser + "</strong>";
       if(logoutBtn) logoutBtn.classList.remove("is-hidden");
     } else {
       if(loginBtn) loginBtn.classList.remove("is-hidden");
@@ -3633,7 +3607,11 @@ function goLogin(){
       if(memberLabel) memberLabel.textContent = "Guest Mode";
       if(logoutBtn) logoutBtn.classList.add("is-hidden");
     }
+  }
 
+  window.addEventListener("DOMContentLoaded", function(){
+    syncTopbarUser();
+    const logoutBtn = document.getElementById("logoutBtn");
     if(logoutBtn){
       logoutBtn.onclick = function(){
         localStorage.removeItem("tcps_logged_user");
@@ -3646,3 +3624,4 @@ function goLogin(){
 
 </body>
 </html>
+
