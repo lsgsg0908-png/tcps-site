@@ -84,11 +84,24 @@
     }
     section{ padding:92px 0; }
     .hero{ padding:88px 0 72px; }
-    .hero-grid{
+    
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.04fr 0.96fr;
+  gap:34px;
+  align-items:center;
+}
+.hero-card{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.hero-grid{
       display:grid;
       grid-template-columns:1.04fr 0.96fr;
       gap:34px;
-      align-items:start;
+      align-items:center;
     }
     .badge{
       display:inline-flex;
@@ -169,8 +182,7 @@
     .hero-card{
       padding:30px;
       min-height:470px;
-      transform:none;
-      margin-top:0;
+      transform:translateY(-28px);
     }
     .screen-head{
       display:flex;
@@ -803,7 +815,7 @@
     }
   
     /* MEMBER / AUTH */
-    .member-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .member-actions{ display:flex; align-items:center; gap:10px; }
     .member-btn{
       min-height:48px;
       display:inline-flex;
@@ -1412,6 +1424,20 @@
 
   
 
+
+.price{
+  display:flex;
+  align-items:baseline;
+  justify-content:flex-start;
+  gap:8px;
+  min-height:56px;
+}
+.price-wrap{
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+
 </style>
 </head>
 <body>
@@ -1432,10 +1458,9 @@
         <a href="#cta" class="nav-cta">Get Access</a>
       </nav>
       <div class="member-actions">
-        <div class="member-label" id="memberLabel">Guest Mode</div>
-        <button class="member-btn secondary" id="loginBtn" type="button" onclick="openAuthModal('login')">Login</button>
-        <button class="member-btn" id="registerBtn" type="button" onclick="openAuthModal('register')">Register</button>
-        <button class="member-btn secondary" id="logoutBtn" type="button" onclick="logoutMember()" style="display:none;">Logout</button>
+        <div class="member-label" id="memberLabel">Guest Mode</div><button class="member-btn secondary" onclick="logout()">Logout</button>
+        <button class="member-btn secondary" type="button" onclick="openAuthModal('login')">Login</button>
+        <button class="member-btn" type="button" onclick="openAuthModal('register')">Register</button>
       </div>
     </div>
   </header>
@@ -2876,13 +2901,10 @@ document.addEventListener('DOMContentLoaded', function(){
     if (qs("memberLabel")) {
       qs("memberLabel").innerHTML = member ? 'Logged in: <strong>' + email + '</strong>' : 'Guest Mode';
     }
-    if (qs("loginBtn")) qs("loginBtn").style.display = member ? "none" : "inline-flex";
-    if (qs("registerBtn")) qs("registerBtn").style.display = member ? "none" : "inline-flex";
-    if (qs("logoutBtn")) qs("logoutBtn").style.display = member ? "inline-flex" : "none";
     if (qs("dashEmail")) qs("dashEmail").textContent = member ? email : "Not logged in";
     if (qs("dashPlan")) qs("dashPlan").textContent = "Plan: " + (member ? (member.plan || "NONE") : "NONE");
     if (qs("verifyEmail")) qs("verifyEmail").value = member ? email : "";
-    if (qs("verifyTelegram")) qs("verifyTelegram").value = member && member.telegram ? member.telegram : "";
+    if (qs("verifyTelegram") && member && member.telegram) qs("verifyTelegram").value = member.telegram;
     updateUnlocks(member ? (member.plan || "NONE") : "NONE");
   }
 
@@ -3059,15 +3081,6 @@ document.addEventListener('DOMContentLoaded', function(){
     qs("member-access")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  window.logoutMember = function() {
-    setSessionEmail("");
-    refreshMemberState();
-    setDashboardDefault();
-    if (qs("verifyPlan")) qs("verifyPlan").value = "";
-    if (qs("verifyTxid")) qs("verifyTxid").value = "";
-    if (qs("verifyMessage")) qs("verifyMessage").textContent = "Logged out successfully.";
-  };
-
   window.handlePlanClick = function(plan) {
     const select = qs("verifyPlan");
     if (select) select.value = plan;
@@ -3152,6 +3165,14 @@ document.addEventListener('DOMContentLoaded', function(){
     applyPlanFromQuery();
   });
 })();
+</script>
+
+
+<script>
+function logout(){
+  localStorage.removeItem('tcps_user');
+  location.reload();
+}
 </script>
 
 </body>
