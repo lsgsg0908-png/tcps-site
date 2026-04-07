@@ -3575,6 +3575,23 @@ function goLogin(){
   window.location.href = "http://34.50.56.156/login.html";
 }
 </script>
+  <script>
+const params = new URLSearchParams(window.location.search);
+const user = params.get("user");
+
+if(user){
+  localStorage.setItem("user", user);
+  window.history.replaceState({}, document.title, "/");
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  const u = localStorage.getItem("user");
+  if(u){
+    document.getElementById("loginBtn").style.display="none";
+    document.getElementById("registerBtn").innerText = u;
+  }
+});
+</script>
 
 </body>
 </html>
