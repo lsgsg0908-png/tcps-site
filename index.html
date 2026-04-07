@@ -88,7 +88,7 @@
       display:grid;
       grid-template-columns:1.04fr 0.96fr;
       gap:34px;
-      align-items:center;
+      align-items:start;
     }
     .badge{
       display:inline-flex;
@@ -169,7 +169,8 @@
     .hero-card{
       padding:30px;
       min-height:470px;
-      transform:translateY(-28px);
+      transform:none;
+      margin-top:0;
     }
     .screen-head{
       display:flex;
@@ -802,7 +803,7 @@
     }
   
     /* MEMBER / AUTH */
-    .member-actions{ display:flex; align-items:center; gap:10px; }
+    .member-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
     .member-btn{
       min-height:48px;
       display:inline-flex;
@@ -1432,8 +1433,9 @@
       </nav>
       <div class="member-actions">
         <div class="member-label" id="memberLabel">Guest Mode</div>
-        <button class="member-btn secondary" type="button" onclick="openAuthModal('login')">Login</button>
-        <button class="member-btn" type="button" onclick="openAuthModal('register')">Register</button>
+        <button class="member-btn secondary" id="loginBtn" type="button" onclick="openAuthModal('login')">Login</button>
+        <button class="member-btn" id="registerBtn" type="button" onclick="openAuthModal('register')">Register</button>
+        <button class="member-btn secondary" id="logoutBtn" type="button" onclick="logoutMember()" style="display:none;">Logout</button>
       </div>
     </div>
   </header>
@@ -2874,10 +2876,13 @@ document.addEventListener('DOMContentLoaded', function(){
     if (qs("memberLabel")) {
       qs("memberLabel").innerHTML = member ? 'Logged in: <strong>' + email + '</strong>' : 'Guest Mode';
     }
+    if (qs("loginBtn")) qs("loginBtn").style.display = member ? "none" : "inline-flex";
+    if (qs("registerBtn")) qs("registerBtn").style.display = member ? "none" : "inline-flex";
+    if (qs("logoutBtn")) qs("logoutBtn").style.display = member ? "inline-flex" : "none";
     if (qs("dashEmail")) qs("dashEmail").textContent = member ? email : "Not logged in";
     if (qs("dashPlan")) qs("dashPlan").textContent = "Plan: " + (member ? (member.plan || "NONE") : "NONE");
     if (qs("verifyEmail")) qs("verifyEmail").value = member ? email : "";
-    if (qs("verifyTelegram") && member && member.telegram) qs("verifyTelegram").value = member.telegram;
+    if (qs("verifyTelegram")) qs("verifyTelegram").value = member && member.telegram ? member.telegram : "";
     updateUnlocks(member ? (member.plan || "NONE") : "NONE");
   }
 
@@ -3052,6 +3057,15 @@ document.addEventListener('DOMContentLoaded', function(){
     refreshMemberState();
     closeAuthModal();
     qs("member-access")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  window.logoutMember = function() {
+    setSessionEmail("");
+    refreshMemberState();
+    setDashboardDefault();
+    if (qs("verifyPlan")) qs("verifyPlan").value = "";
+    if (qs("verifyTxid")) qs("verifyTxid").value = "";
+    if (qs("verifyMessage")) qs("verifyMessage").textContent = "Logged out successfully.";
   };
 
   window.handlePlanClick = function(plan) {
