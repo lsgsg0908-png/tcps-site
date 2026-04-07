@@ -1550,8 +1550,8 @@
       <div class="member-actions">
         <div class="member-label" id="memberLabel">Guest Mode</div>
         <button class="member-btn secondary is-hidden" id="logoutBtn" type="button" onclick="logout()">Logout</button>
-        <button class="member-btn secondary" id="loginBtn" type="button" onclick="openAuthModal('login')">Login</button>
-        <button class="member-btn" id="registerBtn" type="button" onclick="openAuthModal('register')">Register</button>
+        <button class="member-btn secondary" id="loginBtn" type="button" onclick="goLogin()">Login</button>
+        <button class="member-btn" id="registerBtn" type="button" onclick="goRegister()">Register</button>
       </div>
     </div>
   </header>
@@ -3563,6 +3563,16 @@ async function register(){
   } else {
     alert(data.message || "ERROR");
   }
+}
+</script>
+
+
+<script>
+function goRegister(){
+  window.location.href = "http://34.50.56.156/register.html";
+}
+function goLogin(){
+  window.location.href = "http://34.50.56.156/login.html";
 }
 </script>
 
