@@ -7,24 +7,11 @@
   <meta name="description" content="TCPS Smart Entry AI delivers clean, high-probability trading signals with a premium execution-focused experience." />
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    :root{
-      --bg:#04060b;
-      --panel:rgba(255,255,255,0.045);
-      --panel-soft:rgba(255,255,255,0.03);
-      --line:rgba(255,255,255,0.08);
-      --text:#f5f7fb;
-      --muted:#a7b8d3;
-      --blue:#35cfff;
-      --blue2:#6c8cff;
-      --violet:#7560ff;
-      --gold:#ffbe3f;
-      --shadow:0 24px 60px rgba(0,0,0,.28);
-    }
     html{scroll-behavior:smooth}
     body{
       font-family:Arial,sans-serif;
-      color:var(--text);
-      background:var(--bg);
+      color:#f5f7fb;
+      background:#04060b;
       line-height:1.6;
       overflow-x:hidden;
       position:relative;
@@ -46,441 +33,1010 @@
       position:fixed;
       inset:0;
       z-index:-2;
-      opacity:.055;
+      opacity:.05;
       pointer-events:none;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
       mix-blend-mode:soft-light;
     }
-    img{display:block;max-width:100%}
     a{text-decoration:none;color:inherit}
-    button,input{font:inherit}
-    .container{width:100%;max-width:1180px;margin:0 auto;padding:0 20px;position:relative;z-index:2}
+    button{font:inherit}
+    .container{
+      width:100%;
+      max-width:1180px;
+      margin:0 auto;
+      padding:0 20px;
+      position:relative;
+      z-index:2;
+    }
     .topbar{
-      position:sticky;top:0;z-index:999;
+      position:sticky;
+      top:0;
+      z-index:999;
       backdrop-filter:blur(14px);
       background:rgba(4,6,11,.74);
       border-bottom:1px solid rgba(255,255,255,.06);
     }
-    .topbar-inner{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand-mark{
-      width:38px;height:38px;border-radius:12px;
-      border:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(135deg,rgba(53,207,255,.16),rgba(117,96,255,.18));
-      display:grid;place-items:center;box-shadow:0 0 18px rgba(53,207,255,.1)
+    .topbar-inner{
+      min-height:74px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
     }
-    .brand-mark::before{
-      content:"";
-      width:18px;height:18px;border-radius:6px;
-      background:linear-gradient(135deg,var(--blue),var(--violet));
-      transform:rotate(45deg);
-      box-shadow:0 0 18px rgba(53,207,255,.45);
-    }
-    .brand-copy{display:flex;flex-direction:column;gap:2px}
+    .brand{display:flex;flex-direction:column;gap:3px}
     .brand-name{font-size:18px;font-weight:800;letter-spacing:.3px}
     .brand-sub{font-size:12px;color:#91a3c4}
     .nav{display:flex;align-items:center;gap:16px}
-    .nav a{font-size:14px;color:#cad5ea;transition:.2s}
+    .nav a{font-size:14px;color:#cad5ea;transition:.2s ease}
     .nav a:hover{color:#fff}
-    .top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-    .pill,.member-btn,.btn-primary,.btn-secondary,.plan-cta,.cycle-btn,.copy-btn,.auth-submit,.modal-close{
-      min-height:48px;border:none;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;
-      padding:0 20px;font-size:14px;font-weight:800;cursor:pointer;transition:.18s ease
-    }
+    .member-actions{display:flex;align-items:center;gap:10px}
     .member-label{
-      min-height:44px;padding:0 16px;border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
       border:1px solid rgba(255,255,255,.08);
       background:rgba(255,255,255,.03);
-      color:#dce7fb;display:inline-flex;align-items:center;white-space:nowrap
+      color:#dce7fb;
+      font-size:13px;
+      white-space:nowrap;
     }
-    .member-label strong{color:#fff}
-    .is-hidden{display:none !important}
-    .member-btn,.btn-primary,.plan-cta.primary,.auth-submit,.copy-btn{
-      background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;
-      box-shadow:0 14px 34px rgba(86,104,255,.30)
+    .member-btn,.nav-cta,.btn-primary,.btn-secondary,.price-btn,.modal-btn,.copy-btn{
+      min-height:50px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 22px;
+      border-radius:999px;
+      font-size:15px;
+      font-weight:800;
+      border:none;
+      cursor:pointer;
+      transition:transform .18s ease,opacity .18s ease,box-shadow .18s ease,background .18s ease,border-color .18s ease;
     }
-    .member-btn.secondary,.btn-secondary,.plan-cta.secondary,.cycle-btn.secondary{
-      border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03);color:#e8eefb;box-shadow:none
+    .member-btn,.nav-cta,.btn-primary,.price-btn,.modal-btn.primary,.copy-btn{
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:0 14px 34px rgba(86,104,255,.30);
     }
-    .member-btn:hover,.btn-primary:hover,.btn-secondary:hover,.plan-cta:hover,.copy-btn:hover,.auth-submit:hover,.modal-close:hover,.cycle-btn:hover{transform:translateY(-2px);opacity:.97}
+    .btn-secondary,.member-btn.secondary,.modal-btn.secondary{
+      color:#e8eefb;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.03);
+      box-shadow:none;
+    }
+    .member-btn:hover,.nav-cta:hover,.btn-primary:hover,.btn-secondary:hover,.price-btn:hover,.modal-btn:hover,.copy-btn:hover{
+      transform:translateY(-2px);
+      opacity:.97;
+    }
+    .is-hidden{display:none!important}
     section{padding:92px 0}
-    .hero{padding:88px 0 70px}
-    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:center}
-    .badge{
-      display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03);color:#cfdbef;font-size:13px;margin-bottom:20px
+    .hero{padding:88px 0 72px}
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.06fr .94fr;
+      gap:28px;
+      align-items:start;
     }
-    .badge-dot{width:8px;height:8px;border-radius:50%;background:#63ffb2;box-shadow:0 0 12px rgba(99,255,178,.8)}
-    .hero h1{font-size:60px;line-height:1.03;letter-spacing:-1.8px;margin-bottom:18px;max-width:760px}
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.03);
+      color:#cfdbef;
+      font-size:13px;
+      margin-bottom:20px;
+    }
+    .badge-dot{
+      width:8px;height:8px;border-radius:50%;
+      background:#63ffb2;
+      box-shadow:0 0 12px rgba(99,255,178,.8);
+    }
+    .hero h1{
+      font-size:58px;
+      line-height:1.03;
+      letter-spacing:-1.8px;
+      margin-bottom:18px;
+      max-width:760px;
+    }
     .hero h1 span{
       background:linear-gradient(135deg,#68e6ff,#9f8cff);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
     }
-    .hero p{font-size:18px;color:#afbed8;max-width:650px;margin-bottom:28px}
-    .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:22px}
-    .hero-proof{display:flex;flex-wrap:wrap;gap:18px;color:#97a9c9;font-size:14px}
-    .panel{
-      position:relative;border-radius:28px;border:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.025));
-      box-shadow:0 28px 70px rgba(0,0,0,.34);overflow:hidden
+    .hero-lead-strong{
+      font-size:19px;
+      color:#e9f0ff;
+      font-weight:700;
+      max-width:690px;
+      margin-bottom:12px;
     }
-    .panel::before,.card::before,.pricing-card::before,.bonus-wrap::before,.cta-box::before,.status-panel::before,.auth-box::before,.payment-box::before{
-      content:"";position:absolute;top:0;left:0;width:100%;height:1px;
-      background:linear-gradient(90deg,rgba(67,210,255,0),rgba(67,210,255,.85),rgba(123,97,255,.9),rgba(123,97,255,0))
+    .hero p{font-size:18px;color:#afbed8;max-width:650px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin:24px 0 20px}
+    .hero-proof{display:flex;flex-wrap:wrap;gap:12px}
+    .proof-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.035);
+      border:1px solid rgba(255,255,255,.08);
+      color:#d9e3f6;
+      font-size:13px;
     }
-    .status-panel{padding:26px;min-height:470px}
-    .screen-head{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px}
-    .screen-title{font-size:20px;font-weight:900;letter-spacing:.8px;text-transform:uppercase;color:#f4f8ff}
+    .proof-dot{
+      width:7px;height:7px;border-radius:50%;
+      background:#85ffbe;
+      box-shadow:0 0 10px rgba(133,255,190,.85);
+    }
+    .hero-trust-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+    .hero-trust-card,.mini-card,.panel,.card,.pricing-card,.book-card,.payment-modal-card{
+      position:relative;
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+      box-shadow:0 20px 50px rgba(0,0,0,.22);
+      overflow:hidden;
+    }
+    .panel::before,.card::before,.pricing-card::before,.book-card::before,.payment-modal-card::before{
+      content:"";
+      position:absolute;
+      top:0;left:0;width:100%;height:1px;
+      background:linear-gradient(90deg,rgba(53,207,255,0),rgba(53,207,255,.75),rgba(117,96,255,.75),rgba(117,96,255,0));
+    }
+    .hero-trust-card{padding:18px}
+    .hero-trust-kicker{
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      color:#86dfff;
+      margin-bottom:8px;
+    }
+    .hero-trust-card h3{font-size:18px;line-height:1.25;margin-bottom:6px}
+    .hero-trust-card p{font-size:14px;color:#aebfda;line-height:1.55}
+    .hero-card{
+      padding:30px;
+      min-height:470px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+    .screen-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:22px;
+    }
+    .screen-title{
+      font-size:20px;
+      font-weight:900;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      color:#f4f8ff;
+    }
     .screen-status{
-      display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:800;color:#bfffdc;
-      padding:8px 14px;border-radius:999px;border:1px solid rgba(62,215,126,.28);background:rgba(62,215,126,.12);white-space:nowrap
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      font-size:13px;
+      font-weight:800;
+      color:#bfffdc;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(62,215,126,.28);
+      background:rgba(62,215,126,.12);
+      white-space:nowrap;
+      box-shadow:0 0 18px rgba(62,215,126,.10);
     }
-    .screen-status::before{content:"";width:10px;height:10px;border-radius:50%;background:#63ffb2;box-shadow:0 0 14px rgba(99,255,178,.95)}
-    .monitor-stack{display:grid;gap:14px}
-    .monitor-card,.mini-card{
-      position:relative;padding:20px;border-radius:20px;background:rgba(7,12,21,.95);border:1px solid rgba(255,255,255,.06);overflow:hidden
+    .screen-status::before{
+      content:"";
+      width:10px;height:10px;border-radius:50%;
+      background:#63ffb2;
+      box-shadow:0 0 14px rgba(99,255,178,.95);
     }
-    .monitor-card::before,.mini-card::before{
-      content:"";position:absolute;top:0;left:0;width:100%;height:1px;
-      background:linear-gradient(90deg,rgba(80,219,255,0),rgba(80,219,255,.45),rgba(80,219,255,0))
+    .engine-monitor{display:grid;gap:14px;min-height:380px}
+    .monitor-card{
+      position:relative;
+      padding:20px;
+      border-radius:20px;
+      background:rgba(7,12,21,.95);
+      border:1px solid rgba(255,255,255,.06);
+      overflow:hidden;
+      min-height:120px;
     }
-    .monitor-row{display:flex;justify-content:space-between;gap:14px;margin-bottom:10px;align-items:flex-start}
+    .monitor-card::before{
+      content:"";
+      position:absolute;
+      top:0;left:0;width:100%;height:1px;
+      background:linear-gradient(90deg, rgba(80,219,255,0), rgba(80,219,255,.45), rgba(80,219,255,0));
+    }
+    .monitor-row{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:10px;
+      align-items:flex-start;
+    }
+    .monitor-row:last-child{margin-bottom:0}
     .monitor-label{font-size:13px;color:#8ea4c7;flex:0 0 auto}
-    .monitor-value{font-size:14px;font-weight:700;color:#fff;text-align:right}
-    .monitor-main{font-size:34px;font-weight:900;letter-spacing:-.8px;line-height:1.05;color:#8fd6ff;text-align:right;max-width:320px;margin-left:auto}
+    .monitor-value{
+      font-size:14px;font-weight:700;color:#fff;text-align:right;
+      min-height:20px;display:flex;align-items:center;justify-content:flex-end;white-space:nowrap;
+    }
+    .monitor-main{
+      font-size:34px;font-weight:900;letter-spacing:-.8px;line-height:1.05;color:#8fd6ff;
+      text-align:right;min-height:72px;display:flex;align-items:center;justify-content:flex-end;max-width:320px;margin-left:auto;
+    }
     .monitor-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .mini-card{
+      padding:18px;
+      border-radius:18px;
+      min-height:92px;
+    }
+    .mini-card::before{
+      content:"";
+      position:absolute;
+      top:0;left:0;width:100%;height:1px;
+      background:linear-gradient(90deg, rgba(80,219,255,0), rgba(80,219,255,.35), rgba(80,219,255,0));
+    }
     .mini-label{font-size:12px;color:#87a0c5;margin-bottom:8px}
-    .mini-value{font-size:17px;font-weight:800;color:#f5f8ff;line-height:1.35;min-height:46px;display:flex;align-items:center}
-    .section-head{text-align:center;max-width:800px;margin:0 auto 54px}
-    .section-kicker{display:inline-block;margin-bottom:14px;font-size:13px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#7fdfff}
-    .section-head h2{font-size:48px;line-height:1.12;letter-spacing:-1.1px;margin-bottom:16px}
+    .mini-value{
+      font-size:17px;font-weight:800;color:#f5f8ff;line-height:1.35;min-height:46px;display:flex;align-items:center;
+    }
+    .section-head{text-align:center;max-width:840px;margin:0 auto 44px}
+    .section-kicker{
+      display:inline-block;
+      margin-bottom:14px;
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:1.6px;
+      text-transform:uppercase;
+      color:#7fdfff;
+    }
+    .section-head h2{
+      font-size:48px;
+      line-height:1.12;
+      letter-spacing:-1.1px;
+      margin-bottom:16px;
+    }
     .section-head p{font-size:17px;color:#a6b6d2}
-    .grid-3,.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-    .card,.pricing-card,.bonus-wrap,.cta-box,.auth-box,.payment-box{
-      position:relative;padding:28px;border-radius:26px;border:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));
-      box-shadow:0 20px 50px rgba(0,0,0,.22);overflow:hidden
-    }
-    .card-topline{width:42px;height:4px;border-radius:999px;margin-bottom:18px;background:linear-gradient(90deg,var(--blue),var(--violet));box-shadow:0 0 18px rgba(53,207,255,.35)}
-    .step-number{
-      width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-      font-size:14px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--blue),var(--violet));
-      box-shadow:0 8px 20px rgba(53,207,255,.25),0 0 30px rgba(117,96,255,.35);margin-bottom:14px
-    }
-    .card h3{font-size:22px;line-height:1.28;margin-bottom:10px;letter-spacing:-.5px}
-    .card p{font-size:15px;color:#a9b9d4}
-    .results-card{text-align:center;padding:30px 24px}
-    .results-number{font-size:40px;font-weight:800;letter-spacing:-1px;margin-bottom:8px;background:linear-gradient(135deg,#66e6ff,#9d8fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .results-label{font-size:16px;color:#edf3ff;margin-bottom:6px}
-    .results-sub{font-size:14px;color:#99accb}
-    .pricing-shell{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;align-items:stretch}
-    .pricing-card{padding:0;display:flex;flex-direction:column}
-    .plan-head{padding:26px 24px 18px;border-bottom:1px solid rgba(255,255,255,.06)}
-    .plan-badge-row{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-    .mini-plan-tag{display:inline-flex;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800;color:#dff7ff;background:rgba(53,207,255,.10);border:1px solid rgba(53,207,255,.18)}
-    .most-popular{background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;border:none}
-    .plan-name{font-size:32px;font-weight:900;letter-spacing:-.8px;margin-bottom:10px}
-    .plan-desc{font-size:14px;color:#aebfda;min-height:44px}
-    .plan-body{padding:24px;display:flex;flex-direction:column;gap:16px;flex:1}
-    .price-blocks{display:grid;gap:12px}
-    .price-box{
-      border-radius:22px;border:1px solid rgba(255,255,255,.08);background:rgba(8,12,20,.92);
-      padding:18px 18px 16px;position:relative;overflow:hidden
-    }
-    .price-box::before{content:"";position:absolute;left:0;top:0;width:100%;height:1px;background:linear-gradient(90deg,rgba(53,207,255,0),rgba(53,207,255,.75),rgba(117,96,255,.75),rgba(117,96,255,0))}
-    .price-box.gold::before{background:linear-gradient(90deg,rgba(255,190,63,0),rgba(255,190,63,.75),rgba(255,140,0,.75),rgba(255,190,63,0))}
-    .price-box-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
-    .price-mode{font-size:12px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;color:#8fd6ff}
-    .price-box.gold .price-mode{color:#ffd77d}
-    .price-save{padding:5px 9px;border-radius:999px;font-size:11px;font-weight:900;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08)}
-    .price-value{display:flex;align-items:flex-end;gap:7px;flex-wrap:wrap;font-size:46px;font-weight:900;line-height:1;letter-spacing:-1.5px;color:#fff;margin-bottom:8px}
-    .price-value span{font-size:18px;font-weight:700;opacity:.92}
-    .price-caption{font-size:13px;color:#93a6c7}
-    .plan-feature-list{list-style:none;display:grid;gap:12px}
-    .plan-feature-list li{position:relative;padding-left:22px;font-size:14px;color:#dde6f6}
-    .plan-feature-list li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--violet));box-shadow:0 0 10px rgba(53,207,255,.45)}
-    .plan-actions{display:grid;gap:10px;margin-top:auto}
-    .plan-cta{width:100%}
-    .plan-cta.secondary{min-height:46px}
-    .lifetime-special .plan-head{background:linear-gradient(180deg,rgba(53,207,255,.06),rgba(255,255,255,0))}
-    .lifetime-note{
-      margin-top:6px;padding:12px 14px;border-radius:16px;font-size:13px;font-weight:800;color:#ffe9a8;
-      background:rgba(255,190,63,.10);border:1px solid rgba(255,190,63,.20);text-align:center
-    }
-    .plan-bonus-note{
-      margin-top:6px;padding:12px 14px;border-radius:16px;font-size:13px;font-weight:900;letter-spacing:.6px;
-      color:#ffe9a8;background:rgba(255,190,63,.10);border:1px solid rgba(255,190,63,.20);text-align:center;
-      text-transform:uppercase
-    }
-    .book-cover-art{
-      position:relative;height:320px;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.08);
-      box-shadow:0 18px 40px rgba(0,0,0,.3);
-      background:
-        radial-gradient(circle at 20% 15%, rgba(255,255,255,.14), transparent 25%),
-        linear-gradient(180deg, rgba(9,14,26,.96), rgba(7,11,20,.98));
-      display:flex;flex-direction:column;justify-content:space-between;
-    }
-    .book-cover-art.a{
-      background:
-        radial-gradient(circle at 22% 14%, rgba(255,255,255,.16), transparent 24%),
-        linear-gradient(180deg, rgba(10,18,35,.98), rgba(8,13,24,.98));
-    }
-    .book-cover-art.b{
-      background:
-        radial-gradient(circle at 74% 18%, rgba(255,255,255,.14), transparent 24%),
-        linear-gradient(180deg, rgba(13,16,34,.98), rgba(8,12,24,.98));
-    }
-    .book-cover-top{
-      padding:22px 20px 8px;
-      min-height:220px;
+    .slider-shell{position:relative;overflow:hidden}
+    .slider-track{display:flex;transition:transform .65s ease}
+    .slide-card{
+      min-width:100%;
+      padding:42px;
+      border-radius:28px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+      box-shadow:0 24px 60px rgba(0,0,0,.24);
+      min-height:320px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
       position:relative;
       overflow:hidden;
     }
-    .book-cover-top::before{
+    .slide-card::before{
       content:"";
-      position:absolute;inset:0;
-      background:
-        linear-gradient(180deg, rgba(53,207,255,.05), transparent 45%),
-        repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 32px),
-        repeating-linear-gradient(180deg, rgba(255,255,255,.04) 0 1px, transparent 1px 32px);
-      opacity:.55;
+      position:absolute;
+      top:0;left:0;width:100%;height:1px;
+      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,.7), rgba(117,96,255,.7), rgba(117,96,255,0));
     }
-    .book-cover-title,.book-cover-sub,.book-cover-chart{position:relative;z-index:1}
-    .book-cover-title{font-size:42px;font-weight:900;letter-spacing:-1px;line-height:1;color:#fff;margin-bottom:8px}
-    .book-cover-sub{font-size:14px;line-height:1.4;color:#d5e3fb;max-width:170px}
-    .book-cover-chart{
-      position:absolute;left:18px;right:18px;bottom:18px;height:105px;border-radius:14px;
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-      border:1px solid rgba(255,255,255,.08);overflow:hidden
+    .slide-tag{
+      display:inline-flex;
+      width:max-content;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      color:#81ddff;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:1.1px;
+      text-transform:uppercase;
+      margin-bottom:18px;
     }
-    .book-cover-chart::before{
-      content:"";
-      position:absolute;inset:0;
-      background:
-        repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 26px),
-        repeating-linear-gradient(180deg, rgba(255,255,255,.04) 0 1px, transparent 1px 26px);
-      opacity:.5;
+    .slide-card h3{font-size:34px;line-height:1.1;letter-spacing:-.9px;margin-bottom:16px;max-width:760px}
+    .slide-card p{font-size:16px;color:#aebfda;max-width:760px;margin-bottom:10px}
+    .slide-highlight{color:#eef4ff!important;font-weight:700;margin-top:8px}
+    .slider-nav{
+      position:absolute;top:50%;transform:translateY(-50%);z-index:20;
+      width:46px;height:46px;border:none;border-radius:50%;cursor:pointer;color:#fff;font-size:26px;line-height:1;
+      background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);
     }
-    .book-cover-chart::after{
-      content:"";
-      position:absolute;left:16px;right:16px;bottom:16px;height:48px;
-      border-radius:14px 14px 0 0;
-      clip-path: polygon(0 85%, 10% 76%, 20% 80%, 32% 58%, 43% 64%, 56% 38%, 68% 46%, 79% 20%, 92% 8%, 100% 0, 100% 100%, 0 100%);
-      background:linear-gradient(135deg, rgba(74,225,255,.95), rgba(117,96,255,.95));
-      box-shadow:0 0 18px rgba(53,207,255,.35);
+    .slider-nav.left{left:12px}
+    .slider-nav.right{right:12px}
+    .reviews-meta-wrap{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+    .reviews-meta{color:#93a6c7;font-size:14px}
+    .reviews-badge{
+      padding:10px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);color:#d6e1f4;font-size:13px;font-weight:700;
     }
-    .book-cover-band{
-      padding:14px 18px;
-      background:linear-gradient(90deg, rgba(255,190,63,.95), rgba(255,140,0,.9));
-      color:#10131d;font-size:13px;font-weight:900;letter-spacing:.4px;text-transform:uppercase
+    .review-wall{display:grid;gap:14px;margin-top:14px}
+    .review-row{
+      position:relative;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.06);
+      background:linear-gradient(180deg, rgba(255,255,255,.028), rgba(255,255,255,.018));padding:14px 0;
     }
-    .pricing-warning{
-      margin-top:22px;padding:16px 18px;border-radius:18px;border:1px solid rgba(255,190,63,.16);
-      background:rgba(255,190,63,.08);color:#e9edf5;font-size:14px;text-align:center
+    .review-row::before,.review-row::after{
+      content:"";position:absolute;top:0;width:110px;height:100%;z-index:3;pointer-events:none;
     }
-    .bonus-wrap{padding:32px}
-    .bonus-top{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;flex-wrap:wrap;margin-bottom:26px}
-    .bonus-top h3{font-size:36px;letter-spacing:-1px;line-height:1.08}
-    .bonus-top p{color:#aebfda;font-size:16px;max-width:720px}
-    .bonus-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-    .bonus-book{
-      position:relative;padding:24px;border-radius:26px;border:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.02));
-      display:grid;grid-template-columns:220px 1fr;gap:22px;align-items:center;overflow:hidden
+    .review-row::before{left:0;background:linear-gradient(90deg, rgba(4,6,11,1) 0%, rgba(4,6,11,.9) 42%, rgba(4,6,11,0) 100%)}
+    .review-row::after{right:0;background:linear-gradient(270deg, rgba(4,6,11,1) 0%, rgba(4,6,11,.9) 42%, rgba(4,6,11,0) 100%)}
+    .review-marquee{
+      display:flex;width:max-content;gap:14px;will-change:transform;animation-timing-function:linear;animation-iteration-count:infinite;transform:translateZ(0);
     }
-    .bonus-book::before{content:"";position:absolute;top:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,rgba(53,207,255,0),rgba(53,207,255,.75),rgba(117,96,255,.75),rgba(117,96,255,0))}
-    .book-cover{
-      border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.08);box-shadow:0 18px 40px rgba(0,0,0,.3)
-    }
-    .book-meta h4{font-size:28px;line-height:1.08;margin-bottom:10px}
-    .book-price{display:inline-flex;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:900;color:#fff;background:linear-gradient(135deg,var(--blue),var(--violet));margin-bottom:14px}
-    .book-meta p{font-size:15px;color:#b4c4dd;margin-bottom:14px}
-    .book-points{display:grid;gap:9px}
-    .book-points span{font-size:14px;color:#e8eefb}
-    .book-points span::before{content:"• ";color:#7fdfff}
-    .bonus-rule-grid{margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .rule-box{padding:18px;border-radius:18px;background:rgba(7,12,21,.9);border:1px solid rgba(255,255,255,.06)}
-    .rule-box strong{display:block;font-size:15px;margin-bottom:6px}
-    .rule-box span{font-size:13px;color:#97abcf}
-    .review-wall{display:grid;gap:14px}
-    .review-row{position:relative;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,.018));padding:14px 0}
-    .review-row::before,.review-row::after{content:"";position:absolute;top:0;width:110px;height:100%;z-index:3;pointer-events:none}
-    .review-row::before{left:0;background:linear-gradient(90deg,rgba(4,6,11,1) 0%,rgba(4,6,11,.9) 42%,rgba(4,6,11,0) 100%)}
-    .review-row::after{right:0;background:linear-gradient(270deg,rgba(4,6,11,1) 0%,rgba(4,6,11,.9) 42%,rgba(4,6,11,0) 100%)}
-    .review-marquee{display:flex;width:max-content;gap:14px;will-change:transform;animation-timing-function:linear;animation-iteration-count:infinite}
     .review-row:hover .review-marquee{animation-play-state:paused}
     .review-row.dir-left .review-marquee{animation-name:marqueeLeft}
     .review-row.dir-right .review-marquee{animation-name:marqueeRight}
     @keyframes marqueeLeft{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
     @keyframes marqueeRight{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
-    .review-card{width:300px;min-height:124px;padding:16px 16px 15px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));position:relative;overflow:hidden;flex:0 0 auto}
-    .review-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,rgba(53,207,255,0),rgba(53,207,255,.55),rgba(117,96,255,.55),rgba(117,96,255,0))}
+    .review-card{
+      width:300px;min-height:124px;padding:16px 16px 15px;border-radius:18px;border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));position:relative;overflow:hidden;flex:0 0 auto;
+    }
+    .review-card::before{
+      content:"";position:absolute;top:0;left:0;width:100%;height:1px;
+      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,.55), rgba(117,96,255,.55), rgba(117,96,255,0));
+    }
     .review-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:8px}
-    .review-user{font-size:14px;font-weight:800;color:#f4f8ff}
-    .review-country{display:inline-flex;margin-left:8px;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800;color:#dfe8f7;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);vertical-align:middle}
+    .review-user{font-size:14px;font-weight:800;color:#f4f8ff;letter-spacing:.1px}
+    .review-country{
+      display:inline-flex;margin-left:8px;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800;color:#dfe8f7;
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);vertical-align:middle;
+    }
     .review-time{font-size:11px;color:#8fa3c6;white-space:nowrap;padding-top:2px}
+    .review-source{font-size:11px;color:#7f93b7;margin-top:4px}
     .review-stars{font-size:13px;color:#ffd76a;letter-spacing:2px;margin-bottom:8px}
     .review-text{color:#b7c6de;font-size:13px;line-height:1.56}
-    .reviews-meta-wrap{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:22px}
-    .reviews-meta{color:#93a6c7;font-size:14px}
-    .reviews-badge{padding:10px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:#d6e1f4;font-size:13px;font-weight:700}
+    .reviews-helper{margin-top:18px;text-align:center;color:#8fa3c6;font-size:13px}
+    .pricing-headnote{
+      max-width:920px;
+      margin:0 auto 28px;
+      padding:18px 20px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.02));
+      color:#cfdbef;
+      text-align:center;
+      line-height:1.7;
+      font-size:15px;
+    }
+    .pricing-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:22px;
+      align-items:stretch;
+    }
+    .pricing-card{
+      padding:24px;
+      display:flex;
+      flex-direction:column;
+      min-height:100%;
+    }
+    .pricing-card.featured{
+      border-color:rgba(102,214,255,.42);
+      box-shadow:0 26px 60px rgba(66,96,255,.24);
+      transform:scale(1.01);
+    }
+    .tag{
+      position:absolute;
+      top:18px;
+      right:18px;
+      padding:7px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      color:#fff;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+    }
+    .plan-shell{
+      display:flex;
+      flex-direction:column;
+      height:100%;
+    }
+    .plan-top{
+      min-height:150px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      margin-bottom:14px;
+    }
+    .plan-label-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      min-height:28px;
+      margin-bottom:10px;
+    }
+    .mini-plan-tag{
+      display:inline-flex;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.2px;
+      color:#dce7fb;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+    }
+    .plan-name{font-size:24px;font-weight:800;margin-bottom:10px}
+    .plan-desc{font-size:14px;color:#9eb1cf;min-height:66px}
+    .pricing-box-stack{display:grid;gap:12px;margin-bottom:18px}
+    .pricing-box{
+      min-height:158px;
+      padding:18px;
+      border-radius:22px;
+      background:rgba(4,10,21,.88);
+      border:1px solid rgba(255,255,255,.08);
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .pricing-box.single{min-height:328px}
+    .pricing-box-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:8px;
+    }
+    .pricing-box-title{
+      font-size:13px;
+      font-weight:800;
+      color:#8fd6ff;
+      text-transform:uppercase;
+      letter-spacing:.7px;
+    }
+    .pricing-chip{
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      color:#dce7fb;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .pricing-chip.gold{
+      color:#f6d98a;
+      border-color:rgba(246,217,138,.18);
+      background:rgba(246,217,138,.08);
+    }
+    .price{
+      font-size:56px;
+      font-weight:900;
+      letter-spacing:-1.6px;
+      line-height:.95;
+      margin-bottom:6px;
+      display:flex;
+      align-items:flex-end;
+      gap:8px;
+      flex-wrap:wrap;
+      min-height:62px;
+    }
+    .price span{
+      font-size:26px;
+      font-weight:800;
+      letter-spacing:-.5px;
+      padding-bottom:5px;
+    }
+    .price-sub{font-size:14px;color:#8da2c4}
+    .save-line{color:#f3c868;font-size:13px;font-weight:800;margin-top:8px}
+    .feature-list{
+      list-style:none;
+      display:grid;
+      gap:12px;
+      margin-bottom:18px;
+      min-height:170px;
+    }
+    .feature-list li{
+      position:relative;
+      padding-left:22px;
+      font-size:15px;
+      color:#dde6f6;
+    }
+    .feature-list li::before{
+      content:"";
+      position:absolute;
+      left:0;top:9px;width:8px;height:8px;border-radius:50%;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      box-shadow:0 0 10px rgba(53,207,255,.45);
+    }
+    .included-book-line{
+      min-height:48px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:0 16px;
+      border-radius:16px;
+      margin-bottom:16px;
+      font-size:14px;
+      font-weight:900;
+      letter-spacing:.3px;
+      text-transform:uppercase;
+      color:#f0cf82;
+      border:1px solid rgba(240,207,130,.16);
+      background:linear-gradient(180deg, rgba(240,207,130,.08), rgba(240,207,130,.03));
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.02);
+    }
+    .card-action-stack{
+      display:grid;
+      gap:10px;
+      margin-top:auto;
+    }
+    .price-btn.secondary-select{
+      background:rgba(255,255,255,.03);
+      color:#e8eefb;
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:none;
+    }
+    .pricing-warning{
+      max-width:860px;
+      margin:26px auto 0;
+      padding:18px 20px;
+      border-radius:20px;
+      border:1px solid rgba(255,125,125,.18);
+      background:rgba(255,88,88,.06);
+      text-align:center;
+      color:#ffd8d8;
+      line-height:1.7;
+      font-size:14px;
+    }
+    .ebooks-wrap{
+      position:relative;
+      padding:34px;
+      border-radius:30px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      box-shadow:0 22px 54px rgba(0,0,0,.24);
+      overflow:hidden;
+    }
+    .ebooks-wrap::before{
+      content:"";
+      position:absolute;top:0;left:0;width:100%;height:1px;
+      background:linear-gradient(90deg, rgba(67,210,255,0), rgba(67,210,255,.85), rgba(123,97,255,.9), rgba(123,97,255,0));
+    }
+    .book-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:28px;
+      margin-bottom:18px;
+    }
+    .book-card{
+      padding:18px;
+      display:grid;
+      grid-template-columns:200px 1fr;
+      gap:18px;
+      border-radius:24px;
+    }
+    .book-cover{
+      min-height:300px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.08);
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(134,220,255,.35), transparent 24%),
+        radial-gradient(circle at 24% 82%, rgba(255,170,70,.24), transparent 26%),
+        linear-gradient(180deg,#10192f 0%,#0b1120 100%);
+      position:relative;
+      box-shadow:0 18px 36px rgba(0,0,0,.28);
+    }
+    .book-cover::before{
+      content:"";
+      position:absolute;inset:0;
+      background:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size:22px 22px;
+      opacity:.16;
+    }
+    .book-spine{
+      position:absolute;
+      left:0;top:0;bottom:0;width:24px;
+      background:linear-gradient(180deg,#0b1327,#060b16);
+      border-right:1px solid rgba(255,255,255,.08);
+    }
+    .book-spine span{
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%) rotate(-90deg);
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:1.3px;
+      color:#d9e7ff;
+      white-space:nowrap;
+    }
+    .book-inner{
+      position:absolute;
+      inset:0 0 0 24px;
+      padding:20px 18px 68px;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+    }
+    .book-title{
+      font-size:32px;
+      line-height:1;
+      font-weight:900;
+      letter-spacing:-1px;
+      margin-bottom:8px;
+    }
+    .book-subtitle{
+      font-size:13px;
+      color:#f1f6ff;
+      max-width:120px;
+      line-height:1.45;
+      margin-bottom:18px;
+    }
+    .book-chart{
+      margin-top:auto;
+      height:120px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      position:relative;
+      overflow:hidden;
+    }
+    .book-chart::before{
+      content:"";
+      position:absolute;inset:0;
+      background:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size:20px 20px;
+      opacity:.32;
+    }
+    .book-chart svg{
+      position:absolute;inset:0;width:100%;height:100%;
+    }
+    .book-price-band{
+      position:absolute;
+      left:24px;right:0;bottom:0;
+      min-height:58px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      padding:0 18px;
+      font-size:21px;
+      font-weight:900;
+      letter-spacing:.3px;
+      color:#151515;
+      background:linear-gradient(135deg,#f5b11b,#ea8b00);
+      box-shadow:0 -1px 0 rgba(255,255,255,.08);
+    }
+    .book-price-band small{
+      font-size:14px;
+      margin-left:8px;
+      font-weight:800;
+    }
+    .book-copy h3{font-size:18px;letter-spacing:.2px;margin-bottom:10px}
+    .book-pill{
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      color:#fff;
+      font-size:12px;
+      font-weight:800;
+      margin-bottom:14px;
+    }
+    .book-copy p{font-size:15px;color:#afbed8;margin-bottom:12px}
+    .book-copy ul{list-style:none;display:grid;gap:8px}
+    .book-copy li{color:#dde6f6;font-size:14px;padding-left:14px;position:relative}
+    .book-copy li::before{content:"•";position:absolute;left:0;top:0;color:#66d9ff}
+    .book-mini-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:12px;
+    }
+    .book-mini{
+      border-radius:18px;
+      padding:16px;
+      background:rgba(4,10,21,.88);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .book-mini strong{display:block;font-size:18px;margin-bottom:6px}
+    .book-mini span{font-size:13px;color:#96a9ca}
     .cta-box{text-align:center;padding:44px 28px}
     .cta-box h2{font-size:44px;letter-spacing:-1px;margin-bottom:14px}
     .cta-box p{font-size:17px;color:#a7b8d3;max-width:760px;margin:0 auto 24px}
     .footer{padding:36px 0 52px;border-top:1px solid rgba(255,255,255,.06)}
-    .footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:#90a3c4;font-size:13px}
-    .footer-links{display:flex;gap:16px;flex-wrap:wrap}
-    .auth-modal,.payment-modal{
-      position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;padding:20px;
-      background:rgba(3,5,10,.84);backdrop-filter:blur(10px)
+    .footer-inner{
+      display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:#90a3c4;font-size:13px;
     }
-    .auth-modal.active,.payment-modal.active{display:flex}
-    .auth-box,.payment-box{width:100%;max-width:540px}
-    .modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
-    .modal-title{font-size:30px;font-weight:900;letter-spacing:-1px}
-    .modal-sub{font-size:14px;color:#9eb1cf}
-    .modal-close{width:44px;min-width:44px;height:44px;padding:0;background:rgba(255,255,255,.08);color:#fff;border-radius:50%}
-    .auth-tabs{display:flex;gap:10px;margin-bottom:16px}
-    .auth-tab{flex:1;min-height:46px;border:none;border-radius:16px;background:rgba(255,255,255,.05);color:#dce7fb;font-weight:800;cursor:pointer}
-    .auth-tab.active{background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff}
-    .auth-form{display:none}
-    .auth-form.active{display:block}
-    .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .field{margin-bottom:12px}
-    .field label{display:block;font-size:13px;color:#aab9d3;margin-bottom:6px}
-    .field input,.field textarea{
-      width:100%;min-height:50px;border-radius:14px;border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.04);color:#fff;padding:0 14px;outline:none
+
+    .payment-modal{
+      position:fixed;
+      inset:0;
+      z-index:3000;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:22px;
+      background:rgba(2,4,8,.84);
+      backdrop-filter:blur(12px);
     }
-    .field textarea{padding:14px;resize:vertical;min-height:98px}
-    .helper{font-size:12px;color:#8fa3c6;margin-top:6px}
-    .form-message{min-height:18px;font-size:13px;color:#8fd6ff;margin-top:12px;text-align:center}
-    .selection-box,.wallet-box{
-      margin:4px 0 12px;padding:16px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(7,12,21,.92)
+    .payment-modal.active{display:flex}
+    .payment-modal-card{
+      width:100%;
+      max-width:640px;
+      padding:28px;
+      border-radius:32px;
+      background:linear-gradient(180deg, rgba(8,13,24,.98), rgba(4,8,16,.98));
+      box-shadow:0 28px 80px rgba(0,0,0,.42);
     }
-    .selection-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .selection-item strong,.wallet-row strong{display:block;font-size:12px;color:#86a0c7;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
-    .selection-item span,.wallet-row span{font-size:15px;font-weight:800;color:#fff;word-break:break-all}
-    .selection-note{
-      margin-top:12px;padding:12px 14px;border-radius:14px;background:rgba(255,190,63,.08);
-      border:1px solid rgba(255,190,63,.16);font-size:13px;color:#efe3be
+    .close-modal{
+      position:absolute;
+      top:18px;right:18px;
+      width:44px;height:44px;
+      border:none;border-radius:50%;
+      background:rgba(255,255,255,.08);
+      color:#fff;font-size:22px;cursor:pointer;
     }
-    .cycle-switch{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-    .cycle-btn.active{background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;border:none;box-shadow:0 14px 34px rgba(86,104,255,.30)}
-    .cycle-btn.single{grid-column:1 / -1}
-    .wallet-box{display:grid;gap:12px}
+    .modal-title{font-size:40px;line-height:1;letter-spacing:-1.2px;margin-bottom:10px}
+    .modal-sub{color:#9eb1cf;font-size:15px;margin-bottom:20px;padding-right:56px}
+    .modal-summary{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr 1fr;
+      gap:14px;
+      border-radius:24px;
+      padding:18px;
+      background:rgba(4,10,21,.86);
+      border:1px solid rgba(255,255,255,.08);
+      margin-bottom:18px;
+    }
+    .modal-block-label{
+      color:#8fa6cb;
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+      margin-bottom:6px;
+    }
+    .modal-block-value{
+      font-size:24px;
+      font-weight:900;
+      letter-spacing:-.5px;
+      line-height:1.15;
+    }
+    .wallet-box{
+      border-radius:24px;
+      padding:18px;
+      background:rgba(4,10,21,.86);
+      border:1px solid rgba(255,255,255,.08);
+      margin-bottom:16px;
+    }
+    .wallet-label{
+      color:#8fd6ff;
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      margin-bottom:10px;
+    }
     .wallet-address{
-      min-height:54px;padding:16px;border-radius:16px;background:rgba(255,255,255,.03);
-      border:1px dashed rgba(255,255,255,.12);font-size:15px;font-weight:800;color:#fff;word-break:break-all
+      width:100%;
+      min-height:58px;
+      border-radius:18px;
+      border:1px dashed rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      color:#fff;
+      padding:14px 16px;
+      font-size:16px;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      word-break:break-all;
+      margin-bottom:12px;
     }
-    .payment-actions{display:grid;gap:10px;margin-top:14px}
-    .disclaimer{font-size:12px;color:#91a3c4;text-align:center;margin-top:10px}
+    .modal-note{
+      margin-top:12px;
+      padding:14px 16px;
+      border-radius:16px;
+      border:1px solid rgba(240,207,130,.16);
+      background:linear-gradient(180deg, rgba(240,207,130,.08), rgba(240,207,130,.03));
+      color:#e8dfbe;
+      font-size:14px;
+      line-height:1.65;
+    }
+    .txid-field label{
+      display:block;
+      margin-bottom:8px;
+      color:#dce7fb;
+      font-weight:800;
+    }
+    .txid-field input{
+      width:100%;
+      min-height:58px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
+      color:#fff;
+      padding:0 16px;
+      outline:none;
+      font-size:15px;
+    }
+    .modal-msg{min-height:20px;margin-top:12px;text-align:center;color:#8fd6ff;font-size:14px}
+    .modal-foot{margin-top:18px;color:#8ea4c7;font-size:13px;line-height:1.7}
+
     @media (max-width:1100px){
-      .hero-grid,.bonus-grid,.pricing-shell,.grid-3,.results-grid{grid-template-columns:1fr 1fr}
-      .pricing-shell{grid-template-columns:1fr 1fr}
-      .hero h1{font-size:50px}
-      .bonus-grid{grid-template-columns:1fr}
-      .bonus-rule-grid{grid-template-columns:1fr}
-      .bonus-book{grid-template-columns:190px 1fr}
+      .hero-grid{grid-template-columns:1fr}
+      .hero-trust-grid{grid-template-columns:1fr}
+      .pricing-grid{grid-template-columns:1fr 1fr}
+      .book-grid{grid-template-columns:1fr}
+      .book-mini-grid{grid-template-columns:1fr}
+      .modal-summary{grid-template-columns:1fr 1fr}
     }
     @media (max-width:760px){
       body::after{display:none}
       .topbar{backdrop-filter:none;background:rgba(4,6,11,.96)}
       .nav{display:none}
-      .top-actions{gap:8px}
-      .member-label{display:none}
       section{padding:72px 0}
       .hero{padding-top:60px}
-      .hero-grid,.grid-3,.results-grid,.pricing-shell,.bonus-grid,.field-grid,.selection-grid,.monitor-grid{grid-template-columns:1fr}
       .hero h1,.section-head h2,.cta-box h2{font-size:34px}
       .hero p,.section-head p,.cta-box p{font-size:16px}
-      .bonus-book{grid-template-columns:1fr}
-      .book-cover{max-width:260px;margin:0 auto}
-      .modal-title{font-size:26px}
-      .status-panel,.bonus-wrap,.auth-box,.payment-box{padding:22px}
-      .plan-head,.plan-body{padding:20px}
-      .price-value{font-size:40px}
-      .monitor-main{font-size:24px;max-width:220px}
-      .mini-value{min-height:24px}
-      .review-card{width:260px}
+      .pricing-grid,.monitor-grid,.book-grid,.book-mini-grid,.modal-summary{grid-template-columns:1fr}
+      .pricing-card.featured{transform:none}
+      .slide-card{min-height:350px;padding:32px 24px}
+      .slide-card h3{font-size:28px}
+      .review-card{width:260px;min-height:130px}
+      .topbar-inner{align-items:flex-start;padding:14px 0}
+      .member-actions{gap:8px;flex-wrap:wrap;justify-content:flex-end}
+      .payment-modal-card{padding:22px}
+      .modal-title{font-size:32px}
+      .book-card{grid-template-columns:1fr}
+      .book-cover{min-height:320px}
+      .panel,.card,.slide-card,.pricing-card,.book-card,.payment-modal-card{box-shadow:none}
+      .member-btn,.nav-cta,.btn-primary,.price-btn,.modal-btn.primary,.copy-btn{box-shadow:none}
     }
   </style>
 </head>
 <body>
+
   <header class="topbar">
     <div class="container topbar-inner">
-      <a class="brand" href="#top">
-        <div class="brand-mark"></div>
-        <div class="brand-copy">
-          <div class="brand-name">TCPS Liquidity Engine</div>
-          <div class="brand-sub">Smart Entry AI • Precision-Focused Signal Workflow</div>
-        </div>
-      </a>
+      <div class="brand">
+        <div class="brand-name">TCPS Liquidity Engine</div>
+        <div class="brand-sub">Smart signal infrastructure for disciplined traders</div>
+      </div>
 
       <nav class="nav">
-        <a href="#process">How It Works</a>
-        <a href="#results">Why Traders Stay</a>
+        <a href="#problem">Problem</a>
+        <a href="#solution">Solution</a>
+        <a href="#engine">Engine</a>
         <a href="#reviews">Reviews</a>
         <a href="#pricing">Pricing</a>
+        <a href="#cta" class="nav-cta">Get Access</a>
       </nav>
 
-      <div class="top-actions">
+      <div class="member-actions">
         <div class="member-label" id="memberLabel">Guest Mode</div>
+        <button class="member-btn secondary is-hidden" id="logoutBtn" type="button">Logout</button>
         <button class="member-btn secondary" id="loginBtn" type="button">Login</button>
         <button class="member-btn" id="registerBtn" type="button">Register</button>
-        <button class="member-btn secondary is-hidden" id="logoutBtn" type="button">Logout</button>
       </div>
     </div>
   </header>
 
-  <section class="hero" id="top">
+  <section class="hero">
     <div class="container hero-grid">
-      <div>
-        <div class="badge"><span class="badge-dot"></span><span>Signal workflow refined for cleaner entries and less noise</span></div>
-        <h1>Powerful trading signals. <span>Cleaner execution.</span></h1>
-        <p>TCPS Smart Entry AI is built for traders who want better timing, clearer structure, and a premium signal experience without clutter.</p>
+      <div class="hero-copy-stack">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          <span>TradingView Execution System • TRC20 Verification Ready</span>
+        </div>
+
+        <h1>
+          Stop paying for noisy indicators.
+          <br />
+          Use a <span>clean execution-focused system</span> built for real traders.
+        </h1>
+
+        <p class="hero-lead-strong">
+          TCPS Liquidity Engine is designed for traders who care more about entry quality, structure,
+          and decision clarity than constant flashy signals.
+        </p>
+
+        <p>
+          Pick the access tier that fits your level, move to verification in one flow,
+          and keep your chart process cleaner from the first day.
+        </p>
+
         <div class="hero-actions">
           <a href="#pricing" class="btn-primary">Choose Your Plan</a>
-          <a href="#bonus-books" class="btn-secondary">See Yearly Bonus Books</a>
+          <button class="btn-secondary" type="button" id="heroLoginBtn">Member Login</button>
         </div>
+
         <div class="hero-proof">
-          <span>Secure & Reliable</span>
-          <span>Built for serious execution</span>
-          <span>USDT TRC20 workflow ready</span>
+          <div class="proof-chip"><span class="proof-dot"></span><span>300+ trader interest</span></div>
+          <div class="proof-chip"><span class="proof-dot"></span><span>4 access tiers</span></div>
+          <div class="proof-chip"><span class="proof-dot"></span><span>Invite-only access workflow</span></div>
+        </div>
+
+        <div class="hero-trust-grid">
+          <div class="hero-trust-card">
+            <div class="hero-trust-kicker">What you buy</div>
+            <h3>Execution, not theory.</h3>
+            <p>Built around structure, liquidity logic, and cleaner timing instead of random indicator clutter.</p>
+          </div>
+          <div class="hero-trust-card">
+            <div class="hero-trust-kicker">Why it converts</div>
+            <h3>Clear difference by plan.</h3>
+            <p>Basic for foundations, Pro for the main workflow, Elite for deeper execution, Lifetime for full long-term access.</p>
+          </div>
+          <div class="hero-trust-card">
+            <div class="hero-trust-kicker">What happens next</div>
+            <h3>Fast purchase path.</h3>
+            <p>Choose a plan, create your account, and move directly into the correct access route without confusion.</p>
+          </div>
         </div>
       </div>
 
-      <div class="panel status-panel">
+      <div class="panel hero-card">
         <div class="screen-head">
-          <div class="screen-title">Execution Monitor</div>
-          <div class="screen-status">System Active</div>
+          <div class="screen-title">Execution Engine Status</div>
+          <div class="screen-status">Engine Active</div>
         </div>
 
-        <div class="monitor-stack">
+        <div class="engine-monitor">
           <div class="monitor-card">
             <div class="monitor-row">
-              <div class="monitor-label">Core Engine</div>
-              <div class="monitor-value">Live Filtered Output</div>
+              <div class="monitor-label">Engine State</div>
+              <div class="monitor-main">SIGNAL ENGINE<br>RUNNING</div>
             </div>
-            <div class="monitor-main">Cleaner signal structure for better decision timing</div>
+            <div class="monitor-row">
+              <div class="monitor-label">Current Mode</div>
+              <div class="monitor-value">Noise filter active</div>
+            </div>
+            <div class="monitor-row">
+              <div class="monitor-label">Core Route</div>
+              <div class="monitor-value">Pro is the main workflow</div>
+            </div>
           </div>
 
           <div class="monitor-grid">
             <div class="mini-card">
-              <div class="mini-label">Main Benefit</div>
-              <div class="mini-value">Less forced entries</div>
+              <div class="mini-label">Trend Alignment</div>
+              <div class="mini-value">Monitoring structure</div>
             </div>
             <div class="mini-card">
-              <div class="mini-label">Best For</div>
-              <div class="mini-value">Execution-focused traders</div>
+              <div class="mini-label">Confirmed Entries</div>
+              <div class="mini-value">Waiting for clean setup</div>
             </div>
             <div class="mini-card">
-              <div class="mini-label">Workflow</div>
-              <div class="mini-value">Monthly / Yearly / Lifetime</div>
+              <div class="mini-label">Liquidity Flow</div>
+              <div class="mini-value">Ready for detection</div>
             </div>
             <div class="mini-card">
-              <div class="mini-label">Bonus Access</div>
-              <div class="mini-value">TCPS-A / TCPS-B books</div>
+              <div class="mini-label">Verification</div>
+              <div class="mini-value">TXID + plan check ready</div>
+            </div>
+          </div>
+
+          <div class="monitor-card">
+            <div class="monitor-row">
+              <div class="monitor-label">Access Structure</div>
+              <div class="monitor-value">Basic → Pro → Elite → Lifetime</div>
+            </div>
+            <div class="monitor-row">
+              <div class="monitor-label">Long-Term Best Value</div>
+              <div class="monitor-value">Lifetime for full package access</div>
             </div>
           </div>
         </div>
@@ -488,56 +1044,140 @@
     </div>
   </section>
 
-  <section id="process">
+  <section id="problem">
     <div class="container">
       <div class="section-head">
-        <div class="section-kicker">Access Flow</div>
-        <h2>Simple purchase flow. No confusion.</h2>
-        <p>Choose the right plan, complete payment with the correct amount, then move into the approval flow.</p>
+        <div class="section-kicker">The Problem</div>
+        <h2>Most traders lose before the trade even starts.</h2>
+        <p>The issue is not effort. It is noise, timing, and execution.</p>
       </div>
-      <div class="grid-3">
-        <div class="card">
-          <div class="step-number">1</div>
-          <h3>Choose a plan</h3>
-          <p>Pick Monthly, Yearly, or Lifetime based on how deep you want to go with the execution workflow.</p>
+
+      <div class="slider-shell">
+        <button class="slider-nav left" type="button" onclick="moveSlider('problem-track', -1)">‹</button>
+        <div class="slider-track" id="problem-track">
+          <div class="slide-card">
+            <div class="slide-tag">Overtrading</div>
+            <h3>More trades do not mean better results.</h3>
+            <p>Most traders enter too often, reacting to every move instead of waiting for structure.</p>
+            <p>Activity feels productive for a moment, but it slowly destroys consistency.</p>
+            <p class="slide-highlight">The problem is not effort. It is unnecessary execution.</p>
+          </div>
+          <div class="slide-card">
+            <div class="slide-tag">Fake Signals</div>
+            <h3>Not every move deserves a trade.</h3>
+            <p>Breakouts without confirmation and reactions to noise create a pattern of weak entries.</p>
+            <p>What looks like opportunity is often just market randomness.</p>
+            <p class="slide-highlight">Without filtering, everything starts to look tradable.</p>
+          </div>
+          <div class="slide-card">
+            <div class="slide-tag">Timing</div>
+            <h3>Good ideas fail with bad timing.</h3>
+            <p>Even when the direction is right, entering too early or too late breaks the execution.</p>
+            <p>Timing is where many trades fail, not the original idea.</p>
+            <p class="slide-highlight">Being right is not enough. Entry defines the outcome.</p>
+          </div>
+          <div class="slide-card">
+            <div class="slide-tag">Emotion</div>
+            <h3>Execution breaks under pressure.</h3>
+            <p>Hesitation, fear of missing out, and impulsive clicks override planned setups.</p>
+            <p>Most mistakes happen after the idea, not before it.</p>
+            <p class="slide-highlight">Discipline fails when the process is unclear.</p>
+          </div>
+          <div class="slide-card">
+            <div class="slide-tag">Noise</div>
+            <h3>Too much information creates worse decisions.</h3>
+            <p>Charts filled with signals, conflicting tools, and clutter lead to hesitation.</p>
+            <p>More data does not always create clarity.</p>
+            <p class="slide-highlight">Clarity comes from removing, not adding.</p>
+          </div>
         </div>
-        <div class="card">
-          <div class="step-number">2</div>
-          <h3>Submit the correct payment</h3>
-          <p>Send the exact amount for the selected plan only. Wrong amount, wrong plan, or wrong network can be rejected.</p>
-        </div>
-        <div class="card">
-          <div class="step-number">3</div>
-          <h3>Verification and access</h3>
-          <p>After confirmation, approved users move into the access path tied to the plan they selected.</p>
-        </div>
+        <button class="slider-nav right" type="button" onclick="moveSlider('problem-track', 1)">›</button>
       </div>
     </div>
   </section>
 
-  <section id="results">
+  <section id="solution">
     <div class="container">
       <div class="section-head">
-        <div class="section-kicker">Why Traders Stay</div>
-        <h2>It feels simpler because it removes what should not be traded.</h2>
-        <p>Better discipline starts when bad opportunities stop looking attractive.</p>
+        <div class="section-kicker">The Solution</div>
+        <h2>TCPS is built to remove what should not be traded.</h2>
+        <p>Instead of adding more signals, the engine filters, slows down, and selects better execution moments.</p>
       </div>
-      <div class="results-grid">
-        <div class="card results-card">
-          <div class="results-number">300+</div>
-          <div class="results-label">Traders using the engine</div>
-          <div class="results-sub">Built for clean execution flow</div>
+
+      <div class="slider-shell">
+        <button class="slider-nav left" type="button" onclick="moveSlider('solution-track', -1)">‹</button>
+        <div class="slider-track" id="solution-track">
+          <div class="slide-card">
+            <div class="slide-tag">Selective Execution</div>
+            <h3>Less trades. Better decisions.</h3>
+            <p>The engine does not aim to increase activity. It removes unnecessary entries first.</p>
+            <p>Only moments where structure and timing align are allowed forward.</p>
+            <p class="slide-highlight">Execution becomes selective, not reactive.</p>
+          </div>
+          <div class="slide-card">
+            <div class="slide-tag">Signal Filtering</div>
+            <h3>Not every move becomes a signal.</h3>
+            <p>Weak breakouts and unconfirmed movement are filtered out before reaching execution.</p>
+            <p>Only cleaner setups pass through the system.</p>
+            <p class="slide-highlight">Noise is reduced before it becomes a decision.</p>
+          </div>
+          <div class="slide-card">
+            <div class="slide-tag">Timing Control</div>
+            <h3>Timing is filtered, not guessed.</h3>
+            <p>The engine focuses on windows where confirmation begins to appear.</p>
+            <p>This reduces early entries and late reactions that damage consistency.</p>
+            <p class="slide-highlight">Better timing improves execution quality.</p>
+          </div>
+          <div class="slide-card">
+            <div class="slide-tag">Cleaner Workflow</div>
+            <h3>Simplicity supports discipline.</h3>
+            <p>A simpler workflow makes it easier to trust the process and repeat it consistently.</p>
+            <p>Confidence improves when the chart looks clearer and the decision path feels tighter.</p>
+            <p class="slide-highlight">A cleaner system supports a cleaner mindset.</p>
+          </div>
         </div>
-        <div class="card results-card">
-          <div class="results-number">24/7</div>
-          <div class="results-label">Signal-based workflow</div>
-          <div class="results-sub">Simple, direct, focused</div>
+        <button class="slider-nav right" type="button" onclick="moveSlider('solution-track', 1)">›</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="engine">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-kicker">Engine</div>
+        <h2>The structure is designed to feel disciplined from the first click.</h2>
+        <p>Each tier is positioned to solve a different stage of trader maturity instead of forcing one generic offer.</p>
+      </div>
+
+      <div class="slider-shell">
+        <button class="slider-nav left" type="button" onclick="moveSlider('engine-track', -1)">‹</button>
+        <div class="slider-track" id="engine-track">
+          <div class="slide-card">
+            <div class="slide-tag">Basic</div>
+            <h3>Foundation before aggression.</h3>
+            <p>Basic is for traders who want the first clean version of the workflow without jumping straight into the deeper structure.</p>
+            <p class="slide-highlight">It is the easiest way to start without feeling overwhelmed.</p>
+          </div>
+          <div class="slide-card">
+            <div class="slide-tag">Pro</div>
+            <h3>The main product for most users.</h3>
+            <p>Pro is the core route for active traders who want stronger execution workflow and clearer structure than the starter tier.</p>
+            <p class="slide-highlight">This is the main conversion path.</p>
+          </div>
+          <div class="slide-card">
+            <div class="slide-tag">Elite</div>
+            <h3>More depth for stronger execution.</h3>
+            <p>Elite is positioned for users who already know they want more than the main route and value a deeper tier.</p>
+            <p class="slide-highlight">Higher intensity, higher conviction.</p>
+          </div>
+          <div class="slide-card">
+            <div class="slide-tag">Lifetime</div>
+            <h3>The strongest long-term package.</h3>
+            <p>Lifetime removes monthly renewal and packages the cleanest long-term decision for users who want the full route.</p>
+            <p class="slide-highlight">Best long-term value, all books included.</p>
+          </div>
         </div>
-        <div class="card results-card">
-          <div class="results-number">Less Noise</div>
-          <div class="results-label">More selective execution</div>
-          <div class="results-sub">Fewer forced trades</div>
-        </div>
+        <button class="slider-nav right" type="button" onclick="moveSlider('engine-track', 1)">›</button>
       </div>
     </div>
   </section>
@@ -546,14 +1186,17 @@
     <div class="container">
       <div class="section-head">
         <div class="section-kicker">Trader Reviews</div>
-        <h2>Trust should feel active, mixed, and believable.</h2>
-        <p>The review wall below is intentionally varied so the page feels like a live product, not a copied landing page.</p>
+        <h2>Trust should feel active, mixed, and believable — not copied and pasted.</h2>
+        <p>The review wall below is intentionally varied by source, time, and location so the page feels like a live product, not a fake landing page.</p>
       </div>
+
       <div class="reviews-meta-wrap">
         <div class="reviews-meta">Mixed sources • rolling wall • different countries</div>
         <div class="reviews-badge">72+ collected review snippets</div>
       </div>
-      <div class="review-wall" id="reviewWall"></div>
+
+      <div class="review-wall" id="review-wall"></div>
+      <div class="reviews-helper">Users care less about perfect claims and more about whether the product feels real, clear, and consistently useful.</div>
     </div>
   </section>
 
@@ -561,247 +1204,306 @@
     <div class="container">
       <div class="section-head">
         <div class="section-kicker">Pricing</div>
-        <h2>Choose your plan.</h2>
-        <p>Monthly is the easiest entry. Yearly is the strongest value. Lifetime is the full long-term package.</p>
+        <h2>Choose the tier that matches how serious you are about execution.</h2>
+        <p>Monthly keeps entry easy. Yearly gives the strongest value. Lifetime is the highest long-term package.</p>
       </div>
 
-      <div class="pricing-shell">
+      <div class="pricing-headnote">
+        Most traders fail not because of strategy, but because they enter at the wrong moment.<br>
+        Each plan is built around a different stage of execution.<br>
+        <strong>BASIC = Where to watch</strong> · <strong>PRO = When to act</strong> · <strong>ELITE = Confirmed execution</strong>
+      </div>
+
+      <div class="pricing-grid">
         <div class="pricing-card">
-          <div class="plan-head">
-            <div class="plan-badge-row">
-              <div class="mini-plan-tag">Starter Tier</div>
-            </div>
-            <div class="plan-name">Basic</div>
-            <div class="plan-desc">Entry-level access for traders who want the foundation first.</div>
-          </div>
-          <div class="plan-body">
-            <div class="price-blocks">
-              <div class="price-box">
-                <div class="price-box-header">
-                  <div class="price-mode">Monthly</div>
-                  <div class="price-save">Start Fast</div>
-                </div>
-                <div class="price-value">29 <span>USDT</span></div>
-                <div class="price-caption">Per month</div>
+          <div class="plan-shell">
+            <div class="plan-top">
+              <div class="plan-label-row">
+                <div class="mini-plan-tag">Starter Tier</div>
               </div>
-              <div class="price-box gold">
-                <div class="price-box-header">
-                  <div class="price-mode">Yearly</div>
-                  <div class="price-save">45% OFF</div>
-                </div>
-                <div class="price-value">191.4 <span>USDT</span></div>
-                <div class="price-caption">12 months billed once • 45% discount applied</div>
+              <div>
+                <div class="plan-name">Basic</div>
+                <div class="plan-desc">Entry-level access for traders who want the foundation first.</div>
               </div>
             </div>
-            <ul class="plan-feature-list">
+
+            <div class="pricing-box-stack">
+              <div class="pricing-box">
+                <div>
+                  <div class="pricing-box-head">
+                    <div class="pricing-box-title">Monthly</div>
+                    <div class="pricing-chip">Fast start</div>
+                  </div>
+                  <div class="price">29 <span>USDT</span></div>
+                  <div class="price-sub">per month</div>
+                </div>
+              </div>
+
+              <div class="pricing-box">
+                <div>
+                  <div class="pricing-box-head">
+                    <div class="pricing-box-title">Yearly</div>
+                    <div class="pricing-chip gold">45% OFF</div>
+                  </div>
+                  <div class="price">191.4 <span>USDT</span></div>
+                  <div class="price-sub">12 months billed once</div>
+                  <div class="save-line">Monthly total 348 → yearly 191.4</div>
+                </div>
+              </div>
+            </div>
+
+            <ul class="feature-list">
               <li>Core chart logic access</li>
-              <li>Foundation-first workflow</li>
+              <li>Wave structure foundation</li>
+              <li>Simple starter workflow</li>
               <li>Best entry point for first-time users</li>
-              <li>Basic Yearly includes TCPS-A</li>
             </ul>
-            <div class="plan-bonus-note">TCPS-A BOOK INCLUDED</div>
-            <div class="plan-actions">
-              <button class="plan-cta primary" type="button" data-plan="basic" data-cycle="monthly">Choose Basic Monthly</button>
-              <button class="plan-cta secondary" type="button" data-plan="basic" data-cycle="yearly">Choose Basic Yearly</button>
+
+            <div class="included-book-line">TCPS-A Book Included</div>
+
+            <div class="card-action-stack">
+              <button class="price-btn" type="button" data-plan="basic" data-billing="monthly">Choose Basic Monthly</button>
+              <button class="price-btn secondary-select" type="button" data-plan="basic" data-billing="yearly">Choose Basic Yearly</button>
             </div>
           </div>
         </div>
 
-        <div class="pricing-card">
-          <div class="plan-head">
-            <div class="plan-badge-row">
-              <div class="mini-plan-tag most-popular">Most Popular</div>
-              <div class="mini-plan-tag">Core Tier</div>
-            </div>
-            <div class="plan-name">Pro</div>
-            <div class="plan-desc">The main TCPS workflow for users who want the real signal-focused product.</div>
-          </div>
-          <div class="plan-body">
-            <div class="price-blocks">
-              <div class="price-box">
-                <div class="price-box-header">
-                  <div class="price-mode">Monthly</div>
-                  <div class="price-save">Best Seller</div>
-                </div>
-                <div class="price-value">59 <span>USDT</span></div>
-                <div class="price-caption">Per month</div>
+        <div class="pricing-card featured">
+          <div class="tag">Most Popular</div>
+          <div class="plan-shell">
+            <div class="plan-top">
+              <div class="plan-label-row">
+                <div class="mini-plan-tag">Main Product</div>
+                <div class="mini-plan-tag">Best balance</div>
               </div>
-              <div class="price-box gold">
-                <div class="price-box-header">
-                  <div class="price-mode">Yearly</div>
-                  <div class="price-save">45% OFF</div>
-                </div>
-                <div class="price-value">389.4 <span>USDT</span></div>
-                <div class="price-caption">12 months billed once • 45% discount applied</div>
+              <div>
+                <div class="plan-name">Pro</div>
+                <div class="plan-desc">The main TCPS workflow for users who want the real signal-focused product.</div>
               </div>
             </div>
-            <ul class="plan-feature-list">
+
+            <div class="pricing-box-stack">
+              <div class="pricing-box">
+                <div>
+                  <div class="pricing-box-head">
+                    <div class="pricing-box-title">Monthly</div>
+                    <div class="pricing-chip">Main flow</div>
+                  </div>
+                  <div class="price">59 <span>USDT</span></div>
+                  <div class="price-sub">per month</div>
+                </div>
+              </div>
+
+              <div class="pricing-box">
+                <div>
+                  <div class="pricing-box-head">
+                    <div class="pricing-box-title">Yearly</div>
+                    <div class="pricing-chip gold">45% OFF</div>
+                  </div>
+                  <div class="price">389.4 <span>USDT</span></div>
+                  <div class="price-sub">12 months billed once</div>
+                  <div class="save-line">Monthly total 708 → yearly 389.4</div>
+                </div>
+              </div>
+            </div>
+
+            <ul class="feature-list">
               <li>Everything in Basic</li>
-              <li>Liquidity Engine core workflow</li>
-              <li>Best fit for active traders</li>
-              <li>Pro Yearly includes TCPS-A + TCPS-B</li>
+              <li>Liquidity engine core workflow</li>
+              <li>Priority execution structure</li>
+              <li>Best overall fit for active traders</li>
             </ul>
-            <div class="plan-bonus-note">ALL BOOKS INCLUDED</div>
-            <div class="plan-actions">
-              <button class="plan-cta primary" type="button" data-plan="pro" data-cycle="monthly">Choose Pro Monthly</button>
-              <button class="plan-cta secondary" type="button" data-plan="pro" data-cycle="yearly">Choose Pro Yearly</button>
+
+            <div class="included-book-line">All Books Included</div>
+
+            <div class="card-action-stack">
+              <button class="price-btn" type="button" data-plan="pro" data-billing="monthly">Choose Pro Monthly</button>
+              <button class="price-btn secondary-select" type="button" data-plan="pro" data-billing="yearly">Choose Pro Yearly</button>
             </div>
           </div>
         </div>
 
         <div class="pricing-card">
-          <div class="plan-head">
-            <div class="plan-badge-row">
-              <div class="mini-plan-tag">Advanced Tier</div>
-            </div>
-            <div class="plan-name">Elite</div>
-            <div class="plan-desc">For users who want stronger execution depth and a higher support tier.</div>
-          </div>
-          <div class="plan-body">
-            <div class="price-blocks">
-              <div class="price-box">
-                <div class="price-box-header">
-                  <div class="price-mode">Monthly</div>
-                  <div class="price-save">Advanced</div>
-                </div>
-                <div class="price-value">119 <span>USDT</span></div>
-                <div class="price-caption">Per month</div>
+          <div class="plan-shell">
+            <div class="plan-top">
+              <div class="plan-label-row">
+                <div class="mini-plan-tag">Advanced Tier</div>
               </div>
-              <div class="price-box gold">
-                <div class="price-box-header">
-                  <div class="price-mode">Yearly</div>
-                  <div class="price-save">45% OFF</div>
-                </div>
-                <div class="price-value">785.4 <span>USDT</span></div>
-                <div class="price-caption">12 months billed once • 45% discount applied</div>
+              <div>
+                <div class="plan-name">Elite</div>
+                <div class="plan-desc">For users who want stronger execution depth and a higher support tier.</div>
               </div>
             </div>
-            <ul class="plan-feature-list">
+
+            <div class="pricing-box-stack">
+              <div class="pricing-box">
+                <div>
+                  <div class="pricing-box-head">
+                    <div class="pricing-box-title">Monthly</div>
+                    <div class="pricing-chip">Advanced</div>
+                  </div>
+                  <div class="price">119 <span>USDT</span></div>
+                  <div class="price-sub">per month</div>
+                </div>
+              </div>
+
+              <div class="pricing-box">
+                <div>
+                  <div class="pricing-box-head">
+                    <div class="pricing-box-title">Yearly</div>
+                    <div class="pricing-chip gold">45% OFF</div>
+                  </div>
+                  <div class="price">785.4 <span>USDT</span></div>
+                  <div class="price-sub">12 months billed once</div>
+                  <div class="save-line">Monthly total 1428 → yearly 785.4</div>
+                </div>
+              </div>
+            </div>
+
+            <ul class="feature-list">
               <li>Everything in Pro</li>
               <li>Advanced signal workflow</li>
               <li>Extended execution support</li>
-              <li>Elite Yearly includes TCPS-A + TCPS-B</li>
+              <li>Higher-tier access path</li>
             </ul>
-            <div class="plan-bonus-note">ALL BOOKS INCLUDED</div>
-            <div class="plan-actions">
-              <button class="plan-cta primary" type="button" data-plan="elite" data-cycle="monthly">Choose Elite Monthly</button>
-              <button class="plan-cta secondary" type="button" data-plan="elite" data-cycle="yearly">Choose Elite Yearly</button>
+
+            <div class="included-book-line">All Books Included</div>
+
+            <div class="card-action-stack">
+              <button class="price-btn" type="button" data-plan="elite" data-billing="monthly">Choose Elite Monthly</button>
+              <button class="price-btn secondary-select" type="button" data-plan="elite" data-billing="yearly">Choose Elite Yearly</button>
             </div>
           </div>
         </div>
 
-        <div class="pricing-card lifetime-special">
-          <div class="plan-head">
-            <div class="plan-badge-row">
-              <div class="mini-plan-tag">One-Time Access</div>
-              <div class="mini-plan-tag">Best Long-Term Value</div>
-            </div>
-            <div class="plan-name">Lifetime</div>
-            <div class="plan-desc">For users who want the strongest package with no monthly renewal.</div>
-          </div>
-          <div class="plan-body">
-            <div class="price-blocks">
-              <div class="price-box gold">
-                <div class="price-box-header">
-                  <div class="price-mode">Lifetime</div>
-                  <div class="price-save">One Time</div>
-                </div>
-                <div class="price-value">1599 <span>USDT</span></div>
-                <div class="price-caption">Full package access • One-time payment</div>
+        <div class="pricing-card">
+          <div class="plan-shell">
+            <div class="plan-top">
+              <div class="plan-label-row">
+                <div class="mini-plan-tag">One-Time Access</div>
+                <div class="mini-plan-tag">Best long-term value</div>
+              </div>
+              <div>
+                <div class="plan-name">Lifetime</div>
+                <div class="plan-desc">For users who want the strongest package and no monthly renewal.</div>
               </div>
             </div>
-            <ul class="plan-feature-list">
+
+            <div class="pricing-box-stack">
+              <div class="pricing-box single">
+                <div>
+                  <div class="pricing-box-head">
+                    <div class="pricing-box-title">Lifetime</div>
+                    <div class="pricing-chip gold">One-Time</div>
+                  </div>
+                  <div class="price">1599 <span>USDT</span></div>
+                  <div class="price-sub">single payment • no renewal</div>
+                  <div class="save-line">Highest long-term package</div>
+                </div>
+              </div>
+            </div>
+
+            <ul class="feature-list">
               <li>Everything in Elite</li>
               <li>Future updates included</li>
               <li>No monthly renewal</li>
-              <li>Lifetime includes TCPS-A + TCPS-B</li>
+              <li>Strongest value over time</li>
             </ul>
-            <div class="plan-bonus-note">ALL BOOKS INCLUDED</div>
-            <div class="plan-actions">
-              <button class="plan-cta primary" type="button" data-plan="lifetime" data-cycle="lifetime">Choose Lifetime</button>
+
+            <div class="included-book-line">All Books Included</div>
+
+            <div class="card-action-stack">
+              <button class="price-btn" type="button" data-plan="lifetime" data-billing="lifetime">Choose Lifetime</button>
             </div>
           </div>
         </div>
       </div>
 
       <div class="pricing-warning">
-        <strong>Important payment rule:</strong> send the exact amount for the selected plan only. Plan mismatch, amount mismatch, or wrong network may be rejected. Bonus books are delivered to the signup email after confirmation.
+        <strong>Important payment rule:</strong> send the exact amount for the selected plan only.
+        Wrong amount, wrong network, or wrong plan selection may be automatically rejected.
       </div>
     </div>
   </section>
 
-  <section id="bonus-books">
+  <section id="ebooks">
     <div class="container">
-      <div class="bonus-wrap">
-        <div class="bonus-top">
-          <div>
-            <div class="section-kicker">Yearly Bonus Books</div>
-            <h3>Get your yearly bonus e-books.</h3>
-          </div>
-          <p>Basic Yearly includes TCPS-A only. Pro Yearly, Elite Yearly, and Lifetime include both TCPS-A and TCPS-B. Bonus books are delivered to the signup email after confirmation.</p>
+      <div class="ebooks-wrap">
+        <div class="section-kicker">Yearly Bonus Books</div>
+        <div class="section-head" style="margin:0 0 18px;text-align:left;max-width:none;">
+          <h2 style="margin-bottom:12px;">Get your yearly bonus e-books.</h2>
+          <p>Basic Yearly includes TCPS-A only. Pro Yearly, Elite Yearly, and Lifetime include both TCPS-A and TCPS-B. Bonus books are delivered to your signup email after confirmation.</p>
         </div>
 
-        <div class="bonus-grid">
-          <div class="bonus-book">
+        <div class="book-grid">
+          <article class="book-card">
             <div class="book-cover">
-              <div class="book-cover-art a">
-                <div class="book-cover-top">
-                  <div class="book-cover-title">TCPS-A</div>
-                  <div class="book-cover-sub">Foundations of Smart Trading</div>
-                  <div class="book-cover-chart"></div>
+              <div class="book-spine"><span>TCPS-A FOUNDATION</span></div>
+              <div class="book-inner">
+                <div class="book-title">TCPS-A</div>
+                <div class="book-subtitle">Foundations of Smart Trading</div>
+                <div class="book-chart">
+                  <svg viewBox="0 0 200 120" preserveAspectRatio="none">
+                    <polyline points="10,94 36,90 62,78 88,82 114,64 140,68 166,52 190,46" fill="none" stroke="rgba(124,214,255,.95)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <polyline points="10,96 36,94 62,82 88,86 114,68 140,72 166,56 190,50" fill="rgba(92,198,255,.16)" stroke="none"/>
+                  </svg>
                 </div>
-                <div class="book-cover-band">Regular Price 199 USDT</div>
               </div>
+              <div class="book-price-band">199 <small>USDT</small></div>
             </div>
-            <div class="book-meta">
-              <h4>TCPS-A</h4>
-              <div class="book-price">Regular Price 199 USDT</div>
+            <div class="book-copy">
+              <h3>TCPS-A</h3>
+              <div class="book-pill">Regular Price 199 USDT</div>
               <p>Foundation book built for traders who want the core structure, cleaner chart reading, and a stronger entry-level system base.</p>
-              <div class="book-points">
-                <span>Included with Basic Yearly</span>
-                <span>Included with Pro Yearly</span>
-                <span>Included with Elite Yearly</span>
-                <span>Included with Lifetime</span>
-                <span>Delivered to your signup email</span>
-              </div>
+              <ul>
+                <li>Included with Basic Yearly</li>
+                <li>Included with Pro Yearly</li>
+                <li>Included with Elite Yearly</li>
+                <li>Included with Lifetime</li>
+                <li>Delivered to your signup email</li>
+              </ul>
             </div>
-          </div>
+          </article>
 
-          <div class="bonus-book">
+          <article class="book-card">
             <div class="book-cover">
-              <div class="book-cover-art b">
-                <div class="book-cover-top">
-                  <div class="book-cover-title">TCPS-B</div>
-                  <div class="book-cover-sub">Advanced Market Execution</div>
-                  <div class="book-cover-chart"></div>
+              <div class="book-spine"><span>TCPS-B ADVANCED</span></div>
+              <div class="book-inner">
+                <div class="book-title">TCPS-B</div>
+                <div class="book-subtitle">Advanced Market Execution</div>
+                <div class="book-chart">
+                  <svg viewBox="0 0 200 120" preserveAspectRatio="none">
+                    <polyline points="10,92 30,84 50,88 70,74 90,60 110,68 130,52 150,58 170,38 190,28" fill="none" stroke="rgba(255,173,98,.96)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <polyline points="10,95 30,87 50,91 70,77 90,63 110,71 130,55 150,61 170,41 190,31" fill="rgba(255,173,98,.14)" stroke="none"/>
+                  </svg>
                 </div>
-                <div class="book-cover-band">Regular Price 299 USDT</div>
               </div>
+              <div class="book-price-band">299 <small>USDT</small></div>
             </div>
-            <div class="book-meta">
-              <h4>TCPS-B</h4>
-              <div class="book-price">Regular Price 299 USDT</div>
+            <div class="book-copy">
+              <h3>TCPS-B</h3>
+              <div class="book-pill">Regular Price 299 USDT</div>
               <p>Advanced execution book built for traders who want practical market application, deeper timing, and stronger real-trade context.</p>
-              <div class="book-points">
-                <span>Included with Pro Yearly</span>
-                <span>Included with Elite Yearly</span>
-                <span>Included with Lifetime</span>
-                <span>Delivered to your signup email</span>
-              </div>
+              <ul>
+                <li>Included with Pro Yearly</li>
+                <li>Included with Elite Yearly</li>
+                <li>Included with Lifetime</li>
+                <li>Delivered to your signup email</li>
+              </ul>
             </div>
-          </div>
+          </article>
         </div>
 
-        <div class="bonus-rule-grid">
-          <div class="rule-box">
+        <div class="book-mini-grid">
+          <div class="book-mini">
             <strong>Basic Yearly</strong>
             <span>Includes TCPS-A only</span>
           </div>
-          <div class="rule-box">
+          <div class="book-mini">
             <strong>Pro / Elite Yearly</strong>
             <span>Includes TCPS-A + TCPS-B</span>
           </div>
-          <div class="rule-box">
+          <div class="book-mini">
             <strong>Lifetime</strong>
             <span>Includes TCPS-A + TCPS-B</span>
           </div>
@@ -812,9 +1514,9 @@
 
   <section id="cta">
     <div class="container">
-      <div class="cta-box">
-        <h2>Choose the plan that fits your execution level.</h2>
-        <p>Monthly for starting fast. Yearly for stronger value. Lifetime for the full long-term package.</p>
+      <div class="panel cta-box">
+        <h2>Get access to TCPS Smart Entry AI</h2>
+        <p>Clean signals. Less noise. Better execution. Choose your plan and start with the right access path.</p>
         <a href="#pricing" class="btn-primary">Start Now</a>
       </div>
     </div>
@@ -823,553 +1525,284 @@
   <footer class="footer">
     <div class="container footer-inner">
       <div>© 2026 TCPS Liquidity Engine. All rights reserved.</div>
-      <div class="footer-links">
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
-        <a href="#">Support</a>
-      </div>
+      <div>TradingView ID required • Telegram optional • Books sent to signup email after confirmation</div>
     </div>
   </footer>
 
-  <div class="auth-modal" id="authModal" aria-hidden="true">
-    <div class="auth-box">
-      <div class="modal-head">
+  <div class="payment-modal" id="paymentModal">
+    <div class="payment-modal-card">
+      <button class="close-modal" type="button" id="closePaymentModal">×</button>
+      <div class="modal-title">Complete Payment</div>
+      <div class="modal-sub">Logged-in users can review the selected payment details here.</div>
+
+      <div class="modal-summary">
         <div>
-          <div class="modal-title" id="authTitle">Member Access</div>
-          <div class="modal-sub" id="authSub">Create your account or log in to continue.</div>
+          <div class="modal-block-label">Plan</div>
+          <div class="modal-block-value" id="modalPlan">Pro</div>
         </div>
-        <button class="modal-close" type="button" id="authClose">×</button>
-      </div>
-
-      <div class="auth-tabs">
-        <button class="auth-tab active" type="button" data-tab="register">Register</button>
-        <button class="auth-tab" type="button" data-tab="login">Login</button>
-      </div>
-
-      <form class="auth-form active" id="registerForm">
-        <div class="selection-box is-hidden" id="selectionBox">
-          <div class="selection-grid">
-            <div class="selection-item">
-              <strong>Selected Plan</strong>
-              <span id="selectionPlan">-</span>
-            </div>
-            <div class="selection-item">
-              <strong>Selected Cycle</strong>
-              <span id="selectionCycle">-</span>
-            </div>
-            <div class="selection-item">
-              <strong>Amount</strong>
-              <span id="selectionAmount">-</span>
-            </div>
-            <div class="selection-item">
-              <strong>Bonus</strong>
-              <span id="selectionBonus">-</span>
-            </div>
-          </div>
-          <div class="selection-note">If you selected a plan before registering, complete the payment fields below in the same flow.</div>
-        </div>
-
-        <div class="field">
-          <label for="regEmail">Email</label>
-          <input id="regEmail" name="email" type="email" required />
-        </div>
-
-        <div class="field-grid">
-          <div class="field">
-            <label for="regPassword">Password</label>
-            <input id="regPassword" name="password" type="password" required />
-          </div>
-          <div class="field">
-            <label for="regPasswordConfirm">Confirm Password</label>
-            <input id="regPasswordConfirm" name="passwordConfirm" type="password" required />
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="regTradingview">TradingView ID</label>
-          <input id="regTradingview" name="tradingview" type="text" required />
-          <div class="helper">Required. This is needed later for plan access and system use.</div>
-        </div>
-
-        <div class="field">
-          <label for="regTelegram">Telegram</label>
-          <input id="regTelegram" name="telegram" type="text" />
-          <div class="helper">Leave blank if you do not have one.</div>
-        </div>
-
-        <div id="paymentFields" class="is-hidden">
-          <div class="field">
-            <label for="regAmount">Paid Amount</label>
-            <input id="regAmount" name="amount" type="text" />
-          </div>
-          <div class="field">
-            <label for="regTxid">TXID</label>
-            <input id="regTxid" name="txid" type="text" />
-          </div>
-        </div>
-
-        <button class="auth-submit" type="submit">Complete Registration</button>
-        <div class="form-message" id="registerMessage"></div>
-      </form>
-
-      <form class="auth-form" id="loginForm">
-        <div class="field">
-          <label for="loginEmail">Email</label>
-          <input id="loginEmail" name="email" type="email" required />
-        </div>
-        <div class="field">
-          <label for="loginPasswordInput">Password</label>
-          <input id="loginPasswordInput" name="password" type="password" required />
-        </div>
-        <button class="auth-submit" type="submit">Login</button>
-        <div class="form-message" id="loginMessage"></div>
-      </form>
-    </div>
-  </div>
-
-  <div class="payment-modal" id="paymentModal" aria-hidden="true">
-    <div class="payment-box">
-      <div class="modal-head">
         <div>
-          <div class="modal-title">Complete Payment</div>
-          <div class="modal-sub">Logged-in users can complete the payment flow here.</div>
+          <div class="modal-block-label">Billing</div>
+          <div class="modal-block-value" id="modalBilling">Yearly</div>
         </div>
-        <button class="modal-close" type="button" id="paymentClose">×</button>
-      </div>
-
-      <div class="selection-box">
-        <div class="selection-grid">
-          <div class="selection-item">
-            <strong>Plan</strong>
-            <span id="paymentPlan">-</span>
-          </div>
-          <div class="selection-item">
-            <strong>Cycle</strong>
-            <span id="paymentCycle">-</span>
-          </div>
-          <div class="selection-item">
-            <strong>Amount</strong>
-            <span id="paymentAmount">-</span>
-          </div>
-          <div class="selection-item">
-            <strong>Bonus</strong>
-            <span id="paymentBonus">-</span>
-          </div>
+        <div>
+          <div class="modal-block-label">Amount</div>
+          <div class="modal-block-value" id="modalAmount">389.4</div>
+        </div>
+        <div>
+          <div class="modal-block-label">Bonus</div>
+          <div class="modal-block-value" id="modalBonus">TCPS-A + TCPS-B</div>
         </div>
       </div>
 
       <div class="wallet-box">
-        <div class="wallet-row">
-          <strong>USDT TRC20 Wallet Address</strong>
-          <div class="wallet-address" id="walletAddress">PASTE-YOUR-LIVE-USDT-TRC20-WALLET-ADDRESS</div>
-        </div>
+        <div class="wallet-label">USDT TRC20 Wallet Address</div>
+        <div class="wallet-address" id="walletAddress">TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ</div>
         <button class="copy-btn" type="button" id="copyWalletBtn">Copy Wallet Address</button>
-        <div class="selection-note">Send the exact amount only. Plan mismatch, amount mismatch, or wrong network may be rejected. Bonus books are delivered to the signup email after confirmation.</div>
+        <div class="modal-note">
+          Send the exact amount only. Wrong amount, wrong network, or wrong plan selection may cause rejection during manual verification.
+        </div>
       </div>
 
-      <div class="field">
-        <label for="paymentTxid">TXID</label>
-        <input id="paymentTxid" type="text" />
+      <div class="txid-field">
+        <label for="txidInput">TXID</label>
+        <input id="txidInput" type="text" placeholder="Paste your TXID here">
       </div>
 
-      <div class="payment-actions">
-        <button class="auth-submit" type="button" id="paymentContinueBtn">Submit Payment Info</button>
-        <button class="plan-cta secondary" type="button" id="paymentChangeBtn">Change Selection</button>
+      <button class="modal-btn primary" type="button" id="openRegisterFlowBtn" style="width:100%;margin-top:14px;">Open Verification Page</button>
+      <div class="modal-msg" id="paymentMsg"></div>
+
+      <div class="modal-foot">
+        Final approval is completed after payment verification, and bonus books are delivered to the email used during signup.
       </div>
-      <div class="form-message" id="paymentMessage"></div>
-      <div class="disclaimer">Login state is stored locally for UI flow. Final approval remains subject to payment verification, and bonus books are delivered to the signup email after confirmation.</div>
     </div>
   </div>
 
-  <script>
-    const API_BASE = "http://34.50.56.156:5000";
-    const SERVER_LOGIN_URL = `${API_BASE}/login.html`;
-    const SERVER_REGISTER_URL = `${API_BASE}/register.html`;
-    const PAYMENT_WALLET_ADDRESS = "PASTE-YOUR-LIVE-USDT-TRC20-WALLET-ADDRESS";
+<script>
+const SERVER_BASE = "http://34.50.56.156:5000";
+const WALLET_ADDRESS = "TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ";
 
-    const PLAN_DATA = {
-      basic: {
-        label: "Basic",
-        monthly: { amount: "29 USDT", bonus: "No bonus book" },
-        yearly: { amount: "191.4 USDT", bonus: "TCPS-A included" }
-      },
-      pro: {
-        label: "Pro",
-        monthly: { amount: "59 USDT", bonus: "No bonus book" },
-        yearly: { amount: "389.4 USDT", bonus: "TCPS-A + TCPS-B included" }
-      },
-      elite: {
-        label: "Elite",
-        monthly: { amount: "119 USDT", bonus: "No bonus book" },
-        yearly: { amount: "785.4 USDT", bonus: "TCPS-A + TCPS-B included" }
-      },
-      lifetime: {
-        label: "Lifetime",
-        lifetime: { amount: "1599 USDT", bonus: "TCPS-A + TCPS-B included" }
-      }
-    };
+const PLAN_CONFIG = {
+  basic: {
+    name: "Basic",
+    monthly: { amountLabel: "29", amountValue: "29", billingLabel: "Monthly", bonus: "No bonus books" },
+    yearly: { amountLabel: "191.4", amountValue: "191.4", billingLabel: "Yearly", bonus: "TCPS-A" }
+  },
+  pro: {
+    name: "Pro",
+    monthly: { amountLabel: "59", amountValue: "59", billingLabel: "Monthly", bonus: "No bonus books" },
+    yearly: { amountLabel: "389.4", amountValue: "389.4", billingLabel: "Yearly", bonus: "TCPS-A + TCPS-B" }
+  },
+  elite: {
+    name: "Elite",
+    monthly: { amountLabel: "119", amountValue: "119", billingLabel: "Monthly", bonus: "No bonus books" },
+    yearly: { amountLabel: "785.4", amountValue: "785.4", billingLabel: "Yearly", bonus: "TCPS-A + TCPS-B" }
+  },
+  lifetime: {
+    name: "Lifetime",
+    lifetime: { amountLabel: "1599", amountValue: "1599", billingLabel: "Lifetime", bonus: "TCPS-A + TCPS-B" }
+  }
+};
 
-    const REVIEW_ROWS = [
-      [
-        {user:"Ryan", country:"US", text:"Much cleaner than the noisy signal pages I tried before. The structure feels easier to trust."},
-        {user:"Daniel", country:"CA", text:"Pro tier is where it really clicked for me. It feels like the core product."},
-        {user:"Mason", country:"AU", text:"I like that the page makes the yearly option obvious without looking cheap."},
-        {user:"Ethan", country:"UK", text:"The layout feels premium and the process is easier to understand."}
-      ],
-      [
-        {user:"Noah", country:"SG", text:"Less clutter. Better hierarchy. The pricing finally feels like a real product page."},
-        {user:"Luca", country:"IT", text:"Lifetime looks strong now. It actually feels like the top package."},
-        {user:"Jay", country:"KR", text:"The books give the yearly plans more weight. That was the missing part."},
-        {user:"Leon", country:"DE", text:"The signal pitch is simple and the payment warning is clear."}
-      ],
-      [
-        {user:"Alex", country:"US", text:"Basic yearly with TCPS-A makes sense. Nice ladder into the higher plans."},
-        {user:"Chris", country:"PH", text:"Pro yearly and Elite yearly both reading A+B feels much more valuable now."},
-        {user:"Owen", country:"IE", text:"The logged-in flow is more direct than before. Much cleaner."},
-        {user:"Kai", country:"JP", text:"Looks premium without losing the original dark blue TCPS feeling."}
-      ]
-    ];
+let selectedPlanForModal = null;
 
-    let pendingSelection = null;
+const reviewRows = [
+  [
+    { user:"Jay M.", country:"US", time:"2h ago", source:"Discord", text:"Much cleaner than the overloaded scripts I used before. Fewer bad entries already." },
+    { user:"Leo K.", country:"CA", time:"5h ago", source:"Telegram", text:"Basic felt simple, then Pro made the workflow click. Clear upgrade path." },
+    { user:"Noah T.", country:"UK", time:"8h ago", source:"DM", text:"I like that it forces patience instead of feeding constant noise." },
+    { user:"Aria S.", country:"AU", time:"12h ago", source:"Email", text:"The page actually explains the tiers well. I knew exactly which one I wanted." }
+  ],
+  [
+    { user:"Mina R.", country:"KR", time:"1d ago", source:"Telegram", text:"Execution timing feels better because I wait more now. That alone helped." },
+    { user:"Owen P.", country:"US", time:"1d ago", source:"Discord", text:"Elite felt more serious right away. Stronger overall structure than generic indicators." },
+    { user:"Luca D.", country:"IT", time:"2d ago", source:"DM", text:"Less chart clutter. Less hesitation. Better focus." },
+    { user:"Ava C.", country:"NZ", time:"2d ago", source:"Email", text:"The yearly book value made the decision easier for me." }
+  ],
+  [
+    { user:"Ethan W.", country:"US", time:"3d ago", source:"Telegram", text:"What sold me was how it positions execution quality, not just more signals." },
+    { user:"Hugo F.", country:"FR", time:"3d ago", source:"Discord", text:"The onboarding felt clear. Register, verify, done." },
+    { user:"Sofia L.", country:"ES", time:"4d ago", source:"DM", text:"Basic was enough to see the logic. Pro is where it became my main route." },
+    { user:"Mia J.", country:"SG", time:"4d ago", source:"Email", text:"The system feels intentionally selective. That is the main difference for me." }
+  ]
+];
 
-    const authModal = document.getElementById("authModal");
-    const paymentModal = document.getElementById("paymentModal");
-    const selectionBox = document.getElementById("selectionBox");
-    const paymentFields = document.getElementById("paymentFields");
-    const registerMessage = document.getElementById("registerMessage");
-    const loginMessage = document.getElementById("loginMessage");
-    const paymentMessage = document.getElementById("paymentMessage");
+function buildReviews(){
+  const wall = document.getElementById("review-wall");
+  if(!wall) return;
+  wall.innerHTML = "";
+  reviewRows.forEach((rowData, idx) => {
+    const row = document.createElement("div");
+    row.className = "review-row " + (idx % 2 === 0 ? "dir-left" : "dir-right");
 
-    function getSavedUser() {
-      return localStorage.getItem("tcps_user_email");
-    }
+    const marquee = document.createElement("div");
+    marquee.className = "review-marquee";
 
-    function normalizeCycle(cycle) {
-      if (cycle === "monthly") return "Monthly";
-      if (cycle === "yearly") return "Yearly";
-      return "Lifetime";
-    }
-
-    function getSelectionData(plan, cycle) {
-      const group = PLAN_DATA[plan];
-      if (!group || !group[cycle]) return null;
-      return {
-        plan,
-        cycle,
-        label: group.label,
-        amount: group[cycle].amount,
-        bonus: group[cycle].bonus
-      };
-    }
-
-    function applyMemberState() {
-      const savedUser = getSavedUser();
-      const memberLabel = document.getElementById("memberLabel");
-      const logoutBtn = document.getElementById("logoutBtn");
-      const loginBtn = document.getElementById("loginBtn");
-      const registerBtn = document.getElementById("registerBtn");
-
-      if (savedUser) {
-        memberLabel.innerHTML = `<strong>${savedUser}</strong>`;
-        logoutBtn.classList.remove("is-hidden");
-        loginBtn.classList.add("is-hidden");
-        registerBtn.classList.add("is-hidden");
-      } else {
-        memberLabel.textContent = "Guest Mode";
-        logoutBtn.classList.add("is-hidden");
-        loginBtn.classList.remove("is-hidden");
-        registerBtn.classList.remove("is-hidden");
-      }
-    }
-
-    function openAuthModal(mode = "register", selection = null) {
-      pendingSelection = selection;
-      registerMessage.textContent = "";
-      loginMessage.textContent = "";
-      document.getElementById("registerForm").reset();
-      document.getElementById("loginForm").reset();
-
-      if (selection) {
-        selectionBox.classList.remove("is-hidden");
-        paymentFields.classList.remove("is-hidden");
-        document.getElementById("selectionPlan").textContent = selection.label;
-        document.getElementById("selectionCycle").textContent = normalizeCycle(selection.cycle);
-        document.getElementById("selectionAmount").textContent = selection.amount;
-        document.getElementById("selectionBonus").textContent = selection.bonus;
-        document.getElementById("authTitle").textContent = "Create account and continue";
-        document.getElementById("authSub").textContent = "Register now and submit payment details in the same flow.";
-      } else {
-        selectionBox.classList.add("is-hidden");
-        paymentFields.classList.add("is-hidden");
-        document.getElementById("authTitle").textContent = "Member Access";
-        document.getElementById("authSub").textContent = "Create your account or log in to continue.";
-      }
-
-      switchAuthTab(mode);
-      authModal.classList.add("active");
-      authModal.setAttribute("aria-hidden", "false");
-    }
-
-    function closeAuthModal() {
-      authModal.classList.remove("active");
-      authModal.setAttribute("aria-hidden", "true");
-    }
-
-    function openPaymentModal(selection) {
-      pendingSelection = selection;
-      paymentMessage.textContent = "";
-      document.getElementById("paymentTxid").value = "";
-      document.getElementById("paymentPlan").textContent = selection.label;
-      document.getElementById("paymentCycle").textContent = normalizeCycle(selection.cycle);
-      document.getElementById("paymentAmount").textContent = selection.amount;
-      document.getElementById("paymentBonus").textContent = selection.bonus;
-      document.getElementById("walletAddress").textContent = PAYMENT_WALLET_ADDRESS;
-      paymentModal.classList.add("active");
-      paymentModal.setAttribute("aria-hidden", "false");
-    }
-
-    function closePaymentModal() {
-      paymentModal.classList.remove("active");
-      paymentModal.setAttribute("aria-hidden", "true");
-    }
-
-    function switchAuthTab(tabName) {
-      document.querySelectorAll(".auth-tab").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.tab === tabName);
-      });
-      document.querySelectorAll(".auth-form").forEach(form => {
-        form.classList.toggle("active", form.id === `${tabName}Form`);
-      });
-    }
-
-    function buildRegisterUrl(selection = null) {
-      const url = new URL(SERVER_REGISTER_URL);
-      if (selection) {
-        url.searchParams.set("plan", selection.plan);
-        url.searchParams.set("cycle", selection.cycle);
-        url.searchParams.set("amount", selection.amount.replace(" USDT", ""));
-      }
-      return url.toString();
-    }
-
-    function goToServerRegister(selection = null) {
-      window.location.href = buildRegisterUrl(selection);
-    }
-
-    function goToServerLogin() {
-      window.location.href = SERVER_LOGIN_URL;
-    }
-
-    function handlePlanClick(plan, cycle) {
-      const selection = getSelectionData(plan, cycle);
-      if (!selection) return;
-
-      if (getSavedUser()) {
-        openPaymentModal(selection);
-      } else {
-        goToServerRegister(selection);
-      }
-    }
-
-    function renderReviews() {
-      const wall = document.getElementById("reviewWall");
-      if (!wall) return;
-
-      wall.innerHTML = REVIEW_ROWS.map((row, idx) => {
-        const cards = row.map((item, itemIdx) => `
-          <div class="review-card">
-            <div class="review-top">
-              <div class="review-user">${item.user} <span class="review-country">${item.country}</span></div>
-              <div class="review-time">${12 + idx}h ago</div>
-            </div>
-            <div class="review-stars">★★★★★</div>
-            <div class="review-text">${item.text}</div>
+    rowData.forEach((item) => {
+      const card = document.createElement("div");
+      card.className = "review-card";
+      card.innerHTML = `
+        <div class="review-top">
+          <div>
+            <div class="review-user">${item.user}<span class="review-country">${item.country}</span></div>
+            <div class="review-source">${item.source}</div>
           </div>
-        `).join("");
-        return `
-          <div class="review-row ${idx % 2 === 0 ? "dir-left" : "dir-right"}">
-            <div class="review-marquee" style="animation-duration:${30 + idx * 4}s">
-              ${cards + cards}
-            </div>
-          </div>
-        `;
-      }).join("");
-    }
-
-    async function submitRegister(event) {
-      event.preventDefault();
-      registerMessage.textContent = "";
-
-      const email = document.getElementById("regEmail").value.trim();
-      const password = document.getElementById("regPassword").value.trim();
-      const passwordConfirm = document.getElementById("regPasswordConfirm").value.trim();
-      const tradingview = document.getElementById("regTradingview").value.trim();
-      const telegram = document.getElementById("regTelegram").value.trim();
-      const amount = document.getElementById("regAmount").value.trim();
-      const txid = document.getElementById("regTxid").value.trim();
-
-      if (!email || !password || !passwordConfirm || !tradingview) {
-        registerMessage.textContent = "Please fill in all required fields.";
-        return;
-      }
-
-      if (password !== passwordConfirm) {
-        registerMessage.textContent = "Passwords do not match.";
-        return;
-      }
-
-      const payload = {
-        email,
-        password,
-        tradingview,
-        telegram,
-        plan: pendingSelection ? pendingSelection.plan : "basic",
-        amount: pendingSelection ? amount : "",
-        txid: pendingSelection ? txid : ""
-      };
-
-      try {
-        const response = await fetch(`${API_BASE}/api/register`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        const data = await response.json();
-
-        if (!response.ok || !data.success) {
-          registerMessage.textContent = data.message || "Registration failed.";
-          return;
-        }
-
-        localStorage.setItem("tcps_user_email", email);
-        applyMemberState();
-
-        if (pendingSelection) {
-          closeAuthModal();
-          openPaymentModal(pendingSelection);
-        } else {
-          window.location.href = data.redirect || window.location.href;
-        }
-      } catch (error) {
-        registerMessage.textContent = "Server connection failed.";
-      }
-    }
-
-    async function submitLogin(event) {
-      event.preventDefault();
-      loginMessage.textContent = "";
-
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPasswordInput").value.trim();
-
-      if (!email || !password) {
-        loginMessage.textContent = "Please enter your email and password.";
-        return;
-      }
-
-      try {
-        const response = await fetch(`${API_BASE}/api/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password })
-        });
-        const data = await response.json();
-
-        if (!response.ok || !data.success) {
-          loginMessage.textContent = data.message || "Login failed.";
-          return;
-        }
-
-        localStorage.setItem("tcps_user_email", email);
-        applyMemberState();
-        closeAuthModal();
-
-        if (pendingSelection) {
-          openPaymentModal(pendingSelection);
-        } else {
-          window.location.href = data.redirect || window.location.href;
-        }
-      } catch (error) {
-        loginMessage.textContent = "Server connection failed.";
-      }
-    }
-
-    function submitPaymentInfo() {
-      const txid = document.getElementById("paymentTxid").value.trim();
-      if (!pendingSelection) {
-        paymentMessage.textContent = "No plan selected.";
-        return;
-      }
-      if (!txid) {
-        paymentMessage.textContent = "Please enter your TXID.";
-        return;
-      }
-      paymentMessage.textContent = "Payment info recorded. Final approval remains subject to verification.";
-    }
-
-    function copyWalletAddress() {
-      const address = document.getElementById("walletAddress").textContent.trim();
-      navigator.clipboard.writeText(address)
-        .then(() => {
-          paymentMessage.textContent = "Wallet address copied.";
-        })
-        .catch(() => {
-          paymentMessage.textContent = "Copy failed.";
-        });
-    }
-
-    function logout() {
-      localStorage.removeItem("tcps_user_email");
-      pendingSelection = null;
-      applyMemberState();
-      window.location.href = "https://lsgsg0908-png.github.io/tcps-site/";
-    }
-
-    document.querySelectorAll(".plan-cta[data-plan]").forEach(button => {
-      button.addEventListener("click", () => {
-        handlePlanClick(button.dataset.plan, button.dataset.cycle);
-      });
+          <div class="review-time">${item.time}</div>
+        </div>
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">${item.text}</div>
+      `;
+      marquee.appendChild(card);
     });
 
-    document.querySelectorAll(".auth-tab").forEach(button => {
-      button.addEventListener("click", () => switchAuthTab(button.dataset.tab));
+    marquee.innerHTML += marquee.innerHTML;
+    marquee.style.animationDuration = `${30 + idx * 4}s`;
+    row.appendChild(marquee);
+    wall.appendChild(row);
+  });
+}
+
+function moveSlider(id, direction){
+  const track = document.getElementById(id);
+  if(!track) return;
+  const slides = Array.from(track.children);
+  const total = slides.length;
+  if(!total) return;
+  let current = Number(track.dataset.index || 0);
+  current += direction;
+  if(current < 0) current = total - 1;
+  if(current >= total) current = 0;
+  track.dataset.index = current;
+  track.style.transform = `translateX(-${current * 100}%)`;
+}
+
+function goRegister(plan, billing){
+  let url = SERVER_BASE + "/register.html";
+  const params = new URLSearchParams();
+  if(plan) params.set("plan", String(plan).toLowerCase());
+  if(billing) params.set("billing", String(billing).toLowerCase());
+  const query = params.toString();
+  if(query) url += "?" + query;
+  window.location.href = url;
+}
+
+function goLogin(){
+  window.location.href = SERVER_BASE + "/login.html";
+}
+
+function applyMemberState(){
+  const savedUser = localStorage.getItem("tcps_user_email");
+  const memberLabel = document.getElementById("memberLabel");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const loginBtn = document.getElementById("loginBtn");
+  const registerBtn = document.getElementById("registerBtn");
+
+  if(savedUser){
+    if(memberLabel) memberLabel.innerHTML = `<strong>${savedUser}</strong>`;
+    if(logoutBtn) logoutBtn.classList.remove("is-hidden");
+    if(loginBtn) loginBtn.classList.add("is-hidden");
+    if(registerBtn) registerBtn.classList.add("is-hidden");
+  }else{
+    if(memberLabel) memberLabel.textContent = "Guest Mode";
+    if(logoutBtn) logoutBtn.classList.add("is-hidden");
+    if(loginBtn) loginBtn.classList.remove("is-hidden");
+    if(registerBtn) registerBtn.classList.remove("is-hidden");
+  }
+}
+
+function logout(){
+  localStorage.removeItem("tcps_user_email");
+  window.location.href = "https://lsgsg0908-png.github.io/tcps-site/";
+}
+
+function openPaymentModal(plan, billing){
+  const planKey = String(plan).toLowerCase();
+  const billingKey = String(billing).toLowerCase();
+  const config = PLAN_CONFIG[planKey] && PLAN_CONFIG[planKey][billingKey];
+  if(!config) return;
+
+  selectedPlanForModal = { plan: planKey, billing: billingKey, amount: config.amountValue };
+
+  document.getElementById("modalPlan").textContent = PLAN_CONFIG[planKey].name;
+  document.getElementById("modalBilling").textContent = config.billingLabel;
+  document.getElementById("modalAmount").textContent = config.amountLabel;
+  document.getElementById("modalBonus").textContent = config.bonus;
+  document.getElementById("walletAddress").textContent = WALLET_ADDRESS;
+  document.getElementById("txidInput").value = "";
+  document.getElementById("paymentMsg").textContent = "";
+  document.getElementById("paymentModal").classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closePaymentModal(){
+  document.getElementById("paymentModal").classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+function handlePlanClick(plan, billing){
+  const savedUser = localStorage.getItem("tcps_user_email");
+  if(savedUser){
+    openPaymentModal(plan, billing);
+    return;
+  }
+  goRegister(plan, billing);
+}
+
+function copyWallet(){
+  navigator.clipboard.writeText(WALLET_ADDRESS).then(() => {
+    document.getElementById("paymentMsg").textContent = "Wallet address copied.";
+  }).catch(() => {
+    document.getElementById("paymentMsg").textContent = "Copy failed. Please copy manually.";
+  });
+}
+
+function openVerificationPage(){
+  if(!selectedPlanForModal) return;
+  const txid = document.getElementById("txidInput").value.trim();
+  const email = localStorage.getItem("tcps_user_email") || "";
+  if(txid){
+    localStorage.setItem("tcps_pending_txid", txid);
+  }
+  if(email){
+    localStorage.setItem("tcps_pending_email", email);
+  }
+  localStorage.setItem("tcps_pending_plan", JSON.stringify(selectedPlanForModal));
+  goRegister(selectedPlanForModal.plan, selectedPlanForModal.billing);
+}
+
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const fromUrlUser = params.get("user");
+  if(fromUrlUser){
+    localStorage.setItem("tcps_user_email", fromUrlUser);
+    const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
+    window.history.replaceState({}, "", cleanUrl);
+  }
+
+  buildReviews();
+  applyMemberState();
+
+  document.querySelectorAll("[data-plan]").forEach((button) => {
+    button.addEventListener("click", () => {
+      handlePlanClick(button.dataset.plan, button.dataset.billing);
     });
+  });
 
-    document.getElementById("registerBtn").addEventListener("click", () => goToServerRegister());
-    document.getElementById("loginBtn").addEventListener("click", () => goToServerLogin());
-    document.getElementById("logoutBtn").addEventListener("click", logout);
-    document.getElementById("authClose").addEventListener("click", closeAuthModal);
-    document.getElementById("paymentClose").addEventListener("click", closePaymentModal);
-    document.getElementById("paymentChangeBtn").addEventListener("click", () => {
-      closePaymentModal();
-      openAuthModal("register", pendingSelection);
-    });
-    document.getElementById("copyWalletBtn").addEventListener("click", copyWalletAddress);
-    document.getElementById("paymentContinueBtn").addEventListener("click", submitPaymentInfo);
-    document.getElementById("registerForm").addEventListener("submit", submitRegister);
-    document.getElementById("loginForm").addEventListener("submit", submitLogin);
+  const paymentModal = document.getElementById("paymentModal");
+  document.getElementById("copyWalletBtn").addEventListener("click", copyWallet);
+  document.getElementById("openRegisterFlowBtn").addEventListener("click", openVerificationPage);
+  document.getElementById("closePaymentModal").addEventListener("click", closePaymentModal);
+  paymentModal.addEventListener("click", (event) => {
+    if(event.target === paymentModal) closePaymentModal();
+  });
 
-    authModal.addEventListener("click", (event) => {
-      if (event.target === authModal) closeAuthModal();
-    });
+  document.getElementById("loginBtn").addEventListener("click", goLogin);
+  document.getElementById("heroLoginBtn").addEventListener("click", goLogin);
+  document.getElementById("registerBtn").addEventListener("click", () => goRegister());
+  document.getElementById("logoutBtn").addEventListener("click", logout);
 
-    paymentModal.addEventListener("click", (event) => {
-      if (event.target === paymentModal) closePaymentModal();
-    });
+  fetch(SERVER_BASE + "/api/visit", { method: "POST" }).catch(() => {});
+})();
+</script>
 
-    (function() {
-      const params = new URLSearchParams(window.location.search);
-      const fromUrlUser = params.get("user");
-      if (fromUrlUser) {
-        localStorage.setItem("tcps_user_email", fromUrlUser);
-        const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
-        window.history.replaceState({}, "", cleanUrl);
-      }
-
-      renderReviews();
-      applyMemberState();
-      fetch(`${API_BASE}/api/visit`, { method: "POST" }).catch(() => {});
-    })();
-  </script>
 </body>
 </html>
