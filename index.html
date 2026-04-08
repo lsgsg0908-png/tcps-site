@@ -2103,14 +2103,11 @@ Each plan is built around a different stage of execution.<br>
   
   
 
-
-
-
   <section id="cta">
     <div class="container">
       <div class="panel cta-box">
         <h2>Get access to TCPS Smart Entry AI</h2>
-        <p>Clean signals. Less noise. Better execution. Choose your plan and move into the verification flow.</p>
+        <p>Clean signals. Less noise. Better execution. Choose your plan and start with the right access path.</p>
         <a href="#pricing" class="btn-primary" onclick="guardedOpenPricing(event)">Start Now</a>
       </div>
     </div>
@@ -2118,95 +2115,6 @@ Each plan is built around a different stage of execution.<br>
 
 
   
-
-
-
-      <div class="auth-tabs">
-        <button class="auth-tab active" type="button" id="registerTab" onclick="switchAuthTab('register')">Register</button>
-        <button class="auth-tab" type="button" id="loginTab" onclick="switchAuthTab('login')">Login</button>
-      </div>
-
-      <form class="auth-form active" id="registerForm" onsubmit="registerMember(event)">
-        <div class="auth-field">
-          <label>Email</label>
-          <input type="email" id="registerEmail" autocomplete="email" required />
-        </div>
-        <div class="auth-field">
-          <label>Password</label>
-          <input type="password" id="registerPassword" autocomplete="new-password" minlength="8" required />
-        </div>
-        <div class="auth-field">
-          <label>Confirm Password</label>
-          <input type="password" id="registerPasswordConfirm" autocomplete="new-password" minlength="8" required />
-        </div>
-        <div class="auth-field">
-          <label>TradingView ID</label>
-          <input type="text" id="registerTradingView" autocomplete="off" required />
-        </div>
-        <div class="auth-field">
-          <label>Telegram Username (@)</label>
-          <input type="text" id="registerTelegram" autocomplete="username" required />
-        </div>
-        <div class="auth-note">One account per email. Password must match exactly before account creation.</div>
-        <button class="auth-submit" type="submit">Create Account</button>
-      </form>
-
-      <form class="auth-form" id="loginForm" onsubmit="loginMember(event)">
-        <div class="auth-field">
-          <label>Email</label>
-          <input type="email" id="loginEmail" required />
-        </div>
-        <div class="auth-field">
-          <label>Password</label>
-          <input type="password" id="loginPassword" required />
-        </div>
-        <button class="auth-submit" type="submit">Log In</button>
-      </form>
-
-      <div class="auth-message" id="authMessage">Create your account first, then complete payment verification.</div>
-    </div>
-  </div>
-
-
-
-  <section id="adminPanelSection" class="admin-panel-section is-hidden">
-    <div class="container">
-      <div class="section-head">
-        <div class="section-kicker">Admin Panel</div>
-        <h2>Member registrations and verification data</h2>
-        <p>Open this page with <strong>?admin=1</strong> to review records from this browser.</p>
-      </div>
-      <div class="member-card">
-        <div class="admin-summary-grid">
-          <div class="admin-summary-card"><strong id="adminTotalMembers">0</strong><span>Total members</span></div>
-          <div class="admin-summary-card"><strong id="adminVerifiedMembers">0</strong><span>Verified submissions</span></div>
-          <div class="admin-summary-card"><strong id="adminPaidPlans">0</strong><span>Plan selected</span></div>
-          <div class="admin-summary-card"><strong id="adminTelegramCount">0</strong><span>Telegram filled</span></div>
-        </div>
-        <div class="admin-toolbar">
-          <button class="member-btn secondary" id="adminRefreshBtn" type="button">Refresh Data</button>
-          <button class="member-btn secondary" id="adminExportJsonBtn" type="button">Export JSON</button>
-          <button class="member-btn secondary" id="adminExportCsvBtn" type="button">Export CSV</button>
-        </div>
-        <div class="admin-table-wrap">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Email</th>
-                <th>Telegram</th>
-                <th>Plan</th>
-                <th>TXID</th>
-                <th>Created</th>
-                <th>Updated</th>
-              </tr>
-            </thead>
-            <tbody id="adminTableBody"></tbody>
-          </table>
-          <div class="admin-empty is-hidden" id="adminEmptyState">No member data saved in this browser yet.</div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <footer class="footer">
     <div class="container footer-inner">
