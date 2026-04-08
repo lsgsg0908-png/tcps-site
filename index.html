@@ -1550,8 +1550,8 @@
       <div class="member-actions">
         <div class="member-label" id="memberLabel">Guest Mode</div>
         <button class="member-btn secondary is-hidden" id="logoutBtn" type="button" onclick="logout()">Logout</button>
-        <button class="member-btn secondary" id="loginBtn" type="button" onclick="openAuthModal('login')">Login</button>
-        <button class="member-btn" id="registerBtn" type="button" onclick="openAuthModal('register')">Register</button>
+        <button class="member-btn secondary" id="loginBtn" type="button" onclick="goLogin()">Login</button>
+        <button class="member-btn" id="registerBtn" type="button" onclick="goRegister()">Register</button>
       </div>
     </div>
   </header>
@@ -3159,25 +3159,14 @@ document.addEventListener('DOMContentLoaded', function(){
   window.copyWalletAddressNow = copyAddress;
 
   window.openAuthModal = function(mode) {
-    if (!qs("authModal")) return;
-    qs("authModal").classList.add("active");
-    window.switchAuthTab(mode || "register");
-  };
-  window.closeAuthModal = function() {
-    if (qs("authModal")) qs("authModal").classList.remove("active");
-  };
-  window.switchAuthTab = function(mode) {
-    const isRegister = mode === "register";
-    if (qs("registerTab")) qs("registerTab").classList.toggle("active", isRegister);
-    if (qs("loginTab")) qs("loginTab").classList.toggle("active", !isRegister);
-    if (qs("registerForm")) qs("registerForm").classList.toggle("active", isRegister);
-    if (qs("loginForm")) qs("loginForm").classList.toggle("active", !isRegister);
-    if (qs("authMessage")) {
-      qs("authMessage").textContent = isRegister
-        ? "Create your account first, then complete payment verification."
-        : "Log in to continue with your selected plan.";
+    if ((mode || "register") === "login") {
+      window.location.href = "http://34.50.56.156:5000/login.html";
+    } else {
+      window.location.href = "http://34.50.56.156:5000/register.html";
     }
   };
+  window.closeAuthModal = function() {};
+  window.switchAuthTab = function(mode) {};
 
   window.registerMember = function(e) {
     e.preventDefault();
@@ -3543,7 +3532,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 
 
-<!-- FINAL HOMEPAGE LOGIN FIX SCRIPT -->
+
 <script>
 function goRegister(){
   window.location.href = "http://34.50.56.156:5000/register.html";
@@ -3552,17 +3541,15 @@ function goLogin(){
   window.location.href = "http://34.50.56.156:5000/login.html";
 }
 
-// 방문자 카운트
 fetch("http://34.50.56.156:5000/api/visit", { method: "POST" }).catch(() => {});
 
-// 로그인 상태 처리
 (function(){
   const params = new URLSearchParams(window.location.search);
   const fromUrlUser = params.get("user");
 
   if(fromUrlUser){
     localStorage.setItem("tcps_user_email", fromUrlUser);
-    const cleanUrl = window.location.origin + window.location.pathname;
+    const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
     window.history.replaceState({}, "", cleanUrl);
   }
 
@@ -3574,9 +3561,9 @@ fetch("http://34.50.56.156:5000/api/visit", { method: "POST" }).catch(() => {});
 
   if(savedUser){
     if(memberLabel) memberLabel.innerHTML = `<strong>${savedUser}</strong>`;
-    if(logoutBtn) logoutBtn.style.display = "inline-block";
-    if(loginBtn) loginBtn.style.display = "none";
-    if(registerBtn) registerBtn.style.display = "none";
+    if(logoutBtn) logoutBtn.classList.remove("is-hidden");
+    if(loginBtn) loginBtn.classList.add("is-hidden");
+    if(registerBtn) registerBtn.classList.add("is-hidden");
   }
 })();
 
@@ -3585,8 +3572,6 @@ function logout(){
   window.location.href = "https://lsgsg0908-png.github.io/tcps-site/";
 }
 </script>
-
-
 
 </body>
 </html>
