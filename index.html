@@ -637,5 +637,43 @@
   <script>
 fetch("http://34.50.56.156:5000/api/visit", { method: "POST" });
 </script>
+  <script>
+function goRegister(){
+  window.location.href = "http://34.50.56.156:5000/register.html";
+}
+function goLogin(){
+  window.location.href = "http://34.50.56.156:5000/login.html";
+}
+fetch("http://34.50.56.156:5000/api/visit", { method: "POST" }).catch(() => {});
+
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const fromUrlUser = params.get("user");
+  if(fromUrlUser){
+    localStorage.setItem("tcps_user_email", fromUrlUser);
+    const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
+    window.history.replaceState({}, "", cleanUrl);
+  }
+
+  const savedUser = localStorage.getItem("tcps_user_email");
+  const memberLabel = document.getElementById("memberLabel");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const loginBtn = document.getElementById("loginBtn");
+  const registerBtn = document.getElementById("registerBtn");
+
+  if(savedUser){
+    if(memberLabel) memberLabel.innerHTML = `<strong>${savedUser}</strong>`;
+    if(logoutBtn) logoutBtn.classList.remove("is-hidden");
+    if(loginBtn) loginBtn.classList.add("is-hidden");
+    if(registerBtn) registerBtn.classList.add("is-hidden");
+  }
+})();
+
+function logout(){
+  localStorage.removeItem("tcps_user_email");
+  window.location.href = "https://lsgsg0908-png.github.io/tcps-site/";
+}
+</script>
+
 </body>
 </html>
