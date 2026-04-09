@@ -6,10 +6,10 @@
   <title>TCPS Liquidity Engine</title>
   <meta name="description" content="TCPS Smart Entry AI delivers clean, high-probability trading signals with a premium execution-focused experience." />
   <style>
-    *{ margin:0; padding:0; box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
     body{
-      font-family: Arial, sans-serif;
+      font-family:Arial,sans-serif;
       color:#f5f7fb;
       background:#04060b;
       line-height:1.6;
@@ -26,19 +26,20 @@
         radial-gradient(circle at 82% 20%, rgba(90,70,255,0.16), transparent 28%),
         radial-gradient(circle at 70% 78%, rgba(0,210,255,0.12), transparent 24%),
         radial-gradient(circle at 30% 85%, rgba(123,97,255,0.10), transparent 26%),
-        linear-gradient(180deg, #05070d 0%, #03050a 100%);
+        linear-gradient(180deg,#05070d 0%,#03050a 100%);
     }
     body::after{
       content:"";
       position:fixed;
       inset:0;
       z-index:-2;
-      opacity:0.055;
+      opacity:.05;
       pointer-events:none;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
       mix-blend-mode:soft-light;
     }
-    a{ text-decoration:none; color:inherit; }
+    a{text-decoration:none;color:inherit}
+    button{font:inherit}
     .container{
       width:100%;
       max-width:1180px;
@@ -52,8 +53,8 @@
       top:0;
       z-index:999;
       backdrop-filter:blur(14px);
-      background:rgba(4,6,11,0.74);
-      border-bottom:1px solid rgba(255,255,255,0.06);
+      background:rgba(4,6,11,.74);
+      border-bottom:1px solid rgba(255,255,255,.06);
     }
     .topbar-inner{
       min-height:74px;
@@ -62,46 +63,61 @@
       justify-content:space-between;
       gap:20px;
     }
-    .brand{ display:flex; flex-direction:column; gap:3px; }
-    .brand-name{ font-size:18px; font-weight:800; letter-spacing:0.3px; }
-    .brand-sub{ font-size:12px; color:#91a3c4; }
-    .nav{ display:flex; align-items:center; gap:16px; }
-    .nav a{ font-size:14px; color:#cad5ea; transition:0.2s ease; }
-    .nav a:hover{ color:#ffffff; }
-    .nav-cta{
-      min-height:48px;
+    .brand{display:flex;flex-direction:column;gap:3px}
+    .brand-name{font-size:18px;font-weight:800;letter-spacing:.3px}
+    .brand-sub{font-size:12px;color:#91a3c4}
+    .nav{display:flex;align-items:center;gap:16px}
+    .nav a{font-size:14px;color:#cad5ea;transition:.2s ease}
+    .nav a:hover{color:#fff}
+    .member-actions{display:flex;align-items:center;gap:10px}
+    .member-label{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      color:#dce7fb;
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .member-btn,.nav-cta,.btn-primary,.btn-secondary,.price-btn,.modal-btn,.copy-btn{
+      min-height:50px;
       display:inline-flex;
       align-items:center;
       justify-content:center;
       padding:0 22px;
       border-radius:999px;
-      font-size:14px;
+      font-size:15px;
       font-weight:800;
+      border:none;
+      cursor:pointer;
+      transition:transform .18s ease,opacity .18s ease,box-shadow .18s ease,background .18s ease,border-color .18s ease;
+    }
+    .member-btn,.nav-cta,.btn-primary,.price-btn,.modal-btn.primary,.copy-btn{
       color:#fff;
       background:linear-gradient(135deg,#35cfff,#7560ff);
-      box-shadow:0 12px 30px rgba(73,104,255,0.28);
-      transition:transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
+      box-shadow:0 14px 34px rgba(86,104,255,.30);
     }
-    section{ padding:92px 0; }
-    .hero{ padding:88px 0 72px; }
-    
-.hero-grid{
-  display:grid;
-  grid-template-columns:1.04fr 0.96fr;
-  gap:34px;
-  align-items:center;
-}
-.hero-card{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-
-.hero-grid{
+    .btn-secondary,.member-btn.secondary,.modal-btn.secondary{
+      color:#e8eefb;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.03);
+      box-shadow:none;
+    }
+    .member-btn:hover,.nav-cta:hover,.btn-primary:hover,.btn-secondary:hover,.price-btn:hover,.modal-btn:hover,.copy-btn:hover{
+      transform:translateY(-2px);
+      opacity:.97;
+    }
+    .is-hidden{display:none!important}
+    section{padding:92px 0}
+    .hero{padding:88px 0 72px}
+    .hero-grid{
       display:grid;
-      grid-template-columns:1.04fr 0.96fr;
-      gap:34px;
-      align-items:center;
+      grid-template-columns:1.06fr .94fr;
+      gap:28px;
+      align-items:start;
     }
     .badge{
       display:inline-flex;
@@ -109,21 +125,19 @@
       gap:10px;
       padding:10px 14px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.03);
       color:#cfdbef;
       font-size:13px;
       margin-bottom:20px;
     }
     .badge-dot{
-      width:8px;
-      height:8px;
-      border-radius:50%;
+      width:8px;height:8px;border-radius:50%;
       background:#63ffb2;
-      box-shadow:0 0 12px rgba(99,255,178,0.8);
+      box-shadow:0 0 12px rgba(99,255,178,.8);
     }
     .hero h1{
-      font-size:60px;
+      font-size:58px;
       line-height:1.03;
       letter-spacing:-1.8px;
       margin-bottom:18px;
@@ -134,55 +148,69 @@
       -webkit-background-clip:text;
       -webkit-text-fill-color:transparent;
     }
-    .hero p{ font-size:18px; color:#afbed8; max-width:650px; margin-bottom:28px; }
-    .hero-actions{ display:flex; flex-wrap:wrap; gap:14px; margin-bottom:22px; }
-    .btn-primary,.btn-secondary{
-      min-height:52px;
+    .hero-lead-strong{
+      font-size:19px;
+      color:#e9f0ff;
+      font-weight:700;
+      max-width:690px;
+      margin-bottom:12px;
+    }
+    .hero p{font-size:18px;color:#afbed8;max-width:650px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin:24px 0 20px}
+    .hero-proof{display:flex;flex-wrap:wrap;gap:12px}
+    .proof-chip{
       display:inline-flex;
       align-items:center;
-      justify-content:center;
-      padding:0 22px;
+      gap:8px;
+      padding:10px 14px;
       border-radius:999px;
-      font-size:15px;
-      font-weight:800;
-      transition:transform 0.18s ease, opacity 0.18s ease;
+      background:rgba(255,255,255,.035);
+      border:1px solid rgba(255,255,255,.08);
+      color:#d9e3f6;
+      font-size:13px;
     }
-    .btn-primary:hover,.btn-secondary:hover,.nav-cta:hover,.price-btn:hover{
-      transform:translateY(-2px);
-      opacity:0.96;
+    .proof-dot{
+      width:7px;height:7px;border-radius:50%;
+      background:#85ffbe;
+      box-shadow:0 0 10px rgba(133,255,190,.85);
     }
-    .btn-primary{
-      background:linear-gradient(135deg,#35cfff,#7560ff);
-      color:#fff;
-      box-shadow:0 14px 34px rgba(86,104,255,0.30);
+    .hero-trust-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:18px;
     }
-    .btn-secondary{
-      border:1px solid rgba(255,255,255,0.10);
-      background:rgba(255,255,255,0.03);
-      color:#e8eefb;
-    }
-    .hero-proof{ display:flex; flex-wrap:wrap; gap:18px; color:#97a9c9; font-size:14px; }
-    .panel{
+    .hero-trust-card,.mini-card,.panel,.pricing-card,.book-card,.payment-modal-card{
       position:relative;
-      border-radius:28px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.025));
-      box-shadow:0 28px 70px rgba(0,0,0,0.34);
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+      box-shadow:0 20px 50px rgba(0,0,0,.22);
       overflow:hidden;
     }
-    .panel::before{
+    .panel::before,.pricing-card::before,.book-card::before,.payment-modal-card::before{
       content:"";
       position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:1px;
-      background:linear-gradient(90deg, rgba(67,210,255,0), rgba(67,210,255,0.85), rgba(123,97,255,0.9), rgba(123,97,255,0));
+      top:0;left:0;width:100%;height:1px;
+      background:linear-gradient(90deg,rgba(53,207,255,0),rgba(53,207,255,.75),rgba(117,96,255,.75),rgba(117,96,255,0));
     }
+    .hero-trust-card{padding:18px}
+    .hero-trust-kicker{
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      color:#86dfff;
+      margin-bottom:8px;
+    }
+    .hero-trust-card h3{font-size:18px;line-height:1.25;margin-bottom:6px}
+    .hero-trust-card p{font-size:14px;color:#aebfda;line-height:1.55}
     .hero-card{
       padding:30px;
       min-height:470px;
-      transform:translateY(-28px);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
     }
     .screen-head{
       display:flex;
@@ -194,7 +222,7 @@
     .screen-title{
       font-size:20px;
       font-weight:900;
-      letter-spacing:0.8px;
+      letter-spacing:.8px;
       text-transform:uppercase;
       color:#f4f8ff;
     }
@@ -207,48 +235,32 @@
       color:#bfffdc;
       padding:8px 14px;
       border-radius:999px;
-      border:1px solid rgba(62,215,126,0.28);
-      background:rgba(62,215,126,0.12);
+      border:1px solid rgba(62,215,126,.28);
+      background:rgba(62,215,126,.12);
       white-space:nowrap;
-      box-shadow:0 0 18px rgba(62,215,126,0.10);
+      box-shadow:0 0 18px rgba(62,215,126,.10);
     }
     .screen-status::before{
       content:"";
-      width:10px;
-      height:10px;
-      border-radius:50%;
+      width:10px;height:10px;border-radius:50%;
       background:#63ffb2;
-      box-shadow:0 0 14px rgba(99,255,178,0.95);
-      animation:pulseStatus 1.8s infinite;
-      flex:0 0 auto;
+      box-shadow:0 0 14px rgba(99,255,178,.95);
     }
-    @keyframes pulseStatus{
-      0%{ transform:scale(0.95); opacity:1; }
-      50%{ transform:scale(1.15); opacity:0.75; }
-      100%{ transform:scale(0.95); opacity:1; }
-    }
-    .engine-monitor{
-      display:grid;
-      gap:14px;
-      min-height:380px;
-    }
+    .engine-monitor{display:grid;gap:14px;min-height:380px}
     .monitor-card{
       position:relative;
       padding:20px;
       border-radius:20px;
-      background:rgba(7,12,21,0.95);
-      border:1px solid rgba(255,255,255,0.06);
+      background:rgba(7,12,21,.95);
+      border:1px solid rgba(255,255,255,.06);
       overflow:hidden;
       min-height:120px;
     }
     .monitor-card::before{
       content:"";
       position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:1px;
-      background:linear-gradient(90deg, rgba(80,219,255,0), rgba(80,219,255,0.45), rgba(80,219,255,0));
+      top:0;left:0;width:100%;height:1px;
+      background:linear-gradient(90deg, rgba(80,219,255,0), rgba(80,219,255,.45), rgba(80,219,255,0));
     }
     .monitor-row{
       display:flex;
@@ -257,64 +269,33 @@
       margin-bottom:10px;
       align-items:flex-start;
     }
-    .monitor-row:last-child{ margin-bottom:0; }
-    .monitor-label{ font-size:13px; color:#8ea4c7; flex:0 0 auto; }
+    .monitor-row:last-child{margin-bottom:0}
+    .monitor-label{font-size:13px;color:#8ea4c7;flex:0 0 auto}
     .monitor-value{
-      font-size:14px;
-      font-weight:700;
-      color:#ffffff;
-      text-align:right;
-      min-height:20px;
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      white-space:nowrap;
+      font-size:14px;font-weight:700;color:#fff;text-align:right;
+      min-height:20px;display:flex;align-items:center;justify-content:flex-end;white-space:nowrap;
     }
     .monitor-main{
-      font-size:34px;
-      font-weight:900;
-      letter-spacing:-0.8px;
-      line-height:1.05;
-      color:#8fd6ff;
-      text-align:right;
-      min-height:72px;
-      display:flex;
-      align-items:center;
-      justify-content:flex-end;
-      max-width:320px;
-      margin-left:auto;
-      word-break:keep-all;
+      font-size:34px;font-weight:900;letter-spacing:-.8px;line-height:1.05;color:#8fd6ff;
+      text-align:right;min-height:72px;display:flex;align-items:center;justify-content:flex-end;max-width:320px;margin-left:auto;
     }
-    .monitor-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .monitor-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
     .mini-card{
-      position:relative;
       padding:18px;
       border-radius:18px;
-      background:rgba(7,12,21,0.95);
-      border:1px solid rgba(255,255,255,0.06);
-      overflow:hidden;
       min-height:92px;
     }
     .mini-card::before{
       content:"";
       position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:1px;
-      background:linear-gradient(90deg, rgba(80,219,255,0), rgba(80,219,255,0.35), rgba(80,219,255,0));
+      top:0;left:0;width:100%;height:1px;
+      background:linear-gradient(90deg, rgba(80,219,255,0), rgba(80,219,255,.35), rgba(80,219,255,0));
     }
-    .mini-label{ font-size:12px; color:#87a0c5; margin-bottom:8px; }
+    .mini-label{font-size:12px;color:#87a0c5;margin-bottom:8px}
     .mini-value{
-      font-size:17px;
-      font-weight:800;
-      color:#f5f8ff;
-      line-height:1.35;
-      min-height:46px;
-      display:flex;
-      align-items:center;
+      font-size:17px;font-weight:800;color:#f5f8ff;line-height:1.35;min-height:46px;display:flex;align-items:center;
     }
-    .section-head{ text-align:center; max-width:800px; margin:0 auto 54px; }
+    .section-head{text-align:center;max-width:840px;margin:0 auto 44px}
     .section-kicker{
       display:inline-block;
       margin-bottom:14px;
@@ -330,95 +311,16 @@
       letter-spacing:-1.1px;
       margin-bottom:16px;
     }
-    .section-head p{ font-size:17px; color:#a6b6d2; }
-    .grid-3,.results-grid,.pricing-grid{ display:grid; gap:22px; }
-    .grid-3,.results-grid{ grid-template-columns:repeat(3,1fr); }
-    .pricing-grid{ grid-template-columns:repeat(4,1fr); align-items:stretch; }
-    .card{
-      position:relative;
-      padding:28px;
-      border-radius:26px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
-      box-shadow:0 20px 50px rgba(0,0,0,0.22);
-      overflow:hidden;
-    }
-    .card::before{
-      content:"";
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:1px;
-      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.75), rgba(117,96,255,0.75), rgba(117,96,255,0));
-    }
-    .card-topline{
-      width:42px;
-      height:4px;
-      border-radius:999px;
-      margin-bottom:18px;
-      background:linear-gradient(90deg,#35cfff,#7560ff);
-      box-shadow:0 0 18px rgba(53,207,255,0.35);
-    }
-    .card h3{ font-size:22px; line-height:1.28; margin-bottom:10px; letter-spacing:-0.5px; }
-    .card p{ font-size:15px; color:#a9b9d4; }
-    .step-number{
-      position:relative;
-      width:42px;
-      height:42px;
-      border-radius:50%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:14px;
-      font-weight:800;
-      color:#ffffff;
-      background:linear-gradient(135deg,#35cfff,#7560ff);
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.08),
-        0 8px 20px rgba(53,207,255,0.25),
-        0 0 30px rgba(117,96,255,0.35);
-      overflow:hidden;
-      margin-bottom:14px;
-    }
-    .step-number::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:50%;
-      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.35), transparent 40%);
-      opacity:0.6;
-    }
-    .step-number::after{
-      content:"";
-      position:absolute;
-      inset:-1px;
-      border-radius:50%;
-      border:1px solid rgba(255,255,255,0.12);
-    }
-    .step-number span{ position:relative; z-index:1; }
-    .results-card{ text-align:center; padding:30px 24px; }
-    .results-number{
-      font-size:40px;
-      font-weight:800;
-      letter-spacing:-1px;
-      margin-bottom:8px;
-      background:linear-gradient(135deg,#66e6ff,#9d8fff);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-    .results-label{ font-size:16px; color:#edf3ff; margin-bottom:6px; }
-    .results-sub{ font-size:14px; color:#99accb; }
-
-    .slider-shell{ position:relative; overflow:hidden; }
-    .slider-track{ display:flex; transition:transform 0.65s ease; }
+    .section-head p{font-size:17px;color:#a6b6d2}
+    .slider-shell{position:relative;overflow:hidden}
+    .slider-track{display:flex;transition:transform .65s ease}
     .slide-card{
       min-width:100%;
       padding:42px;
       border-radius:28px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
-      box-shadow:0 24px 60px rgba(0,0,0,0.24);
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02));
+      box-shadow:0 24px 60px rgba(0,0,0,.24);
       min-height:320px;
       display:flex;
       flex-direction:column;
@@ -429,19 +331,16 @@
     .slide-card::before{
       content:"";
       position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:1px;
-      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.7), rgba(117,96,255,0.7), rgba(117,96,255,0));
+      top:0;left:0;width:100%;height:1px;
+      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,.7), rgba(117,96,255,.7), rgba(117,96,255,0));
     }
     .slide-tag{
       display:inline-flex;
       width:max-content;
       padding:7px 12px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
       color:#81ddff;
       font-size:12px;
       font-weight:800;
@@ -449,257 +348,87 @@
       text-transform:uppercase;
       margin-bottom:18px;
     }
-    .slide-card h3{ font-size:34px; line-height:1.1; letter-spacing:-0.9px; margin-bottom:16px; max-width:760px; }
-    .slide-card p{ font-size:16px; color:#aebfda; max-width:760px; margin-bottom:10px; }
-    .slide-highlight{ color:#eef4ff !important; font-weight:700; margin-top:8px; }
+    .slide-card h3{font-size:34px;line-height:1.1;letter-spacing:-.9px;margin-bottom:16px;max-width:760px}
+    .slide-card p{font-size:16px;color:#aebfda;max-width:760px;margin-bottom:10px}
+    .slide-highlight{color:#eef4ff!important;font-weight:700;margin-top:8px}
     .slider-nav{
-      position:absolute;
-      top:50%;
-      transform:translateY(-50%);
-      z-index:20;
-      width:46px;
-      height:46px;
-      border:none;
-      border-radius:50%;
-      cursor:pointer;
-      color:#fff;
-      font-size:26px;
-      line-height:1;
-      background:rgba(255,255,255,0.08);
-      backdrop-filter:blur(10px);
-      border:1px solid rgba(255,255,255,0.08);
+      position:absolute;top:50%;transform:translateY(-50%);z-index:20;
+      width:46px;height:46px;border:none;border-radius:50%;cursor:pointer;color:#fff;font-size:26px;line-height:1;
+      background:rgba(255,255,255,.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.08);
     }
-    .slider-nav:hover{ background:rgba(255,255,255,0.14); }
-    .slider-nav.left{ left:12px; }
-    .slider-nav.right{ right:12px; }
-
-    .engine-slider-shell{ position:relative; overflow:hidden; }
-    .engine-slider-track{ display:flex; transition:transform 0.7s ease; }
-    .engine-card{
-      min-width:100%;
-      min-height:440px;
-      display:grid;
-      grid-template-columns:0.42fr 0.58fr;
-      border-radius:30px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,0.08);
-      background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
-      box-shadow:0 24px 60px rgba(0,0,0,0.28);
-      position:relative;
+    .slider-nav.left{left:12px}
+    .slider-nav.right{right:12px}
+    .reviews-meta-wrap{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+    .reviews-meta{color:#93a6c7;font-size:14px}
+    .reviews-badge{
+      padding:10px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);color:#d6e1f4;font-size:13px;font-weight:700;
     }
-    .engine-card::before{
-      content:"";
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:1px;
-      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.7), rgba(117,96,255,0.7), rgba(117,96,255,0));
-      z-index:3;
-    }
-    .engine-copy{
-      position:relative;
-      z-index:2;
-      padding:42px 36px 42px 40px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      background:linear-gradient(180deg, rgba(8,12,22,0.92), rgba(6,10,18,0.98));
-    }
-    .engine-label{
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:1.4px;
-      text-transform:uppercase;
-      color:#81ddff;
-      margin-bottom:16px;
-    }
-    .engine-copy h3{ font-size:33px; line-height:1.1; letter-spacing:-0.9px; margin-bottom:18px; color:#f4f8ff; }
-    .engine-copy p{ font-size:15px; line-height:1.72; color:#aebfda; margin-bottom:12px; }
-    .engine-highlight{ color:#eef4ff !important; font-weight:700; }
-    .engine-visual{
-      position:relative;
-      overflow:hidden;
-      min-height:440px;
-      background:
-        radial-gradient(circle at 76% 30%, rgba(255,62,86,0.06), transparent 22%),
-        radial-gradient(circle at 68% 60%, rgba(123,97,255,0.10), transparent 30%),
-        linear-gradient(180deg, rgba(4,8,16,0.98), rgba(5,9,18,1));
-    }
-    .chart-grid{
-      position:absolute;
-      inset:0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
-      background-size:58px 58px;
-      opacity:0.26;
-    }
-    .chart-fade-left{
-      position:absolute;
-      left:0;
-      top:0;
-      width:48%;
-      height:100%;
-      background:linear-gradient(90deg, rgba(5,9,18,1) 0%, rgba(5,9,18,0.96) 26%, rgba(5,9,18,0.78) 48%, rgba(5,9,18,0.45) 68%, rgba(5,9,18,0) 100%);
-      z-index:4;
-      pointer-events:none;
-    }
-    .range-zone{
-      position:absolute;
-      border:1px solid rgba(161,108,255,0.34);
-      background:rgba(120,90,255,0.06);
-      box-shadow:0 0 26px rgba(123,97,255,0.14);
-      border-radius:10px;
-    }
-    .range-zone.top{ top:14%; left:36%; width:42%; height:16%; }
-    .range-zone.bottom{ top:63%; left:30%; width:48%; height:14%; }
-    .range-zone.mid{ top:34%; left:38%; width:34%; height:23%; }
-    .range-zone.band{ top:42%; left:28%; width:52%; height:22%; }
-    .range-zone.retest{ top:52%; left:43%; width:28%; height:12%; }
-    .trend-line{
-      position:absolute;
-      height:2px;
-      border-radius:999px;
-      background:linear-gradient(90deg, rgba(125,92,255,0), rgba(125,92,255,0.95), rgba(170,95,255,0.95));
-      box-shadow:0 0 16px rgba(125,92,255,0.52);
-      z-index:2;
-    }
-    .t1{ width:40%; top:26%; left:34%; transform:rotate(-12deg); }
-    .t2{ width:44%; top:63%; left:32%; transform:rotate(10deg); }
-    .t3{ width:46%; top:52%; left:28%; transform:rotate(-4deg); }
-    .t4{ width:42%; top:58%; left:35%; transform:rotate(-16deg); }
-    .t5{ width:36%; top:34%; left:40%; transform:rotate(14deg); }
-    .t6{ width:40%; top:47%; left:36%; transform:rotate(-8deg); }
-    .t7{ width:44%; top:37%; left:31%; transform:rotate(12deg); }
-    .price-svg{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      z-index:3;
-      pointer-events:none;
-    }
-    .price-glow{
-      fill:none;
-      stroke:rgba(255,70,93,0.22);
-      stroke-width:12;
-      stroke-linecap:round;
-      stroke-linejoin:round;
-      filter:blur(7px);
-    }
-    .price-path{
-      fill:none;
-      stroke:#ff465d;
-      stroke-width:4.1;
-      stroke-linecap:round;
-      stroke-linejoin:round;
-      filter:drop-shadow(0 0 8px rgba(255,70,93,0.95));
-    }
-
-    .review-wall{ display:grid; gap:14px; margin-top:14px; }
+    .review-wall{display:grid;gap:14px;margin-top:14px}
     .review-row{
-      position:relative;
-      overflow:hidden;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.06);
-      background:linear-gradient(180deg, rgba(255,255,255,0.028), rgba(255,255,255,0.018));
-      padding:14px 0;
+      position:relative;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.06);
+      background:linear-gradient(180deg, rgba(255,255,255,.028), rgba(255,255,255,.018));padding:14px 0;
     }
     .review-row::before,.review-row::after{
-      content:"";
-      position:absolute;
-      top:0;
-      width:110px;
-      height:100%;
-      z-index:3;
-      pointer-events:none;
+      content:"";position:absolute;top:0;width:110px;height:100%;z-index:3;pointer-events:none;
     }
-    .review-row::before{
-      left:0;
-      background:linear-gradient(90deg, rgba(4,6,11,1) 0%, rgba(4,6,11,0.9) 42%, rgba(4,6,11,0) 100%);
-    }
-    .review-row::after{
-      right:0;
-      background:linear-gradient(270deg, rgba(4,6,11,1) 0%, rgba(4,6,11,0.9) 42%, rgba(4,6,11,0) 100%);
-    }
+    .review-row::before{left:0;background:linear-gradient(90deg, rgba(4,6,11,1) 0%, rgba(4,6,11,.9) 42%, rgba(4,6,11,0) 100%)}
+    .review-row::after{right:0;background:linear-gradient(270deg, rgba(4,6,11,1) 0%, rgba(4,6,11,.9) 42%, rgba(4,6,11,0) 100%)}
     .review-marquee{
-      display:flex;
-      width:max-content;
-      gap:14px;
-      will-change:transform;
-      animation-timing-function:linear;
-      animation-iteration-count:infinite;
-      animation-play-state:running;
-      transform:translateZ(0);
+      display:flex;width:max-content;gap:14px;will-change:transform;animation-timing-function:linear;animation-iteration-count:infinite;transform:translateZ(0);
     }
-    .review-row:hover .review-marquee{ animation-play-state:paused; }
-    .review-row.dir-left .review-marquee{ animation-name:marqueeLeft; }
-    .review-row.dir-right .review-marquee{ animation-name:marqueeRight; }
-    @keyframes marqueeLeft{ 0%{ transform:translateX(0); } 100%{ transform:translateX(-50%); } }
-    @keyframes marqueeRight{ 0%{ transform:translateX(-50%); } 100%{ transform:translateX(0); } }
+    .review-row:hover .review-marquee{animation-play-state:paused}
+    .review-row.dir-left .review-marquee{animation-name:marqueeLeft}
+    .review-row.dir-right .review-marquee{animation-name:marqueeRight}
+    @keyframes marqueeLeft{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    @keyframes marqueeRight{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
     .review-card{
-      width:300px;
-      min-height:124px;
-      padding:16px 16px 15px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-      position:relative;
-      overflow:hidden;
-      flex:0 0 auto;
+      width:300px;min-height:124px;padding:16px 16px 15px;border-radius:18px;border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));position:relative;overflow:hidden;flex:0 0 auto;
     }
     .review-card::before{
-      content:"";
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:1px;
-      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.55), rgba(117,96,255,0.55), rgba(117,96,255,0));
+      content:"";position:absolute;top:0;left:0;width:100%;height:1px;
+      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,.55), rgba(117,96,255,.55), rgba(117,96,255,0));
     }
-    .review-top{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; margin-bottom:8px; }
-    .review-user{ font-size:14px; font-weight:800; color:#f4f8ff; letter-spacing:0.1px; }
+    .review-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:8px}
+    .review-user{font-size:14px;font-weight:800;color:#f4f8ff;letter-spacing:.1px}
     .review-country{
-      display:inline-flex;
-      margin-left:8px;
-      padding:3px 7px;
-      border-radius:999px;
-      font-size:10px;
-      font-weight:800;
-      color:#dfe8f7;
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.08);
-      vertical-align:middle;
+      display:inline-flex;margin-left:8px;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:800;color:#dfe8f7;
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);vertical-align:middle;
     }
-    .review-time{ font-size:11px; color:#8fa3c6; white-space:nowrap; padding-top:2px; }
-    .review-source{ font-size:11px; color:#7f93b7; margin-top:4px; }
-    .review-card{ transition:transform 0.25s ease, border-color 0.25s ease; }
-    .review-card:hover{ transform:translateY(-3px); border-color:rgba(0,150,255,0.4); }
-    .review-stars{ font-size:13px; color:#ffd76a; letter-spacing:2px; margin-bottom:8px; }
-    .review-text{ color:#b7c6de; font-size:13px; line-height:1.56; }
-    .reviews-meta-wrap{ display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; margin-bottom:22px; }
-    .reviews-meta{ color:#93a6c7; font-size:14px; }
-    .reviews-badge{
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.03);
-      color:#d6e1f4;
-      font-size:13px;
-      font-weight:700;
+    .review-time{font-size:11px;color:#8fa3c6;white-space:nowrap;padding-top:2px}
+    .review-source{font-size:11px;color:#7f93b7;margin-top:4px}
+    .review-stars{font-size:13px;color:#ffd76a;letter-spacing:2px;margin-bottom:8px}
+    .review-text{color:#b7c6de;font-size:13px;line-height:1.56}
+    .reviews-helper{margin-top:18px;text-align:center;color:#8fa3c6;font-size:13px}
+    .pricing-headnote{
+      max-width:920px;
+      margin:0 auto 28px;
+      padding:18px 20px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.02));
+      color:#cfdbef;
+      text-align:center;
+      line-height:1.7;
+      font-size:15px;
     }
-
+    .pricing-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:22px;
+      align-items:stretch;
+    }
     .pricing-card{
-      position:relative;
-      padding:30px;
+      padding:24px;
       display:flex;
       flex-direction:column;
+      min-height:100%;
     }
     .pricing-card.featured{
-      border:1px solid rgba(102,214,255,0.42);
-      box-shadow:0 26px 60px rgba(66,96,255,0.24);
-      transform:scale(1.02);
+      border-color:rgba(102,214,255,.42);
+      box-shadow:0 26px 60px rgba(66,96,255,.24);
+      transform:scale(1.01);
     }
     .tag{
       position:absolute;
@@ -712,26 +441,113 @@
       color:#fff;
       background:linear-gradient(135deg,#35cfff,#7560ff);
     }
-    .plan-name{ font-size:24px; font-weight:800; margin-bottom:10px; }
-    .plan-desc{ min-height:42px; font-size:14px; color:#9eb1cf; margin-bottom:18px; }
-    .save-pill{
-      display:inline-flex;
-      width:max-content;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:0.2px;
-      color:#dff7ff;
-      background:rgba(53,207,255,0.10);
-      border:1px solid rgba(53,207,255,0.18);
+    .plan-shell{
+      display:flex;
+      flex-direction:column;
+      height:100%;
+    }
+    .plan-top{
+      min-height:150px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
       margin-bottom:14px;
     }
-    .price-wrap{ margin-bottom:24px; }
-    .price{ font-size:44px; font-weight:800; letter-spacing:-1.2px; margin-bottom:4px; display:flex; align-items:baseline; gap:8px; white-space:nowrap; }
-    .price span{ font-size:20px; font-weight:700; opacity:0.92; }
-    .price-sub{ font-size:14px; color:#8da2c4; }
-    .feature-list{ list-style:none; display:grid; gap:12px; margin-bottom:28px; flex:1; }
+    .plan-top.lifetime{
+      min-height:150px;
+    }
+    .plan-label-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      min-height:28px;
+      margin-bottom:10px;
+    }
+    .plan-label-row.lifetime{
+      min-height:28px;
+      margin-bottom:10px;
+    }
+    .mini-plan-tag{
+      display:inline-flex;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.2px;
+      color:#dce7fb;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+    }
+    .plan-name{font-size:24px;font-weight:800;margin-bottom:10px}
+    .plan-desc{font-size:14px;color:#9eb1cf;min-height:66px}
+    .pricing-box-stack{display:grid;gap:12px;margin-bottom:18px}
+    .pricing-box{
+      min-height:158px;
+      padding:18px;
+      border-radius:22px;
+      background:rgba(4,10,21,.88);
+      border:1px solid rgba(255,255,255,.08);
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .pricing-box.single{min-height:328px}
+    .pricing-box-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:8px;
+    }
+    .pricing-box-title{
+      font-size:13px;
+      font-weight:800;
+      color:#8fd6ff;
+      text-transform:uppercase;
+      letter-spacing:.7px;
+    }
+    .pricing-chip{
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      color:#dce7fb;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .pricing-chip.gold{
+      color:#f6d98a;
+      border-color:rgba(246,217,138,.18);
+      background:rgba(246,217,138,.08);
+    }
+    .price{
+      font-size:56px;
+      font-weight:900;
+      letter-spacing:-1.6px;
+      line-height:.95;
+      margin-bottom:6px;
+      display:flex;
+      align-items:flex-end;
+      gap:8px;
+      flex-wrap:wrap;
+      min-height:62px;
+    }
+    .price span{
+      font-size:26px;
+      font-weight:800;
+      letter-spacing:-.5px;
+      padding-bottom:5px;
+    }
+    .price-sub{font-size:14px;color:#8da2c4}
+    .save-line{color:#f3c868;font-size:13px;font-weight:800;margin-top:8px}
+    .feature-list{
+      list-style:none;
+      display:grid;
+      gap:12px;
+      margin-bottom:18px;
+      min-height:170px;
+    }
     .feature-list li{
       position:relative;
       padding-left:22px;
@@ -741,782 +557,340 @@
     .feature-list li::before{
       content:"";
       position:absolute;
-      left:0;
-      top:9px;
-      width:8px;
-      height:8px;
-      border-radius:50%;
+      left:0;top:9px;width:8px;height:8px;border-radius:50%;
       background:linear-gradient(135deg,#35cfff,#7560ff);
-      box-shadow:0 0 10px rgba(53,207,255,0.45);
-    }
-    .price-btn{min-height:54px;height:54px;width:100%}
-    .cta-box{ text-align:center; padding:44px 28px; }
-    .cta-box h2{ font-size:44px; letter-spacing:-1px; margin-bottom:14px; }
-    .cta-box p{ font-size:17px; color:#a7b8d3; max-width:760px; margin:0 auto 24px; }
-    .footer{ padding:36px 0 52px; border-top:1px solid rgba(255,255,255,0.06); }
-    .footer-inner{ display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; color:#90a3c4; font-size:13px; }
-    .footer-links{ display:flex; gap:16px; flex-wrap:wrap; }
-
-    @media (max-width: 1100px){
-      .hero-grid{ grid-template-columns:1fr; }
-      .grid-3,.results-grid,.pricing-grid{ grid-template-columns:1fr 1fr; }
-      .hero h1{ font-size:50px; }
-      .engine-card{ grid-template-columns:1fr; }
-      .engine-visual{ min-height:300px; order:2; }
-      .engine-copy{ order:1; }
-      .chart-fade-left{
-        width:100%;
-        height:42%;
-        top:auto;
-        bottom:0;
-        left:0;
-        background:linear-gradient(180deg, rgba(5,9,18,0) 0%, rgba(5,9,18,0.45) 38%, rgba(5,9,18,0.8) 68%, rgba(5,9,18,1) 100%);
-      }
-    }
-    @media (max-width: 760px){
-      body::after{ display:none; }
-      .topbar{ backdrop-filter:none; background:rgba(4,6,11,0.96); }
-      .nav{ display:none; }
-      section{ padding:72px 0; }
-      .hero{ padding-top:60px; }
-      .grid-3,.results-grid,.pricing-grid{ grid-template-columns:1fr; }
-      .monitor-grid{ grid-template-columns:1fr; }
-      .hero h1,.section-head h2,.cta-box h2{ font-size:34px; }
-      .hero p,.section-head p,.cta-box p{ font-size:16px; }
-      .slide-card{ min-height:350px; padding:32px 24px; }
-      .slide-card h3{ font-size:28px; }
-      .engine-copy{ padding:30px 24px; }
-      .engine-copy h3{ font-size:26px; }
-      .review-card{ width:260px; min-height:130px; }
-      .pricing-card.featured{ transform:none; }
-      .slider-nav{ width:42px; height:42px; font-size:24px; backdrop-filter:none; }
-      .panel,.card,.slide-card,.engine-card,.pricing-card{ box-shadow:none; }
-      .nav-cta,.btn-primary,.price-btn{ box-shadow:none; }
-      .review-row:nth-child(4),.review-row:nth-child(5){ display:none; }
-      .review-marquee{ will-change:auto; }
-      .chart-grid{ opacity:0.14; }
-      .range-zone{ box-shadow:none; }
-      .price-glow{ filter:blur(4px); stroke-width:9; }
-      .monitor-main{ font-size:24px; min-height:58px; max-width:220px; }
-      .mini-value{ min-height:24px; }
-      .save-pill{ margin-bottom:10px; }
-    }
-  
-    /* MEMBER / AUTH */
-    .member-actions{ display:flex; align-items:center; gap:10px; }
-    .member-btn{
-      min-height:48px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:0 22px;
-      border-radius:999px;
-      font-size:14px;
-      font-weight:800;
-      cursor:pointer;
-      border:none;
-      color:#fff;
-      background:linear-gradient(135deg,#35cfff,#7560ff);
-      box-shadow:0 10px 24px rgba(73,104,255,0.22);
-      transition:transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
-    }
-    .member-btn:hover{
-      transform:translateY(-2px);
-      opacity:0.97;
-      box-shadow:0 14px 30px rgba(73,104,255,0.28);
-    }
-    .member-btn.secondary{
-      color:#cfd8ea;
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(255,255,255,0.08);
-      box-shadow:none;
-    }
-    .member-btn.secondary:hover{
-      background:rgba(255,255,255,0.08);
-      color:#ffffff;
-      border-color:rgba(255,255,255,0.18);
-    }
-    .member-btn.secondary:hover{
-      background:rgba(255,255,255,0.08);
-      border-color:rgba(255,255,255,0.16);
-      box-shadow:none;
-    }
-    .member-label{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.03);
-      color:#dce7fb;
-      font-size:13px;
-      white-space:nowrap;
-    }
-    .member-label strong{ color:#fff; }
-
-    .auth-modal{
-      position:fixed;
-      inset:0;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:2000;
-      padding:20px;
-      background:rgba(3,5,10,0.82);
-      backdrop-filter:blur(10px);
-    }
-    .auth-modal.active{ display:flex; }
-    .auth-panel{
-      width:100%;
-      max-width:460px;
-      padding:28px;
-      border-radius:26px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:linear-gradient(180deg, rgba(14,18,30,0.96), rgba(8,11,20,0.98));
-      box-shadow:0 28px 70px rgba(0,0,0,0.34);
-      position:relative;
-      overflow:hidden;
-    }
-    .auth-panel::before{
-      content:"";
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:1px;
-      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.75), rgba(117,96,255,0.75), rgba(117,96,255,0));
-    }
-    .auth-close{
-      position:absolute;
-      top:14px;
-      right:14px;
-      width:36px;
-      height:36px;
-      border:none;
-      border-radius:50%;
-      cursor:pointer;
-      font-size:18px;
-      color:#fff;
-      background:rgba(255,255,255,0.08);
-    }
-    .auth-title{ font-size:30px; font-weight:800; margin-bottom:8px; }
-    .auth-sub{ font-size:14px; color:#9eb1cf; margin-bottom:18px; }
-    .auth-tabs{ display:flex; gap:10px; margin-bottom:16px; }
-    .auth-tab{
-      flex:1;
-      min-height:44px;
-      border:none;
-      border-radius:14px;
-      cursor:pointer;
-      color:#dce7fb;
-      background:rgba(255,255,255,0.05);
-      font-weight:800;
-    }
-    .auth-tab.active{
-      color:#fff;
-      background:linear-gradient(135deg,#35cfff,#7560ff);
-    }
-    .auth-form{ display:none; }
-    .auth-form.active{ display:block; }
-    .auth-field{ margin-bottom:12px; }
-    .auth-field label{
-      display:block;
-      font-size:13px;
-      color:#aab9d3;
-      margin-bottom:6px;
-    }
-    .auth-field input{
-      width:100%;
-      min-height:48px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.04);
-      color:#fff;
-      padding:0 14px;
-      outline:none;
-    }
-    .auth-submit{
-      width:100%;
-      min-height:50px;
-      border:none;
-      border-radius:16px;
-      cursor:pointer;
-      font-size:15px;
-      font-weight:800;
-      color:#fff;
-      background:linear-gradient(135deg,#35cfff,#7560ff);
-      margin-top:6px;
-    }
-    .auth-message{
-      min-height:18px;
-      font-size:13px;
-      color:#8fd6ff;
-      margin-top:12px;
-      text-align:center;
-    }
-
-    .member-section-grid{
-      display:grid;
-      grid-template-columns:1.06fr 0.94fr;
-      gap:22px;
-    }
-    .member-card{
-      position:relative;
-      padding:28px;
-      border-radius:26px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
-      box-shadow:0 20px 50px rgba(0,0,0,0.22);
-      overflow:hidden;
-    }
-    .member-card::before{
-      content:"";
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:1px;
-      background:linear-gradient(90deg, rgba(53,207,255,0), rgba(53,207,255,0.75), rgba(117,96,255,0.75), rgba(117,96,255,0));
-    }
-    .member-card h3{ font-size:24px; margin-bottom:10px; }
-    .member-card p{ font-size:14px; color:#9eb1cf; margin-bottom:14px; }
-    .member-inline{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
-    .member-pill{
-      display:inline-flex;
-      padding:8px 12px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:800;
-      color:#dff7ff;
-      background:rgba(53,207,255,0.10);
-      border:1px solid rgba(53,207,255,0.18);
-    }
-    .member-list{ list-style:none; display:grid; gap:10px; }
-    .member-list li{
-      position:relative;
-      padding-left:22px;
-      color:#e6eefc;
-      font-size:14px;
-    }
-    .member-list li::before{
-      content:"";
-      position:absolute;
-      left:0;
-      top:8px;
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:linear-gradient(135deg,#35cfff,#7560ff);
-      box-shadow:0 0 10px rgba(53,207,255,0.45);
-    }
-    .unlock-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:14px;
-      margin-top:18px;
-    }
-    .unlock-card{
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.03);
-      padding:18px;
-    }
-    .unlock-card h4{ font-size:16px; margin-bottom:8px; }
-    .unlock-card p{ font-size:13px; color:#93a6c7; margin-bottom:10px; }
-    .unlock-badge{
-      display:inline-flex;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:11px;
-      font-weight:800;
-      color:#dce7fb;
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.08);
-    }
-    .verify-form{ display:grid; gap:12px; }
-    .verify-form input,.verify-form select{
-      width:100%;
-      min-height:48px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.04);
-      color:#fff;
-      padding:0 14px;
-      outline:none;
-      -webkit-appearance:none;
-      -moz-appearance:none;
-      appearance:none;
-    }
-    .verify-form select{
-      background-image:
-        linear-gradient(45deg, transparent 50%, #dce7fb 50%),
-        linear-gradient(135deg, #dce7fb 50%, transparent 50%);
-      background-position:
-        calc(100% - 22px) calc(50% - 3px),
-        calc(100% - 16px) calc(50% - 3px);
-      background-size:6px 6px, 6px 6px;
-      background-repeat:no-repeat;
-      padding-right:44px;
-    }
-    .verify-form select option{
-      background:#0c1220;
-      color:#f5f7fb;
-    }
-    .verify-form select:focus{
-      border-color:rgba(53,207,255,0.5);
-      box-shadow:0 0 0 3px rgba(53,207,255,0.10);
-    }
-    .verify-btn{
-      min-height:50px;
-      border:none;
-      border-radius:16px;
-      cursor:pointer;
-      font-size:15px;
-      font-weight:800;
-      color:#fff;
-      background:linear-gradient(135deg,#35cfff,#7560ff);
-    }
-    .verify-message{
-      min-height:20px;
-      font-size:13px;
-      color:#8fd6ff;
-      margin-top:8px;
-    }
-
-
-    @media (max-width: 900px){
-      .member-section-grid{ grid-template-columns:1fr; }
-      .unlock-grid{ grid-template-columns:1fr; }
-    }
-
-  
-    .plan-focus{
-      border-color:rgba(53,207,255,0.35);
-      background:linear-gradient(180deg, rgba(53,207,255,0.08), rgba(255,255,255,0.03));
-      box-shadow:0 0 0 1px rgba(53,207,255,0.08) inset;
-    }
-    .plan-highlight-title{
-      background:linear-gradient(135deg,#66e6ff,#9d8fff);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-
-  
-    .plan-focus{
-      border-color:rgba(53,207,255,0.35);
-      background:linear-gradient(180deg, rgba(53,207,255,0.08), rgba(255,255,255,0.03));
-      box-shadow:0 0 0 1px rgba(53,207,255,0.08) inset;
-    }
-    .plan-highlight-title{
-      background:linear-gradient(135deg,#66e6ff,#9d8fff);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-    .payment-form-grid{
-      display:grid;
-      grid-template-columns:0.95fr 1.05fr;
-      gap:22px;
-      margin-top:22px;
-    }
-    .payment-step-list{
-      list-style:none;
-      display:grid;
-      gap:10px;
-      margin-top:14px;
-    }
-    .payment-step-list li{
-      position:relative;
-      padding-left:22px;
-      font-size:14px;
-      color:#e6eefc;
-    }
-    .payment-step-list li::before{
-      content:"";
-      position:absolute;
-      left:0;
-      top:8px;
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:linear-gradient(135deg,#35cfff,#7560ff);
-      box-shadow:0 0 10px rgba(53,207,255,0.45);
-    }
-    .wallet-box{
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.03);
-      padding:16px;
-      margin-top:14px;
-    }
-    .wallet-label{
-      font-size:12px;
-      color:#9eb1cf;
-      margin-bottom:8px;
-    }
-    .wallet-address{
-      width:100%;
-      min-height:48px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.04);
-      color:#fff;
-      padding:12px 14px;
-      font-size:13px;
-      word-break:break-all;
-      line-height:1.5;
-    }
-    .wallet-copy-btn{
-      min-height:44px;
-      padding:0 16px;
-      border:none;
-      border-radius:14px;
-      cursor:pointer;
-      font-size:14px;
-      font-weight:800;
-      color:#fff;
-      background:linear-gradient(135deg,#35cfff,#7560ff);
-      margin-top:12px;
-    }
-    .wallet-msg{
-      min-height:18px;
-      font-size:13px;
-      color:#8fd6ff;
-      margin-top:8px;
-    }
-    @media (max-width: 900px){
-      .payment-form-grid{ grid-template-columns:1fr; }
-    }
-
-  
-    .plan-focus{
-      border-color:rgba(53,207,255,0.35);
-      background:linear-gradient(180deg, rgba(53,207,255,0.08), rgba(255,255,255,0.03));
-      box-shadow:0 0 0 1px rgba(53,207,255,0.08) inset;
-    }
-    .plan-highlight-title{
-      background:linear-gradient(135deg,#66e6ff,#9d8fff);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-    .wallet-box{
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.03);
-      padding:16px;
-    }
-    .wallet-label{
-      font-size:12px;
-      color:#9eb1cf;
-      margin-bottom:8px;
-    }
-    .wallet-address{
-      width:100%;
-      min-height:48px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.04);
-      color:#fff;
-      padding:12px 14px;
-      font-size:13px;
-      word-break:break-all;
-      line-height:1.5;
-    }
-    .wallet-copy-btn{
-      min-height:44px;
-      padding:0 16px;
-      border:none;
-      border-radius:14px;
-      cursor:pointer;
-      font-size:14px;
-      font-weight:800;
-      color:#fff;
-      background:linear-gradient(135deg,#35cfff,#7560ff);
-      margin-top:12px;
-    }
-    .wallet-msg{
-      min-height:18px;
-      font-size:13px;
-      color:#8fd6ff;
-      margin-top:8px;
-    }
-
-  
-    .hero-copy-stack{display:grid;gap:18px;}
-    .hero-lead-strong{font-size:19px;color:#e9f0ff;font-weight:700;max-width:690px;}
-    .hero-trust-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:14px;
-      margin-top:18px;
-    }
-    .hero-trust-card{
-      padding:18px;
-      border-radius:20px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.03);
-      box-shadow:0 16px 34px rgba(0,0,0,0.18);
-    }
-    .hero-trust-kicker{
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:1.2px;
-      text-transform:uppercase;
-      color:#86dfff;
-      margin-bottom:8px;
-    }
-    .hero-trust-card h3{
-      font-size:18px;
-      line-height:1.25;
-      margin-bottom:6px;
-    }
-    .hero-trust-card p{
-      font-size:14px;
-      color:#aebfda;
-      line-height:1.55;
-    }
-    .proof-chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 14px;
-      border-radius:999px;
-      background:rgba(255,255,255,0.035);
-      border:1px solid rgba(255,255,255,0.08);
-    }
-    .proof-dot{
-      width:7px;height:7px;border-radius:50%;
-      background:#85ffbe;
-      box-shadow:0 0 10px rgba(133,255,190,0.85);
-    }
-
-    .reviews-helper{
-      margin-top:18px;
-      text-align:center;
-      color:#8fa3c6;
-      font-size:13px;
-    }
-
-    .pricing-headnote{
-      max-width:920px;
-      margin:0 auto 28px;
-      padding:18px 20px;
-      border-radius:20px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
-      color:#cfdbef;
-      text-align:center;
-      line-height:1.7;
-    }
-    .pricing-card{
-      min-height:100%;
-    }
-    .plan-label-row{
+      box-shadow:0 0 10px rgba(53,207,255,.45);
+    }
+    .included-book-line{
+      min-height:52px;
+      height:52px;
       display:flex;
       align-items:center;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-bottom:10px;
-    }
-    .mini-plan-tag{
-      display:inline-flex;
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:0.2px;
-      color:#dce7fb;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.04);
-    }
-    .plan-microcopy{
-      margin-top:-8px;
-      margin-bottom:18px;
-      font-size:13px;
-      color:#90a4c8;
-      line-height:1.55;
-      min-height:40px;
-    }
-    .price-link{
-      display:inline-flex;
       justify-content:center;
-      align-items:center;
-      min-height:46px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:rgba(255,255,255,0.03);
-      color:#edf3ff;
+      text-align:center;
+      padding:0 16px;
+      border-radius:16px;
+      margin-bottom:16px;
       font-size:14px;
-      font-weight:800;
-      margin-top:10px;
+      font-weight:900;
+      letter-spacing:.3px;
+      text-transform:uppercase;
+      color:#f0cf82;
+      border:1px solid rgba(240,207,130,.16);
+      background:linear-gradient(180deg, rgba(240,207,130,.08), rgba(240,207,130,.03));
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.02);
     }
-    .price-link:hover{transform:translateY(-2px);opacity:0.96;}
+    .card-action-stack{
+      display:grid;
+      gap:10px;
+      margin-top:auto;
+    }
+    .card-action-stack.single{
+      padding-top:62px;
+    }
+    .price-btn{
+      min-height:54px;
+      height:54px;
+      width:100%;
+    }
+    .price-btn.secondary-select{
+      background:rgba(255,255,255,.03);
+      color:#e8eefb;
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:none;
+    }
     .pricing-warning{
       max-width:860px;
       margin:26px auto 0;
       padding:18px 20px;
       border-radius:20px;
-      border:1px solid rgba(255,125,125,0.18);
-      background:rgba(255,88,88,0.06);
+      border:1px solid rgba(255,125,125,.18);
+      background:rgba(255,88,88,.06);
       text-align:center;
       color:#ffd8d8;
       line-height:1.7;
       font-size:14px;
     }
-
-    .member-step-strip{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-      margin:18px 0 0;
+    .ebooks-wrap{
+      position:relative;
+      padding:34px;
+      border-radius:30px;
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      box-shadow:0 22px 54px rgba(0,0,0,.24);
+      overflow:hidden;
     }
-    .member-step-box{
-      padding:16px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.03);
+    .ebooks-wrap::before{
+      content:"";
+      position:absolute;top:0;left:0;width:100%;height:1px;
+      background:linear-gradient(90deg, rgba(67,210,255,0), rgba(67,210,255,.85), rgba(123,97,255,.9), rgba(123,97,255,0));
     }
-    .member-step-box strong{
+    .book-showcase{
+      position:relative;
+      margin-top:22px;
+      padding:24px 20px 18px;
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(circle at 18% 55%, rgba(73,136,255,.14), transparent 24%),
+        radial-gradient(circle at 78% 48%, rgba(255,153,64,.16), transparent 24%),
+        linear-gradient(180deg, rgba(10,14,24,.92), rgba(6,10,18,.98));
+      box-shadow:0 20px 50px rgba(0,0,0,.22);
+      overflow:hidden;
+    }
+    .book-showcase::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size:28px 28px;
+      opacity:.14;
+      pointer-events:none;
+    }
+    .book-showcase-title{
+      text-align:center;
+      font-size:30px;
+      line-height:1.1;
+      letter-spacing:-.8px;
+      margin-bottom:14px;
+      position:relative;
+      z-index:1;
+    }
+    .book-showcase-row{
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      gap:18px;
+      position:relative;
+      z-index:1;
+      margin-bottom:14px;
+      flex-wrap:wrap;
+    }
+    .book-display{
+      width:180px;
+      height:255px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.08);
+      overflow:hidden;
+      box-shadow:0 18px 34px rgba(0,0,0,.34);
+      background:#0d1323;
+      position:relative;
+    }
+    .book-display img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
       display:block;
-      font-size:13px;
-      margin-bottom:6px;
-      color:#f5f8ff;
     }
-    .member-step-box span{
-      font-size:13px;
-      color:#9db0d0;
-      line-height:1.5;
+    .book-display::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+      pointer-events:none;
     }
-    .verify-alert{
-      margin:16px 0 14px;
-      padding:14px 16px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.03);
-      color:#dfe8f7;
-      font-size:13px;
-      line-height:1.65;
+    .book-showcase-caption{
+      text-align:center;
+      position:relative;
+      z-index:1;
+      color:#d9e3f6;
+      font-size:15px;
     }
-    .verify-alert strong{color:#fff;}
-    .member-mini-note{
-      margin-top:16px;
-      font-size:13px;
-      color:#90a4c8;
-      line-height:1.6;
-    }
-
-    @media (max-width: 900px){
-      .hero-trust-grid{grid-template-columns:1fr;}
-      .member-step-strip{grid-template-columns:1fr;}
-    }
-
-  
-
-
-.price{
-  display:flex;
-  align-items:baseline;
-  justify-content:flex-start;
-  gap:8px;
-  min-height:56px;
-}
-.price-wrap{
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
-}
-
-
-    .is-hidden{ display:none !important; }
-    .auth-note{
-      margin-top:2px;
-      font-size:12px;
-      line-height:1.55;
-      color:#8fa3c6;
-    }
-    .admin-panel-section .section-head{ margin-bottom:30px; }
-    .admin-summary-grid{
+    .book-grid{
       display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:14px;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:22px;
       margin-bottom:18px;
     }
-    .admin-summary-card{
+    .book-card{
       padding:18px;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:18px;
+      border-radius:24px;
+    }
+    .book-copy h3{font-size:18px;letter-spacing:.2px;margin-bottom:10px}
+    .book-pill{
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      background:linear-gradient(135deg,#35cfff,#7560ff);
+      color:#fff;
+      font-size:12px;
+      font-weight:800;
+      margin-bottom:14px;
+    }
+    .book-copy p{font-size:15px;color:#afbed8;margin-bottom:12px}
+    .book-copy ul{list-style:none;display:grid;gap:8px}
+    .book-copy li{color:#dde6f6;font-size:14px;padding-left:14px;position:relative}
+    .book-copy li::before{content:"•";position:absolute;left:0;top:0;color:#66d9ff}
+    .book-mini-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:12px;
+    }
+    .book-mini{
       border-radius:18px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.03);
+      padding:16px;
+      background:rgba(4,10,21,.88);
+      border:1px solid rgba(255,255,255,.08);
     }
-    .admin-summary-card strong{
-      display:block;
-      font-size:26px;
-      line-height:1;
-      margin-bottom:8px;
-      color:#f5f8ff;
+    .book-mini strong{display:block;font-size:18px;margin-bottom:6px}
+    .book-mini span{font-size:13px;color:#96a9ca}
+    .cta-box{text-align:center;padding:44px 28px}
+    .cta-box h2{font-size:44px;letter-spacing:-1px;margin-bottom:14px}
+    .cta-box p{font-size:17px;color:#a7b8d3;max-width:760px;margin:0 auto 24px}
+    .footer{padding:36px 0 52px;border-top:1px solid rgba(255,255,255,.06)}
+    .footer-inner{
+      display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:#90a3c4;font-size:13px;
     }
-    .admin-summary-card span{
-      font-size:13px;
-      color:#93a6c7;
+    .payment-modal{
+      position:fixed;
+      inset:0;
+      z-index:3000;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:22px;
+      background:rgba(2,4,8,.84);
+      backdrop-filter:blur(12px);
     }
-    .admin-toolbar{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
+    .payment-modal.active{display:flex}
+    .payment-modal-card{
+      width:100%;
+      max-width:640px;
+      padding:28px;
+      border-radius:32px;
+      background:linear-gradient(180deg, rgba(8,13,24,.98), rgba(4,8,16,.98));
+      box-shadow:0 28px 80px rgba(0,0,0,.42);
+    }
+    .close-modal{
+      position:absolute;
+      top:18px;right:18px;
+      width:44px;height:44px;
+      border:none;border-radius:50%;
+      background:rgba(255,255,255,.08);
+      color:#fff;font-size:22px;cursor:pointer;
+    }
+    .modal-title{font-size:40px;line-height:1;letter-spacing:-1.2px;margin-bottom:10px}
+    .modal-sub{color:#9eb1cf;font-size:15px;margin-bottom:20px;padding-right:56px}
+    .modal-summary{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr 1fr;
+      gap:14px;
+      border-radius:24px;
+      padding:18px;
+      background:rgba(4,10,21,.86);
+      border:1px solid rgba(255,255,255,.08);
+      margin-bottom:18px;
+    }
+    .modal-block-label{
+      color:#8fa6cb;
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+      margin-bottom:6px;
+    }
+    .modal-block-value{
+      font-size:24px;
+      font-weight:900;
+      letter-spacing:-.5px;
+      line-height:1.15;
+    }
+    .wallet-box{
+      border-radius:24px;
+      padding:18px;
+      background:rgba(4,10,21,.86);
+      border:1px solid rgba(255,255,255,.08);
       margin-bottom:16px;
     }
-    .admin-table-wrap{
-      overflow:auto;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.03);
-    }
-    .admin-table{
-      width:100%;
-      min-width:820px;
-      border-collapse:collapse;
-    }
-    .admin-table th,
-    .admin-table td{
-      padding:14px 16px;
-      text-align:left;
-      border-bottom:1px solid rgba(255,255,255,0.06);
-      font-size:13px;
-      color:#dce7fb;
-      vertical-align:top;
-    }
-    .admin-table th{
+    .wallet-label{
+      color:#8fd6ff;
       font-size:12px;
-      letter-spacing:0.8px;
+      font-weight:800;
       text-transform:uppercase;
-      color:#8fa3c6;
-      background:rgba(255,255,255,0.02);
-      white-space:nowrap;
+      letter-spacing:1px;
+      margin-bottom:10px;
     }
-    .admin-table td small{ color:#8fa3c6; display:block; margin-top:4px; }
-    .admin-empty{
-      padding:18px;
+    .wallet-address{
+      width:100%;
+      min-height:58px;
+      border-radius:18px;
+      border:1px dashed rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      color:#fff;
+      padding:14px 16px;
+      font-size:16px;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      word-break:break-all;
+      margin-bottom:12px;
+    }
+    .modal-note{
+      margin-top:12px;
+      padding:14px 16px;
+      border-radius:16px;
+      border:1px solid rgba(240,207,130,.16);
+      background:linear-gradient(180deg, rgba(240,207,130,.08), rgba(240,207,130,.03));
+      color:#e8dfbe;
       font-size:14px;
-      color:#93a6c7;
+      line-height:1.65;
     }
-    @media (max-width: 900px){
-      .admin-summary-grid{ grid-template-columns:1fr 1fr; }
+    .txid-field label{
+      display:block;
+      margin-bottom:8px;
+      color:#dce7fb;
+      font-weight:800;
     }
-    @media (max-width: 640px){
-      .admin-summary-grid{ grid-template-columns:1fr; }
+    .txid-field input{
+      width:100%;
+      min-height:58px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
+      color:#fff;
+      padding:0 16px;
+      outline:none;
+      font-size:15px;
     }
-
-
-
-/* HERO ALIGN FIX */
-.hero-grid{align-items:start !important;}
-.hero-copy-stack{justify-content:flex-start;}
-.hero-card{transform:none !important; margin-top:0 !important; align-self:start !important;}
-@media (max-width: 1100px){
-  .hero-grid{align-items:start !important;}
-  .hero-card{transform:none !important; margin-top:0 !important;}
-}
-
-</style>
+    .modal-msg{min-height:20px;margin-top:12px;text-align:center;color:#8fd6ff;font-size:14px}
+    .modal-foot{margin-top:18px;color:#8ea4c7;font-size:13px;line-height:1.7}
+    @media (max-width:1100px){
+      .hero-grid{grid-template-columns:1fr}
+      .hero-trust-grid{grid-template-columns:1fr}
+      .pricing-grid{grid-template-columns:1fr 1fr}
+      .book-grid{grid-template-columns:1fr}
+      .book-mini-grid{grid-template-columns:1fr}
+      .modal-summary{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:760px){
+      body::after{display:none}
+      .topbar{backdrop-filter:none;background:rgba(4,6,11,.96)}
+      .nav{display:none}
+      section{padding:72px 0}
+      .hero{padding-top:60px}
+      .hero h1,.section-head h2,.cta-box h2{font-size:34px}
+      .hero p,.section-head p,.cta-box p{font-size:16px}
+      .pricing-grid,.monitor-grid,.book-grid,.book-mini-grid,.modal-summary{grid-template-columns:1fr}
+      .pricing-card.featured{transform:none}
+      .slide-card{min-height:350px;padding:32px 24px}
+      .slide-card h3{font-size:28px}
+      .review-card{width:260px;min-height:130px}
+      .topbar-inner{align-items:flex-start;padding:14px 0}
+      .member-actions{gap:8px;flex-wrap:wrap;justify-content:flex-end}
+      .payment-modal-card{padding:22px}
+      .modal-title{font-size:32px}
+      .panel,.slide-card,.pricing-card,.book-card,.payment-modal-card{box-shadow:none}
+      .member-btn,.nav-cta,.btn-primary,.price-btn,.modal-btn.primary,.copy-btn{box-shadow:none}
+      .book-showcase-row{gap:12px}
+      .book-display{width:140px;height:198px}
+    }
+  </style>
 </head>
 <body>
 
@@ -1535,16 +909,16 @@
         <a href="#pricing">Pricing</a>
         <a href="#cta" class="nav-cta">Get Access</a>
       </nav>
+
       <div class="member-actions">
         <div class="member-label" id="memberLabel">Guest Mode</div>
-        <button class="member-btn secondary is-hidden" id="logoutBtn" type="button" onclick="logout()">Logout</button>
-        <button class="member-btn secondary" id="loginBtn" type="button" onclick="goLogin()">Login</button>
-        <button class="member-btn" id="registerBtn" type="button" onclick="goRegister()">Register</button>
+        <button class="member-btn secondary is-hidden" id="logoutBtn" type="button">Logout</button>
+        <button class="member-btn secondary" id="loginBtn" type="button">Login</button>
+        <button class="member-btn" id="registerBtn" type="button">Register</button>
       </div>
     </div>
   </header>
 
-  
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy-stack">
@@ -1570,8 +944,9 @@
         </p>
 
         <div class="hero-actions">
-          <a href="#pricing" class="btn-primary" onclick="guardedOpenPricing(event)">Choose Your Plan</a>
-</div>
+          <a href="#pricing" class="btn-primary">Choose Your Plan</a>
+          <button class="btn-secondary" type="button" id="heroLoginBtn">Member Login</button>
+        </div>
 
         <div class="hero-proof">
           <div class="proof-chip"><span class="proof-dot"></span><span>300+ trader interest</span></div>
@@ -1616,7 +991,7 @@
             </div>
             <div class="monitor-row">
               <div class="monitor-label">Core Route</div>
-              <div class="monitor-value">PRO is the main workflow</div>
+              <div class="monitor-value">Pro is the main workflow</div>
             </div>
           </div>
 
@@ -1625,17 +1000,14 @@
               <div class="mini-label">Trend Alignment</div>
               <div class="mini-value">Monitoring structure</div>
             </div>
-
             <div class="mini-card">
               <div class="mini-label">Confirmed Entries</div>
               <div class="mini-value">Waiting for clean setup</div>
             </div>
-
             <div class="mini-card">
               <div class="mini-label">Liquidity Flow</div>
               <div class="mini-value">Ready for detection</div>
             </div>
-
             <div class="mini-card">
               <div class="mini-label">Verification</div>
               <div class="mini-value">TXID + plan check ready</div>
@@ -1657,7 +1029,6 @@
     </div>
   </section>
 
-
   <section id="problem">
     <div class="container">
       <div class="section-head">
@@ -1669,41 +1040,11 @@
       <div class="slider-shell">
         <button class="slider-nav left" type="button" onclick="moveSlider('problem-track', -1)">‹</button>
         <div class="slider-track" id="problem-track">
-          <div class="slide-card">
-            <div class="slide-tag">Overtrading</div>
-            <h3>More trades do not mean better results.</h3>
-            <p>Most traders enter too often, reacting to every move instead of waiting for structure.</p>
-            <p>Activity feels productive for a moment, but it slowly destroys consistency.</p>
-            <p class="slide-highlight">The problem is not effort. It is unnecessary execution.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Fake Signals</div>
-            <h3>Not every move deserves a trade.</h3>
-            <p>Breakouts without confirmation and reactions to noise create a pattern of weak entries.</p>
-            <p>What looks like opportunity is often just market randomness.</p>
-            <p class="slide-highlight">Without filtering, everything starts to look tradable.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Timing</div>
-            <h3>Good ideas fail with bad timing.</h3>
-            <p>Even when the direction is right, entering too early or too late breaks the execution.</p>
-            <p>Timing is where many trades fail, not the original idea.</p>
-            <p class="slide-highlight">Being right is not enough. Entry defines the outcome.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Emotion</div>
-            <h3>Execution breaks under pressure.</h3>
-            <p>Hesitation, fear of missing out, and impulsive clicks override planned setups.</p>
-            <p>Most mistakes happen after the idea, not before it.</p>
-            <p class="slide-highlight">Discipline fails when the process is unclear.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Noise</div>
-            <h3>Too much information creates worse decisions.</h3>
-            <p>Charts filled with signals, conflicting tools, and clutter lead to hesitation.</p>
-            <p>More data does not always create clarity.</p>
-            <p class="slide-highlight">Clarity comes from removing, not adding.</p>
-          </div>
+          <div class="slide-card"><div class="slide-tag">Overtrading</div><h3>More trades do not mean better results.</h3><p>Most traders enter too often, reacting to every move instead of waiting for structure.</p><p>Activity feels productive for a moment, but it slowly destroys consistency.</p><p class="slide-highlight">The problem is not effort. It is unnecessary execution.</p></div>
+          <div class="slide-card"><div class="slide-tag">Fake Signals</div><h3>Not every move deserves a trade.</h3><p>Breakouts without confirmation and reactions to noise create a pattern of weak entries.</p><p>What looks like opportunity is often just market randomness.</p><p class="slide-highlight">Without filtering, everything starts to look tradable.</p></div>
+          <div class="slide-card"><div class="slide-tag">Timing</div><h3>Good ideas fail with bad timing.</h3><p>Even when the direction is right, entering too early or too late breaks the execution.</p><p>Timing is where many trades fail, not the original idea.</p><p class="slide-highlight">Being right is not enough. Entry defines the outcome.</p></div>
+          <div class="slide-card"><div class="slide-tag">Emotion</div><h3>Execution breaks under pressure.</h3><p>Hesitation, fear of missing out, and impulsive clicks override planned setups.</p><p>Most mistakes happen after the idea, not before it.</p><p class="slide-highlight">Discipline fails when the process is unclear.</p></div>
+          <div class="slide-card"><div class="slide-tag">Noise</div><h3>Too much information creates worse decisions.</h3><p>Charts filled with signals, conflicting tools, and clutter lead to hesitation.</p><p>More data does not always create clarity.</p><p class="slide-highlight">Clarity comes from removing, not adding.</p></div>
         </div>
         <button class="slider-nav right" type="button" onclick="moveSlider('problem-track', 1)">›</button>
       </div>
@@ -1721,41 +1062,10 @@
       <div class="slider-shell">
         <button class="slider-nav left" type="button" onclick="moveSlider('solution-track', -1)">‹</button>
         <div class="slider-track" id="solution-track">
-          <div class="slide-card">
-            <div class="slide-tag">Selective Execution</div>
-            <h3>Less trades. Better decisions.</h3>
-            <p>The engine does not aim to increase activity. It removes unnecessary entries first.</p>
-            <p>Only moments where structure and timing align are allowed forward.</p>
-            <p class="slide-highlight">Execution becomes selective, not reactive.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Signal Filtering</div>
-            <h3>Not every move becomes a signal.</h3>
-            <p>Weak breakouts and unconfirmed movement are filtered out before reaching execution.</p>
-            <p>Only cleaner setups pass through the system.</p>
-            <p class="slide-highlight">Noise is reduced before it becomes a decision.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Timing Control</div>
-            <h3>Timing is filtered, not guessed.</h3>
-            <p>The engine focuses on windows where confirmation begins to appear.</p>
-            <p>This reduces early entries and late reactions that damage consistency.</p>
-            <p class="slide-highlight">Better timing improves execution quality.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Execution Discipline</div>
-            <h3>Clear process reduces emotional decisions.</h3>
-            <p>By limiting when signals appear, the system reduces the pressure to act constantly.</p>
-            <p>That makes discipline easier to keep in live conditions.</p>
-            <p class="slide-highlight">A structured process replaces impulsive execution.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Clarity First</div>
-            <h3>Clarity comes from removing noise.</h3>
-            <p>Instead of stacking more indicators, the engine simplifies what actually matters.</p>
-            <p>That creates a cleaner environment for decision making.</p>
-            <p class="slide-highlight">Better decisions start with less clutter.</p>
-          </div>
+          <div class="slide-card"><div class="slide-tag">Selective Execution</div><h3>Less trades. Better decisions.</h3><p>The engine does not aim to increase activity. It removes unnecessary entries first.</p><p>Only moments where structure and timing align are allowed forward.</p><p class="slide-highlight">Execution becomes selective, not reactive.</p></div>
+          <div class="slide-card"><div class="slide-tag">Signal Filtering</div><h3>Not every move becomes a signal.</h3><p>Weak breakouts and unconfirmed movement are filtered out before reaching execution.</p><p>Only cleaner setups pass through the system.</p><p class="slide-highlight">Noise is reduced before it becomes a decision.</p></div>
+          <div class="slide-card"><div class="slide-tag">Timing Control</div><h3>Timing is filtered, not guessed.</h3><p>The engine focuses on windows where confirmation begins to appear.</p><p>This reduces early entries and late reactions that damage consistency.</p><p class="slide-highlight">Better timing improves execution quality.</p></div>
+          <div class="slide-card"><div class="slide-tag">Cleaner Workflow</div><h3>Simplicity supports discipline.</h3><p>A simpler workflow makes it easier to trust the process and repeat it consistently.</p><p>Confidence improves when the chart looks clearer and the decision path feels tighter.</p><p class="slide-highlight">A cleaner system supports a cleaner mindset.</p></div>
         </div>
         <button class="slider-nav right" type="button" onclick="moveSlider('solution-track', 1)">›</button>
       </div>
@@ -1765,179 +1075,24 @@
   <section id="engine">
     <div class="container">
       <div class="section-head">
-        <div class="section-kicker">Inside the TCPS Engine</div>
-        <h2>Built to filter noise, confirm structure, and improve execution timing.</h2>
-        <p>A closer look at how the engine reads market structure without forcing trades.</p>
+        <div class="section-kicker">Engine</div>
+        <h2>The structure is designed to feel disciplined from the first click.</h2>
+        <p>Each tier is positioned to solve a different stage of trader maturity instead of forcing one generic offer.</p>
       </div>
 
-      <div class="engine-slider-shell" id="engine-slider-shell">
+      <div class="slider-shell">
         <button class="slider-nav left" type="button" onclick="moveSlider('engine-track', -1)">‹</button>
-        <div class="engine-slider-track" id="engine-track">
-
-          <div class="engine-card">
-            <div class="engine-copy">
-              <div class="engine-label">Liquidity Sweep Detection</div>
-              <h3>Detects liquidity before direction becomes obvious.</h3>
-              <p>Designed to highlight zones where price takes liquidity first, then reveals whether real continuation exists.</p>
-              <p class="engine-highlight">Structure is tested before continuation becomes clean.</p>
-            </div>
-            <div class="engine-visual">
-              <div class="chart-grid"></div>
-              <div class="range-zone top"></div>
-              <div class="range-zone bottom"></div>
-              <div class="trend-line t1"></div>
-              <div class="trend-line t2"></div>
-              <svg class="price-svg" viewBox="0 0 700 440" preserveAspectRatio="none">
-                <polyline class="price-glow" points="18,318 76,286 132,226 188,194 246,176 306,178 362,208 418,236 476,228 530,172 580,112 624,104 656,118 682,140"></polyline>
-                <polyline class="price-path" points="18,318 76,286 132,226 188,194 246,176 306,178 362,208 418,236 476,228 530,172 580,112 624,104 656,118 682,140"></polyline>
-              </svg>
-              <div class="chart-fade-left"></div>
-            </div>
-          </div>
-
-          <div class="engine-card">
-            <div class="engine-copy">
-              <div class="engine-label">Range Trap Structure</div>
-              <h3>Identifies sideways zones where most traders overtrade.</h3>
-              <p>Highlights ranges where price moves repeatedly without clean direction and where impulsive entries tend to fail.</p>
-              <p class="engine-highlight">Not every movement inside a range deserves execution.</p>
-            </div>
-            <div class="engine-visual">
-              <div class="chart-grid"></div>
-              <div class="range-zone band"></div>
-              <div class="trend-line t3"></div>
-              <svg class="price-svg" viewBox="0 0 700 440" preserveAspectRatio="none">
-                <polyline class="price-glow" points="18,222 72,182 124,178 172,220 224,272 276,222 330,204 384,244 434,282 488,226 538,164 590,152 642,168 682,120"></polyline>
-                <polyline class="price-path" points="18,222 72,182 124,178 172,220 224,272 276,222 330,204 384,244 434,282 488,226 538,164 590,152 642,168 682,120"></polyline>
-              </svg>
-              <div class="chart-fade-left"></div>
-            </div>
-          </div>
-
-          <div class="engine-card">
-            <div class="engine-copy">
-              <div class="engine-label">Smart Entry Timing</div>
-              <h3>Filters for timing windows where structure begins to align.</h3>
-              <p>Instead of reacting to every move, the engine waits for cleaner timing and confirmation before surfacing a possible execution zone.</p>
-              <p class="engine-highlight">Cleaner timing reduces early entries and late reactions.</p>
-            </div>
-            <div class="engine-visual">
-              <div class="chart-grid"></div>
-              <div class="trend-line t4"></div>
-              <div class="trend-line t5"></div>
-              <div class="range-zone retest"></div>
-              <svg class="price-svg" viewBox="0 0 700 440" preserveAspectRatio="none">
-                <polyline class="price-glow" points="18,320 72,308 126,268 182,214 238,182 294,194 346,234 398,274 448,266 500,184 548,132 596,114 646,104 682,98"></polyline>
-                <polyline class="price-path" points="18,320 72,308 126,268 182,214 238,182 294,194 346,234 398,274 448,266 500,184 548,132 596,114 646,104 682,98"></polyline>
-              </svg>
-              <div class="chart-fade-left"></div>
-            </div>
-          </div>
-
-          <div class="engine-card">
-            <div class="engine-copy">
-              <div class="engine-label">Trend Filter Engine</div>
-              <h3>Removes setups that conflict with broader market direction.</h3>
-              <p>This layer keeps execution aligned with structure instead of forcing trades against momentum or unstable direction.</p>
-              <p class="engine-highlight">Avoid trading against the dominant flow.</p>
-            </div>
-            <div class="engine-visual">
-              <div class="chart-grid"></div>
-              <div class="trend-line t6"></div>
-              <div class="trend-line t7"></div>
-              <div class="range-zone top" style="top:20%; left:48%; width:26%; height:12%;"></div>
-              <svg class="price-svg" viewBox="0 0 700 440" preserveAspectRatio="none">
-                <polyline class="price-glow" points="18,130 78,142 132,176 186,206 242,232 296,246 350,232 404,212 460,176 516,150 572,142 628,150 664,154 682,154"></polyline>
-                <polyline class="price-path" points="18,130 78,142 132,176 186,206 242,232 296,246 350,232 404,212 460,176 516,150 572,142 628,150 664,154 682,154"></polyline>
-              </svg>
-              <div class="chart-fade-left"></div>
-            </div>
-          </div>
-
-          <div class="engine-card">
-            <div class="engine-copy">
-              <div class="engine-label">Execution Logic Core</div>
-              <h3>Combines structure, timing, and risk filters into one decision layer.</h3>
-              <p>The final logic layer is built to prevent forced trades and keep output selective even when the market stays active.</p>
-              <p class="engine-highlight">Confirmation matters more than frequency.</p>
-            </div>
-            <div class="engine-visual">
-              <div class="chart-grid"></div>
-              <div class="range-zone mid"></div>
-              <div class="range-zone top" style="top:18%; left:54%; width:24%; height:12%;"></div>
-              <div class="trend-line t5"></div>
-              <div class="trend-line t2" style="top:66%; left:44%; width:28%;"></div>
-              <svg class="price-svg" viewBox="0 0 700 440" preserveAspectRatio="none">
-                <polyline class="price-glow" points="18,280 74,244 128,206 184,204 238,214 292,258 346,252 400,206 456,152 514,132 570,140 626,136 664,132 682,128"></polyline>
-                <polyline class="price-path" points="18,280 74,244 128,206 184,204 238,214 292,258 346,252 400,206 456,152 514,132 570,140 626,136 664,132 682,128"></polyline>
-              </svg>
-              <div class="chart-fade-left"></div>
-            </div>
-          </div>
-
+        <div class="slider-track" id="engine-track">
+          <div class="slide-card"><div class="slide-tag">Basic</div><h3>Foundation before aggression.</h3><p>Basic is for traders who want the first clean version of the workflow without jumping straight into the deeper structure.</p><p class="slide-highlight">It is the easiest way to start without feeling overwhelmed.</p></div>
+          <div class="slide-card"><div class="slide-tag">Pro</div><h3>The main product for most users.</h3><p>Pro is the core route for active traders who want stronger execution workflow and clearer structure than the starter tier.</p><p class="slide-highlight">This is the main conversion path.</p></div>
+          <div class="slide-card"><div class="slide-tag">Elite</div><h3>More depth for stronger execution.</h3><p>Elite is positioned for users who already know they want more than the main route and value a deeper tier.</p><p class="slide-highlight">Higher intensity, higher conviction.</p></div>
+          <div class="slide-card"><div class="slide-tag">Lifetime</div><h3>The strongest long-term package.</h3><p>Lifetime removes monthly renewal and packages the cleanest long-term decision for users who want the full route.</p><p class="slide-highlight">Best long-term value, all books included.</p></div>
         </div>
         <button class="slider-nav right" type="button" onclick="moveSlider('engine-track', 1)">›</button>
       </div>
     </div>
   </section>
 
-  <section id="process">
-    <div class="container">
-      <div class="section-head">
-        <div class="section-kicker">Access Flow</div>
-        <h2>Simple purchase flow. No confusion.</h2>
-        <p>The process is built to move users from payment to verification to access with minimal friction.</p>
-      </div>
-
-      <div class="grid-3">
-        <div class="card">
-          <div class="step-number"><span>1</span></div>
-          <h3>Choose a Plan</h3>
-          <p>Select Basic, Pro, or Lifetime and complete payment through the checkout link using a personal wallet.</p>
-        </div>
-        <div class="card">
-          <div class="step-number"><span>2</span></div>
-          <h3>Submit Verification</h3>
-          <p>Send USDT (TRC20) from a personal wallet such as Trust Wallet or TronLink after moving funds from your exchange.</p>
-        </div>
-        <div class="card">
-          <div class="step-number"><span>3</span></div>
-          <h3>Get Access</h3>
-          <p>After payment confirmation, approved users move into the access path and receive the correct entry route.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="results">
-    <div class="container">
-      <div class="section-head">
-        <div class="section-kicker">Why Traders Stay</div>
-        <h2>It feels simpler because it removes what should not be traded.</h2>
-        <p>Better discipline starts when bad opportunities stop looking attractive.</p>
-      </div>
-
-      <div class="results-grid">
-        <div class="card results-card">
-          <div class="results-number">300+</div>
-          <div class="results-label">Traders using the engine</div>
-          <div class="results-sub">Built for clean execution flow</div>
-        </div>
-        <div class="card results-card">
-          <div class="results-number">24/7</div>
-          <div class="results-label">Signal-based workflow</div>
-          <div class="results-sub">Simple, direct, focused</div>
-        </div>
-        <div class="card results-card">
-          <div class="results-number">Less Noise</div>
-          <div class="results-label">More selective execution</div>
-          <div class="results-sub">Fewer forced trades</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  
   <section id="reviews">
     <div class="container">
       <div class="section-head">
@@ -1956,166 +1111,266 @@
     </div>
   </section>
 
-
-  
   <section id="pricing">
     <div class="container">
       <div class="section-head">
         <div class="section-kicker">Pricing</div>
         <h2>Choose the tier that matches how serious you are about execution.</h2>
-        <p>Basic gets people in. Pro is the main product. Elite is deeper support. Lifetime is the strongest long-term value.</p>
-
-<div class="pricing-headnote">
-Most traders fail not because of strategy, but because they enter at the wrong moment.<br>
-Each plan is built around a different stage of execution.<br>
-<strong>BASIC = Where to watch</strong> · <strong>PRO = When to act</strong> · <strong>ELITE = Confirmed execution</strong>
-</div>
-
+        <p>Monthly keeps entry easy. Yearly gives the strongest value. Lifetime is the highest long-term package.</p>
       </div>
 
       <div class="pricing-headnote">
-        Do not make users think too much here. The page should make the choice feel obvious:
-        <strong>Basic</strong> for starting,
-        <strong>Pro</strong> for the core trader workflow,
-        <strong>Elite</strong> for a more advanced execution tier,
-        and <strong>Lifetime</strong> for users who want the full package without monthly renewal.
+        Most traders fail not because of strategy, but because they enter at the wrong moment.<br>
+        Each plan is built around a different stage of execution.<br>
+        <strong>BASIC = Where to watch</strong> · <strong>PRO = When to act</strong> · <strong>ELITE = Confirmed execution</strong>
       </div>
 
       <div class="pricing-grid">
-        <div class="card pricing-card">
-          <div class="card-topline"></div>
-          <div class="plan-label-row">
-            <div class="mini-plan-tag">Starter Tier</div>
+        <div class="pricing-card">
+          <div class="plan-shell">
+            <div class="plan-top">
+              <div class="plan-label-row"><div class="mini-plan-tag">Starter Tier</div></div>
+              <div><div class="plan-name">Basic</div><div class="plan-desc">Entry-level access for traders who want the foundation first.</div></div>
+            </div>
+            <div class="pricing-box-stack">
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Monthly</div><div class="pricing-chip">Fast start</div></div><div class="price">29 <span>USDT</span></div><div class="price-sub">per month</div></div></div>
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Yearly</div><div class="pricing-chip gold">45% OFF</div></div><div class="price">191.4 <span>USDT</span></div><div class="price-sub">12 months billed once</div><div class="save-line">Monthly total 348 → yearly 191.4</div></div></div>
+            </div>
+            <ul class="feature-list">
+              <li>Core chart logic access</li>
+              <li>Wave structure foundation</li>
+              <li>Simple starter workflow</li>
+              <li>Best entry point for first-time users</li>
+            </ul>
+            <div class="included-book-line">TCPS-A Book Included</div>
+            <div class="card-action-stack">
+              <button class="price-btn" type="button" data-plan="basic" data-billing="monthly">Choose Basic Monthly</button>
+              <button class="price-btn secondary-select" type="button" data-plan="basic" data-billing="yearly">Choose Basic Yearly</button>
+            </div>
           </div>
-          <div class="plan-name">Basic</div>
-          <div class="plan-desc">Entry-level access for traders who want the foundation first.</div>
-          <div class="save-pill">Fastest way to start</div>
-          <div class="price-wrap">
-            <div class="price">49 <span>USDT</span></div>
-            <div class="price-sub">per month</div>
-          </div>
-          <div class="plan-microcopy">Good for users who want the core indicator and chart logic without the deeper execution layers yet.</div>
-          <ul class="feature-list">
-            <li>Wave structure foundation</li>
-            <li>Core chart logic access</li>
-            <li>Simple setup workflow</li>
-            <li>Best entry point for first-time users</li>
-          </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('BASIC')">Choose Basic</button>
-          <a class="price-link" href="basic.html">View Basic Details</a>
         </div>
 
-        <div class="card pricing-card featured">
-          <div class="card-topline"></div>
+        <div class="pricing-card featured">
           <div class="tag">Most Popular</div>
-          <div class="plan-label-row">
-            <div class="mini-plan-tag">Main Product</div>
-            <div class="mini-plan-tag">Best balance</div>
+          <div class="plan-shell">
+            <div class="plan-top">
+              <div class="plan-label-row"><div class="mini-plan-tag">Main Product</div></div>
+              <div><div class="plan-name">Pro</div><div class="plan-desc">The main TCPS workflow for users who want the real signal-focused product.</div></div>
+            </div>
+            <div class="pricing-box-stack">
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Monthly</div><div class="pricing-chip">Main flow</div></div><div class="price">59 <span>USDT</span></div><div class="price-sub">per month</div></div></div>
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Yearly</div><div class="pricing-chip gold">45% OFF</div></div><div class="price">389.4 <span>USDT</span></div><div class="price-sub">12 months billed once</div><div class="save-line">Monthly total 708 → yearly 389.4</div></div></div>
+            </div>
+            <ul class="feature-list">
+              <li>Everything in Basic</li>
+              <li>Liquidity engine core workflow</li>
+              <li>Priority execution structure</li>
+              <li>Best overall fit for active traders</li>
+            </ul>
+            <div class="included-book-line">All Books Included</div>
+            <div class="card-action-stack">
+              <button class="price-btn" type="button" data-plan="pro" data-billing="monthly">Choose Pro Monthly</button>
+              <button class="price-btn secondary-select" type="button" data-plan="pro" data-billing="yearly">Choose Pro Yearly</button>
+            </div>
           </div>
-          <div class="plan-name">Pro</div>
-          <div class="plan-desc">The main TCPS workflow for users who want the real signal-focused product.</div>
-          <div class="save-pill">Best conversion tier</div>
-          <div class="price-wrap">
-            <div class="price">99 <span>USDT</span></div>
-            <div class="price-sub">per month</div>
-          </div>
-          <div class="plan-microcopy">This is the plan most users should end up choosing if they want the practical execution workflow, not just the foundation.</div>
-          <ul class="feature-list">
-            <li>Everything in Basic</li>
-            <li>Liquidity Engine core workflow</li>
-            <li>Priority execution structure</li>
-            <li>Best overall fit for active traders</li>
-          </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('PRO')">Choose Pro</button>
-          <a class="price-link" href="pro.html">View Pro Details</a>
         </div>
 
-        <div class="card pricing-card">
-          <div class="card-topline"></div>
-          <div class="plan-label-row">
-            <div class="mini-plan-tag">Advanced Tier</div>
+        <div class="pricing-card">
+          <div class="plan-shell">
+            <div class="plan-top">
+              <div class="plan-label-row"><div class="mini-plan-tag">Advanced Tier</div></div>
+              <div><div class="plan-name">Elite</div><div class="plan-desc">For users who want stronger execution depth and a higher support tier.</div></div>
+            </div>
+            <div class="pricing-box-stack">
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Monthly</div><div class="pricing-chip">Advanced</div></div><div class="price">119 <span>USDT</span></div><div class="price-sub">per month</div></div></div>
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Yearly</div><div class="pricing-chip gold">45% OFF</div></div><div class="price">785.4 <span>USDT</span></div><div class="price-sub">12 months billed once</div><div class="save-line">Monthly total 1428 → yearly 785.4</div></div></div>
+            </div>
+            <ul class="feature-list">
+              <li>Everything in Pro</li>
+              <li>Advanced signal workflow</li>
+              <li>Extended execution support</li>
+              <li>Higher-tier access path</li>
+            </ul>
+            <div class="included-book-line">All Books Included</div>
+            <div class="card-action-stack">
+              <button class="price-btn" type="button" data-plan="elite" data-billing="monthly">Choose Elite Monthly</button>
+              <button class="price-btn secondary-select" type="button" data-plan="elite" data-billing="yearly">Choose Elite Yearly</button>
+            </div>
           </div>
-          <div class="plan-name">Elite</div>
-          <div class="plan-desc">For users who want stronger execution depth and a higher support tier.</div>
-          <div class="save-pill">Deeper workflow</div>
-          <div class="price-wrap">
-            <div class="price">199 <span>USDT</span></div>
-            <div class="price-sub">per month</div>
-          </div>
-          <div class="plan-microcopy">For traders who already know they want more than the main Pro workflow and need stronger execution support.</div>
-          <ul class="feature-list">
-            <li>Everything in Pro</li>
-            <li>Advanced signal workflow</li>
-            <li>Extended execution support</li>
-            <li>Higher-tier access path</li>
-          </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('ELITE')">Choose Elite</button>
-          <a class="price-link" href="elite.html">View Elite Details</a>
         </div>
 
-        <div class="card pricing-card">
-          <div class="card-topline"></div>
-          <div class="plan-label-row">
-            <div class="mini-plan-tag">One-Time Access</div>
-            <div class="mini-plan-tag">Best long-term value</div>
+        <div class="pricing-card">
+          <div class="plan-shell">
+            <div class="plan-top lifetime">
+              <div class="plan-label-row lifetime"></div>
+              <div><div class="plan-name">Lifetime</div><div class="plan-desc">For users who want the strongest package and no monthly renewal.</div></div>
+            </div>
+            <div class="pricing-box-stack">
+              <div class="pricing-box single"><div><div class="pricing-box-head"><div class="pricing-box-title">Lifetime</div><div class="pricing-chip gold">One-Time</div></div><div class="price">1599 <span>USDT</span></div><div class="price-sub">single payment • no renewal</div><div class="save-line">Highest long-term package</div></div></div>
+            </div>
+            <ul class="feature-list">
+              <li>Everything in Elite</li>
+              <li>Future updates included</li>
+              <li>No monthly renewal</li>
+              <li>Strongest value over time</li>
+            </ul>
+            <div class="included-book-line">All Books Included</div>
+            <div class="card-action-stack single">
+              <button class="price-btn" type="button" data-plan="lifetime" data-billing="lifetime">Choose Lifetime</button>
+            </div>
           </div>
-          <div class="plan-name">Lifetime</div>
-          <div class="plan-desc">For users who want the strongest package and no monthly renewal.</div>
-          <div class="save-pill">Highest value option</div>
-          <div class="price-wrap">
-            <div class="price">399 <span>USDT</span></div>
-            <div class="price-sub">one-time payment</div>
-          </div>
-          <div class="plan-microcopy">Best for serious users who want full package access, future updates, and the cleanest long-term decision.</div>
-          <ul class="feature-list">
-            <li>Everything in Elite</li>
-            <li>Full long-term access</li>
-            <li>Future updates included</li>
-            <li>Strongest value over time</li>
-          </ul>
-          <button class="price-btn" type="button" onclick="handlePlanClick('LIFETIME')">Choose Lifetime</button>
-          <a class="price-link" href="lifetime.html">View Lifetime Details</a>
         </div>
       </div>
 
       <div class="pricing-warning">
         <strong>Important payment rule:</strong> send the exact amount for the selected plan only.
         Wrong amount, wrong network, or wrong plan selection may be automatically rejected.
-        No refunds for incorrect transactions.
       </div>
     </div>
   </section>
 
+  <section id="ebooks">
+    <div class="container">
+      <div class="ebooks-wrap">
+        <div class="section-kicker">Yearly Bonus Books</div>
+        <div class="section-head" style="margin:0 0 18px;text-align:left;max-width:none;">
+          <h2 style="margin-bottom:12px;">Get your yearly bonus e-books.</h2>
+          <p>Basic Yearly includes TCPS-A only. Pro Yearly, Elite Yearly, and Lifetime include both TCPS-A and TCPS-B. Bonus books are delivered to your signup email after confirmation.</p>
+        </div>
 
-  
-  
+        <div class="book-showcase">
+          <div class="book-showcase-title">Get Your Yearly Bonus E-Books!</div>
+          <div class="book-showcase-row">
+            <div class="book-display">
+              <img alt="TCPS-A cover" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 510'><defs><linearGradient id='bgA' x1='0' y1='0' x2='0' y2='1'><stop offset='0%' stop-color='%23131c34'/><stop offset='100%' stop-color='%230d1324'/></linearGradient><linearGradient id='glowA' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%234ec8ff'/><stop offset='100%' stop-color='%23857cff'/></linearGradient><linearGradient id='goldA' x1='0' y1='0' x2='1' y2='0'><stop offset='0%' stop-color='%23f5b31e'/><stop offset='100%' stop-color='%23f58e00'/></linearGradient></defs><rect width='360' height='510' fill='url(%23bgA)'/><rect x='0' y='0' width='52' height='510' fill='%23070d18'/><g opacity='0.14'><path d='M70 450V150M110 450V120M150 450V170M190 450V130M230 450V190M270 450V145M310 450V110' stroke='%23ffffff' stroke-width='1'/><path d='M60 170H320M60 230H320M60 290H320M60 350H320M60 410H320' stroke='%23ffffff' stroke-width='1'/></g><text x='185' y='84' fill='white' font-size='56' font-family='Arial' font-weight='800' text-anchor='middle'>TCPS-A</text><text x='185' y='126' fill='white' font-size='20' font-family='Arial' text-anchor='middle'>Foundations of Smart Trading</text><polyline points='88,350 125,336 162,292 199,304 236,252 273,267 310,212' fill='none' stroke='url(%23glowA)' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/><polygon points='310,212 289,218 300,230' fill='%234ec8ff'/><rect x='52' y='436' width='308' height='74' fill='url(%23goldA)'/><text x='112' y='482' fill='%23151515' font-size='28' font-family='Arial' font-weight='800'>199 USDT</text><text x='28' y='430' transform='rotate(-90 28 430)' fill='white' font-size='12' font-family='Arial' font-weight='700'>TCPS-A FOUNDATION</text></svg>">
+            </div>
+            <div class="book-display">
+              <img alt="TCPS-B cover" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 510'><defs><linearGradient id='bgB' x1='0' y1='0' x2='0' y2='1'><stop offset='0%' stop-color='%23141931'/><stop offset='100%' stop-color='%230b1120'/></linearGradient><linearGradient id='glowB' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%2364d9ff'/><stop offset='100%' stop-color='%23ff8b49'/></linearGradient><linearGradient id='goldB' x1='0' y1='0' x2='1' y2='0'><stop offset='0%' stop-color='%23f5b31e'/><stop offset='100%' stop-color='%23f58e00'/></linearGradient></defs><rect width='360' height='510' fill='url(%23bgB)'/><rect x='0' y='0' width='52' height='510' fill='%23070d18'/><g opacity='0.18'><rect x='88' y='280' width='16' height='70' fill='%2346c8ff'/><rect x='116' y='248' width='16' height='102' fill='%23ffffff'/><rect x='144' y='220' width='16' height='130' fill='%23ff8248'/><rect x='172' y='256' width='16' height='94' fill='%2368d8ff'/><rect x='200' y='196' width='16' height='154' fill='%23ffffff'/><rect x='228' y='236' width='16' height='114' fill='%23ff8b49'/><rect x='256' y='180' width='16' height='170' fill='%2365d9ff'/><rect x='284' y='154' width='16' height='196' fill='%23ffffff'/></g><polyline points='85,336 120,308 155,321 190,272 225,290 260,242 300,218' fill='none' stroke='url(%23glowB)' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/><text x='185' y='84' fill='white' font-size='56' font-family='Arial' font-weight='800' text-anchor='middle'>TCPS-B</text><text x='185' y='126' fill='white' font-size='20' font-family='Arial' text-anchor='middle'>Advanced Market Execution</text><rect x='52' y='436' width='308' height='74' fill='url(%23goldB)'/><text x='112' y='482' fill='%23151515' font-size='28' font-family='Arial' font-weight='800'>299 USDT</text><text x='28' y='428' transform='rotate(-90 28 428)' fill='white' font-size='12' font-family='Arial' font-weight='700'>TCPS-B ADVANCED</text></svg>">
+            </div>
+          </div>
+          <div class="book-showcase-caption">Sign up for a yearly plan and unlock these powerful trading guides!</div>
+        </div>
+
+        <div class="book-grid">
+          <article class="book-card">
+            <div class="book-copy">
+              <h3>TCPS-A</h3>
+              <div class="book-pill">Regular Price 199 USDT</div>
+              <p>Foundation book built for traders who want the core structure, cleaner chart reading, and a stronger entry-level system base.</p>
+              <ul>
+                <li>Included with Basic Yearly</li>
+                <li>Included with Pro Yearly</li>
+                <li>Included with Elite Yearly</li>
+                <li>Included with Lifetime</li>
+                <li>Delivered to your signup email</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="book-card">
+            <div class="book-copy">
+              <h3>TCPS-B</h3>
+              <div class="book-pill">Regular Price 299 USDT</div>
+              <p>Advanced execution book built for traders who want practical market application, deeper timing, and stronger real-trade context.</p>
+              <ul>
+                <li>Included with Pro Yearly</li>
+                <li>Included with Elite Yearly</li>
+                <li>Included with Lifetime</li>
+                <li>Delivered to your signup email</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <div class="book-mini-grid">
+          <div class="book-mini"><strong>Basic Yearly</strong><span>Includes TCPS-A only</span></div>
+          <div class="book-mini"><strong>Pro / Elite Yearly</strong><span>Includes TCPS-A + TCPS-B</span></div>
+          <div class="book-mini"><strong>Lifetime</strong><span>Includes TCPS-A + TCPS-B</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section id="cta">
     <div class="container">
       <div class="panel cta-box">
         <h2>Get access to TCPS Smart Entry AI</h2>
         <p>Clean signals. Less noise. Better execution. Choose your plan and start with the right access path.</p>
-        <a href="#pricing" class="btn-primary" onclick="guardedOpenPricing(event)">Start Now</a>
+        <a href="#pricing" class="btn-primary">Start Now</a>
       </div>
     </div>
   </section>
 
-
-  
-
   <footer class="footer">
     <div class="container footer-inner">
       <div>© 2026 TCPS Liquidity Engine. All rights reserved.</div>
-      <div class="footer-links">
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
-        <a href="#">Support</a>
-      </div>
+      <div>TradingView ID required • Telegram optional • Books sent to signup email after confirmation</div>
     </div>
   </footer>
 
+  <div class="payment-modal" id="paymentModal">
+    <div class="payment-modal-card">
+      <button class="close-modal" type="button" id="closePaymentModal">×</button>
+      <div class="modal-title">Complete Payment</div>
+      <div class="modal-sub">Logged-in users can review the selected payment details here.</div>
+      <div class="modal-summary">
+        <div><div class="modal-block-label">Plan</div><div class="modal-block-value" id="modalPlan">Pro</div></div>
+        <div><div class="modal-block-label">Billing</div><div class="modal-block-value" id="modalBilling">Yearly</div></div>
+        <div><div class="modal-block-label">Amount</div><div class="modal-block-value" id="modalAmount">389.4</div></div>
+        <div><div class="modal-block-label">Bonus</div><div class="modal-block-value" id="modalBonus">TCPS-A + TCPS-B</div></div>
+      </div>
+      <div class="wallet-box">
+        <div class="wallet-label">USDT TRC20 Wallet Address</div>
+        <div class="wallet-address" id="walletAddress">TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ</div>
+        <button class="copy-btn" type="button" id="copyWalletBtn">Copy Wallet Address</button>
+        <div class="modal-note">Send the exact amount only. Wrong amount, wrong network, or wrong plan selection may cause rejection during manual verification.</div>
+      </div>
+      <div class="txid-field">
+        <label for="txidInput">TXID</label>
+        <input id="txidInput" type="text" placeholder="Paste your TXID here">
+      </div>
+      <button class="modal-btn primary" type="button" id="openRegisterFlowBtn" style="width:100%;margin-top:14px;">Open Verification Page</button>
+      <div class="modal-msg" id="paymentMsg"></div>
+      <div class="modal-foot">Final approval is completed after payment verification, and bonus books are delivered to the email used during signup.</div>
+    </div>
+  </div>
 
 <script>
+const SERVER_BASE = "http://34.50.56.156:5000";
+const WALLET_ADDRESS = "TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ";
+const PLAN_CONFIG = {
+  basic: {name:"Basic",monthly:{amountLabel:"29",amountValue:"29",billingLabel:"Monthly",bonus:"No bonus books"},yearly:{amountLabel:"191.4",amountValue:"191.4",billingLabel:"Yearly",bonus:"TCPS-A"}},
+  pro: {name:"Pro",monthly:{amountLabel:"59",amountValue:"59",billingLabel:"Monthly",bonus:"No bonus books"},yearly:{amountLabel:"389.4",amountValue:"389.4",billingLabel:"Yearly",bonus:"TCPS-A + TCPS-B"}},
+  elite: {name:"Elite",monthly:{amountLabel:"119",amountValue:"119",billingLabel:"Monthly",bonus:"No bonus books"},yearly:{amountLabel:"785.4",amountValue:"785.4",billingLabel:"Yearly",bonus:"TCPS-A + TCPS-B"}},
+  lifetime: {name:"Lifetime",lifetime:{amountLabel:"1599",amountValue:"1599",billingLabel:"Lifetime",bonus:"TCPS-A + TCPS-B"}}
+};
+let selectedPlanForModal = null;
+const reviewRows = [
+  [{user:"Jay M.",country:"US",time:"2h ago",source:"Discord",text:"Much cleaner than the overloaded scripts I used before. Fewer bad entries already."},{user:"Leo K.",country:"CA",time:"5h ago",source:"Telegram",text:"Basic felt simple, then Pro made the workflow click. Clear upgrade path."},{user:"Noah T.",country:"UK",time:"8h ago",source:"DM",text:"I like that it forces patience instead of feeding constant noise."},{user:"Aria S.",country:"AU",time:"12h ago",source:"Email",text:"The page actually explains the tiers well. I knew exactly which one I wanted."}],
+  [{user:"Mina R.",country:"KR",time:"1d ago",source:"Telegram",text:"Execution timing feels better because I wait more now. That alone helped."},{user:"Owen P.",country:"US",time:"1d ago",source:"Discord",text:"Elite felt more serious right away. Stronger overall structure than generic indicators."},{user:"Luca D.",country:"IT",time:"2d ago",source:"DM",text:"Less chart clutter. Less hesitation. Better focus."},{user:"Ava C.",country:"NZ",time:"2d ago",source:"Email",text:"The yearly book value made the decision easier for me."}],
+  [{user:"Ethan W.",country:"US",time:"3d ago",source:"Telegram",text:"What sold me was how it positions execution quality, not just more signals."},{user:"Hugo F.",country:"FR",time:"3d ago",source:"Discord",text:"The onboarding felt clear. Register, verify, done."},{user:"Sofia L.",country:"ES",time:"4d ago",source:"DM",text:"Basic was enough to see the logic. Pro is where it became my main route."},{user:"Mia J.",country:"SG",time:"4d ago",source:"Email",text:"The system feels intentionally selective. That is the main difference for me."}]
+];
+function buildReviews(){
+  const wall = document.getElementById("review-wall");
+  if(!wall) return;
+  wall.innerHTML = "";
+  reviewRows.forEach((rowData, idx) => {
+    const row = document.createElement("div");
+    row.className = "review-row " + (idx % 2 === 0 ? "dir-left" : "dir-right");
+    const marquee = document.createElement("div");
+    marquee.className = "review-marquee";
+    rowData.forEach((item) => {
+      const card = document.createElement("div");
+      card.className = "review-card";
+      card.innerHTML = `<div class="review-top"><div><div class="review-user">${item.user}<span class="review-country">${item.country}</span></div><div class="review-source">${item.source}</div></div><div class="review-time">${item.time}</div></div><div class="review-stars">★★★★★</div><div class="review-text">${item.text}</div>`;
+      marquee.appendChild(card);
+    });
+    marquee.innerHTML += marquee.innerHTML;
+    marquee.style.animationDuration = `${30 + idx * 4}s`;
+    row.appendChild(marquee);
+    wall.appendChild(row);
+  });
+}
 function moveSlider(id, direction){
   const track = document.getElementById(id);
   if(!track) return;
@@ -2129,44 +1384,22 @@ function moveSlider(id, direction){
   track.dataset.index = current;
   track.style.transform = `translateX(-${current * 100}%)`;
 }
-
-(function(){
-  const rows = document.querySelectorAll('.review-row');
-  rows.forEach((row, idx) => {
-    const marquee = row.querySelector('.review-marquee');
-    if(!marquee) return;
-    marquee.innerHTML += marquee.innerHTML;
-    marquee.style.animationDuration = `${30 + idx * 4}s`;
-  });
-})();
-
-function goRegister(plan){
-  let url = "http://34.50.56.156:5000/register.html";
-  if(plan){
-    url += "?plan=" + encodeURIComponent(String(plan).toLowerCase());
-  }
+function goRegister(plan, billing){
+  let url = SERVER_BASE + "/register.html";
+  const params = new URLSearchParams();
+  if(plan) params.set("plan", String(plan).toLowerCase());
+  if(billing) params.set("billing", String(billing).toLowerCase());
+  const query = params.toString();
+  if(query) url += "?" + query;
   window.location.href = url;
 }
-
-function goLogin(){
-  window.location.href = "http://34.50.56.156:5000/login.html";
-}
-
-function handlePlanClick(plan){
-  goRegister(plan || "");
-}
-
-function guardedOpenPricing(event){
-  return true;
-}
-
+function goLogin(){ window.location.href = SERVER_BASE + "/login.html"; }
 function applyMemberState(){
   const savedUser = localStorage.getItem("tcps_user_email");
   const memberLabel = document.getElementById("memberLabel");
   const logoutBtn = document.getElementById("logoutBtn");
   const loginBtn = document.getElementById("loginBtn");
   const registerBtn = document.getElementById("registerBtn");
-
   if(savedUser){
     if(memberLabel) memberLabel.innerHTML = `<strong>${savedUser}</strong>`;
     if(logoutBtn) logoutBtn.classList.remove("is-hidden");
@@ -2179,30 +1412,74 @@ function applyMemberState(){
     if(registerBtn) registerBtn.classList.remove("is-hidden");
   }
 }
-
+function logout(){
+  localStorage.removeItem("tcps_user_email");
+  window.location.href = "https://lsgsg0908-png.github.io/tcps-site/";
+}
+function openPaymentModal(plan, billing){
+  const planKey = String(plan).toLowerCase();
+  const billingKey = String(billing).toLowerCase();
+  const config = PLAN_CONFIG[planKey] && PLAN_CONFIG[planKey][billingKey];
+  if(!config) return;
+  selectedPlanForModal = { plan: planKey, billing: billingKey, amount: config.amountValue };
+  document.getElementById("modalPlan").textContent = PLAN_CONFIG[planKey].name;
+  document.getElementById("modalBilling").textContent = config.billingLabel;
+  document.getElementById("modalAmount").textContent = config.amountLabel;
+  document.getElementById("modalBonus").textContent = config.bonus;
+  document.getElementById("walletAddress").textContent = WALLET_ADDRESS;
+  document.getElementById("txidInput").value = "";
+  document.getElementById("paymentMsg").textContent = "";
+  document.getElementById("paymentModal").classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+function closePaymentModal(){
+  document.getElementById("paymentModal").classList.remove("active");
+  document.body.style.overflow = "";
+}
+function handlePlanClick(plan, billing){
+  const savedUser = localStorage.getItem("tcps_user_email");
+  if(savedUser){ openPaymentModal(plan, billing); return; }
+  goRegister(plan, billing);
+}
+function copyWallet(){
+  navigator.clipboard.writeText(WALLET_ADDRESS).then(() => {
+    document.getElementById("paymentMsg").textContent = "Wallet address copied.";
+  }).catch(() => {
+    document.getElementById("paymentMsg").textContent = "Copy failed. Please copy manually.";
+  });
+}
+function openVerificationPage(){
+  if(!selectedPlanForModal) return;
+  const txid = document.getElementById("txidInput").value.trim();
+  const email = localStorage.getItem("tcps_user_email") || "";
+  if(txid) localStorage.setItem("tcps_pending_txid", txid);
+  if(email) localStorage.setItem("tcps_pending_email", email);
+  localStorage.setItem("tcps_pending_plan", JSON.stringify(selectedPlanForModal));
+  goRegister(selectedPlanForModal.plan, selectedPlanForModal.billing);
+}
 (function(){
   const params = new URLSearchParams(window.location.search);
   const fromUrlUser = params.get("user");
-
   if(fromUrlUser){
     localStorage.setItem("tcps_user_email", fromUrlUser);
     const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
     window.history.replaceState({}, "", cleanUrl);
   }
-
-  if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", applyMemberState);
-  }else{
-    applyMemberState();
-  }
+  buildReviews();
+  applyMemberState();
+  document.querySelectorAll("[data-plan]").forEach((button) => {
+    button.addEventListener("click", () => { handlePlanClick(button.dataset.plan, button.dataset.billing); });
+  });
+  const paymentModal = document.getElementById("paymentModal");
+  document.getElementById("copyWalletBtn").addEventListener("click", copyWallet);
+  document.getElementById("openRegisterFlowBtn").addEventListener("click", openVerificationPage);
+  document.getElementById("closePaymentModal").addEventListener("click", closePaymentModal);
+  paymentModal.addEventListener("click", (event) => { if(event.target === paymentModal) closePaymentModal(); });
+  document.getElementById("loginBtn").addEventListener("click", goLogin);
+  document.getElementById("heroLoginBtn").addEventListener("click", goLogin);
+  document.getElementById("registerBtn").addEventListener("click", () => goRegister());
+  document.getElementById("logoutBtn").addEventListener("click", logout);
 })();
-
-function logout(){
-  localStorage.removeItem("tcps_user_email");
-  window.location.href = "https://lsgsg0908-png.github.io/tcps-site/";
-}
-
-fetch("http://34.50.56.156:5000/api/visit", { method: "POST" }).catch(() => {});
 </script>
 
 </body>
