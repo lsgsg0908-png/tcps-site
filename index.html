@@ -709,13 +709,12 @@
     }
     .book-showcase-single img{
       width:100%;
-      max-width:640px;
+      max-width:560px;
       display:block;
-      border-radius:18px;
+      border-radius:16px;
       border:1px solid rgba(255,255,255,.08);
       box-shadow:0 18px 34px rgba(0,0,0,.34);
     }
-
     .book-grid{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -1259,7 +1258,7 @@
 
         <div class="book-showcase">
           <div class="book-showcase-single">
-            <img alt="TCPS yearly bonus books" src="tcps_ebooks_bonus.png">
+            <img alt="TCPS yearly bonus books" src="./tcps_ebooks_bonus.png">
           </div>
           <div class="book-showcase-caption">Sign up for a yearly plan and unlock these powerful trading guides!</div>
         </div>
@@ -1442,10 +1441,10 @@ function openPaymentModal(plan, billing){
   document.getElementById("walletAddress").textContent = WALLET_ADDRESS;
   document.getElementById("txidInput").value = "";
   document.getElementById("paymentMsg").textContent = "";
-  const btn = document.getElementById("confirmPaymentBtn");
-  if(btn){
-    btn.textContent = "Confirm Payment";
-    btn.disabled = false;
+  const confirmBtn = document.getElementById("confirmPaymentBtn");
+  if(confirmBtn){
+    confirmBtn.textContent = "Confirm Payment";
+    confirmBtn.disabled = false;
   }
   document.getElementById("paymentModal").classList.add("active");
   document.body.style.overflow = "hidden";
@@ -1470,39 +1469,42 @@ async function confirmPayment(){
   if(!selectedPlanForModal) return;
   const txid = document.getElementById("txidInput").value.trim();
   const email = localStorage.getItem("tcps_user_email") || "";
-  const btn = document.getElementById("confirmPaymentBtn");
-  const msg = document.getElementById("paymentMsg");
+  const paymentMsg = document.getElementById("paymentMsg");
+  const confirmBtn = document.getElementById("confirmPaymentBtn");
+
   if(!email){
-    msg.textContent = "Please log in first.";
+    paymentMsg.textContent = "Please log in first.";
     return;
   }
   if(!txid){
-    msg.textContent = "Please enter your TXID.";
+    paymentMsg.textContent = "Please enter your TXID.";
     return;
   }
-  btn.disabled = true;
-  msg.textContent = "Saving payment confirmation...";
+
+  confirmBtn.disabled = true;
+  paymentMsg.textContent = "Saving payment confirmation...";
+
   try{
     const response = await fetch(SERVER_BASE + "/api/payment/confirm", {
       method:"POST",
       headers:{ "Content-Type":"application/json" },
       body: JSON.stringify({
-        email,
+        email: email,
         plan: selectedPlanForModal.plan,
         billing: selectedPlanForModal.billing,
         amount: selectedPlanForModal.amount,
-        txid
+        txid: txid
       })
     });
-    const data = await response.json().catch(() => ({}));
+    const data = await response.json();
     if(!response.ok || !data.success){
       throw new Error(data.message || "Payment confirmation failed.");
     }
-    btn.textContent = "Verified";
-    msg.textContent = "Payment confirmed. When verification is complete, the system for your selected plan will be provided.";
+    confirmBtn.textContent = "Verified";
+    paymentMsg.textContent = "Payment confirmed. When verification is complete, the system for your selected plan will be provided.";
   }catch(error){
-    btn.disabled = false;
-    msg.textContent = error.message || "Payment confirmation failed.";
+    confirmBtn.disabled = false;
+    paymentMsg.textContent = error.message || "Payment confirmation failed.";
   }
 }
 (function(){
@@ -1519,22 +1521,14 @@ async function confirmPayment(){
     button.addEventListener("click", () => { handlePlanClick(button.dataset.plan, button.dataset.billing); });
   });
   const paymentModal = document.getElementById("paymentModal");
-  const copyWalletBtn = document.getElementById("copyWalletBtn");
-  const confirmPaymentBtn = document.getElementById("confirmPaymentBtn");
-  const closePaymentModalBtn = document.getElementById("closePaymentModal");
-  const loginBtn = document.getElementById("loginBtn");
-  const heroLoginBtn = document.getElementById("heroLoginBtn");
-  const registerBtn = document.getElementById("registerBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
-
-  if(copyWalletBtn) copyWalletBtn.addEventListener("click", copyWallet);
-  if(confirmPaymentBtn) confirmPaymentBtn.addEventListener("click", confirmPayment);
-  if(closePaymentModalBtn) closePaymentModalBtn.addEventListener("click", closePaymentModal);
-  if(paymentModal) paymentModal.addEventListener("click", (event) => { if(event.target === paymentModal) closePaymentModal(); });
-  if(loginBtn) loginBtn.addEventListener("click", goLogin);
-  if(heroLoginBtn) heroLoginBtn.addEventListener("click", goLogin);
-  if(registerBtn) registerBtn.addEventListener("click", () => goRegister());
-  if(logoutBtn) logoutBtn.addEventListener("click", logout);
+  document.getElementById("copyWalletBtn").addEventListener("click", copyWallet);
+  document.getElementById("confirmPaymentBtn").addEventListener("click", confirmPayment);
+  document.getElementById("closePaymentModal").addEventListener("click", closePaymentModal);
+  paymentModal.addEventListener("click", (event) => { if(event.target === paymentModal) closePaymentModal(); });
+  document.getElementById("loginBtn").addEventListener("click", goLogin);
+  document.getElementById("heroLoginBtn").addEventListener("click", goLogin);
+  document.getElementById("registerBtn").addEventListener("click", () => goRegister());
+  document.getElementById("logoutBtn").addEventListener("click", logout);
 })();
 </script>
 
