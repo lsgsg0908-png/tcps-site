@@ -180,7 +180,7 @@
       gap:14px;
       margin-top:18px;
     }
-    .hero-trust-card,.mini-card,.panel,.card,.pricing-card,.book-card,.payment-modal-card{
+    .hero-trust-card,.mini-card,.panel,.pricing-card,.book-card,.payment-modal-card{
       position:relative;
       border-radius:26px;
       border:1px solid rgba(255,255,255,.08);
@@ -188,7 +188,7 @@
       box-shadow:0 20px 50px rgba(0,0,0,.22);
       overflow:hidden;
     }
-    .panel::before,.card::before,.pricing-card::before,.book-card::before,.payment-modal-card::before{
+    .panel::before,.pricing-card::before,.book-card::before,.payment-modal-card::before{
       content:"";
       position:absolute;
       top:0;left:0;width:100%;height:1px;
@@ -453,11 +453,18 @@
       justify-content:space-between;
       margin-bottom:14px;
     }
+    .plan-top.lifetime{
+      min-height:150px;
+    }
     .plan-label-row{
       display:flex;
       align-items:center;
       gap:8px;
       flex-wrap:wrap;
+      min-height:28px;
+      margin-bottom:10px;
+    }
+    .plan-label-row.lifetime{
       min-height:28px;
       margin-bottom:10px;
     }
@@ -555,7 +562,8 @@
       box-shadow:0 0 10px rgba(53,207,255,.45);
     }
     .included-book-line{
-      min-height:48px;
+      min-height:52px;
+      height:52px;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -576,6 +584,14 @@
       display:grid;
       gap:10px;
       margin-top:auto;
+    }
+    .card-action-stack.single{
+      padding-top:62px;
+    }
+    .price-btn{
+      min-height:54px;
+      height:54px;
+      width:100%;
     }
     .price-btn.secondary-select{
       background:rgba(255,255,255,.03);
@@ -609,120 +625,91 @@
       position:absolute;top:0;left:0;width:100%;height:1px;
       background:linear-gradient(90deg, rgba(67,210,255,0), rgba(67,210,255,.85), rgba(123,97,255,.9), rgba(123,97,255,0));
     }
+    .book-showcase{
+      position:relative;
+      margin-top:22px;
+      padding:24px 20px 18px;
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(circle at 18% 55%, rgba(73,136,255,.14), transparent 24%),
+        radial-gradient(circle at 78% 48%, rgba(255,153,64,.16), transparent 24%),
+        linear-gradient(180deg, rgba(10,14,24,.92), rgba(6,10,18,.98));
+      box-shadow:0 20px 50px rgba(0,0,0,.22);
+      overflow:hidden;
+    }
+    .book-showcase::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size:28px 28px;
+      opacity:.14;
+      pointer-events:none;
+    }
+    .book-showcase-title{
+      text-align:center;
+      font-size:30px;
+      line-height:1.1;
+      letter-spacing:-.8px;
+      margin-bottom:14px;
+      position:relative;
+      z-index:1;
+    }
+    .book-showcase-row{
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      gap:18px;
+      position:relative;
+      z-index:1;
+      margin-bottom:14px;
+      flex-wrap:wrap;
+    }
+    .book-display{
+      width:180px;
+      height:255px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.08);
+      overflow:hidden;
+      box-shadow:0 18px 34px rgba(0,0,0,.34);
+      background:#0d1323;
+      position:relative;
+    }
+    .book-display img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .book-display::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+      pointer-events:none;
+    }
+    .book-showcase-caption{
+      text-align:center;
+      position:relative;
+      z-index:1;
+      color:#d9e3f6;
+      font-size:15px;
+    }
     .book-grid{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:18px;
-      margin-top:28px;
+      margin-top:22px;
       margin-bottom:18px;
     }
     .book-card{
       padding:18px;
       display:grid;
-      grid-template-columns:200px 1fr;
+      grid-template-columns:1fr;
       gap:18px;
       border-radius:24px;
-    }
-    .book-cover{
-      min-height:300px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.08);
-      overflow:hidden;
-      background:
-        radial-gradient(circle at 78% 18%, rgba(134,220,255,.35), transparent 24%),
-        radial-gradient(circle at 24% 82%, rgba(255,170,70,.24), transparent 26%),
-        linear-gradient(180deg,#10192f 0%,#0b1120 100%);
-      position:relative;
-      box-shadow:0 18px 36px rgba(0,0,0,.28);
-    }
-    .book-cover::before{
-      content:"";
-      position:absolute;inset:0;
-      background:
-        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
-      background-size:22px 22px;
-      opacity:.16;
-    }
-    .book-spine{
-      position:absolute;
-      left:0;top:0;bottom:0;width:24px;
-      background:linear-gradient(180deg,#0b1327,#060b16);
-      border-right:1px solid rgba(255,255,255,.08);
-    }
-    .book-spine span{
-      position:absolute;
-      left:50%;
-      top:50%;
-      transform:translate(-50%,-50%) rotate(-90deg);
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:1.3px;
-      color:#d9e7ff;
-      white-space:nowrap;
-    }
-    .book-inner{
-      position:absolute;
-      inset:0 0 0 24px;
-      padding:20px 18px 68px;
-      display:flex;
-      flex-direction:column;
-      justify-content:flex-start;
-    }
-    .book-title{
-      font-size:32px;
-      line-height:1;
-      font-weight:900;
-      letter-spacing:-1px;
-      margin-bottom:8px;
-    }
-    .book-subtitle{
-      font-size:13px;
-      color:#f1f6ff;
-      max-width:120px;
-      line-height:1.45;
-      margin-bottom:18px;
-    }
-    .book-chart{
-      margin-top:auto;
-      height:120px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.03);
-      position:relative;
-      overflow:hidden;
-    }
-    .book-chart::before{
-      content:"";
-      position:absolute;inset:0;
-      background:
-        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
-      background-size:20px 20px;
-      opacity:.32;
-    }
-    .book-chart svg{
-      position:absolute;inset:0;width:100%;height:100%;
-    }
-    .book-price-band{
-      position:absolute;
-      left:24px;right:0;bottom:0;
-      min-height:58px;
-      display:flex;
-      align-items:center;
-      justify-content:flex-start;
-      padding:0 18px;
-      font-size:21px;
-      font-weight:900;
-      letter-spacing:.3px;
-      color:#151515;
-      background:linear-gradient(135deg,#f5b11b,#ea8b00);
-      box-shadow:0 -1px 0 rgba(255,255,255,.08);
-    }
-    .book-price-band small{
-      font-size:14px;
-      margin-left:8px;
-      font-weight:800;
     }
     .book-copy h3{font-size:18px;letter-spacing:.2px;margin-bottom:10px}
     .book-pill{
@@ -760,7 +747,6 @@
     .footer-inner{
       display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:#90a3c4;font-size:13px;
     }
-
     .payment-modal{
       position:fixed;
       inset:0;
@@ -874,7 +860,6 @@
     }
     .modal-msg{min-height:20px;margin-top:12px;text-align:center;color:#8fd6ff;font-size:14px}
     .modal-foot{margin-top:18px;color:#8ea4c7;font-size:13px;line-height:1.7}
-
     @media (max-width:1100px){
       .hero-grid{grid-template-columns:1fr}
       .hero-trust-grid{grid-template-columns:1fr}
@@ -900,10 +885,10 @@
       .member-actions{gap:8px;flex-wrap:wrap;justify-content:flex-end}
       .payment-modal-card{padding:22px}
       .modal-title{font-size:32px}
-      .book-card{grid-template-columns:1fr}
-      .book-cover{min-height:320px}
-      .panel,.card,.slide-card,.pricing-card,.book-card,.payment-modal-card{box-shadow:none}
+      .panel,.slide-card,.pricing-card,.book-card,.payment-modal-card{box-shadow:none}
       .member-btn,.nav-cta,.btn-primary,.price-btn,.modal-btn.primary,.copy-btn{box-shadow:none}
+      .book-showcase-row{gap:12px}
+      .book-display{width:140px;height:198px}
     }
   </style>
 </head>
@@ -1055,41 +1040,11 @@
       <div class="slider-shell">
         <button class="slider-nav left" type="button" onclick="moveSlider('problem-track', -1)">‹</button>
         <div class="slider-track" id="problem-track">
-          <div class="slide-card">
-            <div class="slide-tag">Overtrading</div>
-            <h3>More trades do not mean better results.</h3>
-            <p>Most traders enter too often, reacting to every move instead of waiting for structure.</p>
-            <p>Activity feels productive for a moment, but it slowly destroys consistency.</p>
-            <p class="slide-highlight">The problem is not effort. It is unnecessary execution.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Fake Signals</div>
-            <h3>Not every move deserves a trade.</h3>
-            <p>Breakouts without confirmation and reactions to noise create a pattern of weak entries.</p>
-            <p>What looks like opportunity is often just market randomness.</p>
-            <p class="slide-highlight">Without filtering, everything starts to look tradable.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Timing</div>
-            <h3>Good ideas fail with bad timing.</h3>
-            <p>Even when the direction is right, entering too early or too late breaks the execution.</p>
-            <p>Timing is where many trades fail, not the original idea.</p>
-            <p class="slide-highlight">Being right is not enough. Entry defines the outcome.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Emotion</div>
-            <h3>Execution breaks under pressure.</h3>
-            <p>Hesitation, fear of missing out, and impulsive clicks override planned setups.</p>
-            <p>Most mistakes happen after the idea, not before it.</p>
-            <p class="slide-highlight">Discipline fails when the process is unclear.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Noise</div>
-            <h3>Too much information creates worse decisions.</h3>
-            <p>Charts filled with signals, conflicting tools, and clutter lead to hesitation.</p>
-            <p>More data does not always create clarity.</p>
-            <p class="slide-highlight">Clarity comes from removing, not adding.</p>
-          </div>
+          <div class="slide-card"><div class="slide-tag">Overtrading</div><h3>More trades do not mean better results.</h3><p>Most traders enter too often, reacting to every move instead of waiting for structure.</p><p>Activity feels productive for a moment, but it slowly destroys consistency.</p><p class="slide-highlight">The problem is not effort. It is unnecessary execution.</p></div>
+          <div class="slide-card"><div class="slide-tag">Fake Signals</div><h3>Not every move deserves a trade.</h3><p>Breakouts without confirmation and reactions to noise create a pattern of weak entries.</p><p>What looks like opportunity is often just market randomness.</p><p class="slide-highlight">Without filtering, everything starts to look tradable.</p></div>
+          <div class="slide-card"><div class="slide-tag">Timing</div><h3>Good ideas fail with bad timing.</h3><p>Even when the direction is right, entering too early or too late breaks the execution.</p><p>Timing is where many trades fail, not the original idea.</p><p class="slide-highlight">Being right is not enough. Entry defines the outcome.</p></div>
+          <div class="slide-card"><div class="slide-tag">Emotion</div><h3>Execution breaks under pressure.</h3><p>Hesitation, fear of missing out, and impulsive clicks override planned setups.</p><p>Most mistakes happen after the idea, not before it.</p><p class="slide-highlight">Discipline fails when the process is unclear.</p></div>
+          <div class="slide-card"><div class="slide-tag">Noise</div><h3>Too much information creates worse decisions.</h3><p>Charts filled with signals, conflicting tools, and clutter lead to hesitation.</p><p>More data does not always create clarity.</p><p class="slide-highlight">Clarity comes from removing, not adding.</p></div>
         </div>
         <button class="slider-nav right" type="button" onclick="moveSlider('problem-track', 1)">›</button>
       </div>
@@ -1107,34 +1062,10 @@
       <div class="slider-shell">
         <button class="slider-nav left" type="button" onclick="moveSlider('solution-track', -1)">‹</button>
         <div class="slider-track" id="solution-track">
-          <div class="slide-card">
-            <div class="slide-tag">Selective Execution</div>
-            <h3>Less trades. Better decisions.</h3>
-            <p>The engine does not aim to increase activity. It removes unnecessary entries first.</p>
-            <p>Only moments where structure and timing align are allowed forward.</p>
-            <p class="slide-highlight">Execution becomes selective, not reactive.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Signal Filtering</div>
-            <h3>Not every move becomes a signal.</h3>
-            <p>Weak breakouts and unconfirmed movement are filtered out before reaching execution.</p>
-            <p>Only cleaner setups pass through the system.</p>
-            <p class="slide-highlight">Noise is reduced before it becomes a decision.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Timing Control</div>
-            <h3>Timing is filtered, not guessed.</h3>
-            <p>The engine focuses on windows where confirmation begins to appear.</p>
-            <p>This reduces early entries and late reactions that damage consistency.</p>
-            <p class="slide-highlight">Better timing improves execution quality.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Cleaner Workflow</div>
-            <h3>Simplicity supports discipline.</h3>
-            <p>A simpler workflow makes it easier to trust the process and repeat it consistently.</p>
-            <p>Confidence improves when the chart looks clearer and the decision path feels tighter.</p>
-            <p class="slide-highlight">A cleaner system supports a cleaner mindset.</p>
-          </div>
+          <div class="slide-card"><div class="slide-tag">Selective Execution</div><h3>Less trades. Better decisions.</h3><p>The engine does not aim to increase activity. It removes unnecessary entries first.</p><p>Only moments where structure and timing align are allowed forward.</p><p class="slide-highlight">Execution becomes selective, not reactive.</p></div>
+          <div class="slide-card"><div class="slide-tag">Signal Filtering</div><h3>Not every move becomes a signal.</h3><p>Weak breakouts and unconfirmed movement are filtered out before reaching execution.</p><p>Only cleaner setups pass through the system.</p><p class="slide-highlight">Noise is reduced before it becomes a decision.</p></div>
+          <div class="slide-card"><div class="slide-tag">Timing Control</div><h3>Timing is filtered, not guessed.</h3><p>The engine focuses on windows where confirmation begins to appear.</p><p>This reduces early entries and late reactions that damage consistency.</p><p class="slide-highlight">Better timing improves execution quality.</p></div>
+          <div class="slide-card"><div class="slide-tag">Cleaner Workflow</div><h3>Simplicity supports discipline.</h3><p>A simpler workflow makes it easier to trust the process and repeat it consistently.</p><p>Confidence improves when the chart looks clearer and the decision path feels tighter.</p><p class="slide-highlight">A cleaner system supports a cleaner mindset.</p></div>
         </div>
         <button class="slider-nav right" type="button" onclick="moveSlider('solution-track', 1)">›</button>
       </div>
@@ -1152,30 +1083,10 @@
       <div class="slider-shell">
         <button class="slider-nav left" type="button" onclick="moveSlider('engine-track', -1)">‹</button>
         <div class="slider-track" id="engine-track">
-          <div class="slide-card">
-            <div class="slide-tag">Basic</div>
-            <h3>Foundation before aggression.</h3>
-            <p>Basic is for traders who want the first clean version of the workflow without jumping straight into the deeper structure.</p>
-            <p class="slide-highlight">It is the easiest way to start without feeling overwhelmed.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Pro</div>
-            <h3>The main product for most users.</h3>
-            <p>Pro is the core route for active traders who want stronger execution workflow and clearer structure than the starter tier.</p>
-            <p class="slide-highlight">This is the main conversion path.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Elite</div>
-            <h3>More depth for stronger execution.</h3>
-            <p>Elite is positioned for users who already know they want more than the main route and value a deeper tier.</p>
-            <p class="slide-highlight">Higher intensity, higher conviction.</p>
-          </div>
-          <div class="slide-card">
-            <div class="slide-tag">Lifetime</div>
-            <h3>The strongest long-term package.</h3>
-            <p>Lifetime removes monthly renewal and packages the cleanest long-term decision for users who want the full route.</p>
-            <p class="slide-highlight">Best long-term value, all books included.</p>
-          </div>
+          <div class="slide-card"><div class="slide-tag">Basic</div><h3>Foundation before aggression.</h3><p>Basic is for traders who want the first clean version of the workflow without jumping straight into the deeper structure.</p><p class="slide-highlight">It is the easiest way to start without feeling overwhelmed.</p></div>
+          <div class="slide-card"><div class="slide-tag">Pro</div><h3>The main product for most users.</h3><p>Pro is the core route for active traders who want stronger execution workflow and clearer structure than the starter tier.</p><p class="slide-highlight">This is the main conversion path.</p></div>
+          <div class="slide-card"><div class="slide-tag">Elite</div><h3>More depth for stronger execution.</h3><p>Elite is positioned for users who already know they want more than the main route and value a deeper tier.</p><p class="slide-highlight">Higher intensity, higher conviction.</p></div>
+          <div class="slide-card"><div class="slide-tag">Lifetime</div><h3>The strongest long-term package.</h3><p>Lifetime removes monthly renewal and packages the cleanest long-term decision for users who want the full route.</p><p class="slide-highlight">Best long-term value, all books included.</p></div>
         </div>
         <button class="slider-nav right" type="button" onclick="moveSlider('engine-track', 1)">›</button>
       </div>
@@ -1218,49 +1129,20 @@
         <div class="pricing-card">
           <div class="plan-shell">
             <div class="plan-top">
-              <div class="plan-label-row">
-                <div class="mini-plan-tag">Starter Tier</div>
-              </div>
-              <div>
-                <div class="plan-name">Basic</div>
-                <div class="plan-desc">Entry-level access for traders who want the foundation first.</div>
-              </div>
+              <div class="plan-label-row"><div class="mini-plan-tag">Starter Tier</div></div>
+              <div><div class="plan-name">Basic</div><div class="plan-desc">Entry-level access for traders who want the foundation first.</div></div>
             </div>
-
             <div class="pricing-box-stack">
-              <div class="pricing-box">
-                <div>
-                  <div class="pricing-box-head">
-                    <div class="pricing-box-title">Monthly</div>
-                    <div class="pricing-chip">Fast start</div>
-                  </div>
-                  <div class="price">29 <span>USDT</span></div>
-                  <div class="price-sub">per month</div>
-                </div>
-              </div>
-
-              <div class="pricing-box">
-                <div>
-                  <div class="pricing-box-head">
-                    <div class="pricing-box-title">Yearly</div>
-                    <div class="pricing-chip gold">45% OFF</div>
-                  </div>
-                  <div class="price">191.4 <span>USDT</span></div>
-                  <div class="price-sub">12 months billed once</div>
-                  <div class="save-line">Monthly total 348 → yearly 191.4</div>
-                </div>
-              </div>
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Monthly</div><div class="pricing-chip">Fast start</div></div><div class="price">29 <span>USDT</span></div><div class="price-sub">per month</div></div></div>
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Yearly</div><div class="pricing-chip gold">45% OFF</div></div><div class="price">191.4 <span>USDT</span></div><div class="price-sub">12 months billed once</div><div class="save-line">Monthly total 348 → yearly 191.4</div></div></div>
             </div>
-
             <ul class="feature-list">
               <li>Core chart logic access</li>
               <li>Wave structure foundation</li>
               <li>Simple starter workflow</li>
               <li>Best entry point for first-time users</li>
             </ul>
-
             <div class="included-book-line">TCPS-A Book Included</div>
-
             <div class="card-action-stack">
               <button class="price-btn" type="button" data-plan="basic" data-billing="monthly">Choose Basic Monthly</button>
               <button class="price-btn secondary-select" type="button" data-plan="basic" data-billing="yearly">Choose Basic Yearly</button>
@@ -1272,50 +1154,20 @@
           <div class="tag">Most Popular</div>
           <div class="plan-shell">
             <div class="plan-top">
-              <div class="plan-label-row">
-                <div class="mini-plan-tag">Main Product</div>
-                <div class="mini-plan-tag">Best balance</div>
-              </div>
-              <div>
-                <div class="plan-name">Pro</div>
-                <div class="plan-desc">The main TCPS workflow for users who want the real signal-focused product.</div>
-              </div>
+              <div class="plan-label-row"><div class="mini-plan-tag">Main Product</div></div>
+              <div><div class="plan-name">Pro</div><div class="plan-desc">The main TCPS workflow for users who want the real signal-focused product.</div></div>
             </div>
-
             <div class="pricing-box-stack">
-              <div class="pricing-box">
-                <div>
-                  <div class="pricing-box-head">
-                    <div class="pricing-box-title">Monthly</div>
-                    <div class="pricing-chip">Main flow</div>
-                  </div>
-                  <div class="price">59 <span>USDT</span></div>
-                  <div class="price-sub">per month</div>
-                </div>
-              </div>
-
-              <div class="pricing-box">
-                <div>
-                  <div class="pricing-box-head">
-                    <div class="pricing-box-title">Yearly</div>
-                    <div class="pricing-chip gold">45% OFF</div>
-                  </div>
-                  <div class="price">389.4 <span>USDT</span></div>
-                  <div class="price-sub">12 months billed once</div>
-                  <div class="save-line">Monthly total 708 → yearly 389.4</div>
-                </div>
-              </div>
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Monthly</div><div class="pricing-chip">Main flow</div></div><div class="price">59 <span>USDT</span></div><div class="price-sub">per month</div></div></div>
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Yearly</div><div class="pricing-chip gold">45% OFF</div></div><div class="price">389.4 <span>USDT</span></div><div class="price-sub">12 months billed once</div><div class="save-line">Monthly total 708 → yearly 389.4</div></div></div>
             </div>
-
             <ul class="feature-list">
               <li>Everything in Basic</li>
               <li>Liquidity engine core workflow</li>
               <li>Priority execution structure</li>
               <li>Best overall fit for active traders</li>
             </ul>
-
             <div class="included-book-line">All Books Included</div>
-
             <div class="card-action-stack">
               <button class="price-btn" type="button" data-plan="pro" data-billing="monthly">Choose Pro Monthly</button>
               <button class="price-btn secondary-select" type="button" data-plan="pro" data-billing="yearly">Choose Pro Yearly</button>
@@ -1326,49 +1178,20 @@
         <div class="pricing-card">
           <div class="plan-shell">
             <div class="plan-top">
-              <div class="plan-label-row">
-                <div class="mini-plan-tag">Advanced Tier</div>
-              </div>
-              <div>
-                <div class="plan-name">Elite</div>
-                <div class="plan-desc">For users who want stronger execution depth and a higher support tier.</div>
-              </div>
+              <div class="plan-label-row"><div class="mini-plan-tag">Advanced Tier</div></div>
+              <div><div class="plan-name">Elite</div><div class="plan-desc">For users who want stronger execution depth and a higher support tier.</div></div>
             </div>
-
             <div class="pricing-box-stack">
-              <div class="pricing-box">
-                <div>
-                  <div class="pricing-box-head">
-                    <div class="pricing-box-title">Monthly</div>
-                    <div class="pricing-chip">Advanced</div>
-                  </div>
-                  <div class="price">119 <span>USDT</span></div>
-                  <div class="price-sub">per month</div>
-                </div>
-              </div>
-
-              <div class="pricing-box">
-                <div>
-                  <div class="pricing-box-head">
-                    <div class="pricing-box-title">Yearly</div>
-                    <div class="pricing-chip gold">45% OFF</div>
-                  </div>
-                  <div class="price">785.4 <span>USDT</span></div>
-                  <div class="price-sub">12 months billed once</div>
-                  <div class="save-line">Monthly total 1428 → yearly 785.4</div>
-                </div>
-              </div>
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Monthly</div><div class="pricing-chip">Advanced</div></div><div class="price">119 <span>USDT</span></div><div class="price-sub">per month</div></div></div>
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Yearly</div><div class="pricing-chip gold">45% OFF</div></div><div class="price">785.4 <span>USDT</span></div><div class="price-sub">12 months billed once</div><div class="save-line">Monthly total 1428 → yearly 785.4</div></div></div>
             </div>
-
             <ul class="feature-list">
               <li>Everything in Pro</li>
               <li>Advanced signal workflow</li>
               <li>Extended execution support</li>
               <li>Higher-tier access path</li>
             </ul>
-
             <div class="included-book-line">All Books Included</div>
-
             <div class="card-action-stack">
               <button class="price-btn" type="button" data-plan="elite" data-billing="monthly">Choose Elite Monthly</button>
               <button class="price-btn secondary-select" type="button" data-plan="elite" data-billing="yearly">Choose Elite Yearly</button>
@@ -1378,41 +1201,21 @@
 
         <div class="pricing-card">
           <div class="plan-shell">
-            <div class="plan-top">
-              <div class="plan-label-row">
-                <div class="mini-plan-tag">One-Time Access</div>
-                <div class="mini-plan-tag">Best long-term value</div>
-              </div>
-              <div>
-                <div class="plan-name">Lifetime</div>
-                <div class="plan-desc">For users who want the strongest package and no monthly renewal.</div>
-              </div>
+            <div class="plan-top lifetime">
+              <div class="plan-label-row lifetime"></div>
+              <div><div class="plan-name">Lifetime</div><div class="plan-desc">For users who want the strongest package and no monthly renewal.</div></div>
             </div>
-
             <div class="pricing-box-stack">
-              <div class="pricing-box single">
-                <div>
-                  <div class="pricing-box-head">
-                    <div class="pricing-box-title">Lifetime</div>
-                    <div class="pricing-chip gold">One-Time</div>
-                  </div>
-                  <div class="price">1599 <span>USDT</span></div>
-                  <div class="price-sub">single payment • no renewal</div>
-                  <div class="save-line">Highest long-term package</div>
-                </div>
-              </div>
+              <div class="pricing-box single"><div><div class="pricing-box-head"><div class="pricing-box-title">Lifetime</div><div class="pricing-chip gold">One-Time</div></div><div class="price">1599 <span>USDT</span></div><div class="price-sub">single payment • no renewal</div><div class="save-line">Highest long-term package</div></div></div>
             </div>
-
             <ul class="feature-list">
               <li>Everything in Elite</li>
               <li>Future updates included</li>
               <li>No monthly renewal</li>
               <li>Strongest value over time</li>
             </ul>
-
             <div class="included-book-line">All Books Included</div>
-
-            <div class="card-action-stack">
+            <div class="card-action-stack single">
               <button class="price-btn" type="button" data-plan="lifetime" data-billing="lifetime">Choose Lifetime</button>
             </div>
           </div>
@@ -1435,22 +1238,21 @@
           <p>Basic Yearly includes TCPS-A only. Pro Yearly, Elite Yearly, and Lifetime include both TCPS-A and TCPS-B. Bonus books are delivered to your signup email after confirmation.</p>
         </div>
 
+        <div class="book-showcase">
+          <div class="book-showcase-title">Get Your Yearly Bonus E-Books!</div>
+          <div class="book-showcase-row">
+            <div class="book-display">
+              <img alt="TCPS-A cover" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 510'><defs><linearGradient id='bgA' x1='0' y1='0' x2='0' y2='1'><stop offset='0%' stop-color='%23131c34'/><stop offset='100%' stop-color='%230d1324'/></linearGradient><linearGradient id='glowA' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%234ec8ff'/><stop offset='100%' stop-color='%23857cff'/></linearGradient><linearGradient id='goldA' x1='0' y1='0' x2='1' y2='0'><stop offset='0%' stop-color='%23f5b31e'/><stop offset='100%' stop-color='%23f58e00'/></linearGradient></defs><rect width='360' height='510' fill='url(%23bgA)'/><rect x='0' y='0' width='52' height='510' fill='%23070d18'/><g opacity='0.14'><path d='M70 450V150M110 450V120M150 450V170M190 450V130M230 450V190M270 450V145M310 450V110' stroke='%23ffffff' stroke-width='1'/><path d='M60 170H320M60 230H320M60 290H320M60 350H320M60 410H320' stroke='%23ffffff' stroke-width='1'/></g><text x='185' y='84' fill='white' font-size='56' font-family='Arial' font-weight='800' text-anchor='middle'>TCPS-A</text><text x='185' y='126' fill='white' font-size='20' font-family='Arial' text-anchor='middle'>Foundations of Smart Trading</text><polyline points='88,350 125,336 162,292 199,304 236,252 273,267 310,212' fill='none' stroke='url(%23glowA)' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/><polygon points='310,212 289,218 300,230' fill='%234ec8ff'/><rect x='52' y='436' width='308' height='74' fill='url(%23goldA)'/><text x='112' y='482' fill='%23151515' font-size='28' font-family='Arial' font-weight='800'>199 USDT</text><text x='28' y='430' transform='rotate(-90 28 430)' fill='white' font-size='12' font-family='Arial' font-weight='700'>TCPS-A FOUNDATION</text></svg>">
+            </div>
+            <div class="book-display">
+              <img alt="TCPS-B cover" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 510'><defs><linearGradient id='bgB' x1='0' y1='0' x2='0' y2='1'><stop offset='0%' stop-color='%23141931'/><stop offset='100%' stop-color='%230b1120'/></linearGradient><linearGradient id='glowB' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%2364d9ff'/><stop offset='100%' stop-color='%23ff8b49'/></linearGradient><linearGradient id='goldB' x1='0' y1='0' x2='1' y2='0'><stop offset='0%' stop-color='%23f5b31e'/><stop offset='100%' stop-color='%23f58e00'/></linearGradient></defs><rect width='360' height='510' fill='url(%23bgB)'/><rect x='0' y='0' width='52' height='510' fill='%23070d18'/><g opacity='0.18'><rect x='88' y='280' width='16' height='70' fill='%2346c8ff'/><rect x='116' y='248' width='16' height='102' fill='%23ffffff'/><rect x='144' y='220' width='16' height='130' fill='%23ff8248'/><rect x='172' y='256' width='16' height='94' fill='%2368d8ff'/><rect x='200' y='196' width='16' height='154' fill='%23ffffff'/><rect x='228' y='236' width='16' height='114' fill='%23ff8b49'/><rect x='256' y='180' width='16' height='170' fill='%2365d9ff'/><rect x='284' y='154' width='16' height='196' fill='%23ffffff'/></g><polyline points='85,336 120,308 155,321 190,272 225,290 260,242 300,218' fill='none' stroke='url(%23glowB)' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/><text x='185' y='84' fill='white' font-size='56' font-family='Arial' font-weight='800' text-anchor='middle'>TCPS-B</text><text x='185' y='126' fill='white' font-size='20' font-family='Arial' text-anchor='middle'>Advanced Market Execution</text><rect x='52' y='436' width='308' height='74' fill='url(%23goldB)'/><text x='112' y='482' fill='%23151515' font-size='28' font-family='Arial' font-weight='800'>299 USDT</text><text x='28' y='428' transform='rotate(-90 28 428)' fill='white' font-size='12' font-family='Arial' font-weight='700'>TCPS-B ADVANCED</text></svg>">
+            </div>
+          </div>
+          <div class="book-showcase-caption">Sign up for a yearly plan and unlock these powerful trading guides!</div>
+        </div>
+
         <div class="book-grid">
           <article class="book-card">
-            <div class="book-cover">
-              <div class="book-spine"><span>TCPS-A FOUNDATION</span></div>
-              <div class="book-inner">
-                <div class="book-title">TCPS-A</div>
-                <div class="book-subtitle">Foundations of Smart Trading</div>
-                <div class="book-chart">
-                  <svg viewBox="0 0 200 120" preserveAspectRatio="none">
-                    <polyline points="10,94 36,90 62,78 88,82 114,64 140,68 166,52 190,46" fill="none" stroke="rgba(124,214,255,.95)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                    <polyline points="10,96 36,94 62,82 88,86 114,68 140,72 166,56 190,50" fill="rgba(92,198,255,.16)" stroke="none"/>
-                  </svg>
-                </div>
-              </div>
-              <div class="book-price-band">199 <small>USDT</small></div>
-            </div>
             <div class="book-copy">
               <h3>TCPS-A</h3>
               <div class="book-pill">Regular Price 199 USDT</div>
@@ -1466,20 +1268,6 @@
           </article>
 
           <article class="book-card">
-            <div class="book-cover">
-              <div class="book-spine"><span>TCPS-B ADVANCED</span></div>
-              <div class="book-inner">
-                <div class="book-title">TCPS-B</div>
-                <div class="book-subtitle">Advanced Market Execution</div>
-                <div class="book-chart">
-                  <svg viewBox="0 0 200 120" preserveAspectRatio="none">
-                    <polyline points="10,92 30,84 50,88 70,74 90,60 110,68 130,52 150,58 170,38 190,28" fill="none" stroke="rgba(255,173,98,.96)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                    <polyline points="10,95 30,87 50,91 70,77 90,63 110,71 130,55 150,61 170,41 190,31" fill="rgba(255,173,98,.14)" stroke="none"/>
-                  </svg>
-                </div>
-              </div>
-              <div class="book-price-band">299 <small>USDT</small></div>
-            </div>
             <div class="book-copy">
               <h3>TCPS-B</h3>
               <div class="book-pill">Regular Price 299 USDT</div>
@@ -1495,18 +1283,9 @@
         </div>
 
         <div class="book-mini-grid">
-          <div class="book-mini">
-            <strong>Basic Yearly</strong>
-            <span>Includes TCPS-A only</span>
-          </div>
-          <div class="book-mini">
-            <strong>Pro / Elite Yearly</strong>
-            <span>Includes TCPS-A + TCPS-B</span>
-          </div>
-          <div class="book-mini">
-            <strong>Lifetime</strong>
-            <span>Includes TCPS-A + TCPS-B</span>
-          </div>
+          <div class="book-mini"><strong>Basic Yearly</strong><span>Includes TCPS-A only</span></div>
+          <div class="book-mini"><strong>Pro / Elite Yearly</strong><span>Includes TCPS-A + TCPS-B</span></div>
+          <div class="book-mini"><strong>Lifetime</strong><span>Includes TCPS-A + TCPS-B</span></div>
         </div>
       </div>
     </div>
@@ -1534,98 +1313,43 @@
       <button class="close-modal" type="button" id="closePaymentModal">×</button>
       <div class="modal-title">Complete Payment</div>
       <div class="modal-sub">Logged-in users can review the selected payment details here.</div>
-
       <div class="modal-summary">
-        <div>
-          <div class="modal-block-label">Plan</div>
-          <div class="modal-block-value" id="modalPlan">Pro</div>
-        </div>
-        <div>
-          <div class="modal-block-label">Billing</div>
-          <div class="modal-block-value" id="modalBilling">Yearly</div>
-        </div>
-        <div>
-          <div class="modal-block-label">Amount</div>
-          <div class="modal-block-value" id="modalAmount">389.4</div>
-        </div>
-        <div>
-          <div class="modal-block-label">Bonus</div>
-          <div class="modal-block-value" id="modalBonus">TCPS-A + TCPS-B</div>
-        </div>
+        <div><div class="modal-block-label">Plan</div><div class="modal-block-value" id="modalPlan">Pro</div></div>
+        <div><div class="modal-block-label">Billing</div><div class="modal-block-value" id="modalBilling">Yearly</div></div>
+        <div><div class="modal-block-label">Amount</div><div class="modal-block-value" id="modalAmount">389.4</div></div>
+        <div><div class="modal-block-label">Bonus</div><div class="modal-block-value" id="modalBonus">TCPS-A + TCPS-B</div></div>
       </div>
-
       <div class="wallet-box">
         <div class="wallet-label">USDT TRC20 Wallet Address</div>
         <div class="wallet-address" id="walletAddress">TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ</div>
         <button class="copy-btn" type="button" id="copyWalletBtn">Copy Wallet Address</button>
-        <div class="modal-note">
-          Send the exact amount only. Wrong amount, wrong network, or wrong plan selection may cause rejection during manual verification.
-        </div>
+        <div class="modal-note">Send the exact amount only. Wrong amount, wrong network, or wrong plan selection may cause rejection during manual verification.</div>
       </div>
-
       <div class="txid-field">
         <label for="txidInput">TXID</label>
         <input id="txidInput" type="text" placeholder="Paste your TXID here">
       </div>
-
       <button class="modal-btn primary" type="button" id="openRegisterFlowBtn" style="width:100%;margin-top:14px;">Open Verification Page</button>
       <div class="modal-msg" id="paymentMsg"></div>
-
-      <div class="modal-foot">
-        Final approval is completed after payment verification, and bonus books are delivered to the email used during signup.
-      </div>
+      <div class="modal-foot">Final approval is completed after payment verification, and bonus books are delivered to the email used during signup.</div>
     </div>
   </div>
 
 <script>
 const SERVER_BASE = "http://34.50.56.156:5000";
 const WALLET_ADDRESS = "TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ";
-
 const PLAN_CONFIG = {
-  basic: {
-    name: "Basic",
-    monthly: { amountLabel: "29", amountValue: "29", billingLabel: "Monthly", bonus: "No bonus books" },
-    yearly: { amountLabel: "191.4", amountValue: "191.4", billingLabel: "Yearly", bonus: "TCPS-A" }
-  },
-  pro: {
-    name: "Pro",
-    monthly: { amountLabel: "59", amountValue: "59", billingLabel: "Monthly", bonus: "No bonus books" },
-    yearly: { amountLabel: "389.4", amountValue: "389.4", billingLabel: "Yearly", bonus: "TCPS-A + TCPS-B" }
-  },
-  elite: {
-    name: "Elite",
-    monthly: { amountLabel: "119", amountValue: "119", billingLabel: "Monthly", bonus: "No bonus books" },
-    yearly: { amountLabel: "785.4", amountValue: "785.4", billingLabel: "Yearly", bonus: "TCPS-A + TCPS-B" }
-  },
-  lifetime: {
-    name: "Lifetime",
-    lifetime: { amountLabel: "1599", amountValue: "1599", billingLabel: "Lifetime", bonus: "TCPS-A + TCPS-B" }
-  }
+  basic: {name:"Basic",monthly:{amountLabel:"29",amountValue:"29",billingLabel:"Monthly",bonus:"No bonus books"},yearly:{amountLabel:"191.4",amountValue:"191.4",billingLabel:"Yearly",bonus:"TCPS-A"}},
+  pro: {name:"Pro",monthly:{amountLabel:"59",amountValue:"59",billingLabel:"Monthly",bonus:"No bonus books"},yearly:{amountLabel:"389.4",amountValue:"389.4",billingLabel:"Yearly",bonus:"TCPS-A + TCPS-B"}},
+  elite: {name:"Elite",monthly:{amountLabel:"119",amountValue:"119",billingLabel:"Monthly",bonus:"No bonus books"},yearly:{amountLabel:"785.4",amountValue:"785.4",billingLabel:"Yearly",bonus:"TCPS-A + TCPS-B"}},
+  lifetime: {name:"Lifetime",lifetime:{amountLabel:"1599",amountValue:"1599",billingLabel:"Lifetime",bonus:"TCPS-A + TCPS-B"}}
 };
-
 let selectedPlanForModal = null;
-
 const reviewRows = [
-  [
-    { user:"Jay M.", country:"US", time:"2h ago", source:"Discord", text:"Much cleaner than the overloaded scripts I used before. Fewer bad entries already." },
-    { user:"Leo K.", country:"CA", time:"5h ago", source:"Telegram", text:"Basic felt simple, then Pro made the workflow click. Clear upgrade path." },
-    { user:"Noah T.", country:"UK", time:"8h ago", source:"DM", text:"I like that it forces patience instead of feeding constant noise." },
-    { user:"Aria S.", country:"AU", time:"12h ago", source:"Email", text:"The page actually explains the tiers well. I knew exactly which one I wanted." }
-  ],
-  [
-    { user:"Mina R.", country:"KR", time:"1d ago", source:"Telegram", text:"Execution timing feels better because I wait more now. That alone helped." },
-    { user:"Owen P.", country:"US", time:"1d ago", source:"Discord", text:"Elite felt more serious right away. Stronger overall structure than generic indicators." },
-    { user:"Luca D.", country:"IT", time:"2d ago", source:"DM", text:"Less chart clutter. Less hesitation. Better focus." },
-    { user:"Ava C.", country:"NZ", time:"2d ago", source:"Email", text:"The yearly book value made the decision easier for me." }
-  ],
-  [
-    { user:"Ethan W.", country:"US", time:"3d ago", source:"Telegram", text:"What sold me was how it positions execution quality, not just more signals." },
-    { user:"Hugo F.", country:"FR", time:"3d ago", source:"Discord", text:"The onboarding felt clear. Register, verify, done." },
-    { user:"Sofia L.", country:"ES", time:"4d ago", source:"DM", text:"Basic was enough to see the logic. Pro is where it became my main route." },
-    { user:"Mia J.", country:"SG", time:"4d ago", source:"Email", text:"The system feels intentionally selective. That is the main difference for me." }
-  ]
+  [{user:"Jay M.",country:"US",time:"2h ago",source:"Discord",text:"Much cleaner than the overloaded scripts I used before. Fewer bad entries already."},{user:"Leo K.",country:"CA",time:"5h ago",source:"Telegram",text:"Basic felt simple, then Pro made the workflow click. Clear upgrade path."},{user:"Noah T.",country:"UK",time:"8h ago",source:"DM",text:"I like that it forces patience instead of feeding constant noise."},{user:"Aria S.",country:"AU",time:"12h ago",source:"Email",text:"The page actually explains the tiers well. I knew exactly which one I wanted."}],
+  [{user:"Mina R.",country:"KR",time:"1d ago",source:"Telegram",text:"Execution timing feels better because I wait more now. That alone helped."},{user:"Owen P.",country:"US",time:"1d ago",source:"Discord",text:"Elite felt more serious right away. Stronger overall structure than generic indicators."},{user:"Luca D.",country:"IT",time:"2d ago",source:"DM",text:"Less chart clutter. Less hesitation. Better focus."},{user:"Ava C.",country:"NZ",time:"2d ago",source:"Email",text:"The yearly book value made the decision easier for me."}],
+  [{user:"Ethan W.",country:"US",time:"3d ago",source:"Telegram",text:"What sold me was how it positions execution quality, not just more signals."},{user:"Hugo F.",country:"FR",time:"3d ago",source:"Discord",text:"The onboarding felt clear. Register, verify, done."},{user:"Sofia L.",country:"ES",time:"4d ago",source:"DM",text:"Basic was enough to see the logic. Pro is where it became my main route."},{user:"Mia J.",country:"SG",time:"4d ago",source:"Email",text:"The system feels intentionally selective. That is the main difference for me."}]
 ];
-
 function buildReviews(){
   const wall = document.getElementById("review-wall");
   if(!wall) return;
@@ -1633,34 +1357,20 @@ function buildReviews(){
   reviewRows.forEach((rowData, idx) => {
     const row = document.createElement("div");
     row.className = "review-row " + (idx % 2 === 0 ? "dir-left" : "dir-right");
-
     const marquee = document.createElement("div");
     marquee.className = "review-marquee";
-
     rowData.forEach((item) => {
       const card = document.createElement("div");
       card.className = "review-card";
-      card.innerHTML = `
-        <div class="review-top">
-          <div>
-            <div class="review-user">${item.user}<span class="review-country">${item.country}</span></div>
-            <div class="review-source">${item.source}</div>
-          </div>
-          <div class="review-time">${item.time}</div>
-        </div>
-        <div class="review-stars">★★★★★</div>
-        <div class="review-text">${item.text}</div>
-      `;
+      card.innerHTML = `<div class="review-top"><div><div class="review-user">${item.user}<span class="review-country">${item.country}</span></div><div class="review-source">${item.source}</div></div><div class="review-time">${item.time}</div></div><div class="review-stars">★★★★★</div><div class="review-text">${item.text}</div>`;
       marquee.appendChild(card);
     });
-
     marquee.innerHTML += marquee.innerHTML;
     marquee.style.animationDuration = `${30 + idx * 4}s`;
     row.appendChild(marquee);
     wall.appendChild(row);
   });
 }
-
 function moveSlider(id, direction){
   const track = document.getElementById(id);
   if(!track) return;
@@ -1674,7 +1384,6 @@ function moveSlider(id, direction){
   track.dataset.index = current;
   track.style.transform = `translateX(-${current * 100}%)`;
 }
-
 function goRegister(plan, billing){
   let url = SERVER_BASE + "/register.html";
   const params = new URLSearchParams();
@@ -1684,18 +1393,13 @@ function goRegister(plan, billing){
   if(query) url += "?" + query;
   window.location.href = url;
 }
-
-function goLogin(){
-  window.location.href = SERVER_BASE + "/login.html";
-}
-
+function goLogin(){ window.location.href = SERVER_BASE + "/login.html"; }
 function applyMemberState(){
   const savedUser = localStorage.getItem("tcps_user_email");
   const memberLabel = document.getElementById("memberLabel");
   const logoutBtn = document.getElementById("logoutBtn");
   const loginBtn = document.getElementById("loginBtn");
   const registerBtn = document.getElementById("registerBtn");
-
   if(savedUser){
     if(memberLabel) memberLabel.innerHTML = `<strong>${savedUser}</strong>`;
     if(logoutBtn) logoutBtn.classList.remove("is-hidden");
@@ -1708,20 +1412,16 @@ function applyMemberState(){
     if(registerBtn) registerBtn.classList.remove("is-hidden");
   }
 }
-
 function logout(){
   localStorage.removeItem("tcps_user_email");
   window.location.href = "https://lsgsg0908-png.github.io/tcps-site/";
 }
-
 function openPaymentModal(plan, billing){
   const planKey = String(plan).toLowerCase();
   const billingKey = String(billing).toLowerCase();
   const config = PLAN_CONFIG[planKey] && PLAN_CONFIG[planKey][billingKey];
   if(!config) return;
-
   selectedPlanForModal = { plan: planKey, billing: billingKey, amount: config.amountValue };
-
   document.getElementById("modalPlan").textContent = PLAN_CONFIG[planKey].name;
   document.getElementById("modalBilling").textContent = config.billingLabel;
   document.getElementById("modalAmount").textContent = config.amountLabel;
@@ -1732,21 +1432,15 @@ function openPaymentModal(plan, billing){
   document.getElementById("paymentModal").classList.add("active");
   document.body.style.overflow = "hidden";
 }
-
 function closePaymentModal(){
   document.getElementById("paymentModal").classList.remove("active");
   document.body.style.overflow = "";
 }
-
 function handlePlanClick(plan, billing){
   const savedUser = localStorage.getItem("tcps_user_email");
-  if(savedUser){
-    openPaymentModal(plan, billing);
-    return;
-  }
+  if(savedUser){ openPaymentModal(plan, billing); return; }
   goRegister(plan, billing);
 }
-
 function copyWallet(){
   navigator.clipboard.writeText(WALLET_ADDRESS).then(() => {
     document.getElementById("paymentMsg").textContent = "Wallet address copied.";
@@ -1754,21 +1448,15 @@ function copyWallet(){
     document.getElementById("paymentMsg").textContent = "Copy failed. Please copy manually.";
   });
 }
-
 function openVerificationPage(){
   if(!selectedPlanForModal) return;
   const txid = document.getElementById("txidInput").value.trim();
   const email = localStorage.getItem("tcps_user_email") || "";
-  if(txid){
-    localStorage.setItem("tcps_pending_txid", txid);
-  }
-  if(email){
-    localStorage.setItem("tcps_pending_email", email);
-  }
+  if(txid) localStorage.setItem("tcps_pending_txid", txid);
+  if(email) localStorage.setItem("tcps_pending_email", email);
   localStorage.setItem("tcps_pending_plan", JSON.stringify(selectedPlanForModal));
   goRegister(selectedPlanForModal.plan, selectedPlanForModal.billing);
 }
-
 (function(){
   const params = new URLSearchParams(window.location.search);
   const fromUrlUser = params.get("user");
@@ -1777,30 +1465,20 @@ function openVerificationPage(){
     const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
     window.history.replaceState({}, "", cleanUrl);
   }
-
   buildReviews();
   applyMemberState();
-
   document.querySelectorAll("[data-plan]").forEach((button) => {
-    button.addEventListener("click", () => {
-      handlePlanClick(button.dataset.plan, button.dataset.billing);
-    });
+    button.addEventListener("click", () => { handlePlanClick(button.dataset.plan, button.dataset.billing); });
   });
-
   const paymentModal = document.getElementById("paymentModal");
   document.getElementById("copyWalletBtn").addEventListener("click", copyWallet);
   document.getElementById("openRegisterFlowBtn").addEventListener("click", openVerificationPage);
   document.getElementById("closePaymentModal").addEventListener("click", closePaymentModal);
-  paymentModal.addEventListener("click", (event) => {
-    if(event.target === paymentModal) closePaymentModal();
-  });
-
+  paymentModal.addEventListener("click", (event) => { if(event.target === paymentModal) closePaymentModal(); });
   document.getElementById("loginBtn").addEventListener("click", goLogin);
   document.getElementById("heroLoginBtn").addEventListener("click", goLogin);
   document.getElementById("registerBtn").addEventListener("click", () => goRegister());
   document.getElementById("logoutBtn").addEventListener("click", logout);
-
-  fetch(SERVER_BASE + "/api/visit", { method: "POST" }).catch(() => {});
 })();
 </script>
 
