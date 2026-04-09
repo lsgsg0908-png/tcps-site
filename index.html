@@ -419,6 +419,11 @@
       gap:22px;
       align-items:stretch;
     }
+
+    .pricing-grid{align-items:stretch}
+    .plan-shell{display:flex;flex-direction:column;height:100%}
+    .card-action-stack{display:grid;gap:10px;margin-top:auto}
+
     .pricing-card{
       padding:24px;
       display:flex;
@@ -1134,7 +1139,7 @@
             </div>
             <div class="pricing-box-stack">
               <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Monthly</div><div class="pricing-chip">Fast start</div></div><div class="price">29 <span>USDT</span></div><div class="price-sub">per month</div></div></div>
-              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Yearly</div><div class="pricing-chip gold">45% OFF</div></div><div class="price">191.4 <span>USDT</span></div><div class="price-sub">12 months billed once</div><div class="save-line">Monthly total 348 → yearly 191.4</div></div></div>
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Yearly</div><div class="pricing-chip gold">45% OFF</div></div><div class="price">191 <span>USDT</span></div><div class="price-sub">12 months billed once</div><div class="save-line">Monthly total 348 → yearly 191</div></div></div>
             </div>
             <ul class="feature-list">
               <li>Core chart logic access</li>
@@ -1159,7 +1164,7 @@
             </div>
             <div class="pricing-box-stack">
               <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Monthly</div><div class="pricing-chip">Main flow</div></div><div class="price">59 <span>USDT</span></div><div class="price-sub">per month</div></div></div>
-              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Yearly</div><div class="pricing-chip gold">45% OFF</div></div><div class="price">389.4 <span>USDT</span></div><div class="price-sub">12 months billed once</div><div class="save-line">Monthly total 708 → yearly 389.4</div></div></div>
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Yearly</div><div class="pricing-chip gold">45% OFF</div></div><div class="price">389 <span>USDT</span></div><div class="price-sub">12 months billed once</div><div class="save-line">Monthly total 708 → yearly 389</div></div></div>
             </div>
             <ul class="feature-list">
               <li>Everything in Basic</li>
@@ -1183,7 +1188,7 @@
             </div>
             <div class="pricing-box-stack">
               <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Monthly</div><div class="pricing-chip">Advanced</div></div><div class="price">119 <span>USDT</span></div><div class="price-sub">per month</div></div></div>
-              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Yearly</div><div class="pricing-chip gold">45% OFF</div></div><div class="price">785.4 <span>USDT</span></div><div class="price-sub">12 months billed once</div><div class="save-line">Monthly total 1428 → yearly 785.4</div></div></div>
+              <div class="pricing-box"><div><div class="pricing-box-head"><div class="pricing-box-title">Yearly</div><div class="pricing-chip gold">45% OFF</div></div><div class="price">785 <span>USDT</span></div><div class="price-sub">12 months billed once</div><div class="save-line">Monthly total 1428 → yearly 785</div></div></div>
             </div>
             <ul class="feature-list">
               <li>Everything in Pro</li>
@@ -1316,7 +1321,7 @@
       <div class="modal-summary">
         <div><div class="modal-block-label">Plan</div><div class="modal-block-value" id="modalPlan">Pro</div></div>
         <div><div class="modal-block-label">Billing</div><div class="modal-block-value" id="modalBilling">Yearly</div></div>
-        <div><div class="modal-block-label">Amount</div><div class="modal-block-value" id="modalAmount">389.4</div></div>
+        <div><div class="modal-block-label">Amount</div><div class="modal-block-value" id="modalAmount">389</div></div>
         <div><div class="modal-block-label">Bonus</div><div class="modal-block-value" id="modalBonus">TCPS-A + TCPS-B</div></div>
       </div>
       <div class="wallet-box">
@@ -1329,7 +1334,7 @@
         <label for="txidInput">TXID</label>
         <input id="txidInput" type="text" placeholder="Paste your TXID here">
       </div>
-      <button class="modal-btn primary" type="button" id="openRegisterFlowBtn" style="width:100%;margin-top:14px;">Open Verification Page</button>
+      <button class="modal-btn primary" type="button" id="confirmPaymentBtn" style="width:100%;margin-top:14px;">Confirm Payment</button>
       <div class="modal-msg" id="paymentMsg"></div>
       <div class="modal-foot">Final approval is completed after payment verification, and bonus books are delivered to the email used during signup.</div>
     </div>
@@ -1339,9 +1344,9 @@
 const SERVER_BASE = "http://34.50.56.156:5000";
 const WALLET_ADDRESS = "TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ";
 const PLAN_CONFIG = {
-  basic: {name:"Basic",monthly:{amountLabel:"29",amountValue:"29",billingLabel:"Monthly",bonus:"No bonus books"},yearly:{amountLabel:"191.4",amountValue:"191.4",billingLabel:"Yearly",bonus:"TCPS-A"}},
-  pro: {name:"Pro",monthly:{amountLabel:"59",amountValue:"59",billingLabel:"Monthly",bonus:"No bonus books"},yearly:{amountLabel:"389.4",amountValue:"389.4",billingLabel:"Yearly",bonus:"TCPS-A + TCPS-B"}},
-  elite: {name:"Elite",monthly:{amountLabel:"119",amountValue:"119",billingLabel:"Monthly",bonus:"No bonus books"},yearly:{amountLabel:"785.4",amountValue:"785.4",billingLabel:"Yearly",bonus:"TCPS-A + TCPS-B"}},
+  basic: {name:"Basic",monthly:{amountLabel:"29",amountValue:"29",billingLabel:"Monthly",bonus:"No bonus books"},yearly:{amountLabel:"191",amountValue:"191",billingLabel:"Yearly",bonus:"TCPS-A"}},
+  pro: {name:"Pro",monthly:{amountLabel:"59",amountValue:"59",billingLabel:"Monthly",bonus:"No bonus books"},yearly:{amountLabel:"389",amountValue:"389",billingLabel:"Yearly",bonus:"TCPS-A + TCPS-B"}},
+  elite: {name:"Elite",monthly:{amountLabel:"119",amountValue:"119",billingLabel:"Monthly",bonus:"No bonus books"},yearly:{amountLabel:"785",amountValue:"785",billingLabel:"Yearly",bonus:"TCPS-A + TCPS-B"}},
   lifetime: {name:"Lifetime",lifetime:{amountLabel:"1599",amountValue:"1599",billingLabel:"Lifetime",bonus:"TCPS-A + TCPS-B"}}
 };
 let selectedPlanForModal = null;
@@ -1429,6 +1434,9 @@ function openPaymentModal(plan, billing){
   document.getElementById("walletAddress").textContent = WALLET_ADDRESS;
   document.getElementById("txidInput").value = "";
   document.getElementById("paymentMsg").textContent = "";
+  const confirmBtn = document.getElementById("confirmPaymentBtn");
+  confirmBtn.disabled = false;
+  confirmBtn.textContent = "Confirm Payment";
   document.getElementById("paymentModal").classList.add("active");
   document.body.style.overflow = "hidden";
 }
@@ -1448,22 +1456,53 @@ function copyWallet(){
     document.getElementById("paymentMsg").textContent = "Copy failed. Please copy manually.";
   });
 }
-function openVerificationPage(){
+async function confirmPayment(){
   if(!selectedPlanForModal) return;
   const txid = document.getElementById("txidInput").value.trim();
   const email = localStorage.getItem("tcps_user_email") || "";
-  if(txid) localStorage.setItem("tcps_pending_txid", txid);
-  if(email) localStorage.setItem("tcps_pending_email", email);
-  localStorage.setItem("tcps_pending_plan", JSON.stringify(selectedPlanForModal));
-  goRegister(selectedPlanForModal.plan, selectedPlanForModal.billing);
+  const confirmBtn = document.getElementById("confirmPaymentBtn");
+  const msg = document.getElementById("paymentMsg");
+  if(!email){
+    msg.textContent = "Please log in first.";
+    return;
+  }
+  if(!txid){
+    msg.textContent = "Please enter your TXID.";
+    return;
+  }
+  confirmBtn.disabled = true;
+  msg.textContent = "Saving payment confirmation...";
+  try{
+    const response = await fetch(`${SERVER_BASE}/api/payment/confirm`, {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({
+        email,
+        plan: selectedPlanForModal.plan,
+        billing: selectedPlanForModal.billing,
+        amount: selectedPlanForModal.amount,
+        txid
+      })
+    });
+    const data = await response.json().catch(() => ({}));
+    if(!response.ok || !data.success){
+      throw new Error(data.message || "Payment confirmation failed.");
+    }
+    confirmBtn.textContent = "Verified";
+    msg.textContent = "Payment confirmed. When verification is complete, the system for your selected plan will be provided.";
+  }catch(error){
+    confirmBtn.disabled = false;
+    msg.textContent = error.message || "Payment confirmation failed.";
+  }
 }
 (function(){
   const params = new URLSearchParams(window.location.search);
   const fromUrlUser = params.get("user");
+  const openPayment = params.get("openPayment");
+  const planFromUrl = params.get("plan");
+  const billingFromUrl = params.get("billing");
   if(fromUrlUser){
     localStorage.setItem("tcps_user_email", fromUrlUser);
-    const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
-    window.history.replaceState({}, "", cleanUrl);
   }
   buildReviews();
   applyMemberState();
@@ -1472,13 +1511,20 @@ function openVerificationPage(){
   });
   const paymentModal = document.getElementById("paymentModal");
   document.getElementById("copyWalletBtn").addEventListener("click", copyWallet);
-  document.getElementById("openRegisterFlowBtn").addEventListener("click", openVerificationPage);
+  document.getElementById("confirmPaymentBtn").addEventListener("click", confirmPayment);
   document.getElementById("closePaymentModal").addEventListener("click", closePaymentModal);
   paymentModal.addEventListener("click", (event) => { if(event.target === paymentModal) closePaymentModal(); });
   document.getElementById("loginBtn").addEventListener("click", goLogin);
   document.getElementById("heroLoginBtn").addEventListener("click", goLogin);
   document.getElementById("registerBtn").addEventListener("click", () => goRegister());
   document.getElementById("logoutBtn").addEventListener("click", logout);
+  if(fromUrlUser || openPayment){
+    const clean = window.location.origin + window.location.pathname + window.location.hash;
+    window.history.replaceState({}, "", clean);
+  }
+  if((fromUrlUser || localStorage.getItem("tcps_user_email")) && openPayment === "1" && planFromUrl && billingFromUrl){
+    setTimeout(() => openPaymentModal(planFromUrl, billingFromUrl), 250);
+  }
 })();
 </script>
 
