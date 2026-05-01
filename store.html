@@ -32,6 +32,7 @@
     .store-card{position:relative;border-radius:26px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));box-shadow:0 20px 50px rgba(0,0,0,.22);overflow:hidden;padding:24px;display:flex;flex-direction:column}
     .store-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,rgba(53,207,255,0),rgba(53,207,255,.75),rgba(117,96,255,.75),rgba(117,96,255,0))}
     .store-card-icon{font-size:3em;margin-bottom:12px}
+    .store-card-img{margin-bottom:12px}
     .store-card h3{font-size:20px;font-weight:800;margin-bottom:6px}
     .store-desc{font-size:14px;color:#9eb1cf;flex:1;line-height:1.6;margin-bottom:18px;min-height:50px}
     .store-features{list-style:none;margin-bottom:20px}
@@ -81,7 +82,7 @@
 
       <div class="store-grid">
         <div class="store-card">
-          <div class="store-card-icon">📈</div>
+          <div class="store-card-img"><img src="indicator_premium.png" alt="Premium Signal" style="width:100%;height:140px;object-fit:cover;border-radius:16px"></div>
           <h3>Premium Signal Indicator</h3>
           <p class="store-desc">TradingView Pine Script v6. Real-time buy/sell alerts based on TCPS liquidity flow detection and structural confirmation.</p>
           <ul class="store-features">
@@ -96,7 +97,7 @@
 
         <div class="store-card featured" style="border-color:rgba(102,214,255,.42);box-shadow:0 26px 60px rgba(66,96,255,.24)">
           <div style="position:absolute;top:14px;right:14px;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#000;background:linear-gradient(135deg,#ffd700,#ffaa00)">Best Seller</div>
-          <div class="store-card-icon">⚡</div>
+          <div class="store-card-img"><img src="indicator_scalping.png" alt="Scalping" style="width:100%;height:140px;object-fit:cover;border-radius:16px"></div>
           <h3>Scalping Assistant</h3>
           <p class="store-desc">Designed for 1m–5m timeframes. Instant entry/exit alerts with volatility-based invalidation zones.</p>
           <ul class="store-features">
@@ -110,7 +111,7 @@
         </div>
 
         <div class="store-card">
-          <div class="store-card-icon">🎯</div>
+          <div class="store-card-img"><img src="indicator_trend.png" alt="Trend Mapper" style="width:100%;height:140px;object-fit:cover;border-radius:16px"></div>
           <h3>Trend Structure Mapper</h3>
           <p class="store-desc">Pure price action logic — no AI. Identifies structural shifts and key support/resistance levels automatically.</p>
           <ul class="store-features">
