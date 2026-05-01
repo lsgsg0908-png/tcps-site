@@ -7,58 +7,86 @@
   <meta name="description" content="Join the TCPS VIP Telegram room — institutional-grade signals delivered directly to premium members." />
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
     body{font-family:Arial,sans-serif;color:#f5f7fb;background:#04060b;line-height:1.6;overflow-x:hidden;position:relative}
-    body::before{content:"";position:fixed;inset:0;z-index:-3;background:radial-gradient(circle at 12% 18%, rgba(55,140,255,0.18), transparent 30%),radial-gradient(circle at 82% 20%, rgba(90,70,255,0.16), transparent 28%),radial-gradient(circle at 70% 78%, rgba(0,210,255,0.12), transparent 24%),radial-gradient(circle at 30% 85%, rgba(123,97,255,0.10), transparent 26%),linear-gradient(180deg,#05070d 0%,#03050a 100%)}
-    .container{max-width:1000px;margin:0 auto;padding:0 20px;position:relative;z-index:2}
+    body::before{content:"";position:fixed;inset:0;z-index:-3;background:radial-gradient(circle at 12% 18%,rgba(55,140,255,0.18),transparent 30%),radial-gradient(circle at 82% 20%,rgba(90,70,255,0.16),transparent 28%),radial-gradient(circle at 70% 78%,rgba(0,210,255,0.12),transparent 24%),radial-gradient(circle at 30% 85%,rgba(123,97,255,0.10),transparent 26%),linear-gradient(180deg,#05070d 0%,#03050a 100%)}
+    body::after{content:"";position:fixed;inset:0;z-index:-2;opacity:.05;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");mix-blend-mode:soft-light}
+    a{text-decoration:none;color:inherit}
+    .container{width:100%;max-width:1180px;margin:0 auto;padding:0 20px;position:relative;z-index:2}
     .topbar{position:sticky;top:0;z-index:999;backdrop-filter:blur(14px);background:rgba(4,6,11,.74);border-bottom:1px solid rgba(255,255,255,.06)}
     .topbar-inner{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;flex-direction:column;gap:3px}
     .brand-name{font-size:18px;font-weight:800;letter-spacing:.3px}
     .brand-sub{font-size:12px;color:#91a3c4}
     .nav{display:flex;align-items:center;gap:16px}
-    .nav a{font-size:14px;color:#cad5ea;text-decoration:none;transition:.2s}
+    .nav a{font-size:14px;color:#cad5ea;transition:.2s ease}
     .nav a:hover{color:#fff}
-    .nav-cta{min-height:50px;display:inline-flex;align-items:center;justify-content:center;padding:0 22px;border-radius:999px;font-size:15px;font-weight:800;border:none;cursor:pointer;color:#fff;background:linear-gradient(135deg,#35cfff,#7560ff);text-decoration:none;white-space:nowrap}
+    .nav-cta{min-height:50px;display:inline-flex;align-items:center;justify-content:center;padding:0 22px;border-radius:999px;font-size:15px;font-weight:800;border:none;cursor:pointer;transition:transform .18s ease,opacity .18s ease;color:#fff;background:linear-gradient(135deg,#35cfff,#7560ff);text-decoration:none;white-space:nowrap}
+    .nav-cta:hover,.hero-cta:hover,.btn-pricing:hover{transform:translateY(-2px);opacity:.97}
     section{padding:92px 0}
-    .hero{text-align:center;padding:100px 20px 60px}
-    .hero h1{font-size:52px;line-height:1.08;letter-spacing:-1.6px;margin-bottom:18px}
+    .hero{min-height:70vh;display:flex;align-items:center;text-align:center;padding:60px 0}
+    .hero h1{font-size:60px;line-height:1.05;letter-spacing:-1.8px;margin-bottom:18px}
     .hero h1 span{background:linear-gradient(135deg,#68e6ff,#9f8cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .hero p{font-size:18px;color:#afbed8;max-width:700px;margin:0 auto 32px}
-    .cta-group{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-    .btn{min-height:54px;display:inline-flex;align-items:center;justify-content:center;padding:0 32px;border-radius:999px;font-size:16px;font-weight:800;border:none;cursor:pointer;text-decoration:none;transition:transform .18s,opacity .18s;color:#fff}
-    .btn-primary{background:linear-gradient(135deg,#35cfff,#7560ff)}
-    .btn-secondary{color:#e8eefb;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03)}
-    .btn:hover{transform:translateY(-2px);opacity:.97}
-    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:30px;margin-bottom:20px;position:relative;overflow:hidden}
+    .hero p{font-size:19px;color:#afbed8;max-width:700px;margin:0 auto 28px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+    .hero-cta{min-height:58px;display:inline-flex;align-items:center;justify-content:center;padding:0 36px;border-radius:999px;font-size:17px;font-weight:800;border:none;cursor:pointer;transition:transform .18s ease,opacity .18s ease;color:#fff;background:linear-gradient(135deg,#35cfff,#7560ff);text-decoration:none}
+    .hero-cta.outline{color:#e8eefb;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03)}
+    .badge{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03);color:#cfdbef;font-size:13px;margin-bottom:20px}
+    .badge-dot{width:8px;height:8px;border-radius:50%;background:#63ffb2;box-shadow:0 0 12px rgba(99,255,178,.8)}
+    .kicker{display:inline-block;margin-bottom:14px;font-size:13px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#7fdfff}
+    .section-head{text-align:center;max-width:840px;margin:0 auto 44px}
+    .section-head h2{font-size:48px;line-height:1.12;letter-spacing:-1.1px;margin-bottom:16px}
+    .section-head p{font-size:17px;color:#a6b6d2}
+    .card{position:relative;border-radius:26px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));box-shadow:0 20px 50px rgba(0,0,0,.22);overflow:hidden;padding:30px;margin-bottom:20px}
     .card::before{content:"";position:absolute;top:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,rgba(53,207,255,0),rgba(53,207,255,.7),rgba(117,96,255,.7),rgba(117,96,255,0))}
-    .benefits{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:30px 0}
-    .benefit{padding:20px;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025)}
-    .benefit-icon{font-size:2em;margin-bottom:10px}
-    .benefit h3{font-size:17px;margin-bottom:6px;color:#f0f4ff}
-    .benefit p{font-size:14px;color:#aebfda}
-    .section-title{font-size:36px;text-align:center;margin-bottom:14px;letter-spacing:-.9px}
-    .section-desc{text-align:center;color:#afbed8;font-size:16px;margin-bottom:40px}
-    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-    .step{text-align:center;padding:28px 20px;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);position:relative;overflow:hidden}
-    .step-num{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#35cfff,#7560ff);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;margin:0 auto 16px}
-    .step h3{font-size:17px;margin-bottom:8px}
-    .step p{font-size:14px;color:#9eb1cf}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+    .benefit{position:relative;border-radius:22px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);padding:24px;overflow:hidden}
+    .benefit-icon{font-size:2.2em;margin-bottom:12px}
+    .benefit h3{font-size:17px;font-weight:800;color:#f0f4ff;margin-bottom:6px}
+    .benefit p{font-size:14px;color:#9eb1cf;line-height:1.5}
+    .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .compare-card{position:relative;border-radius:26px;border:1px solid rgba(255,255,255,.08);overflow:hidden;padding:0}
+    .compare-card.free{background:rgba(255,255,255,.02)}
+    .compare-card.premium{background:linear-gradient(180deg,rgba(53,207,255,.06),rgba(117,96,255,.04));border-color:rgba(53,207,255,.3)}
+    .compare-header{padding:24px;text-align:center;border-bottom:1px solid rgba(255,255,255,.06)}
+    .compare-header h3{font-size:22px;font-weight:800;margin-bottom:4px}
+    .compare-header .sub{font-size:13px;color:#91a3c4}
+    .compare-body{padding:24px}
+    .compare-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:14px}
+    .compare-row:last-child{border-bottom:none}
+    .check{color:#63ffb2;font-weight:700}
+    .cross{color:#ff5555}
+    .btn-pricing{min-height:54px;height:54px;width:100%;display:inline-flex;align-items:center;justify-content:center;padding:0 22px;border-radius:999px;font-size:15px;font-weight:800;border:none;cursor:pointer;transition:transform .18s ease,opacity .18s ease;color:#fff;background:linear-gradient(135deg,#35cfff,#7560ff);text-decoration:none;margin-top:16px}
+    .proof-chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:20px}
+    .proof-chip{padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);color:#d9e3f6;font-size:13px;display:inline-flex;align-items:center;gap:8px}
+    .cta-section{text-align:center;padding:60px 0}
+    .cta-section h2{font-size:38px;letter-spacing:-1px;margin-bottom:12px;color:#fff}
+    .cta-section p{color:#afbed8;margin-bottom:24px;font-size:16px}
     .footer{padding:36px 0;border-top:1px solid rgba(255,255,255,.06);text-align:center;color:#90a3c4;font-size:13px}
+    @media(max-width:1000px){.grid-4{grid-template-columns:1fr 1fr}}
     @media(max-width:760px){
-      .hero h1,.section-title{font-size:32px}
-      .benefits,.steps{grid-template-columns:1fr}
-      .nav{display:none}
+      .hero h1{font-size:36px}.section-head h2{font-size:32px}
+      .grid-2,.grid-3,.grid-4,.compare-grid{grid-template-columns:1fr}
+      .hero{min-height:auto;padding:40px 0}
     }
   </style>
 </head>
 <body>
   <header class="topbar">
     <div class="container topbar-inner">
-      <div><div class="brand-name">TCPS Liquidity Engine</div><div class="brand-sub">Institutional flow detection</div></div>
+      <div class="brand">
+        <div class="brand-name">TCPS Liquidity Engine</div>
+        <div class="brand-sub">Institutional flow detection</div>
+      </div>
       <nav class="nav">
         <a href="/">Home</a>
+        <a href="/#problem">Problem</a>
+        <a href="vip.html" style="color:#68e6ff;font-weight:600">VIP Room</a>
+        <a href="store.html">Store</a>
         <a href="/#pricing">Pricing</a>
         <a href="/#reviews">Reviews</a>
-        <a href="vip.html" style="color:#68e6ff;font-weight:700">VIP Room</a>
       </nav>
       <a href="/#pricing" class="nav-cta">Get Access</a>
     </div>
@@ -66,83 +94,113 @@
 
   <section class="hero">
     <div class="container">
-      <h1>⚡ The <span>TCPS VIP</span> Telegram Room</h1>
-      <p>Real-time institutional-grade signals delivered directly to your Telegram. Built by traders who track what smart money leaves behind.</p>
-      <div class="cta-group">
-        <a href="/#pricing" class="btn btn-primary">Choose Your Plan</a>
-        <a href="https://t.me/daytrading_talkbtc" class="btn btn-secondary">Join Free Room →</a>
+      <div class="badge" style="justify-content:center;width:fit-content;margin:0 auto 20px">
+        <span class="badge-dot"></span> TCPS VIP Telegram Room
+      </div>
+      <h1>The gap between <span>signal clarity</span><br>and execution speed.</h1>
+      <p>Every paid plan unlocks instant access to the TCPS VIP Telegram room — where signals hit before the crowd, and the context behind each entry is laid out in full.</p>
+      <div class="hero-actions">
+        <a href="/#pricing" class="hero-cta">View Plans</a>
+        <a href="https://t.me/daytrading_talkbtc" class="hero-cta outline">Sample Free Room →</a>
+      </div>
+      <div class="proof-chips">
+        <div class="proof-chip"><span class="badge-dot" style="width:6px;height:6px"></span> Real-time delivery</div>
+        <div class="proof-chip"><span class="badge-dot" style="width:6px;height:6px"></span> Full execution context</div>
+        <div class="proof-chip"><span class="badge-dot" style="width:6px;height:6px"></span> Direct team access</div>
       </div>
     </div>
   </section>
 
   <div class="container">
     <div class="card">
-      <h2 style="font-size:24px;margin-bottom:14px;letter-spacing:-.4px">What is the VIP Room?</h2>
-      <p style="color:#afbed8;font-size:15px;line-height:1.7">
-        The VIP Room is a private Telegram channel where TCPS engine signals are broadcast in real time — 
-        faster and with more depth than any public feed. While our free room provides a sample of the analysis, 
-        the VIP room delivers the full execution workflow: entry timing, liquidity levels, stop placement, 
-        and structural context behind each signal.
+      <div style="font-size:13px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:#86dfff;margin-bottom:12px">What is the VIP Room?</div>
+      <h2 style="font-size:28px;letter-spacing:-.6px;margin-bottom:14px;color:#f0f4ff">A Telegram channel that mirrors real execution flow.</h2>
+      <p style="font-size:15px;color:#aebfda;line-height:1.7">
+        The VIP Room is not a chat group. It is a broadcast channel where TCPS engine signals are published in real time — 
+        faster than any public feed and with full structural context. While the free room receives delayed summaries, 
+        the VIP room receives the actual workflow: entry timing, liquidity levels, invalidation points, and the logic 
+        behind each decision. Every paid plan — Basic, Pro, Elite, or Lifetime — includes VIP room access immediately.
       </p>
     </div>
 
-    <div style="max-width:780px;margin:0 auto">
-      <h2 class="section-title">Why join the VIP room?</h2>
-      <p class="section-desc">Because institutional flow detection is only useful when you act on it — immediately.</p>
+    <div class="section-head" style="margin:60px auto 36px">
+      <div class="kicker">What you get</div>
+      <h2>Free Room vs VIP Room</h2>
+      <p>See exactly what changes when you upgrade. The difference is not just speed — it is depth.</p>
     </div>
 
-    <div class="benefits">
-      <div class="benefit">
-        <div class="benefit-icon">⏱️</div>
-        <h3>Real-time Signals</h3>
-        <p>No delay. Signals hit the VIP room the moment the engine confirms a setup. Free room gets delayed summaries.</p>
+    <div class="compare-grid">
+      <div class="compare-card free">
+        <div class="compare-header">
+          <h3 style="color:#91a3c4">📢 Free Room</h3>
+          <div class="sub">Public Telegram group</div>
+        </div>
+        <div class="compare-body">
+          <div class="compare-row"><span>Signal frequency</span><span class="cross">2-3 delayed summaries/day</span></div>
+          <div class="compare-row"><span>Execution context</span><span class="cross">Basic direction only</span></div>
+          <div class="compare-row"><span>Entry timing</span><span class="cross">30-60 min delay</span></div>
+          <div class="compare-row"><span>Liquidity levels</span><span class="cross">Not included</span></div>
+          <div class="compare-row"><span>Invalidation points</span><span class="cross">Not included</span></div>
+          <div class="compare-row"><span>Team access</span><span class="cross">No</span></div>
+          <div class="compare-row"><span>Cost</span><span style="color:#63ffb2;font-weight:700">Free</span></div>
+        </div>
       </div>
-      <div class="benefit">
-        <div class="benefit-icon">📊</div>
-        <h3>Full Execution Context</h3>
-        <p>Entry zone, invalidation level, target structure, and the liquidity logic behind every decision.</p>
-      </div>
-      <div class="benefit">
-        <div class="benefit-icon">🔍</div>
-        <h3>Institutional Flow Focus</h3>
-        <p>We don't chase random breakouts. Every signal is filtered for liquidity clusters and structural confluences.</p>
-      </div>
-      <div class="benefit">
-        <div class="benefit-icon">🤝</div>
-        <h3>Direct Access</h3>
-        <p>Premium members can engage directly with the team. Ask questions, review setups, and refine your execution.</p>
-      </div>
-    </div>
 
-    <h2 class="section-title">How it works</h2>
-    <p class="section-desc">Three steps to join the inner circle.</p>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h3>Choose Your Plan</h3>
-        <p>Pick the tier that fits your level — Basic, Pro, Elite, or Lifetime.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h3>Pay & Verify</h3>
-        <p>Send USDT TRC20 to the provided wallet. Submit your TXID for verification.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h3>Get Invited</h3>
-        <p>Once verified, you receive a private invite to the TCPS VIP Telegram room.</p>
+      <div class="compare-card premium">
+        <div class="compare-header">
+          <h3 style="color:#68e6ff">⚡ VIP Room</h3>
+          <div class="sub">Private Telegram channel</div>
+        </div>
+        <div class="compare-body">
+          <div class="compare-row"><span>Signal frequency</span><span class="check">4+ real-time signals/day</span></div>
+          <div class="compare-row"><span>Execution context</span><span class="check">Full entry logic + structure</span></div>
+          <div class="compare-row"><span>Entry timing</span><span class="check">Instant — no delay</span></div>
+          <div class="compare-row"><span>Liquidity levels</span><span class="check">Included per signal</span></div>
+          <div class="compare-row"><span>Invalidation points</span><span class="check">Included per signal</span></div>
+          <div class="compare-row"><span>Team access</span><span class="check">Direct Q&A available</span></div>
+          <div class="compare-row"><span>Cost</span><span style="color:#ffd700;font-weight:700">From 29 USDT</span></div>
+        </div>
       </div>
     </div>
 
-    <div style="text-align:center;padding:60px 20px">
-      <h2 style="font-size:32px;margin-bottom:14px;letter-spacing:-.8px">Ready to trade with cleaner execution?</h2>
-      <p style="color:#afbed8;margin-bottom:24px;font-size:16px">Start with any plan. All paid tiers include VIP room access.</p>
-      <a href="/#pricing" class="btn btn-primary" style="font-size:17px;padding:0 44px;min-height:58px">View Plans</a>
+    <div style="text-align:center;margin:50px 0 20px">
+      <a href="/#pricing" class="hero-cta">Choose Your Plan</a>
+    </div>
+
+    <div style="margin:60px 0">
+      <div class="section-head">
+        <div class="kicker">How to join</div>
+        <h2>Three steps to VIP access</h2>
+        <p>From zero to full access in under 10 minutes.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="benefit" style="text-align:center">
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#35cfff,#7560ff);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;margin:0 auto 16px">1</div>
+          <h3>Choose Your Plan</h3>
+          <p>Basic, Pro, Elite, or Lifetime - pick the tier that fits your execution level.</p>
+        </div>
+        <div class="benefit" style="text-align:center">
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#35cfff,#7560ff);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;margin:0 auto 16px">2</div>
+          <h3>Pay &amp; Verify</h3>
+          <p>Send USDT TRC20 to the provided wallet. Submit your TXID for verification.</p>
+        </div>
+        <div class="benefit" style="text-align:center">
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#35cfff,#7560ff);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;margin:0 auto 16px">3</div>
+          <h3>Get Invited</h3>
+          <p>Once verified, you receive a private invite link to the TCPS VIP Telegram room.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-section">
+      <h2>Ready to trade with cleaner execution?</h2>
+      <p>All paid plans include instant VIP room access. No waiting, no gatekeeping.</p>
+      <a href="/#pricing" class="hero-cta" style="font-size:18px;padding:0 48px;min-height:62px">Start Now</a>
     </div>
 
     <footer class="footer">
-      <p>© 2026 TCPS Liquidity Engine. All rights reserved.</p>
+      <p>&copy; 2026 TCPS Liquidity Engine. All rights reserved.</p>
     </footer>
   </div>
 </body>

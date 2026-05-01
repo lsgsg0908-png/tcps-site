@@ -3,108 +3,150 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Store — TCPS Indicators & eBooks</title>
-  <meta name="description" content="Purchase TCPS TradingView indicators and trading eBooks. USDT TRC20 payment." />
+  <title>Store — TCPS Liquidity Engine</title>
+  <meta name="description" content="TCPS TradingView indicators and trading eBooks. USDT TRC20 payment." />
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:Arial,sans-serif;color:#f5f7fb;background:#04060b;line-height:1.6}
+    html{scroll-behavior:smooth}
+    body{font-family:Arial,sans-serif;color:#f5f7fb;background:#04060b;line-height:1.6;overflow-x:hidden;position:relative}
     body::before{content:"";position:fixed;inset:0;z-index:-3;background:radial-gradient(circle at 12% 18%,rgba(55,140,255,0.18),transparent 30%),radial-gradient(circle at 82% 20%,rgba(90,70,255,0.16),transparent 28%),radial-gradient(circle at 70% 78%,rgba(0,210,255,0.12),transparent 24%),radial-gradient(circle at 30% 85%,rgba(123,97,255,0.10),transparent 26%),linear-gradient(180deg,#05070d 0%,#03050a 100%)}
-    .container{max-width:1100px;margin:0 auto;padding:0 20px;position:relative;z-index:2}
+    body::after{content:"";position:fixed;inset:0;z-index:-2;opacity:.05;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");mix-blend-mode:soft-light}
+    a{text-decoration:none;color:inherit}
+    .container{width:100%;max-width:1180px;margin:0 auto;padding:0 20px;position:relative;z-index:2}
     .topbar{position:sticky;top:0;z-index:999;backdrop-filter:blur(14px);background:rgba(4,6,11,.74);border-bottom:1px solid rgba(255,255,255,.06)}
     .topbar-inner{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .brand-name{font-size:18px;font-weight:800}
+    .brand{display:flex;flex-direction:column;gap:3px}
+    .brand-name{font-size:18px;font-weight:800;letter-spacing:.3px}
     .brand-sub{font-size:12px;color:#91a3c4}
     .nav{display:flex;align-items:center;gap:16px}
-    .nav a{font-size:14px;color:#cad5ea;text-decoration:none;transition:.2s}
+    .nav a{font-size:14px;color:#cad5ea;transition:.2s ease}
     .nav a:hover{color:#fff}
-    .header{text-align:center;padding:80px 20px 40px}
-    .header h1{font-size:42px;letter-spacing:-1.2px;margin-bottom:12px}
-    .header h1 span{background:linear-gradient(135deg,#ffd700,#ffaa00);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .header p{color:#8899aa;font-size:16px;max-width:600px;margin:0 auto}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;padding:20px 0}
-    .card{border-radius:26px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));overflow:hidden;transition:transform .3s}
-    .card:hover{transform:translateY(-4px)}
-    .card::before{content:"";position:absolute;top:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,rgba(53,207,255,0),rgba(53,207,255,.7),rgba(117,96,255,.7),rgba(117,96,255,0))}
-    .card{position:relative;padding:24px;display:flex;flex-direction:column}
-    .card-icon{font-size:3em;margin-bottom:12px}
-    .card h3{font-size:20px;margin-bottom:8px}
-    .card .desc{color:#aebfda;font-size:14px;line-height:1.6;flex:1;margin-bottom:16px}
-    .card .price{font-size:28px;font-weight:900;color:#ffd700;margin-bottom:16px}
-    .card .price .usdt{font-size:14px;color:#8899aa;font-weight:400}
-    .btn{display:block;text-align:center;padding:14px;border-radius:10px;font-weight:700;font-size:1em;text-decoration:none;background:linear-gradient(135deg,#ffd700,#ffaa00);color:#000;border:none;cursor:pointer;transition:opacity .3s}
-    .btn:hover{opacity:.9}
-    .footer{text-align:center;padding:40px 20px;color:#556677;font-size:14px;border-top:1px solid rgba(255,255,255,.06)}
-    @media(max-width:640px){.header h1{font-size:30px}.grid{grid-template-columns:1fr}}
+    .nav-cta{min-height:50px;display:inline-flex;align-items:center;justify-content:center;padding:0 22px;border-radius:999px;font-size:15px;font-weight:800;border:none;cursor:pointer;transition:transform .18s ease,opacity .18s ease;color:#fff;background:linear-gradient(135deg,#35cfff,#7560ff);text-decoration:none;white-space:nowrap}
+    .nav-cta:hover{transform:translateY(-2px);opacity:.97}
+    section{padding:92px 0}
+    .kicker{display:inline-block;margin-bottom:14px;font-size:13px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#7fdfff}
+    .section-head{text-align:center;max-width:840px;margin:0 auto 44px}
+    .section-head h1{font-size:48px;line-height:1.12;letter-spacing:-1.1px;margin-bottom:16px}
+    .section-head p{font-size:17px;color:#a6b6d2}
+    .store-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:stretch}
+    .store-card{position:relative;border-radius:26px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));box-shadow:0 20px 50px rgba(0,0,0,.22);overflow:hidden;padding:24px;display:flex;flex-direction:column}
+    .store-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,rgba(53,207,255,0),rgba(53,207,255,.75),rgba(117,96,255,.75),rgba(117,96,255,0))}
+    .store-card-icon{font-size:3em;margin-bottom:12px}
+    .store-card h3{font-size:20px;font-weight:800;margin-bottom:6px}
+    .store-desc{font-size:14px;color:#9eb1cf;flex:1;line-height:1.6;margin-bottom:18px;min-height:50px}
+    .store-features{list-style:none;margin-bottom:20px}
+    .store-features li{padding:6px 0;padding-left:24px;position:relative;font-size:13px;color:#b7c6de}
+    .store-features li::before{content:"✅";position:absolute;left:0}
+    .store-price{font-size:32px;font-weight:900;letter-spacing:-.8px;margin-bottom:18px}
+    .store-price .usdt{font-size:14px;font-weight:400;color:#8fa3c6}
+    .store-btn{min-height:54px;height:54px;width:100%;display:inline-flex;align-items:center;justify-content:center;padding:0 22px;border-radius:999px;font-size:15px;font-weight:800;border:none;cursor:pointer;transition:transform .18s ease,opacity .18s ease,box-shadow .18s ease;color:#fff;background:linear-gradient(135deg,#35cfff,#7560ff);text-decoration:none}
+    .store-btn:hover{transform:translateY(-2px);opacity:.97}
+    .wallet-bar{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:26px;padding:24px;text-align:center;margin-top:40px}
+    .wallet-addr{font-family:'Courier New',monospace;color:#ffd700;font-size:15px;word-break:break-all;background:rgba(4,10,21,.88);border-radius:12px;padding:14px 18px;margin-top:10px;display:inline-block;cursor:pointer}
+    .wallet-addr:hover{background:rgba(20,30,50,.95)}
+    .footer{padding:36px 0;border-top:1px solid rgba(255,255,255,.06);text-align:center;color:#90a3c4;font-size:13px}
+    @media(max-width:1000px){.store-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:760px){
+      .section-head h1{font-size:34px}.store-grid,.store-grid{grid-template-columns:1fr}
+      .store-card.featured{transform:none}
+    }
   </style>
 </head>
 <body>
   <header class="topbar">
     <div class="container topbar-inner">
-      <div><div class="brand-name">TCPS Store</div><div class="brand-sub">Indicators & eBooks</div></div>
+      <div class="brand">
+        <div class="brand-name">TCPS Liquidity Engine</div>
+        <div class="brand-sub">Institutional flow detection</div>
+      </div>
       <nav class="nav">
         <a href="/">Home</a>
-        <a href="/#pricing">Plans</a>
+        <a href="/#problem">Problem</a>
         <a href="vip.html">VIP Room</a>
-        <a href="store.html" style="color:#ffd700;font-weight:700">Store</a>
+        <a href="store.html" style="color:#68e6ff;font-weight:600">Store</a>
+        <a href="/#pricing">Pricing</a>
+        <a href="/#reviews">Reviews</a>
       </nav>
+      <a href="/#pricing" class="nav-cta">Get Access</a>
     </div>
   </header>
 
-  <div class="header">
-    <h1>📊 <span>TCPS Store</span></h1>
-    <p>Standalone indicators and trading eBooks — purchase without a subscription.</p>
-  </div>
-
-  <div class="container">
-    <div class="grid">
-      <div class="card">
-        <div class="card-icon">📈</div>
-        <h3>Premium Signal Indicator</h3>
-        <p class="desc">TradingView Pine Script v6. Real-time buy/sell alerts based on TCPS liquidity flow detection and structural confirmation.</p>
-        <ul style="color:#8899aa;font-size:13px;margin-bottom:16px;list-style:none">
-          <li style="padding:4px 0">✅ Multi-timeframe support (1m–1d)</li>
-          <li style="padding:4px 0">✅ Liquidity cluster visualization</li>
-          <li style="padding:4px 0">✅ Telegram alert integration</li>
-        </ul>
-        <div class="price">50 <span class="usdt">USDT TRC20</span></div>
-        <a href="/#pricing" class="btn">📥 Purchase</a>
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">TCPS Store</div>
+        <h1>Indicators &amp; eBooks</h1>
+        <p>Standalone trading tools — purchase without a subscription. All items delivered after USDT TRC20 verification.</p>
       </div>
 
-      <div class="card">
-        <div class="card-icon">⚡</div>
-        <h3>Scalping Assistant</h3>
-        <p class="desc">Designed for 1m–5m timeframes. Instant entry/exit alerts with volatility-based invalidation zones.</p>
-        <ul style="color:#8899aa;font-size:13px;margin-bottom:16px;list-style:none">
-          <li style="padding:4px 0">✅ 1m/5m optimized analysis</li>
-          <li style="padding:4px 0">✅ Real-time breakout detection</li>
-          <li style="padding:4px 0">✅ Volatility-based stop lines</li>
-        </ul>
-        <div class="price">35 <span class="usdt">USDT TRC20</span></div>
-        <a href="/#pricing" class="btn">📥 Purchase</a>
+      <div class="store-grid">
+        <div class="store-card">
+          <div class="store-card-icon">📈</div>
+          <h3>Premium Signal Indicator</h3>
+          <p class="store-desc">TradingView Pine Script v6. Real-time buy/sell alerts based on TCPS liquidity flow detection and structural confirmation.</p>
+          <ul class="store-features">
+            <li>Multi-timeframe support (1m–1d)</li>
+            <li>Liquidity cluster visualization</li>
+            <li>Telegram alert integration</li>
+            <li>Custom alert conditions</li>
+          </ul>
+          <div class="store-price">50 <span class="usdt">USDT TRC20</span></div>
+          <a href="https://t.me/TCPSMASTERBOT" class="store-btn">Purchase via Telegram</a>
+        </div>
+
+        <div class="store-card featured" style="border-color:rgba(102,214,255,.42);box-shadow:0 26px 60px rgba(66,96,255,.24)">
+          <div style="position:absolute;top:14px;right:14px;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#000;background:linear-gradient(135deg,#ffd700,#ffaa00)">Best Seller</div>
+          <div class="store-card-icon">⚡</div>
+          <h3>Scalping Assistant</h3>
+          <p class="store-desc">Designed for 1m–5m timeframes. Instant entry/exit alerts with volatility-based invalidation zones.</p>
+          <ul class="store-features">
+            <li>1m/5m optimized analysis</li>
+            <li>Real-time breakout detection</li>
+            <li>Volatility-based stop lines</li>
+            <li>Low-latency execution alerts</li>
+          </ul>
+          <div class="store-price">35 <span class="usdt">USDT TRC20</span></div>
+          <a href="https://t.me/TCPSMASTERBOT" class="store-btn">Purchase via Telegram</a>
+        </div>
+
+        <div class="store-card">
+          <div class="store-card-icon">🎯</div>
+          <h3>Trend Structure Mapper</h3>
+          <p class="store-desc">Pure price action logic — no AI. Identifies structural shifts and key support/resistance levels automatically.</p>
+          <ul class="store-features">
+            <li>Structural shift detection</li>
+            <li>Key S/R level mapping</li>
+            <li>Multi-indicator cross-verification</li>
+            <li>Weekly bias report included</li>
+          </ul>
+          <div class="store-price">70 <span class="usdt">USDT TRC20</span></div>
+          <a href="https://t.me/TCPSMASTERBOT" class="store-btn">Purchase via Telegram</a>
+        </div>
       </div>
 
-      <div class="card">
-        <div class="card-icon">🎯</div>
-        <h3>Trend Structure Mapper</h3>
-        <p class="desc">AI-free trend detection. Identifies structural shifts and key support/resistance levels using pure price action logic.</p>
-        <ul style="color:#8899aa;font-size:13px;margin-bottom:16px;list-style:none">
-          <li style="padding:4px 0">✅ Structural shift detection</li>
-          <li style="padding:4px 0">✅ Key S/R level mapping</li>
-          <li style="padding:4px 0">✅ Multi-indicator cross-verification</li>
-        </ul>
-        <div class="price">70 <span class="usdt">USDT TRC20</span></div>
-        <a href="/#pricing" class="btn">📥 Purchase</a>
+      <div class="wallet-bar">
+        <p style="font-size:15px;color:#afbed8">💳 All payments via <strong style="color:#ffd700">USDT TRC20</strong></p>
+        <div class="wallet-addr" id="wa" onclick="copyAddr()">TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ</div>
+        <p style="font-size:13px;color:#7f93b7;margin-top:12px">Send exact amount. TXID required for verification. Delivery within 24h.</p>
       </div>
     </div>
+  </section>
 
-    <div style="text-align:center;padding:40px 0;color:#8899aa">
-      <p>💳 All payments via USDT TRC20 — <strong style="color:#ffd700">TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ</strong></p>
-      <p style="margin-top:8px;font-size:13px">Send exact amount. TXID required for verification.</p>
-    </div>
+  <footer class="footer">
+    <p>© 2026 TCPS Liquidity Engine. Store items delivered via Telegram after verification.</p>
+  </footer>
 
-    <footer class="footer">
-      <p>© 2026 TCPS Liquidity Engine. Store items delivered via email after verification.</p>
-    </footer>
-  </div>
+  <script>
+    function copyAddr(){
+      const el=document.getElementById('wa');
+      const range=document.createRange();
+      range.selectNode(el);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      document.execCommand('copy');
+      el.style.background='rgba(255,215,0,0.15)';
+      setTimeout(()=>el.style.background='rgba(4,10,21,.88)',2000);
+    }
+  </script>
 </body>
 </html>
