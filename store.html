@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Store — TCPS Indicators & eBooks</title>
+  <meta name="description" content="Purchase TCPS TradingView indicators and trading eBooks. USDT TRC20 payment." />
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:Arial,sans-serif;color:#f5f7fb;background:#04060b;line-height:1.6}
+    body::before{content:"";position:fixed;inset:0;z-index:-3;background:radial-gradient(circle at 12% 18%,rgba(55,140,255,0.18),transparent 30%),radial-gradient(circle at 82% 20%,rgba(90,70,255,0.16),transparent 28%),radial-gradient(circle at 70% 78%,rgba(0,210,255,0.12),transparent 24%),radial-gradient(circle at 30% 85%,rgba(123,97,255,0.10),transparent 26%),linear-gradient(180deg,#05070d 0%,#03050a 100%)}
+    .container{max-width:1100px;margin:0 auto;padding:0 20px;position:relative;z-index:2}
+    .topbar{position:sticky;top:0;z-index:999;backdrop-filter:blur(14px);background:rgba(4,6,11,.74);border-bottom:1px solid rgba(255,255,255,.06)}
+    .topbar-inner{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand-name{font-size:18px;font-weight:800}
+    .brand-sub{font-size:12px;color:#91a3c4}
+    .nav{display:flex;align-items:center;gap:16px}
+    .nav a{font-size:14px;color:#cad5ea;text-decoration:none;transition:.2s}
+    .nav a:hover{color:#fff}
+    .header{text-align:center;padding:80px 20px 40px}
+    .header h1{font-size:42px;letter-spacing:-1.2px;margin-bottom:12px}
+    .header h1 span{background:linear-gradient(135deg,#ffd700,#ffaa00);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .header p{color:#8899aa;font-size:16px;max-width:600px;margin:0 auto}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;padding:20px 0}
+    .card{border-radius:26px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));overflow:hidden;transition:transform .3s}
+    .card:hover{transform:translateY(-4px)}
+    .card::before{content:"";position:absolute;top:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,rgba(53,207,255,0),rgba(53,207,255,.7),rgba(117,96,255,.7),rgba(117,96,255,0))}
+    .card{position:relative;padding:24px;display:flex;flex-direction:column}
+    .card-icon{font-size:3em;margin-bottom:12px}
+    .card h3{font-size:20px;margin-bottom:8px}
+    .card .desc{color:#aebfda;font-size:14px;line-height:1.6;flex:1;margin-bottom:16px}
+    .card .price{font-size:28px;font-weight:900;color:#ffd700;margin-bottom:16px}
+    .card .price .usdt{font-size:14px;color:#8899aa;font-weight:400}
+    .btn{display:block;text-align:center;padding:14px;border-radius:10px;font-weight:700;font-size:1em;text-decoration:none;background:linear-gradient(135deg,#ffd700,#ffaa00);color:#000;border:none;cursor:pointer;transition:opacity .3s}
+    .btn:hover{opacity:.9}
+    .footer{text-align:center;padding:40px 20px;color:#556677;font-size:14px;border-top:1px solid rgba(255,255,255,.06)}
+    @media(max-width:640px){.header h1{font-size:30px}.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div><div class="brand-name">TCPS Store</div><div class="brand-sub">Indicators & eBooks</div></div>
+      <nav class="nav">
+        <a href="/">Home</a>
+        <a href="/#pricing">Plans</a>
+        <a href="vip.html">VIP Room</a>
+        <a href="store.html" style="color:#ffd700;font-weight:700">Store</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="header">
+    <h1>📊 <span>TCPS Store</span></h1>
+    <p>Standalone indicators and trading eBooks — purchase without a subscription.</p>
+  </div>
+
+  <div class="container">
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <h3>Premium Signal Indicator</h3>
+        <p class="desc">TradingView Pine Script v6. Real-time buy/sell alerts based on TCPS liquidity flow detection and structural confirmation.</p>
+        <ul style="color:#8899aa;font-size:13px;margin-bottom:16px;list-style:none">
+          <li style="padding:4px 0">✅ Multi-timeframe support (1m–1d)</li>
+          <li style="padding:4px 0">✅ Liquidity cluster visualization</li>
+          <li style="padding:4px 0">✅ Telegram alert integration</li>
+        </ul>
+        <div class="price">50 <span class="usdt">USDT TRC20</span></div>
+        <a href="/#pricing" class="btn">📥 Purchase</a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Scalping Assistant</h3>
+        <p class="desc">Designed for 1m–5m timeframes. Instant entry/exit alerts with volatility-based invalidation zones.</p>
+        <ul style="color:#8899aa;font-size:13px;margin-bottom:16px;list-style:none">
+          <li style="padding:4px 0">✅ 1m/5m optimized analysis</li>
+          <li style="padding:4px 0">✅ Real-time breakout detection</li>
+          <li style="padding:4px 0">✅ Volatility-based stop lines</li>
+        </ul>
+        <div class="price">35 <span class="usdt">USDT TRC20</span></div>
+        <a href="/#pricing" class="btn">📥 Purchase</a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>Trend Structure Mapper</h3>
+        <p class="desc">AI-free trend detection. Identifies structural shifts and key support/resistance levels using pure price action logic.</p>
+        <ul style="color:#8899aa;font-size:13px;margin-bottom:16px;list-style:none">
+          <li style="padding:4px 0">✅ Structural shift detection</li>
+          <li style="padding:4px 0">✅ Key S/R level mapping</li>
+          <li style="padding:4px 0">✅ Multi-indicator cross-verification</li>
+        </ul>
+        <div class="price">70 <span class="usdt">USDT TRC20</span></div>
+        <a href="/#pricing" class="btn">📥 Purchase</a>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:40px 0;color:#8899aa">
+      <p>💳 All payments via USDT TRC20 — <strong style="color:#ffd700">TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ</strong></p>
+      <p style="margin-top:8px;font-size:13px">Send exact amount. TXID required for verification.</p>
+    </div>
+
+    <footer class="footer">
+      <p>© 2026 TCPS Liquidity Engine. Store items delivered via email after verification.</p>
+    </footer>
+  </div>
+</body>
+</html>
