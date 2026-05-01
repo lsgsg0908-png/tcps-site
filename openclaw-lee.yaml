@@ -1,0 +1,9 @@
+version: "1"
+agents:
+  main:
+    name: "이과장"
+    model: "ollama/qwen2.5:7b"
+    provider: "ollama"
+    providerBase: "http://localhost:11434"
+telegram:
+  botToken: "834080…KODs"
