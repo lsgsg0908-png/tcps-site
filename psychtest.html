@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title>Trader Psychology Test - TCPS Engine</title>
+<style>
+:root{--bg:#0a0e17;--card:#111827;--card2:#1a2236;--border:#1e2d4a;--gold:#FFD700;--cyan:#00D4FF;--text:#e2e8f0;--text2:#94a3b8;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;line-height:1.6}
+.container{width:100%;max-width:560px;padding:16px}
+.header{text-align:center;padding:24px 0 16px}
+.header h1{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--gold),#ff8c00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.header p{color:var(--text2);font-size:13px}
+.header .badge{display:inline-block;background:var(--card2);border:1px solid var(--border);border-radius:20px;padding:4px 14px;font-size:11px;color:var(--cyan);margin-top:8px}
+.progress-wrap{background:var(--card);border-radius:20px;height:6px;margin:8px 0 20px;overflow:hidden}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--cyan),var(--gold));border-radius:20px;transition:width 0.4s ease;width:0%}
+.question-num{text-align:center;color:var(--text2);font-size:12px;margin-bottom:4px}
+.question-card{display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;animation:fadeIn 0.3s ease}
+.question-card.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.question-card .q-text{font-size:16px;font-weight:600;margin-bottom:20px;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:10px}
+.option-btn{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;color:var(--text);font-size:14px;cursor:pointer;transition:all 0.2s;text-align:left;line-height:1.4}
+.option-btn:hover{border-color:var(--cyan);background:#1e2d4a}
+.option-btn.selected{border-color:var(--gold);background:rgba(255,215,0,0.08)}
+.nav-btns{display:flex;gap:10px;margin-top:16px}
+.nav-btns button{flex:1;padding:14px;border-radius:var(--radius);border:none;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s}
+.btn-prev{background:var(--card2);color:var(--text2);border:1px solid var(--border)!important}
+.btn-prev:hover{color:var(--text);border-color:var(--text2)}
+.btn-next{background:linear-gradient(135deg,var(--cyan),#0099cc);color:#fff}
+.btn-next:hover{opacity:.9}.btn-next:disabled{opacity:.4;cursor:not-allowed}
+.btn-submit{background:linear-gradient(135deg,var(--gold),#ff8c00);color:#000}
+.btn-submit:hover{opacity:.9}.btn-submit:disabled{opacity:.4;cursor:not-allowed}
+.result-card{display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;text-align:center;animation:fadeIn 0.5s ease}
+.result-card.active{display:block}
+.result-wrap{display:none}.result-wrap.active{display:block}
+.start-screen{display:block;text-align:center;padding:40px 0}
+.start-screen.hidden{display:none}
+.start-screen h2{font-size:22px;margin-bottom:8px}
+.start-screen p{color:var(--text2);font-size:14px;margin-bottom:24px;line-height:1.7}
+.start-screen .features{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;text-align:left}
+.start-screen .features li{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;list-style:none;font-size:13px;color:var(--text2)}
+.start-screen .features li strong{color:var(--text)}
+.start-btn{background:linear-gradient(135deg,var(--gold),#ff8c00);color:#000;border:none;padding:16px 48px;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s}
+.start-btn:hover{opacity:.9;transform:translateY(-1px)}
+.quiz-wrap{display:none}.quiz-wrap.active{display:block}
+.result-card .result-icon{font-size:56px;margin-bottom:12px}
+.result-card h2{font-size:22px;margin-bottom:4px}
+.result-card .badge-type{display:inline-block;background:rgba(255,215,0,0.12);border:1px solid rgba(255,215,0,0.3);color:var(--gold);padding:6px 18px;border-radius:20px;font-size:14px;font-weight:700;margin-bottom:16px}
+.result-card .desc{color:var(--text2);font-size:14px;line-height:1.7;text-align:left;margin-bottom:12px}
+.result-card .cta-buttons{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.result-card .cta-btn{display:block;padding:14px;border-radius:var(--radius);text-align:center;text-decoration:none;font-weight:600;font-size:14px;transition:all 0.2s}
+.result-card .cta-free{background:var(--card2);border:1px solid var(--border);color:var(--cyan)}
+.result-card .cta-free:hover{border-color:var(--cyan)}
+.result-card .cta-premium{background:linear-gradient(135deg,var(--gold),#ff8c00);color:#000}
+.result-card .cta-premium:hover{opacity:.9}
+.restart-btn{background:transparent;border:1px solid var(--border);color:var(--text2);padding:12px;border-radius:var(--radius);cursor:pointer;font-size:13px;margin-top:12px;transition:all 0.2s}
+.restart-btn:hover{color:var(--text);border-color:var(--text2)}
+.footer{text-align:center;padding:24px 0;color:var(--text2);font-size:11px}
+</style></head><body><div class="container">
+<div class="header"><h1>&#x1F9E0; Trader Psychology Test</h1><p>Discover your trading personality in 2 minutes</p><div class="badge">10 questions &#183; No sign-up</div></div>
+<div class="start-screen" id="startScreen">
+<p>Most traders lose because of psychology, not strategy.<br>Know yourself before you trade another candle.</p>
+<ul class="features">
+<li><strong>&#x1F4CB; 10 Questions</strong> &#8212; Quick but revealing</li>
+<li><strong>&#x1F3AF; 6 Personality Types</strong> &#8212; From impulsive scalper to patient swing trader</li>
+<li><strong>&#x1F9E0; Actionable Insights</strong> &#8212; What to work on next</li>
+<li><strong>&#x1F512; Private</strong> &#8212; No data stored, no sign-up</li>
+</ul>
+<button class="start-btn" onclick="startTest()">&#9654; Start the Test</button>
+</div>
+<div class="quiz-wrap" id="quizWrap">
+<div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+<div class="question-num" id="questionNum">Question 1 / 10</div>
+<div id="questionsContainer"></div>
+<div class="nav-btns">
+<button class="btn-prev" id="prevBtn" onclick="prevQuestion()">&#8592; Back</button>
+<button class="btn-next" id="nextBtn" onclick="nextQuestion()">Next &#8594;</button>
+</div></div>
+<div class="result-wrap" id="resultWrap"><div class="result-card" id="resultCard"></div></div>
+<div class="footer">TCPS Liquidity Engine &#8212; Structure over noise</div>
+</div>
+
+<script>
+const Q = [
+{q:"After three losing trades in a row, you:",o:[
+{t:"Take a break and review tomorrow",v:"patient"},
+{t:"Double down - the next one has to win",v:"impulsive"},
+{t:"Analyze each loss carefully before trading again",v:"analytical"},
+{t:"Stick to the plan - losses are part of the game",v:"disciplined"}]},
+{q:"Your ideal trade duration is:",o:[
+{t:"Minutes to hours - quick in, quick out",v:"scalper"},
+{t:"Hours to days - I let trades breathe",v:"swing"},
+{t:"Days to weeks - position trading",v:"position"},
+{t:"I follow structure, not a fixed timeframe",v:"adaptive"}]},
+{q:"A trade is in profit +5%. Do you:",o:[
+{t:"Take profit immediately - profit is profit",v:"risk_averse"},
+{t:"Move stop to break-even and let it run",v:"disciplined"},
+{t:"Add to position - it is clearly working",v:"aggressive"},
+{t:"Wait for my target - I planned this entry",v:"patient"}]},
+{q:"What is your biggest emotional challenge?",o:[
+{t:"FOMO - watching a move I missed",v:"fomo"},
+{t:"Revenge trading after a loss",v:"revenge"},
+{t:"Hesitation - second-guessing my entries",v:"hesitant"},
+{t:"Greed - not knowing when to take profit",v:"greed"}]},
+{q:"How do you choose your trades?",o:[
+{t:"Technical analysis + structure + confluence",v:"analytical"},
+{t:"Gut feeling + recent price action",v:"intuitive"},
+{t:"Following major market moves and news",v:"news_based"},
+{t:"Fixed system - same setup every time",v:"systematic"}]},
+{q:"The market gaps against you overnight. Down 8%. You:",o:[
+{t:"Cut loss immediately - capital preservation first",v:"risk_averse"},
+{t:"Hold - it might come back during the session",v:"hopeful"},
+{t:"Analyze if thesis is still valid, then decide",v:"analytical"},
+{t:"Average down - better entry now",v:"aggressive"}]},
+{q:"Your max position size as % of account:",o:[
+{t:"0.5-1% - I protect capital above all",v:"conservative"},
+{t:"1-2% - Standard risk management",v:"balanced"},
+{t:"2-5% - I am confident in my edge",v:"confident"},
+{t:"5%+ - Big risks for big rewards",v:"aggressive"}]},
+{q:"When do you check the charts?",o:[
+{t:"Constantly - I cannot stop watching",v:"obsessive"},
+{t:"During specific trading sessions only",v:"structured"},
+{t:"Before and after work - scheduled checks",v:"scheduled"},
+{t:"Only when I have a pending order or position",v:"minimal"}]},
+{q:"A friend tells you about a guaranteed altcoin signal. You:",o:[
+{t:"Ignore - guaranteed = trap",v:"disciplined"},
+{t:"Research it thoroughly before considering",v:"analytical"},
+{t:"Take a small position - worth a shot",v:"opportunistic"},
+{t:"Go all in - this could be life-changing",v:"impulsive"}]},
+{q:"Complete: My trading would improve most if I...",o:[
+{t:"Stuck to my plan and stopped deviating",v:"need_discipline"},
+{t:"Controlled my emotions better",v:"need_emotional"},
+{t:"Had a better strategy or edge",v:"need_strategy"},
+{t:"Had more patience to wait for setups",v:"need_patience"}]}
+];
+
+const T = {
+disciplined:{icon:"&#x1F4AA;",n:"The Disciplined Trader",c:"#22c55e",d:"You have the strongest foundation for long-term success: discipline. You follow your plan, manage risk, and do not let emotions drive decisions. Your challenge is staying adaptable when the market regime shifts. Stick with your system and keep a trading journal.",r:[["Plan Adherence",90],["Emotional Control",85],["Risk Management",88],["Patience",80],["Adaptability",65]]},
+analytical:{icon:"&#x1F50D;",n:"The Analytical Trader",c:"#00D4FF",d:"You thrive on data and analysis. You enter trades with confluence and clear reasoning. Your risk: analysis paralysis and missing moves while over-optimizing. Set a timer for entries and trust your process. Not every variable needs to align.",r:[["Plan Adherence",75],["Emotional Control",70],["Risk Management",80],["Patience",75],["Adaptability",70]]},
+impulsive:{icon:"&#x26A1;",n:"The Impulsive Trader",c:"#ef4444",d:"You act fast and feel the urge to be in a trade constantly. While speed can be an edge, impulsive entries destroy P&amp;L. Your biggest win will come from slowing down - filter trades through a checklist before entering. Quality over quantity.",r:[["Plan Adherence",35],["Emotional Control",30],["Risk Management",40],["Patience",25],["Adaptability",80]]},
+patient:{icon:"&#x1F9D8;",n:"The Patient Trader",c:"#a855f7",d:"You wait for the right setup and rarely force trades. Patience is your superpower. Your risk: missing trend continuations by being too cautious. Work on scaling into positions gradually rather than waiting for perfection.",r:[["Plan Adherence",80],["Emotional Control",78],["Risk Management",85],["Patience",95],["Adaptability",55]]},
+risk_averse:{icon:"&#x1F6E1;",n:"The Capital Guardian",c:"#f59e0b",d:"Capital preservation is your priority. You cut losses fast and protect your account. Your risk: leaving too much on the table by taking profit too early. Let winners run by trailing stops instead of fixed targets.",r:[["Plan Adherence",80],["Emotional Control",75],["Risk Management",95],["Patience",70],["Adaptability",60]]},
+aggressive:{icon:"&#x1F525;",n:"The Aggressive Trader",c:"#ff6b35",d:"You swing big and embrace risk. When right, your returns are exceptional. When wrong, the damage is severe. Reduce position size by half and focus on risk:reward above 1:3.",r:[["Plan Adherence",40],["Emotional Control",35],["Risk Management",30],["Patience",45],["Adaptability",85]]}
+};
+
+let curr = 0;
+let ans = {};
+
+// Score mapping: each answer value maps to a result type
+const M = {
+"patient":"patient","impulsive":"impulsive","analytical":"analytical","disciplined":"disciplined",
+"scalper":"impulsive","swing":"patient","position":"patient","adaptive":"analytical",
+"risk_averse":"risk_averse","aggressive":"aggressive","fomo":"impulsive","revenge":"aggressive",
+"hesitant":"analytical","greed":"aggressive","intuitive":"impulsive","news_based":"impulsive",
+"systematic":"disciplined","hopeful":"patient","conservative":"risk_averse","balanced":"disciplined",
+"confident":"aggressive","obsessive":"impulsive","structured":"disciplined","scheduled":"patient",
+"minimal":"analytical","opportunistic":"aggressive",
+"need_discipline":"impulsive","need_emotional":"aggressive","need_strategy":"analytical","need_patience":"impulsive"
+};
+
+function startTest(){
+document.getElementById("startScreen").classList.add("hidden");
+document.getElementById("quizWrap").classList.add("active");
+render();
+}
+
+function render(){
+const c = document.getElementById("questionsContainer");
+c.innerHTML = "";
+const q = Q[curr];
+const card = document.createElement("div");
+card.className = "question-card active";
+let h = '<div class="q-text">'+(curr+1)+". "+q.q+'</div><div class="options">';
+q.o.forEach((o
+
+function startTest(){start.style.display='none';qwrap.style.display='block';render();}
+const start=document.getElementById('startScreen');
+const qwrap=document.getElementById('quizWrap');
+const rwrap=document.getElementById('resultWrap');
+const Qc=document.getElementById('questionsContainer');
+const bar=document.getElementById('progressBar');
+const qn=document.getElementById('questionNum');
+const prev=document.getElementById('prevBtn');
+const next=document.getElementById('nextBtn');
+let cur=0, ans={};
+const M={'patient':'patient','impulsive':'impulsive','analytical':'analytical','disciplined':'disciplined','scalper':'impulsive','swing':'patient','position':'patient','adaptive':'analytical','risk_averse':'risk_averse','aggressive':'aggressive','fomo':'impulsive','revenge':'aggressive','hesitant':'analytical','greed':'aggressive','intuitive':'impulsive','news_based':'impulsive','systematic':'disciplined','hopeful':'patient','conservative':'risk_averse','balanced':'disciplined','confident':'aggressive','obsessive':'impulsive','structured':'disciplined','scheduled':'patient','minimal':'analytical','opportunistic':'aggressive','need_discipline':'impulsive','need_emotional':'aggressive','need_strategy':'analytical','need_patience':'impulsive'};
+
+function render(){Qc.innerHTML='';const q=Q[cur];let h='<div class='q-text'>'+(cur+1)+'. '+q.q+'</div><div class='options'>';
+q.o.forEach(function(o,i){let sel=ans[cur]===i?' selected':'';h+='<div class='option-btn'+sel+'' onclick='selectOpt('+i+')'>'+o.t+'</div>';});
+h+='</div>';Qc.innerHTML=h;updateUI();}
+
+function selectOpt(i){ans[cur]=i;render();}
+
+function updateUI(){const pct=((cur+1)/Q.length*100).toFixed(0);bar.style.width=pct+'%';qn.textContent='Question '+(cur+1)+' / '+Q.length;
+prev.style.display=cur===0?'none':'block';
+if(cur===Q.length-1){next.textContent='Submit';next.className='btn-submit';next.disabled=ans[cur]===undefined;}else{next.textContent='Next →';next.className='btn-next';next.disabled=ans[cur]===undefined;}}
+
+function prevQuestion(){if(cur>0){cur--;render();}}
+
+function nextQuestion(){if(ans[cur]===undefined)return;
+if(cur===Q.length-1){showResult();return;}
+cur++;render();}
+
+function showResult(){qwrap.style.display='none';rwrap.style.display='block';
+const scores={};Object.keys(T).forEach(function(k){scores[k]=0;});
+for(let i=0;i<Q.length;i++){if(ans[i]!==undefined){const val=Q[i].o[ans[i]].v;const mapped=M[val]||'analytical';if(scores[mapped]!==undefined)scores[mapped]++;}}
+let maxType='analytical',maxScore=0;
+Object.keys(scores).forEach(function(k){if(scores[k]>maxScore){maxScore=scores[k];maxType=k;}});
+const type=T[maxType];const rc=document.getElementById('resultCard');
+let h='<div class='result-icon'>'+type.icon+'</div><h2>'+type.n+'</h2><div class='badge-type'>Score: '+maxScore+'/'+Q.length+'</div><div class='desc'>'+type.d+'</div>';
+h+='<div class='cta-buttons'><a class='cta-btn cta-free' href='https://t.me/daytrading_talkbtc' target='_blank'>&#x1F4E1; Join Free Trading Room</a><a class='cta-btn cta-premium' href='https://lsgsg0908-png.github.io/tcps-site/vip.html' target='_blank'>&#x2B50; Explore VIP Signals</a><button class='restart-btn' onclick='restart()'>&#x1F504; Take the Test Again</button></div>';
+rc.innerHTML=h;rc.classList.add('active');}
+
+function restart(){cur=0;ans={};rwrap.style.display='none';start.style.display='block';}
+
+render();
+</script></body></html>
+
