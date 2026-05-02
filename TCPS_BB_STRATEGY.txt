@@ -1,51 +1,37 @@
 //@version=6
-strategy("TCPS BB Mean Reversion", overlay=true, initial_capital=10000,
+strategy("TCPS BB Mean Reversion v2", overlay=true, initial_capital=10000,
   default_qty_type=strategy.percent_of_equity, default_qty_value=100,
   commission_type=strategy.commission.percent, commission_value=0.1)
 
-// ─── INPUTS ───
+// Bollinger Bands + EMA filter
 bbLen = input.int(20, "BB Length")
 bbStd = input.float(2.0, "BB StdDev")
-emaF = input.int(8, "Trend EMA Fast")
-emaS = input.int(21, "Trend EMA Slow")
-slPct = input.float(0.6, "Stop Loss %")
-tpPct = input.float(1.2, "Take Profit %")
-cdBars = input.int(3, "Cooldown Bars")
+emaLen = input.int(50, "Trend EMA")
+slPct = input.float(0.8, "Stop Loss %")
+tpPct = input.float(1.5, "Take Profit %")
 
-// ─── INDICATORS ───
 [bbMid, bbUp, bbDown] = ta.bb(close, bbLen, bbStd)
-eF = ta.ema(close, emaF)
-eS = ta.ema(close, emaS)
+emaVal = ta.ema(close, emaLen)
 
-plot(bbMid, "BB Mid", color.blue)
-plot(bbUp, "BB Up", color.gray)
-plot(bbDown, "BB Down", color.gray)
-plot(eF, "EMA8", color.orange)
-plot(eS, "EMA21", color.red)
+plot(bbMid, "Mid", color.blue)
+plot(bbUp, "Upper", color.gray, 1, style=plot.style_circles)
+plot(bbDown, "Lower", color.gray, 1, style=plot.style_circles)
+plot(emaVal, "EMA50", color.orange)
 
-// ─── ENTRIES ───
-trendUp = eF > eS
-trendDn = eF < eS
-
-longCond = low <= bbDown and trendUp and close > bbDown
-shortCond = high >= bbUp and trendDn and close < bbUp
+// Entry: BB touch + EMA direction filter
+longCond = low <= bbDown and emaVal < emaVal[1]
+shortCond = high >= bbUp and emaVal > emaVal[1]
+cooldown = 3
 
 var int lastBar = 0
 
-if bar_index - lastBar > cdBars
+if bar_index - lastBar > cooldown
     if longCond
-        strategy.entry("Long", strategy.long)
+        strategy.entry("L", strategy.long)
         lastBar := bar_index
     if shortCond
-        strategy.entry("Short", strategy.short)
+        strategy.entry("S", strategy.short)
         lastBar := bar_index
 
-// ─── EXITS ───
-strategy.exit("XL", "Long", loss=close*slPct/100, profit=close*tpPct/100)
-strategy.exit("XS", "Short", loss=close*slPct/100, profit=close*tpPct/100)
-
-// ─── VISUAL ───
-plotshape(longCond, style=shape.triangleup, location=location.belowbar,
-  color=color.new(color.green, 0), size=size.tiny, text="BB BUY")
-plotshape(shortCond, style=shape.triangledown, location=location.abovebar,
-  color=color.new(color.red, 0), size=size.tiny, text="BB SELL")
+strategy.exit("XL", "L", loss=close*slPct/100, profit=close*tpPct/100)
+strategy.exit("XS", "S", loss=close*slPct/100, profit=close*tpPct/100)
