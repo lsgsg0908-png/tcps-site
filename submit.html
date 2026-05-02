@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<title>Verify Payment - TCPS Liquidity Engine</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#04060b;color:#e2e8f0;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.container{width:100%;max-width:560px;padding:16px}
+.nav{display:flex;justify-content:space-between;align-items:center;max-width:560px;margin:0 auto;padding:20px 16px;width:100%}
+.nav-logo{font-size:18px;font-weight:700;background:linear-gradient(135deg,#00D4FF,#7560ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:24px}
+.nav-links a{color:#94a3b8;font-size:14px;font-weight:500;text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:#e2e8f0}
+.nav-links a.active{color:#e2e8f0}
+.card{background:#111827;border:1px solid #1e2d4a;border-radius:12px;padding:24px;margin:16px 0}
+.card h2{font-size:20px;font-weight:700;margin-bottom:12px}
+.card p{color:#64748b;font-size:14px;line-height:1.6;margin-bottom:16px}
+.wallet-box{background:#0a0e17;border:1px solid #1e2d4a;border-radius:8px;padding:14px;font-family:monospace;font-size:13px;word-break:break-all;color:#00D4FF;margin-bottom:16px;cursor:pointer;user-select:all}
+.wallet-box:hover{background:#0d1222}
+.label{font-size:12px;color:#64748b;margin-bottom:4px;display:block}
+.input{width:100%;padding:12px 14px;background:#0a0e17;border:1px solid #1e2d4a;border-radius:8px;color:#e2e8f0;font-size:14px;font-family:monospace;outline:none;transition:border-color .2s}
+.input:focus{border-color:#00D4FF}
+.select{width:100%;padding:12px 14px;background:#0a0e17;border:1px solid #1e2d4a;border-radius:8px;color:#e2e8f0;font-size:14px;outline:none;appearance:none;cursor:pointer}
+.submit-btn{width:100%;padding:14px;border-radius:8px;border:none;background:linear-gradient(135deg,#00D4FF,#7560ff);color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .2s;margin-top:8px}
+.submit-btn:hover{opacity:.9}
+.footer{text-align:center;padding:24px;color:#475569;font-size:12px;margin-top:auto}
+.status-info{display:flex;align-items:center;gap:8px;padding:12px;border-radius:8px;font-size:13px;margin-top:12px}
+.status-pending{background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);color:#ffd700}
+.status-active{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:#22c55e}
+.plan-badge{display:inline-block;background:rgba(53,207,255,.1);border:1px solid rgba(53,207,255,.2);color:#00D4FF;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600}
+.gold-badge{background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.2);color:#ffd700}
+</style></head><body>
+<nav class="nav"><div class="nav-logo">TCPS</div><div class="nav-links"><a href="service.html">Plans</a><a href="store.html">Store</a><a href="submit.html" class="active">Verify</a></div></nav>
+<div class="container">
+
+<div class="card">
+<h2>Verify Your Payment</h2>
+<p>Send the exact USDT amount to the wallet below, then submit your TXID for instant verification.</p>
+
+<label class="label">USDT TRC20 Wallet</label>
+<div class="wallet-box" id="walletAddr">TJn4TwxxfLPhziLB6xkavnjDvaiDUNCfyJ</div>
+
+<label class="label">Select Plan</label>
+<select class="select" id="planSelect" onchange="updateAmount()">
+<option value="monthly">Monthly - 35 USDT</option>
+<option value="yearly">Yearly - 252 USDT (save 40%)</option>
+<option value="lifetime">Lifetime - 550 USDT</option>
+</select>
+
+<label class="label" style="margin-top:12px">Amount Sent (USDT)</label>
+<input class="input" id="amountInput" type="number" value="35" readonly style="color:#22c55e;font-weight:600">
+
+<label class="label" style="margin-top:12px">Transaction ID (TXID)</label>
+<input class="input" id="txidInput" type="text" placeholder="Paste your TRC20 TXID here">
+
+<button class="submit-btn" onclick="submitTxid()">Submit for Verification</button>
+
+<div id="statusMsg"></div>
+</div>
+
+<div class="card" style="text-align:center">
+<p style="font-size:13px;color:#64748b;margin-bottom:8px">After submitting, you will receive a confirmation via</p>
+<p style="font-size:14px;color:#e2e8f0">@TCPSMASTERBOT</p>
+<p style="font-size:12px;color:#475569;margin-top:8px">Verification takes 5-15 minutes</p>
+</div>
+
+</div>
+<div class="footer">TCPS Liquidity Engine - TRC20 Verification Ready</div>
+
+<script>
+function updateAmount(){var s=document.getElementById("planSelect");var a=document.getElementById("amountInput");var v={monthly:35,yearly:252,lifetime:550};a.value=v[s.value]}
+
+function submitTxid(){var p=document.getElementById("planSelect").value;var t=document.getElementById("txidInput").value.trim();var s=document.getElementById("statusMsg");if(!t||t.length<10){s.innerHTML='<div class="status-info status-pending">Please enter a valid TXID</div>';return}
+var url="https://t.me/TCPSMASTERBOT?start=verify_"+p+"_"+t;window.location.href=url}
+
+document.getElementById("walletAddr").addEventListener("click",function(){var t=this.textContent;navigator.clipboard.writeText(t);this.textContent="Copied!";var s=this;setTimeout(function(){s.textContent=t},2000)});
+</script>
+</body></html>
