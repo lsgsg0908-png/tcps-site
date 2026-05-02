@@ -756,8 +756,6 @@
     }
   
     /* MEMBER / AUTH */
-    .member-actions{ display:flex; align-items:center; gap:10px; }
-    .member-btn{
       min-height:42px;
       display:inline-flex;
       align-items:center;
@@ -772,13 +770,11 @@
       background:linear-gradient(135deg,#35cfff,#7560ff);
       box-shadow:0 10px 24px rgba(73,104,255,0.22);
     }
-    .member-btn.secondary{
       color:#dce7fb;
       background:rgba(255,255,255,0.04);
       border:1px solid rgba(255,255,255,0.10);
       box-shadow:none;
     }
-    .member-label{
       display:inline-flex;
       align-items:center;
       gap:8px;
@@ -790,7 +786,6 @@
       font-size:13px;
       white-space:nowrap;
     }
-    .member-label strong{ color:#fff; }
 
     .auth-modal{
       position:fixed;
@@ -1232,17 +1227,13 @@
       </div>
 
       <nav class="nav">
-        <a href="#problem">Problem</a>
-        <a href="#solution">Solution</a>
-        <a href="#engine">Engine</a>
-        <a href="#reviews">Reviews</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#cta" class="nav-cta">Get Access</a>
+        <a href="index.html#problem">Problem</a>
+        <a href="index.html#solution">Solution</a>
+        <a href="index.html#engine">Engine</a>
+        <a href="index.html#reviews">Reviews</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="index.html#cta" class="nav-cta">Get Access</a>
       </nav>
-      <div class="member-actions">
-        <div class="member-label" id="memberLabel">Guest Mode</div>
-        <button class="member-btn secondary" type="button" onclick="openAuthModal('login')">Login</button>
-        <button class="member-btn" type="button" onclick="openAuthModal('register')">Register</button>
       </div>
     </div>
   </header>
@@ -1256,7 +1247,7 @@
         <h1>For traders who want deeper execution support.</h1>
         <p>ELITE stacks Wave Structure, Liquidity Engine, and Order Block logic together. It is built for users who want stronger confluence and a more complete execution framework.</p>
         <div class="hero-actions">
-          <a href="index.html?plan=ELITE#member-access" class="btn-primary">Unlock ELITE</a>
+          <a href="vip.html" class="btn-primary">Unlock ELITE</a>
           <a href="index.html#pricing" class="btn-secondary">Back to Pricing</a>
         </div>
         <div class="plan-stat-grid"><div class="plan-stat"><div class="plan-stat-label">Best For</div><div class="plan-stat-value">Confluence-based execution</div></div><div class="plan-stat"><div class="plan-stat-label">Main Tool</div><div class="plan-stat-value">Order Block system</div></div><div class="plan-stat"><div class="plan-stat-label">Focus</div><div class="plan-stat-value">Advanced precision</div></div></div>
@@ -1269,7 +1260,7 @@
         </div>
         <div class="plan-copy">ELITE adds institutional zone logic on top of timing. This page keeps the same premium visual style as the homepage so the plan feels like a natural continuation, not a separate product.</div>
         <ul class="feature-list"><li>Everything included in PRO</li><li>Order Block system access</li><li>Stronger zone-based confluence</li><li>Improved reaction-area awareness</li></ul>
-        <a href="index.html?plan=ELITE#member-access" class="btn-primary" style="width:100%;">Go to Verification</a>
+        <a href="vip.html" class="btn-primary" style="width:100%;">Go to Verification</a>
       </div>
     </div>
   </div>
@@ -1307,7 +1298,7 @@
       <h2>See exactly where this tier sits inside Z1.</h2>
       <p>Users can compare the four plans fast, then jump back to the homepage verification flow with the correct plan preselected.</p>
     </div>
-    <div class="compare-box"><div class="compare-item"><h4>BASIC</h4><p>Wave Structure foundation</p><a class="btn-secondary" href="index.html?plan=BASIC#member-access">Choose BASIC</a></div><div class="compare-item"><h4>PRO</h4><p>Basic + Liquidity Engine</p><a class="btn-secondary" href="index.html?plan=PRO#member-access">Choose PRO</a></div><div class="compare-item active"><h4>ELITE</h4><p>Pro + Order Block confluence</p><a class="btn-secondary" href="index.html?plan=ELITE#member-access">Choose ELITE</a></div><div class="compare-item"><h4>LIFETIME</h4><p>Elite + future updates</p><a class="btn-secondary" href="index.html?plan=LIFETIME#member-access">Choose LIFETIME</a></div></div>
+    <div class="compare-box"><div class="compare-item"><h4>BASIC</h4><p>Wave Structure foundation</p><a class="btn-secondary" href="vip.html">Choose BASIC</a></div><div class="compare-item"><h4>PRO</h4><p>Basic + Liquidity Engine</p><a class="btn-secondary" href="vip.html">Choose PRO</a></div><div class="compare-item active"><h4>ELITE</h4><p>Pro + Order Block confluence</p><a class="btn-secondary" href="vip.html">Choose ELITE</a></div><div class="compare-item"><h4>LIFETIME</h4><p>Elite + future updates</p><a class="btn-secondary" href="vip.html">Choose LIFETIME</a></div></div>
   </div>
 </section>
 <section>
@@ -1326,7 +1317,7 @@
       <h2>Ready to unlock ELITE?</h2>
       <p>Use the same homepage verification system already built in the project. This page is the detailed sales layer. The homepage remains the conversion and verification hub.</p>
       <div class="cta-actions">
-        <a href="index.html?plan=ELITE#member-access" class="btn-primary">Continue with ELITE</a>
+        <a href="vip.html" class="btn-primary">Continue with ELITE</a>
         <a href="index.html#pricing" class="btn-secondary">Back to Homepage</a>
       </div>
     </div>
@@ -1666,7 +1657,6 @@
 
         document.getElementById('memberLabel').innerHTML = member
           ? 'Logged in: <strong>' + email + '</strong>'
-          : 'Guest Mode';
 
         document.getElementById('dashEmail').textContent = member ? email : 'Not logged in';
         document.getElementById('dashPlan').textContent = 'Plan: ' + (member ? (member.plan || 'NONE') : 'NONE');
@@ -2029,7 +2019,6 @@ document.addEventListener('DOMContentLoaded', function(){
     const email = getSessionEmail();
 
     if (qs("memberLabel")) {
-      qs("memberLabel").innerHTML = member ? 'Logged in: <strong>' + email + '</strong>' : 'Guest Mode';
     }
     if (qs("dashEmail")) qs("dashEmail").textContent = member ? email : "Not logged in";
     if (qs("dashPlan")) qs("dashPlan").textContent = "Plan: " + (member ? (member.plan || "NONE") : "NONE");
@@ -2157,13 +2146,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if (qs("authModal")) qs("authModal").classList.remove("active");
   };
   window.switchAuthTab = function(mode) {
-    const isRegister = mode === "register";
-    if (qs("registerTab")) qs("registerTab").classList.toggle("active", isRegister);
-    if (qs("loginTab")) qs("loginTab").classList.toggle("active", !isRegister);
-    if (qs("registerForm")) qs("registerForm").classList.toggle("active", isRegister);
-    if (qs("loginForm")) qs("loginForm").classList.toggle("active", !isRegister);
     if (qs("authMessage")) {
-      qs("authMessage").textContent = isRegister
         ? "Create your account first, then complete payment verification."
         : "Log in to continue with your selected plan.";
     }
