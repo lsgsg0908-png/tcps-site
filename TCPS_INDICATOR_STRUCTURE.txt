@@ -1,0 +1,73 @@
+//@version=6
+indicator(title="TCPS Market Structure", shorttitle="TCPS MS", overlay=true)
+
+// 자동 스윙 포인트 + 트렌드라인 — 시장의 구조적 흐름을 시각화
+
+swingLen = input.int(5, "Swing Length")
+showLines = input.bool(true, "Show Trendlines")
+showLabels = input.bool(true, "Show Labels")
+
+// Detect swings
+ph = ta.pivothigh(high, swingLen, swingLen)
+pl = ta.pivotlow(low, swingLen, swingLen)
+
+// Store swing points
+var float lastHigh = na
+var float lastLow = na
+var int lastHighBar = na
+var int lastLowBar = na
+var string trend = "neutral"
+
+// Update on new swing
+if not na(ph)
+    lastHigh := ph
+    lastHighBar := bar_index
+if not na(pl)
+    lastLow := pl
+    lastLowBar := bar_index
+
+// Draw swing lines
+if showLines and not na(lastHigh) and not na(lastLow)
+    // Uptrend line (higher lows)
+    if trend == "bull" and not na(lastLow) and not na(pl)
+        line.new(lastLowBar, lastLow, bar_index, pl,
+                 color=color.new(#4CAF50, 80), width=2, style=line.style_solid, extend=extend.right)
+    // Downtrend line (lower highs)
+    if trend == "bear" and not na(lastHigh) and not na(ph)
+        line.new(lastHighBar, lastHigh, bar_index, ph,
+                 color=color.new(#f44336, 80), width=2, style=line.style_solid, extend=extend.right)
+
+// Determine market structure
+bool higherLow = not na(lastLow) and not na(pl) and pl > lastLow
+bool lowerHigh = not na(lastHigh) and not na(ph) and ph < lastHigh
+bool breakHigh = not na(lastHigh) and close > lastHigh
+bool breakLow = not na(lastLow) and close < lastLow
+
+if higherLow and breakHigh
+    trend := "bull"
+if lowerHigh and breakLow
+    trend := "bear"
+
+// Visual structure labels
+if showLabels
+    if trend == "bull"
+        label.new(bar_index, high + (high - low) * 2,
+                  "▲ HH/HL Uptrend", style=label.style_none,
+                  color=color.new(#4CAF50, 90), textcolor=#4CAF50, size=size.small)
+    if trend == "bear"
+        label.new(bar_index, low - (high - low) * 2,
+                  "▼ LH/LL Downtrend", style=label.style_none,
+                  color=color.new(#f44336, 90), textcolor=#f44336, size=size.small)
+    if trend == "neutral"
+        label.new(bar_index, low - (high - low) * 3,
+                  "◆ Ranging", style=label.style_none,
+                  color=color.new(#FF9800, 90), textcolor=#FF9800, size=size.tiny)
+
+// Break signals
+plotshape(breakHigh, style=shape.triangleup, location=location.belowbar,
+          color=color.new(#4CAF50, 70), size=size.tiny, text="STRUCT UP")
+plotshape(breakLow, style=shape.triangledown, location=location.abovebar,
+          color=color.new(#f44336, 70), size=size.tiny, text="STRUCT DN")
+
+alertcondition(trend == "bull", "Bullish Structure", "{{ticker}} structure turned bullish")
+alertcondition(trend == "bear", "Bearish Structure", "{{ticker}} structure turned bearish")

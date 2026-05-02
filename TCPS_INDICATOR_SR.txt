@@ -1,0 +1,79 @@
+//@version=6
+indicator(title="TCPS S/R Pro", shorttitle="TCPS S/R", overlay=true)
+
+// 자동 지지/저항 레벨 + 돌파 감지 — 기관이 주목하는 가격대 표시
+
+srLookback = input.int(30, "S/R Lookback")
+srSensitivity = input.float(0.3, "S/R Sensitivity %", step=0.1)
+showBreakout = input.bool(true, "Show Breakout Signals")
+
+// Find key levels
+var float[] resLevels = array.new<float>(0)
+var float[] supLevels = array.new<float>(0)
+var int lastReset = 0
+
+// Reset levels periodically
+if bar_index - lastReset > srLookback
+    array.clear(resLevels)
+    array.clear(supLevels)
+    lastReset := bar_index
+
+// Detect swing highs/lows
+ph = ta.pivothigh(high, 5, 5)
+pl = ta.pivotlow(low, 5, 5)
+
+if not na(ph)
+    // Check if nearby level exists
+    bool exists = false
+    for i = 0 to array.size(resLevels) - 1
+        if math.abs(ph - array.get(resLevels, i)) / ph * 100 < srSensitivity
+            exists := true
+            array.set(resLevels, i, (ph + array.get(resLevels, i)) / 2)
+            break
+    if not exists
+        array.push(resLevels, ph)
+
+if not na(pl)
+    bool exists = false
+    for i = 0 to array.size(supLevels) - 1
+        if math.abs(pl - array.get(supLevels, i)) / pl * 100 < srSensitivity
+            exists := true
+            array.set(supLevels, i, (pl + array.get(supLevels, i)) / 2)
+            break
+    if not exists
+        array.push(supLevels, pl)
+
+// Draw levels
+for i = 0 to array.size(resLevels) - 1
+    line.new(bar_index - srLookback, array.get(resLevels, i), bar_index, array.get(resLevels, i),
+             color=color.new(#FF1744, 60), width=1, style=line.style_solid, extend=extend.right)
+
+for i = 0 to array.size(supLevels) - 1
+    line.new(bar_index - srLookback, array.get(supLevels, i), bar_index, array.get(supLevels, i),
+             color=color.new(#00E676, 60), width=1, style=line.style_solid, extend=extend.right)
+
+// Breakout detection
+if showBreakout
+    for i = 0 to array.size(resLevels) - 1
+        if ta.crossover(close, array.get(resLevels, i))
+            label.new(bar_index, high, "▲ Breakout", style=label.style_label_down,
+                      color=color.new(#4CAF50, 80), textcolor=color.white, size=size.tiny)
+    for i = 0 to array.size(supLevels) - 1
+        if ta.crossunder(close, array.get(supLevels, i))
+            label.new(bar_index, low, "▼ Breakdown", style=label.style_label_up,
+                      color=color.new(#f44336, 80), textcolor=color.white, size=size.tiny)
+
+// Nearest S/R for reference
+nearestRes = array.size(resLevels) > 0 ? array.get(resLevels, 0) : na
+nearestSup = array.size(supLevels) > 0 ? array.get(supLevels, 0) : na
+
+// Find nearest above/below
+for i = 0 to array.size(resLevels) - 1
+    level = array.get(resLevels, i)
+    if level > close and (na(nearestRes) or level < nearestRes)
+        nearestRes := level
+
+for i = 0 to array.size(supLevels) - 1
+    level = array.get(supLevels, i)
+    if level < close and (na(nearestSup) or level > nearestSup)
+        nearestSup := level

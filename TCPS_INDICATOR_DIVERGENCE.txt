@@ -1,0 +1,40 @@
+//@version=6
+indicator(title="TCPS Momentum Divergence", shorttitle="TCPS Div", overlay=true)
+
+// RSI/MACD 다이버전스 감지 — 숨겨진 추세 전환 포착
+
+len = input.int(14, "RSI Length")
+ob = input.int(70, "Overbought")
+os = input.int(30, "Oversold")
+
+rsi = ta.rsi(close, len)
+
+// Swing highs/lows for divergence detection
+ph = ta.pivothigh(rsi, 5, 5)
+pl = ta.pivotlow(rsi, 5, 5)
+priceH = ta.pivothigh(high, 5, 5)
+priceL = ta.pivotlow(low, 5, 5)
+
+// Bearish divergence: price higher high, RSI lower high
+bearDiv = not na(ph) and not na(priceH) and ph < ta.valuewhen(ph, ph, 1) and priceH > ta.valuewhen(priceH, priceH, 1)
+
+// Bullish divergence: price lower low, RSI higher low
+bullDiv = not na(pl) and not na(priceL) and pl > ta.valuewhen(pl, pl, 1) and priceL < ta.valuewhen(priceL, priceL, 1)
+
+// Hidden bearish: price lower high, RSI higher high
+hiddenBear = not na(ph) and not na(priceH) and ph > ta.valuewhen(ph, ph, 1) and priceH < ta.valuewhen(priceH, priceH, 1)
+
+// Hidden bullish: price higher low, RSI lower low
+hiddenBull = not na(pl) and not na(priceL) and pl < ta.valuewhen(pl, pl, 1) and priceL > ta.valuewhen(priceL, priceL, 1)
+
+plotshape(bearDiv, style=shape.triangledown, location=location.abovebar, color=color.new(#FF1744, 0), size=size.small, text="BEAR DIV")
+plotshape(bullDiv, style=shape.triangleup, location=location.belowbar, color=color.new(#00E676, 0), size=size.small, text="BULL DIV")
+plotshape(hiddenBear, style=shape.triangledown, location=location.abovebar, color=color.new(#FF9100, 50), size=size.tiny, text="HIDDEN")
+plotshape(hiddenBull, style=shape.triangleup, location=location.belowbar, color=color.new(#00BCD4, 50), size=size.tiny, text="HIDDEN")
+
+// Divergence line (optional: visualize last divergence)
+hline(ob, "OB", color.red, hline.style_dashed)
+hline(os, "OS", color.green, hline.style_dashed)
+
+alertcondition(bearDiv, "Bearish Divergence", "{{ticker}} bearish divergence detected")
+alertcondition(bullDiv, "Bullish Divergence", "{{ticker}} bullish divergence detected")

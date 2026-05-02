@@ -1,0 +1,51 @@
+//@version=6
+strategy("TCPS BB Mean Reversion", overlay=true, initial_capital=10000,
+  default_qty_type=strategy.percent_of_equity, default_qty_value=100,
+  commission_type=strategy.commission.percent, commission_value=0.1)
+
+// ─── INPUTS ───
+bbLen = input.int(20, "BB Length")
+bbStd = input.float(2.0, "BB StdDev")
+emaF = input.int(8, "Trend EMA Fast")
+emaS = input.int(21, "Trend EMA Slow")
+slPct = input.float(0.6, "Stop Loss %")
+tpPct = input.float(1.2, "Take Profit %")
+cdBars = input.int(3, "Cooldown Bars")
+
+// ─── INDICATORS ───
+[bbMid, bbUp, bbDown] = ta.bb(close, bbLen, bbStd)
+eF = ta.ema(close, emaF)
+eS = ta.ema(close, emaS)
+
+plot(bbMid, "BB Mid", color.blue)
+plot(bbUp, "BB Up", color.gray)
+plot(bbDown, "BB Down", color.gray)
+plot(eF, "EMA8", color.orange)
+plot(eS, "EMA21", color.red)
+
+// ─── ENTRIES ───
+trendUp = eF > eS
+trendDn = eF < eS
+
+longCond = low <= bbDown and trendUp and close > bbDown
+shortCond = high >= bbUp and trendDn and close < bbUp
+
+var int lastBar = 0
+
+if bar_index - lastBar > cdBars
+    if longCond
+        strategy.entry("Long", strategy.long)
+        lastBar := bar_index
+    if shortCond
+        strategy.entry("Short", strategy.short)
+        lastBar := bar_index
+
+// ─── EXITS ───
+strategy.exit("XL", "Long", loss=close*slPct/100, profit=close*tpPct/100)
+strategy.exit("XS", "Short", loss=close*slPct/100, profit=close*tpPct/100)
+
+// ─── VISUAL ───
+plotshape(longCond, style=shape.triangleup, location=location.belowbar,
+  color=color.new(color.green, 0), size=size.tiny, text="BB BUY")
+plotshape(shortCond, style=shape.triangledown, location=location.abovebar,
+  color=color.new(color.red, 0), size=size.tiny, text="BB SELL")

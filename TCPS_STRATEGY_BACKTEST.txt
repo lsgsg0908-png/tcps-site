@@ -1,0 +1,67 @@
+//@version=6
+strategy(title="TCPS 3-in-1 Strategy [BACKTEST]", overlay=true, initial_capital=10000, default_qty_type=strategy.percent_of_equity, default_qty_value=100, commission_type=strategy.commission.percent, commission_value=0.1)
+
+// ─── Inputs ───
+swingLen = input.int(5, "Swing Length")
+emaF = input.int(20, "EMA Fast")
+emaS = input.int(50, "EMA Slow")
+sweepLen = input.int(1, "Sweep Lookback")
+obStrength = input.int(60, "OB Strength Filter")
+stopLossPct = input.float(2.0, "Stop Loss %")
+takeProfitPct = input.float(4.0, "Take Profit %")
+
+// ─── EMA ───
+eFast = ta.ema(close, emaF)
+eSlow = ta.ema(close, emaS)
+plot(eFast, "EMA20", color.blue)
+plot(eSlow, "EMA50", color.red)
+
+// ─── CHOCH ───
+ph = ta.pivothigh(high, swingLen, swingLen)
+pl = ta.pivotlow(low, swingLen, swingLen)
+
+var float lastPH = na
+var float lastPL = na
+var string bias = "neutral"
+var int lastSigBar = 0
+
+if not na(ph)
+    lastPH := ph
+if not na(pl)
+    lastPL := pl
+
+if not na(lastPH) and close > lastPH and bias != "bull"
+    bias := "bull"
+if not na(lastPL) and close < lastPL and bias != "bear"
+    bias := "bear"
+
+// ─── SMC OB ───
+body = math.abs(close - open)
+cRange = high - low
+bodyScore = (1 - body / cRange) * 100
+bullOB = eFast > eSlow and close[1] < open[1] and close > close[1] and bodyScore > obStrength
+bearOB = eFast < eSlow and close[1] > open[1] and close < close[1] and bodyScore > obStrength
+
+// ─── Liquidity Sweep ───
+lowestBarrier = ta.lowest(low[1], sweepLen)
+highestBarrier = ta.highest(high[1], sweepLen)
+sweepLong = close[1] < open[1] and close > open and low < lowestBarrier
+sweepShort = close[1] > open[1] and close < open and high > highestBarrier
+
+// ─── Signals ───
+longCondition = sweepLong and bias == "bull" and bullOB
+shortCondition = sweepShort and bias == "bear" and bearOB
+
+// ─── Entry ───
+if longCondition
+    strategy.entry("Long", strategy.long)
+if shortCondition
+    strategy.entry("Short", strategy.short)
+
+// ─── TP/SL ───
+strategy.exit("TP/SL", "Long", loss=close*stopLossPct/100, profit=close*takeProfitPct/100)
+strategy.exit("TP/SL", "Short", loss=close*stopLossPct/100, profit=close*takeProfitPct/100)
+
+// ─── Visual ───
+plotshape(longCondition, style=shape.triangleup, location=location.belowbar, color=color.green, size=size.small, text="BUY")
+plotshape(shortCondition, style=shape.triangledown, location=location.abovebar, color=color.red, size=size.small, text="SELL")

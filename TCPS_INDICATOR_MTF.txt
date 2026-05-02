@@ -1,0 +1,62 @@
+//@version=6
+indicator(title="TCPS MTF Convergence", shorttitle="TCPS MTF", overlay=false)
+
+// 다중 타임프레임 동조 신호 — 4h/1h/15m EMA 방향이 모두 같을 때 강한 신호
+
+tf1 = input.timeframe("15", "Fast TF")
+tf2 = input.timeframe("60", "Medium TF")
+tf3 = input.timeframe("240", "Slow TF")
+emaLen = input.int(20, "EMA Length")
+
+// Get EMA from multiple timeframes
+ema1 = ta.ema(close, emaLen)
+ema2 = request.security(syminfo.tickerid, tf2, ta.ema(close, emaLen))
+ema3 = request.security(syminfo.tickerid, tf3, ta.ema(close, emaLen))
+
+// Current TF EMA
+emaCurr = ta.ema(close, emaLen)
+
+// Trend direction per TF
+trend1 = close > ema1 ? 1 : -1  // 15m
+trend2 = request.security(syminfo.tickerid, tf2, close > ema2 ? 1 : -1)
+trend3 = request.security(syminfo.tickerid, tf3, close > ema3 ? 1 : -1)
+
+// Convergence = all TFs agree
+convergence = trend1 + trend2 + trend3
+
+// Momentum per TF
+mom1 = ema1 - ta.ema(close[1], emaLen)
+mom2 = request.security(syminfo.tickerid, tf2, ta.ema(close, emaLen) - ta.ema(close[1], emaLen))
+mom3 = request.security(syminfo.tickerid, tf3, ta.ema(close, emaLen) - ta.ema(close[1], emaLen))
+
+// Combined momentum
+totalMom = mom1 + mom2 + mom3
+
+// Plot convergence strength
+hline(3, "All Bull", color.new(#4CAF50, 50), hline.style_dotted)
+hline(-3, "All Bear", color.new(#f44336, 50), hline.style_dotted)
+hline(0, "Neutral", color.new(#888, 30), hline.style_dotted)
+
+convergenceColor = convergence >= 3 ? color.new(#00E676, 0) : convergence <= -3 ? color.new(#FF1744, 0) : convergence >= 1 ? color.new(#FFEB3B, 80) : convergence <= -1 ? color.new(#FF9800, 80) : color.new(#888, 50)
+
+plot(convergence, "Convergence", convergenceColor, 3, plot.style_histogram)
+plot(totalMom, "Momentum", color.new(#448AFF, 70), 2)
+
+// Labels
+plotshape(convergence >= 3, style=shape.triangleup, location=location.bottom,
+          color=color.new(#00E676, 0), size=size.normal, text="⚡ALL TF BULL")
+plotshape(convergence <= -3, style=shape.triangledown, location=location.top,
+          color=color.new(#FF1744, 0), size=size.normal, text="⚡ALL TF BEAR")
+
+// Signal strength (0-100)
+strength = math.abs(convergence) * 16.7  // max = 3 * 16.7 ≈ 50
+
+var table signalTable = table.new(position.top_right, 2, 4, bgcolor=color.new(#0a0a1a, 90), border_width=1)
+if barstate.islast
+    table.cell(signalTable, 0, 0, "MTF Signals", bgcolor=color.new(#1565C0, 80), text_color=color.white, text_size=size.small)
+    table.cell(signalTable, 0, 1, "15m: " + (trend1 > 0 ? "▲ BULL" : "▼ BEAR"), text_color=trend1 > 0 ? #4CAF50 : #f44336, text_size=size.small)
+    table.cell(signalTable, 0, 2, "1h: " + (trend2 > 0 ? "▲ BULL" : "▼ BEAR"), text_color=trend2 > 0 ? #4CAF50 : #f44336, text_size=size.small)
+    table.cell(signalTable, 0, 3, "4h: " + (trend3 > 0 ? "▲ BULL" : "▼ BEAR"), text_color=trend3 > 0 ? #4CAF50 : #f44336, text_size=size.small)
+
+alertcondition(convergence >= 3, "ALL TF BULLISH", "{{ticker}} all timeframes bullish!")
+alertcondition(convergence <= -3, "ALL TF BEARISH", "{{ticker}} all timeframes bearish!")

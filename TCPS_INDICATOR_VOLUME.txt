@@ -1,0 +1,61 @@
+//@version=6
+indicator(title="TCPS Volume Profile", shorttitle="TCPS Vol", overlay=true)
+
+// 거래량 프로필 + 중요 가격 레벨 — 기관의 매집/분포 구역 식별
+
+volPeriod = input.int(20, "Volume Profile Period")
+showHigh = input.bool(true, "Show High Volume Nodes")
+
+// Volume-weighted price
+vwap = ta.vwap(hlc3)
+
+// High volume nodes
+var float hvnHigh = na
+var float hvnLow = na
+
+// Calculate volume profile (simplified: volume-weighted range)
+vol = volume
+volAvg = ta.sma(vol, volPeriod)
+volSpike = vol > volAvg * 1.5
+
+// POC (Point of Control): price with highest volume
+pocCalc() =>
+    float poc = na
+    float maxV = 0
+    for i = 0 to volPeriod
+        if vol[i] > maxV
+            maxV := vol[i]
+            poc := close[i]
+    poc
+
+poc = pocCalc()
+
+// Support/Resistance from volume clusters
+hvnHigh := ta.highest(close, volPeriod)
+hvnLow := ta.lowest(close, volPeriod)
+
+// Volume spike detection
+bullVol = volSpike and close > open
+bearVol = volSpike and close < open
+
+// Visualization
+plot(vwap, "VWAP", color.blue, 2)
+plot(poc, "POC", color.orange, 1, style=plot.style_circles)
+
+// High volume zone fill
+hline(hvnHigh, "HVN High", color.new(color.gray, 50), hline.style_dashed)
+hline(hvnLow, "HVN Low", color.new(color.gray, 50), hline.style_dashed)
+
+// Volume spike markers
+plotshape(bullVol, style=shape.circle, location=location.belowbar, color=color.new(#00E676, 60), size=size.tiny)
+plotshape(bearVol, style=shape.circle, location=location.abovebar, color=color.new(#FF1744, 60), size=size.tiny)
+
+// Key level crossings
+crossUp = ta.cross(close, vwap) and close > vwap
+crossDn = ta.cross(close, vwap) and close < vwap
+
+plotshape(crossUp, style=shape.labelup, location=location.belowbar, color=color.new(#4CAF50, 80), text="VWAP+", textcolor=color.white, size=size.tiny)
+plotshape(crossDn, style=shape.labeldown, location=location.abovebar, color=color.new(#f44336, 80), text="VWAP-", textcolor=color.white, size=size.tiny)
+
+alertcondition(crossUp, "VWAP Break Up", "{{ticker}} broke above VWAP")
+alertcondition(crossDn, "VWAP Break Down", "{{ticker}} broke below VWAP")
