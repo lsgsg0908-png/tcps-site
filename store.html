@@ -1,240 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Store — TCPS Liquidity Engine</title>
-  <meta name="description" content="TCPS TradingView indicators and trading eBooks. USDT TRC20 payment.">
+  <meta name="description" content="TCPS TradingView indicators and trading eBooks. USDT TRC20 payment." />
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-      background:#04060b;color:#e2e8f0;min-height:100vh;
-    }
-    .container{width:100%;max-width:640px;margin:0 auto;padding:0 16px}
-    /* Nav */
-    .nav{
-      display:flex;justify-content:space-between;align-items:center;
-      max-width:640px;margin:0 auto;padding:20px 16px;width:100%;
-    }
-    .nav-logo{font-size:18px;font-weight:700;background:linear-gradient(135deg,#00D4FF,#7560ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .nav-links{display:flex;gap:24px}
-    .nav-links a{color:#94a3b8;font-size:14px;font-weight:500;text-decoration:none;transition:color .2s}
-    .nav-links a:hover{color:#e2e8f0}
-    .nav-links a.active{color:#e2e8f0}
-    /* Section */
-    .section{padding:32px 0}
-    .section-title{font-size:20px;font-weight:700;margin-bottom:4px}
-    .section-sub{color:#64748b;font-size:13px;margin-bottom:20px}
-    /* Product Grid */
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media(max-width:480px){.grid{grid-template-columns:1fr}}
-    .card{
-      background:#111827;border:1px solid #1e2d4a;border-radius:12px;
-      overflow:hidden;transition:all .25s;
-    }
-    .card:hover{border-color:#00D4FF;transform:translateY(-2px)}
-    .card-img{width:100%;height:110px;object-fit:cover;display:block;background:#1a2236}
-    .card-body{padding:12px 14px 14px}
-    .card-body h3{font-size:14px;font-weight:600;margin-bottom:2px}
-    .card-body .desc{font-size:12px;color:#64748b;line-height:1.5;margin-bottom:8px}
-    .card-body .price{color:#22c55e;font-size:14px;font-weight:700}
-    .card-btn{
-      display:block;width:100%;padding:10px;margin-top:10px;
-      border-radius:8px;border:none;background:#2563eb;color:#fff;
-      font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;text-align:center;
-      transition:background .2s;
-    }
-    .card-btn:hover{background:#1d4ed8}
-    /* eBook */
-    .ebook-card{
-      background:#111827;border:1px solid #1e2d4a;border-radius:12px;
-      padding:16px;transition:all .25s;
-    }
-    .ebook-card:hover{border-color:rgba(255,215,0,.3)}
-    .ebook-card h3{font-size:15px;font-weight:600;margin-bottom:4px}
-    .ebook-card .meta{font-size:12px;color:#64748b;margin-bottom:8px}
-    .ebook-card ul{list-style:none;margin-bottom:10px}
-    .ebook-card ul li{font-size:12px;color:#64748b;padding:3px 0;padding-left:16px;position:relative}
-    .ebook-card ul li::before{content:"-";position:absolute;left:4px;color:#475569}
-    .ebook-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
-    .ebook-price{font-size:18px;font-weight:700}
-    .ebook-price .currency{font-size:11px;font-weight:400;color:#8899aa}
-    .ebook-btn{
-      padding:8px 18px;border-radius:8px;border:none;background:#2563eb;color:#fff;
-      font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;
-      transition:background .2s;
-    }
-    .ebook-btn:hover{background:#1d4ed8}
-    .ebook-gold{border-color:rgba(255,215,0,.2)}
-    .ebook-gold .ebook-price{color:#ffd700}
-    /* Free guide */
-    .free-card{
-      background:rgba(53,207,255,.04);border:1px solid rgba(53,207,255,.2);
-      border-radius:12px;padding:16px;margin-top:20px;
-      display:flex;align-items:center;gap:14px;flex-wrap:wrap;
-    }
-    .free-card .info{flex:1;min-width:200px}
-    .free-card h3{font-size:14px;font-weight:600;margin-bottom:2px}
-    .free-card h3 .badge{font-size:10px;background:rgba(53,207,255,.15);color:#00D4FF;padding:2px 8px;border-radius:10px;margin-left:6px;font-weight:400}
-    .free-card p{font-size:12px;color:#64748b}
-    .free-btn{
-      padding:10px 22px;border-radius:8px;border:1px solid rgba(53,207,255,.3);background:transparent;
-      color:#00D4FF;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap;
-      transition:all .2s;
-    }
-    .free-btn:hover{background:rgba(53,207,255,.1)}
-    /* Footer note */
-    .note{
-      text-align:center;padding:20px;margin:30px 0 20px;
-      background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.12);
-      border-radius:12px;
-    }
-    .note h3{color:#ffd700;font-size:16px;font-weight:700;margin-bottom:2px}
-    .note p{color:#64748b;font-size:12px}
-    .footer{text-align:center;padding:24px;color:#475569;font-size:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#f5f7fb;background:#04060b;line-height:1.6}
+a{text-decoration:none;color:inherit}
+/* Nav */
+.nav{display:flex;justify-content:space-between;align-items:center;max-width:640px;margin:0 auto;padding:20px 16px;width:100%}
+.nav-logo{font-size:18px;font-weight:700;background:linear-gradient(135deg,#00D4FF,#7560ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:24px}
+.nav-links a{color:#94a3b8;font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:#e2e8f0}
+/* Section */
+.section{padding:32px 0;max-width:640px;margin:0 auto;padding:32px 16px}
+.section h2{font-size:24px;font-weight:700;margin-bottom:4px}
+.section .sub{font-size:13px;color:#8899aa;margin-bottom:20px}
+/* Product Grid */
+.store-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-bottom:30px}
+.product-card{position:relative;background:#111827;border:1px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;cursor:pointer;transition:all 0.35s cubic-bezier(0.175,0.885,0.32,1.275);min-height:240px}
+.product-card:hover{transform:scale(1.1);z-index:20;box-shadow:0 25px 60px rgba(0,0,0,0.5)}
+.product-card img{width:100%;height:130px;object-fit:cover;display:block}
+.product-info{padding:12px 14px}
+.product-info h3{font-size:14px;margin:0 0 4px;color:#e8eefb}
+.product-info .price{font-size:13px;color:#22c55e;font-weight:700}
+.hover-panel{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,7,18,0.93),rgba(3,7,18,0.97));opacity:0;padding:16px;transition:all 0.35s ease;display:flex;flex-direction:column;justify-content:center}
+.product-card:hover .hover-panel{opacity:1}
+.hover-panel h4{font-size:15px;margin:0 0 6px;color:#f0f4ff}
+.hover-panel p{font-size:12px;line-height:1.5;color:#aebfda;margin:0 0 10px}
+.hover-panel ul{padding-left:14px;margin:0 0 10px;font-size:11px;color:#cbd5e1;line-height:1.6}
+.hover-btn{display:inline-block;text-align:center;padding:8px 14px;border-radius:8px;background:#2563eb;color:#fff;font-size:11px;font-weight:700;text-decoration:none;width:fit-content}
+.hover-btn:hover{background:#1d4ed8}
+/* Ebook */
+.book-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:560px){.book-grid{grid-template-columns:1fr}}
+.book-card{position:relative;border-radius:18px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));overflow:hidden;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);cursor:pointer;padding:0}
+.book-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:1px;background:linear-gradient(90deg,rgba(53,207,255,0),rgba(53,207,255,.7),rgba(117,96,255,.7),rgba(117,96,255,0))}
+.book-card:hover{transform:scale(1.03);border-color:rgba(53,207,255,.3);box-shadow:0 20px 60px rgba(53,207,255,0.15)}
+.book-card .book-desc{max-height:0;opacity:0;overflow:hidden;transition:all 0.4s ease;padding:0 20px}
+.book-card:hover .book-desc{max-height:350px;opacity:1;padding:0 20px 20px 20px}
+.store-btn{font-size:13px;padding:12px;text-decoration:none;display:block;text-align:center;border-radius:8px;background:#2563eb;color:#fff;font-weight:600;transition:background .2s}
+.store-btn:hover{background:#1d4ed8}
+/* Free guide */
+.free-guide-card{border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(53,207,255,.04);overflow:hidden;padding:20px;transition:all 0.3s;margin-top:20px}
+.free-guide-card:hover{border-color:rgba(53,207,255,.3);box-shadow:0 10px 40px rgba(53,207,255,0.1)}
+.free-btn{padding:10px 22px;border-radius:8px;border:1px solid rgba(53,207,255,.3);background:transparent;color:#00D4FF;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap;transition:all .2s}
+.free-btn:hover{background:rgba(53,207,255,.1)}
+/* Note */
+.purchase-note{text-align:center;padding:20px;margin:30px 0;background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.15);border-radius:14px}
+.purchase-note h3{color:#ffd700;font-size:16px;font-weight:700;margin-bottom:4px}
+.purchase-note p{color:#8899aa;font-size:12px}
+.footer{text-align:center;padding:24px;color:#475569;font-size:12px}
   </style>
 </head>
 <body>
+
   <nav class="nav">
     <div class="nav-logo">TCPS</div>
     <div class="nav-links">
       <a href="service.html">Plans</a>
-      <a href="store.html" class="active">Store</a>
+      <a href="store.html" style="color:#e2e8f0">Store</a>
     </div>
   </nav>
 
-  <div class="container">
-    <!-- Indicators -->
-    <div class="section">
-      <h2 class="section-title">TradingView Indicators</h2>
-      <p class="section-sub">Pine Script tools for liquidity detection, structure, and execution</p>
-      <div class="grid">
+  <div class="section">
+    <h2>TradingView Indicators</h2>
+    <p class="sub">Pine Script tools for liquidity detection, structure, and execution.</p>
 
-        <div class="card">
-          <div class="card-img" style="background:linear-gradient(135deg,#1a365d,#2d3748)"></div>
-          <div class="card-body">
-            <h3>Momentum Divergence</h3>
-            <div class="desc">RSI divergence detection — hidden reversals before price moves.</div>
-            <div class="price">30 USDT</div>
-            <a class="card-btn" href="https://t.me/TCPSMASTERBOT">Buy via Telegram</a>
-          </div>
-        </div>
+    <div class="store-grid">
 
-        <div class="card">
-          <div class="card-img" style="background:linear-gradient(135deg,#22543d,#2d3748)"></div>
-          <div class="card-body">
-            <h3>Volume Profile</h3>
-            <div class="desc">High-volume nodes, POC, and VWAP — smart money footprints.</div>
-            <div class="price">35 USDT</div>
-            <a class="card-btn" href="https://t.me/TCPSMASTERBOT">Buy via Telegram</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img" style="background:linear-gradient(135deg,#5b2e1f,#2d3748)"></div>
-          <div class="card-body">
-            <h3>S/R Pro</h3>
-            <div class="desc">Auto-detected S/R levels with breakout alerts.</div>
-            <div class="price">45 USDT</div>
-            <a class="card-btn" href="https://t.me/TCPSMASTERBOT">Buy via Telegram</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img" style="background:linear-gradient(135deg,#3c366b,#2d3748)"></div>
-          <div class="card-body">
-            <h3>Market Structure</h3>
-            <div class="desc">Swing points + trendlines — see structure before entry.</div>
-            <div class="price">45 USDT</div>
-            <a class="card-btn" href="https://t.me/TCPSMASTERBOT">Buy via Telegram</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img" style="background:linear-gradient(135deg,#2b6b6b,#2d3748)"></div>
-          <div class="card-body">
-            <h3>MTF Convergence</h3>
-            <div class="desc">Align 15m/1h/4h trends — trade when timeframes agree.</div>
-            <div class="price">50 USDT</div>
-            <a class="card-btn" href="https://t.me/TCPSMASTERBOT">Buy via Telegram</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img" style="background:linear-gradient(135deg,#6b2b4f,#2d3748)"></div>
-          <div class="card-body">
-            <h3>Scalping Assistant</h3>
-            <div class="desc">1m-5m scalping with volatility-based invalidation zones.</div>
-            <div class="price">35 USDT</div>
-            <a class="card-btn" href="https://t.me/TCPSMASTERBOT">Buy via Telegram</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-img" style="background:linear-gradient(135deg,#1e3a5f,#2d3748)"></div>
-          <div class="card-body">
-            <h3>Trend Structure Mapper</h3>
-            <div class="desc">Structural shifts + S/R levels — pure price action logic.</div>
-            <div class="price">125 USDT</div>
-            <a class="card-btn" href="https://t.me/TCPSMASTERBOT">Buy via Telegram</a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- eBooks -->
-    <div class="section">
-      <h2 class="section-title">Trading eBooks</h2>
-      <p class="section-sub">Master your psychology and execution</p>
-
-      <div class="ebook-card">
-        <h3>The Trader's Mind</h3>
-        <div class="meta">Psychology Before the Charts — Book 1 of 2</div>
-        <ul>
-          <li>12 cognitive biases that destroy traders</li>
-          <li>The revenge trade cycle explained</li>
-          <li>5 trader psychological archetypes</li>
-          <li>Self-assessment toolkit included</li>
-        </ul>
-        <div class="ebook-bottom">
-          <div class="ebook-price">25 <span class="currency">USDT TRC20</span></div>
-          <a class="ebook-btn" href="https://t.me/TCPSMASTERBOT">Purchase</a>
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1642790551116-18e150f248e1?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
+        <div class="product-info"><h3>Momentum Divergence</h3><div class="price">30 USDT</div></div>
+        <div class="hover-panel">
+          <h4>Momentum Divergence</h4>
+          <p>RSI divergence detection — find hidden reversals before price moves.</p>
+          <ul><li>Bullish/bearish divergence</li><li>Hidden divergence scanning</li><li>Alert-ready signals</li></ul>
+          <a class="hover-btn" href="https://t.me/TCPSMASTERBOT">Buy</a>
         </div>
       </div>
 
-      <div class="ebook-card ebook-gold" style="margin-top:12px">
-        <h3>The Mental Edge</h3>
-        <div class="meta">Building an Unbreakable Trading Mindset — Book 2 of 2</div>
-        <ul>
-          <li>Revenge Trade Shutdown Protocol</li>
-          <li>The 5-Section Psychological Journal</li>
-          <li>48-Hour Rule After Bad Weeks</li>
-          <li>Personal Mental OS Document</li>
-        </ul>
-        <div class="ebook-bottom">
-          <div class="ebook-price" style="color:#ffd700">25 <span class="currency" style="color:#8899aa">USDT TRC20</span></div>
-          <a class="ebook-btn" href="https://t.me/TCPSMASTERBOT">Purchase</a>
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1642543492481-44e81e3914a6?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
+        <div class="product-info"><h3>Volume Profile</h3><div class="price">35 USDT</div></div>
+        <div class="hover-panel">
+          <h4>Volume Profile</h4>
+          <p>High-volume nodes, POC, and VWAP — track smart money footprints.</p>
+          <ul><li>Point of Control (POC)</li><li>Volume-weighted VWAP</li><li>Volume spike detection</li></ul>
+          <a class="hover-btn" href="https://t.me/TCPSMASTERBOT">Buy</a>
         </div>
       </div>
 
-      <!-- Free Guide -->
-      <div class="free-card">
-        <div class="info">
-          <h3>How to Read Institutional Liquidity Flow <span class="badge">FREE</span></h3>
-          <p>6-page PDF guide. TCPS 3-Phase Framework: Sweep, Order Block, Change of Character.</p>
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1616077167537-aba4b0f2f07a?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
+        <div class="product-info"><h3>S/R Pro</h3><div class="price">45 USDT</div></div>
+        <div class="hover-panel">
+          <h4>Support & Resistance Pro</h4>
+          <p>Auto-detected S/R levels with breakout alerts. Never miss a key level again.</p>
+          <ul><li>Dynamic S/R levels</li><li>Breakout/breakdown alerts</li><li>Level clustering</li></ul>
+          <a class="hover-btn" href="https://t.me/TCPSMASTERBOT">Buy</a>
         </div>
-        <a class="free-btn" href="TCPS_Liquidity_Flow_Guide.pdf" download>Download Free</a>
       </div>
-    </div>
 
-    <div class="note">
-      <h3>&#x1F512; One-time purchase. Yours forever.</h3>
-      <p>No subscriptions. No renewals. Just ownership.</p>
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1644088371111-1d7389d0042e?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
+        <div class="product-info"><h3>Market Structure</h3><div class="price">45 USDT</div></div>
+        <div class="hover-panel">
+          <h4>Market Structure</h4>
+          <p>Automatic swing points + trendlines. See the structure before entry.</p>
+          <ul><li>Higher high/lower low labels</li><li>Trendline drawing</li><li>Structure breaks</li></ul>
+          <a class="hover-btn" href="https://t.me/TCPSMASTERBOT">Buy</a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1639322537504-6427a16b0a28?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
+        <div class="product-info"><h3>MTF Convergence</h3><div class="price">50 USDT</div></div>
+        <div class="hover-panel">
+          <h4>Multi-Timeframe Convergence</h4>
+          <p>Align 15m/1h/4h trends. Trade only when all timeframes agree.</p>
+          <ul><li>TF alignment scoring</li><li>Momentum strength gauge</li><li>All-TF Bull/Bear signals</li></ul>
+          <a class="hover-btn" href="https://t.me/TCPSMASTERBOT">Buy</a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
+        <div class="product-info"><h3>Scalping Assistant</h3><div class="price">35 USDT</div></div>
+        <div class="hover-panel">
+          <h4>Scalping Assistant</h4>
+          <p>1m-5m optimized scalping tool with volatility-based invalidation zones.</p>
+          <ul><li>Real-time breakout detection</li><li>Volatility stop lines</li><li>Low-latency alerts</li></ul>
+          <a class="hover-btn" href="https://t.me/TCPSMASTERBOT">Buy</a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=400&q=80" alt="" loading="lazy">
+        <div class="product-info"><h3>Trend Structure Mapper</h3><div class="price">125 USDT</div></div>
+        <div class="hover-panel">
+          <h4>Trend Structure Mapper</h4>
+          <p>Structural shifts and S/R levels using pure price action logic.</p>
+          <ul><li>Structural shift detection</li><li>S/R level mapping</li><li>Weekly bias report</li></ul>
+          <a class="hover-btn" href="https://t.me/TCPSMASTERBOT">Buy</a>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <div class="footer">TCPS Liquidity Engine &mdash; TRC20 Verification Ready</div>
+  <div class="section">
+    <h2>Trading eBooks</h2>
+    <p class="sub">In-depth trading knowledge from TCPS. Master your psychology and execution.</p>
+
+    <div class="book-grid">
+
+      <div class="book-card">
+        <div style="padding:20px 20px 10px 20px;text-align:center">
+          <h3 style="font-size:17px
+      <div class="book-card">
+        <div style="padding:20px 20px 10px 20px;text-align:center">
+          <h3 style="font-size:17px;margin:12px 0 4px;color:#e8eefb">The Trader's Mind</h3>
+          <div style="font-size:22px;font-weight:900;color:#00d4ff;margin-bottom:8px">25 <span style="font-size:12px;font-weight:400;color:#8899aa">USDT TRC20</span></div>
+        </div>
+        <div class="book-desc">
+          <p style="color:#aebfda;font-size:13px;line-height:1.6;margin-bottom:8px"><b style="color:#e8eefb">Psychology Before the Charts - Book 1 of 2</b></p>
+          <p style="color:#8899aa;font-size:12px;line-height:1.6;margin-bottom:8px">12 cognitive biases, revenge trade cycle, 5 archetypes.</p>
+          <a href="https://t.me/TCPSMASTERBOT" class="store-btn">Purchase via Telegram</a>
+        </div>
+      </div>
+
+      <div class="book-card" style="border-color:rgba(255,215,0,0.15)">
+        <div style="padding:20px 20px 10px 20px;text-align:center">
+          <h3 style="font-size:17px;margin:12px 0 4px;color:#e8eefb">The Mental Edge</h3>
+          <div style="font-size:22px;font-weight:900;color:#ffd700;margin-bottom:8px">25 <span style="font-size:12px;font-weight:400;color:#8899aa">USDT TRC20</span></div>
+        </div>
+        <div class="book-desc">
+          <p style="color:#aebfda;font-size:13px;line-height:1.6;margin-bottom:8px"><b style="color:#e8eefb">Building an Unbreakable Trading Mindset - Book 2 of 2</b></p>
+          <p style="color:#8899aa;font-size:12px;line-height:1.6;margin-bottom:8px">Revenge shutdown, 5-section journal, Mental OS.</p>
+          <a href="https://t.me/TCPSMASTERBOT" class="store-btn">Purchase via Telegram</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="free-guide-card">
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        <div style="font-size:2.5em">Book</div>
+        <div style="flex:1;min-width:200px">
+          <h3 style="font-size:16px;margin-bottom:4px;color:#e8eefb">How to Read Institutional Liquidity Flow <span style="font-size:11px;background:rgba(53,207,255,.15);color:#68e6ff;padding:2px 8px;border-radius:10px;margin-left:6px">FREE</span></h3>
+          <p style="color:#8899aa;font-size:13px">6-page PDF guide. TCPS 3-Phase Framework: Sweep, Order Block and Change of Character.</p>
+        </div>
+        <a href="TCPS_Liquidity_Flow_Guide.pdf" class="free-btn" download>Download Free</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="purchase-note">
+    <h3>One-time purchase. Yours forever.</h3>
+    <p>No subscriptions. No renewals. Just ownership.</p>
+  </div>
+
+  <div class="footer">TCPS Liquidity Engine - TRC20 Verification Ready</div>
 </body>
 </html>
