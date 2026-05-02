@@ -81,57 +81,61 @@
       </div>
 
       <div style="margin:40px 0 20px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08)">
-      <div style="font-size:13px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#86dfff;margin-bottom:6px">SECTION 01</div>
-      <h2 style="font-size:28px;letter-spacing:-.6px;color:#f0f4ff">📈 TradingView Indicators</h2>
+      <div style="font-size:13px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#86dfff;margin-bottom:6px"><div style="font-size:13px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#86dfff;margin-bottom:6px">SECTION 01</div>
+      <h2 style="font-size:28px;letter-spacing:-.6px;color:#f0f4ff">TradingView Indicators</h2>
       <p style="color:#8899aa;font-size:14px;margin-top:4px">Professional Pine Script v6 indicators for real-time execution, liquidity detection, and market structure analysis.</p>
-    </div>
-    <div class="store-grid">
-        <div class="store-card">
-          <div class="store-card-img"><img src="indicator_premium.png" alt="Premium Signal" style="width:100%;height:140px;object-fit:cover;border-radius:16px"></div>
-          <h3>Premium Signal Indicator</h3>
-          <p class="store-desc">TradingView Pine Script v6. Real-time buy/sell alerts based on TCPS liquidity flow detection and structural confirmation.</p>
-          <ul class="store-features">
-            <li>Multi-timeframe support (1m–1d)</li>
-            <li>Liquidity cluster visualization</li>
-            <li>Telegram alert integration</li>
-            <li>Custom alert conditions</li>
-          </ul>
-          <div class="store-price">50 <span class="usdt">USDT TRC20</span></div>
-          <a href="https://t.me/TCPSMASTERBOT" class="store-btn">Purchase via Telegram</a>
-        </div>
 
-        <div class="store-card featured" style="border-color:rgba(102,214,255,.42);box-shadow:0 26px 60px rgba(66,96,255,.24)">
-          <div style="position:absolute;top:14px;right:14px;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:#000;background:linear-gradient(135deg,#ffd700,#ffaa00)">Best Seller</div>
-          <div class="store-card-img"><img src="indicator_scalping.png" alt="Scalping" style="width:100%;height:140px;object-fit:cover;border-radius:16px"></div>
-          <h3>Scalping Assistant</h3>
-          <p class="store-desc">Designed for 1m–5m timeframes. Instant entry/exit alerts with volatility-based invalidation zones.</p>
-          <ul class="store-features">
-            <li>1m/5m optimized analysis</li>
-            <li>Real-time breakout detection</li>
-            <li>Volatility-based stop lines</li>
-            <li>Low-latency execution alerts</li>
-          </ul>
-          <div class="store-price">35 <span class="usdt">USDT TRC20</span></div>
-          <a href="https://t.me/TCPSMASTERBOT" class="store-btn">Purchase via Telegram</a>
-        </div>
+<style>
+.prod-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.prod-card{position:relative;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);min-height:280px}
+.prod-card:hover{transform:scale(1.06);z-index:20;box-shadow:0 25px 60px rgba(0,0,0,0.55);border-color:rgba(53,207,255,.4)}
+.prod-card img{width:100%;height:140px;object-fit:cover;display:block}
+.prod-info{padding:14px}
+.prod-info h3{font-size:15px;margin:0 0 4px;color:#e8eefb}
+.prod-price{font-size:14px;color:#ffd700;font-weight:700}
+.hover-panel{position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,6,11,0.95),rgba(4,6,11,0.98));opacity:0;padding:20px;transition:all 0.4s ease;display:flex;flex-direction:column;justify-content:center}
+.prod-card:hover .hover-panel{opacity:1}
+.hover-panel h4{font-size:15px;margin:0 0 8px;color:#f0f4ff}
+.hover-panel p{font-size:13px;line-height:1.5;color:#aebfda;margin:0 0 10px}
+.hover-panel ul{padding-left:16px;margin:0 0 12px;font-size:12px;color:#cbd5e1;line-height:1.6}
+.hover-btn{display:inline-block;text-align:center;padding:10px 16px;border-radius:10px;background:linear-gradient(135deg,#35cfff,#7560ff);color:#fff;font-size:12px;font-weight:700;text-decoration:none}
+</style>
 
-        <div class="store-card">
-          <div class="store-card-img"><img src="indicator_trend.png" alt="Trend Mapper" style="width:100%;height:140px;object-fit:cover;border-radius:16px"></div>
-          <h3>Trend Structure Mapper</h3>
-          <p class="store-desc">Pure price action logic — no AI. Identifies structural shifts and key support/resistance levels automatically.</p>
-          <ul class="store-features">
-            <li>Structural shift detection</li>
-            <li>Key S/R level mapping</li>
-            <li>Multi-indicator cross-verification</li>
-            <li>Weekly bias report included</li>
-          </ul>
-          <div class="store-price">70 <span class="usdt">USDT TRC20</span></div>
-          <a href="https://t.me/TCPSMASTERBOT" class="store-btn">Purchase via Telegram</a>
-        </div>
-      </div>
+<div class="prod-grid">
 
-      <div style="margin:60px 0 20px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08)">
-      <div style="font-size:13px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#ffd700;margin-bottom:6px">SECTION 02</div>
+<div class="prod-card">
+<img src="https://images.unsplash.com/photo-1642790551116-18e150f248e1?auto=format&fit=crop&w=600&q=80">
+<div class="prod-info"><h3>Premium Signal Indicator</h3><div class="prod-price">50 USDT</div></div>
+<div class="hover-panel">
+<h4>Premium Signal Indicator</h4>
+<p>Real-time buy/sell signals with liquidity flow detection and structural confirmation.</p>
+<ul><li>Multi-timeframe (1m-1d)</li><li>Liquidity cluster viz</li><li>Telegram alerts</li></ul>
+<a class="hover-btn" href="https://t.me/TCPSMASTERBOT">Buy via Telegram</a>
+</div></div>
+
+<div class="prod-card">
+<img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=600&q=80">
+<div class="prod-info"><h3>Scalping Assistant</h3><div class="prod-price">35 USDT</div></div>
+<div class="hover-panel">
+<h4>Scalping Assistant</h4>
+<p>1m-5m optimized scalping tool. Instant entry/exit with volatility-based stops.</p>
+<ul><li>Real-time breakout detection</li><li>Volatility stop lines</li><li>Low-latency alerts</li></ul>
+<a class="hover-btn" href="https://t.me/TCPSMASTERBOT">Buy via Telegram</a>
+</div></div>
+
+<div class="prod-card">
+<img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600&q=80">
+<div class="prod-info"><h3>Trend Mapper</h3><div class="prod-price">70 USDT</div></div>
+<div class="hover-panel">
+<h4>Trend Structure Mapper</h4>
+<p>Structural shift detection and key level mapping using pure price action.</p>
+<ul><li>Structural shift detection</li><li>S/R level mapping</li><li>Weekly bias report</li></ul>
+<a class="hover-btn" href="https://t.me/TCPSMASTERBOT">Buy via Telegram</a>
+</div></div>
+
+</div>
+
+SECTION 02</div>
       <h2 style="font-size:28px;letter-spacing:-.6px;color:#f0f4ff">Trading eBooks</h2>
       <p style="color:#8899aa;font-size:14px;margin-top:4px">In-depth trading knowledge from TCPS. Master your psychology and execution.</p>
 
@@ -142,10 +146,31 @@
     .book-card .book-desc{max-height:0;opacity:0;overflow:hidden;transition:all 0.4s ease;padding:0 20px}
     .book-card:hover .book-desc{max-height:350px;opacity:1;padding:0 20px 20px 20px}
     .book-cover{width:100%;height:auto;display:block;border-radius:12px;transition:transform 0.3s}
-    .book-card:hover .book-cover{transform:scale(1.02)}
-    .book-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-bottom:24px}
-    @media(max-width:760px){.book-grid{grid-template-columns:1fr}}
-    .free-guide-card{border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(53,207,255,.04);overflow:hidden;padding:20px;transition:all 0.3s}
+    .book-card:hover .book-cover{transform:scale(1.02)}div class="prod-grid">
+
+<div class="prod-card">
+<img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=600&q=80">
+<div class="prod-info"><h3>The Trader's Mind</h3><div class="prod-price">25 USDT</div></div>
+<div class="hover-panel">
+<h4>The Trader's Mind</h4>
+<p>Psychology Before the Charts — Book 1 of 2. Master the 12 cognitive biases that destroy traders.</p>
+<ul><li>12 cognitive biases explained</li><li>5 trader psychological types</li><li>Self-assessment toolkit</li></ul>
+<a class="hover-btn" href="https://t.me/TCPSMASTERBOT">Buy via Telegram</a>
+</div></div>
+
+<div class="prod-card">
+<img src="https://images.unsplash.com/photo-1610116306796-ad6f4c63edcf?auto=format&fit=crop&w=600&q=80">
+<div class="prod-info"><h3>The Mental Edge</h3><div class="prod-price">25 USDT</div></div>
+<div class="hover-panel">
+<h4>The Mental Edge</h4>
+<p>Building an Unbreakable Trading Mindset — Book 2 of 2. Behavioral protocols for consistent execution.</p>
+<ul><li>Revenge Trade Shutdown Protocol</li><li>5-Section Journal system</li><li>48-Hour Rule + Mental OS</li></ul>
+<a class="hover-btn" href="https://t.me/TCPSMASTERBOT">Buy via Telegram</a>
+</div></div>
+
+</div>
+
+    <div class="free-guide-cardfree-guide-card{border-radius:18px;border:1px solid rgba(255,255,255,.08);background:rgba(53,207,255,.04);overflow:hidden;padding:20px;transition:all 0.3s}
     .free-guide-card:hover{border-color:rgba(53,207,255,.3);box-shadow:0 10px 40px rgba(53,207,255,0.1)}
     </style>
 
