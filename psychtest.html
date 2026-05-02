@@ -1,216 +1,1665 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title>Trader Psychology Test - TCPS Engine</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A 7-minute psychometric assessment that identifies your trader personality type, exposes your dominant loss patterns, and recommends a learning path.">
+<title>Trader Psychology Assessment</title>
 <style>
-:root{--bg:#0a0e17;--card:#111827;--card2:#1a2236;--border:#1e2d4a;--gold:#FFD700;--cyan:#00D4FF;--text:#e2e8f0;--text2:#94a3b8;--radius:12px}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;line-height:1.6}
-.container{width:100%;max-width:560px;padding:16px}
-.header{text-align:center;padding:24px 0 16px}
-.header h1{font-size:20px;font-weight:700;background:linear-gradient(135deg,var(--gold),#ff8c00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
-.header p{color:var(--text2);font-size:13px}
-.header .badge{display:inline-block;background:var(--card2);border:1px solid var(--border);border-radius:20px;padding:4px 14px;font-size:11px;color:var(--cyan);margin-top:8px}
-.progress-wrap{background:var(--card);border-radius:20px;height:6px;margin:8px 0 20px;overflow:hidden}
-.progress-bar{height:100%;background:linear-gradient(90deg,var(--cyan),var(--gold));border-radius:20px;transition:width 0.4s ease;width:0%}
-.question-num{text-align:center;color:var(--text2);font-size:12px;margin-bottom:4px}
-.question-card{display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;animation:fadeIn 0.3s ease}
-.question-card.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.question-card .q-text{font-size:16px;font-weight:600;margin-bottom:20px;line-height:1.5}
-.options{display:flex;flex-direction:column;gap:10px}
-.option-btn{background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;color:var(--text);font-size:14px;cursor:pointer;transition:all 0.2s;text-align:left;line-height:1.4}
-.option-btn:hover{border-color:var(--cyan);background:#1e2d4a}
-.option-btn.selected{border-color:var(--gold);background:rgba(255,215,0,0.08)}
-.nav-btns{display:flex;gap:10px;margin-top:16px}
-.nav-btns button{flex:1;padding:14px;border-radius:var(--radius);border:none;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s}
-.btn-prev{background:var(--card2);color:var(--text2);border:1px solid var(--border)!important}
-.btn-prev:hover{color:var(--text);border-color:var(--text2)}
-.btn-next{background:linear-gradient(135deg,var(--cyan),#0099cc);color:#fff}
-.btn-next:hover{opacity:.9}.btn-next:disabled{opacity:.4;cursor:not-allowed}
-.btn-submit{background:linear-gradient(135deg,var(--gold),#ff8c00);color:#000}
-.btn-submit:hover{opacity:.9}.btn-submit:disabled{opacity:.4;cursor:not-allowed}
-.result-card{display:none;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px 20px;text-align:center;animation:fadeIn 0.5s ease}
-.result-card.active{display:block}
-.result-wrap{display:none}.result-wrap.active{display:block}
-.start-screen{display:block;text-align:center;padding:40px 0}
-.start-screen.hidden{display:none}
-.start-screen h2{font-size:22px;margin-bottom:8px}
-.start-screen p{color:var(--text2);font-size:14px;margin-bottom:24px;line-height:1.7}
-.start-screen .features{display:flex;flex-direction:column;gap:10px;margin-bottom:28px;text-align:left}
-.start-screen .features li{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;list-style:none;font-size:13px;color:var(--text2)}
-.start-screen .features li strong{color:var(--text)}
-.start-btn{background:linear-gradient(135deg,var(--gold),#ff8c00);color:#000;border:none;padding:16px 48px;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s}
-.start-btn:hover{opacity:.9;transform:translateY(-1px)}
-.quiz-wrap{display:none}.quiz-wrap.active{display:block}
-.result-card .result-icon{font-size:56px;margin-bottom:12px}
-.result-card h2{font-size:22px;margin-bottom:4px}
-.result-card .badge-type{display:inline-block;background:rgba(255,215,0,0.12);border:1px solid rgba(255,215,0,0.3);color:var(--gold);padding:6px 18px;border-radius:20px;font-size:14px;font-weight:700;margin-bottom:16px}
-.result-card .desc{color:var(--text2);font-size:14px;line-height:1.7;text-align:left;margin-bottom:12px}
-.result-card .cta-buttons{display:flex;flex-direction:column;gap:10px;margin-top:20px}
-.result-card .cta-btn{display:block;padding:14px;border-radius:var(--radius);text-align:center;text-decoration:none;font-weight:600;font-size:14px;transition:all 0.2s}
-.result-card .cta-free{background:var(--card2);border:1px solid var(--border);color:var(--cyan)}
-.result-card .cta-free:hover{border-color:var(--cyan)}
-.result-card .cta-premium{background:linear-gradient(135deg,var(--gold),#ff8c00);color:#000}
-.result-card .cta-premium:hover{opacity:.9}
-.restart-btn{background:transparent;border:1px solid var(--border);color:var(--text2);padding:12px;border-radius:var(--radius);cursor:pointer;font-size:13px;margin-top:12px;transition:all 0.2s}
-.restart-btn:hover{color:var(--text);border-color:var(--text2)}
-.footer{text-align:center;padding:24px 0;color:var(--text2);font-size:11px}
-</style></head><body><div class="container">
-<div class="header"><h1>&#x1F9E0; Trader Psychology Test</h1><p>Discover your trading personality in 2 minutes</p><div class="badge">10 questions &#183; No sign-up</div></div>
-<div class="start-screen" id="startScreen">
-<p>Most traders lose because of psychology, not strategy.<br>Know yourself before you trade another candle.</p>
-<ul class="features">
-<li><strong>&#x1F4CB; 10 Questions</strong> &#8212; Quick but revealing</li>
-<li><strong>&#x1F3AF; 6 Personality Types</strong> &#8212; From impulsive scalper to patient swing trader</li>
-<li><strong>&#x1F9E0; Actionable Insights</strong> &#8212; What to work on next</li>
-<li><strong>&#x1F512; Private</strong> &#8212; No data stored, no sign-up</li>
-</ul>
-<button class="start-btn" onclick="startTest()">&#9654; Start the Test</button>
-</div>
-<div class="quiz-wrap" id="quizWrap">
-<div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
-<div class="question-num" id="questionNum">Question 1 / 10</div>
-<div id="questionsContainer"></div>
-<div class="nav-btns">
-<button class="btn-prev" id="prevBtn" onclick="prevQuestion()">&#8592; Back</button>
-<button class="btn-next" id="nextBtn" onclick="nextQuestion()">Next &#8594;</button>
-</div></div>
-<div class="result-wrap" id="resultWrap"><div class="result-card" id="resultCard"></div></div>
-<div class="footer">TCPS Liquidity Engine &#8212; Structure over noise</div>
-</div>
+/* ============================================================
+   TRADER PSYCHOLOGY ASSESSMENT — Production Stylesheet
+   No external dependencies. Mobile-first responsive design.
+   ============================================================ */
 
-<script>
-const Q = [
-{q:"After three losing trades in a row, you:",o:[
-{t:"Take a break and review tomorrow",v:"patient"},
-{t:"Double down - the next one has to win",v:"impulsive"},
-{t:"Analyze each loss carefully before trading again",v:"analytical"},
-{t:"Stick to the plan - losses are part of the game",v:"disciplined"}]},
-{q:"Your ideal trade duration is:",o:[
-{t:"Minutes to hours - quick in, quick out",v:"scalper"},
-{t:"Hours to days - I let trades breathe",v:"swing"},
-{t:"Days to weeks - position trading",v:"position"},
-{t:"I follow structure, not a fixed timeframe",v:"adaptive"}]},
-{q:"A trade is in profit +5%. Do you:",o:[
-{t:"Take profit immediately - profit is profit",v:"risk_averse"},
-{t:"Move stop to break-even and let it run",v:"disciplined"},
-{t:"Add to position - it is clearly working",v:"aggressive"},
-{t:"Wait for my target - I planned this entry",v:"patient"}]},
-{q:"What is your biggest emotional challenge?",o:[
-{t:"FOMO - watching a move I missed",v:"fomo"},
-{t:"Revenge trading after a loss",v:"revenge"},
-{t:"Hesitation - second-guessing my entries",v:"hesitant"},
-{t:"Greed - not knowing when to take profit",v:"greed"}]},
-{q:"How do you choose your trades?",o:[
-{t:"Technical analysis + structure + confluence",v:"analytical"},
-{t:"Gut feeling + recent price action",v:"intuitive"},
-{t:"Following major market moves and news",v:"news_based"},
-{t:"Fixed system - same setup every time",v:"systematic"}]},
-{q:"The market gaps against you overnight. Down 8%. You:",o:[
-{t:"Cut loss immediately - capital preservation first",v:"risk_averse"},
-{t:"Hold - it might come back during the session",v:"hopeful"},
-{t:"Analyze if thesis is still valid, then decide",v:"analytical"},
-{t:"Average down - better entry now",v:"aggressive"}]},
-{q:"Your max position size as % of account:",o:[
-{t:"0.5-1% - I protect capital above all",v:"conservative"},
-{t:"1-2% - Standard risk management",v:"balanced"},
-{t:"2-5% - I am confident in my edge",v:"confident"},
-{t:"5%+ - Big risks for big rewards",v:"aggressive"}]},
-{q:"When do you check the charts?",o:[
-{t:"Constantly - I cannot stop watching",v:"obsessive"},
-{t:"During specific trading sessions only",v:"structured"},
-{t:"Before and after work - scheduled checks",v:"scheduled"},
-{t:"Only when I have a pending order or position",v:"minimal"}]},
-{q:"A friend tells you about a guaranteed altcoin signal. You:",o:[
-{t:"Ignore - guaranteed = trap",v:"disciplined"},
-{t:"Research it thoroughly before considering",v:"analytical"},
-{t:"Take a small position - worth a shot",v:"opportunistic"},
-{t:"Go all in - this could be life-changing",v:"impulsive"}]},
-{q:"Complete: My trading would improve most if I...",o:[
-{t:"Stuck to my plan and stopped deviating",v:"need_discipline"},
-{t:"Controlled my emotions better",v:"need_emotional"},
-{t:"Had a better strategy or edge",v:"need_strategy"},
-{t:"Had more patience to wait for setups",v:"need_patience"}]}
-];
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-const T = {
-disciplined:{icon:"&#x1F4AA;",n:"The Disciplined Trader",c:"#22c55e",d:"You have the strongest foundation for long-term success: discipline. You follow your plan, manage risk, and do not let emotions drive decisions. Your challenge is staying adaptable when the market regime shifts. Stick with your system and keep a trading journal.",r:[["Plan Adherence",90],["Emotional Control",85],["Risk Management",88],["Patience",80],["Adaptability",65]]},
-analytical:{icon:"&#x1F50D;",n:"The Analytical Trader",c:"#00D4FF",d:"You thrive on data and analysis. You enter trades with confluence and clear reasoning. Your risk: analysis paralysis and missing moves while over-optimizing. Set a timer for entries and trust your process. Not every variable needs to align.",r:[["Plan Adherence",75],["Emotional Control",70],["Risk Management",80],["Patience",75],["Adaptability",70]]},
-impulsive:{icon:"&#x26A1;",n:"The Impulsive Trader",c:"#ef4444",d:"You act fast and feel the urge to be in a trade constantly. While speed can be an edge, impulsive entries destroy P&amp;L. Your biggest win will come from slowing down - filter trades through a checklist before entering. Quality over quantity.",r:[["Plan Adherence",35],["Emotional Control",30],["Risk Management",40],["Patience",25],["Adaptability",80]]},
-patient:{icon:"&#x1F9D8;",n:"The Patient Trader",c:"#a855f7",d:"You wait for the right setup and rarely force trades. Patience is your superpower. Your risk: missing trend continuations by being too cautious. Work on scaling into positions gradually rather than waiting for perfection.",r:[["Plan Adherence",80],["Emotional Control",78],["Risk Management",85],["Patience",95],["Adaptability",55]]},
-risk_averse:{icon:"&#x1F6E1;",n:"The Capital Guardian",c:"#f59e0b",d:"Capital preservation is your priority. You cut losses fast and protect your account. Your risk: leaving too much on the table by taking profit too early. Let winners run by trailing stops instead of fixed targets.",r:[["Plan Adherence",80],["Emotional Control",75],["Risk Management",95],["Patience",70],["Adaptability",60]]},
-aggressive:{icon:"&#x1F525;",n:"The Aggressive Trader",c:"#ff6b35",d:"You swing big and embrace risk. When right, your returns are exceptional. When wrong, the damage is severe. Reduce position size by half and focus on risk:reward above 1:3.",r:[["Plan Adherence",40],["Emotional Control",35],["Risk Management",30],["Patience",45],["Adaptability",85]]}
-};
-
-let curr = 0;
-let ans = {};
-
-// Score mapping: each answer value maps to a result type
-const M = {
-"patient":"patient","impulsive":"impulsive","analytical":"analytical","disciplined":"disciplined",
-"scalper":"impulsive","swing":"patient","position":"patient","adaptive":"analytical",
-"risk_averse":"risk_averse","aggressive":"aggressive","fomo":"impulsive","revenge":"aggressive",
-"hesitant":"analytical","greed":"aggressive","intuitive":"impulsive","news_based":"impulsive",
-"systematic":"disciplined","hopeful":"patient","conservative":"risk_averse","balanced":"disciplined",
-"confident":"aggressive","obsessive":"impulsive","structured":"disciplined","scheduled":"patient",
-"minimal":"analytical","opportunistic":"aggressive",
-"need_discipline":"impulsive","need_emotional":"aggressive","need_strategy":"analytical","need_patience":"impulsive"
-};
-
-function startTest(){
-document.getElementById("startScreen").classList.add("hidden");
-document.getElementById("quizWrap").classList.add("active");
-render();
+:root {
+  --bg: #0f1115;
+  --bg-elevated: #171a21;
+  --bg-card: #1d2129;
+  --border: #2a2f3a;
+  --border-strong: #3a4150;
+  --text: #e8eaed;
+  --text-muted: #8a93a3;
+  --text-dim: #5f6878;
+  --accent: #c9a961;
+  --accent-soft: #c9a96115;
+  --danger: #d96a5a;
+  --danger-soft: #d96a5a15;
+  --warning: #d4a14a;
+  --success: #6a9c7d;
+  --max-width: 720px;
+  --radius: 4px;
+  --radius-lg: 8px;
 }
 
-function render(){
-const c = document.getElementById("questionsContainer");
-c.innerHTML = "";
-const q = Q[curr];
-const card = document.createElement("div");
-card.className = "question-card active";
-let h = '<div class="q-text">'+(curr+1)+". "+q.q+'</div><div class="options">';
-q.o.forEach((o
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
 
-function startTest(){start.style.display='none';qwrap.style.display='block';render();}
-const start=document.getElementById('startScreen');
-const qwrap=document.getElementById('quizWrap');
-const rwrap=document.getElementById('resultWrap');
-const Qc=document.getElementById('questionsContainer');
-const bar=document.getElementById('progressBar');
-const qn=document.getElementById('questionNum');
-const prev=document.getElementById('prevBtn');
-const next=document.getElementById('nextBtn');
-let cur=0, ans={};
-const M={'patient':'patient','impulsive':'impulsive','analytical':'analytical','disciplined':'disciplined','scalper':'impulsive','swing':'patient','position':'patient','adaptive':'analytical','risk_averse':'risk_averse','aggressive':'aggressive','fomo':'impulsive','revenge':'aggressive','hesitant':'analytical','greed':'aggressive','intuitive':'impulsive','news_based':'impulsive','systematic':'disciplined','hopeful':'patient','conservative':'risk_averse','balanced':'disciplined','confident':'aggressive','obsessive':'impulsive','structured':'disciplined','scheduled':'patient','minimal':'analytical','opportunistic':'aggressive','need_discipline':'impulsive','need_emotional':'aggressive','need_strategy':'analytical','need_patience':'impulsive'};
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
 
-function render(){Qc.innerHTML='';const q=Q[cur];let h='<div class='q-text'>'+(cur+1)+'. '+q.q+'</div><div class='options'>';
-q.o.forEach(function(o,i){let sel=ans[cur]===i?' selected':'';h+='<div class='option-btn'+sel+'' onclick='selectOpt('+i+')'>'+o.t+'</div>';});
-h+='</div>';Qc.innerHTML=h;updateUI();}
+/* === HEADER / BRAND === */
 
-function selectOpt(i){ans[cur]=i;render();}
+.brand {
+  text-align: center;
+  padding: 16px 0 32px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 40px;
+}
 
-function updateUI(){const pct=((cur+1)/Q.length*100).toFixed(0);bar.style.width=pct+'%';qn.textContent='Question '+(cur+1)+' / '+Q.length;
-prev.style.display=cur===0?'none':'block';
-if(cur===Q.length-1){next.textContent='Submit';next.className='btn-submit';next.disabled=ans[cur]===undefined;}else{next.textContent='Next →';next.className='btn-next';next.disabled=ans[cur]===undefined;}}
+.brand-mark {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 500;
+}
 
-function prevQuestion(){if(cur>0){cur--;render();}}
+/* === SCREENS === */
 
-function nextQuestion(){if(ans[cur]===undefined)return;
-if(cur===Q.length-1){showResult();return;}
-cur++;render();}
+.screen { display: none; }
+.screen.active { display: block; animation: fadeIn 0.3s ease-out; }
 
-function showResult(){qwrap.style.display='none';rwrap.style.display='block';
-const scores={};Object.keys(T).forEach(function(k){scores[k]=0;});
-for(let i=0;i<Q.length;i++){if(ans[i]!==undefined){const val=Q[i].o[ans[i]].v;const mapped=M[val]||'analytical';if(scores[mapped]!==undefined)scores[mapped]++;}}
-let maxType='analytical',maxScore=0;
-Object.keys(scores).forEach(function(k){if(scores[k]>maxScore){maxScore=scores[k];maxType=k;}});
-const type=T[maxType];const rc=document.getElementById('resultCard');
-let h='<div class='result-icon'>'+type.icon+'</div><h2>'+type.n+'</h2><div class='badge-type'>Score: '+maxScore+'/'+Q.length+'</div><div class='desc'>'+type.d+'</div>';
-h+='<div class='cta-buttons'><a class='cta-btn cta-free' href='https://t.me/daytrading_talkbtc' target='_blank'>&#x1F4E1; Join Free Trading Room</a><a class='cta-btn cta-premium' href='https://lsgsg0908-png.github.io/tcps-site/service.html' target='_blank'>&#x2B50; Explore VIP Signals</a><button class='restart-btn' onclick='restart()'>&#x1F504; Take the Test Again</button></div>';
-rc.innerHTML=h;rc.classList.add('active');}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-function restart(){cur=0;ans={};rwrap.style.display='none';start.style.display='block';}
+/* === LANDING === */
 
-render();
-</script></body></html>
+.landing-hero {
+  text-align: center;
+  padding: 24px 0 48px;
+}
 
+.landing-eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+.landing-title {
+  font-size: 36px;
+  line-height: 1.2;
+  font-weight: 600;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+
+.landing-subtitle {
+  font-size: 17px;
+  color: var(--text-muted);
+  max-width: 560px;
+  margin: 0 auto 40px;
+}
+
+.landing-meta {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.landing-meta-item {
+  text-align: center;
+}
+
+.landing-meta-value {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.landing-meta-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* === DISCLAIMER === */
+
+.disclaimer-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  margin-bottom: 24px;
+}
+
+.disclaimer-title {
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.disclaimer-card p {
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  font-size: 15px;
+}
+
+.disclaimer-card p:last-of-type { margin-bottom: 0; }
+
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkbox-row label {
+  font-size: 15px;
+  color: var(--text);
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+/* === BUTTONS === */
+
+.btn {
+  display: inline-block;
+  padding: 14px 32px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  font-family: inherit;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--text);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #d4b56e;
+  border-color: #d4b56e;
+}
+
+.btn-primary:disabled {
+  background: var(--border);
+  color: var(--text-dim);
+  border-color: var(--border);
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border-strong);
+}
+
+.btn-secondary:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-row .btn { flex: 1; }
+
+/* === PROGRESS BAR === */
+
+.progress-wrapper {
+  margin-bottom: 32px;
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  height: 2px;
+  background: var(--border);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* === QUESTION === */
+
+.question-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  margin-bottom: 24px;
+}
+
+.question-text {
+  font-size: 22px;
+  line-height: 1.4;
+  font-weight: 500;
+  margin-bottom: 36px;
+  letter-spacing: -0.01em;
+}
+
+.likert-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.likert-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+.likert-option:hover {
+  border-color: var(--border-strong);
+  background: #1f2330;
+}
+
+.likert-option.selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.likert-option input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.likert-option-number {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  min-width: 24px;
+}
+
+.likert-option-label {
+  font-size: 15px;
+  color: var(--text);
+  flex: 1;
+}
+
+.question-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.question-nav .btn { flex: 1; max-width: 50%; }
+
+/* === EMAIL CAPTURE === */
+
+.email-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+}
+
+.email-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.email-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  font-size: 15px;
+}
+
+.email-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 15px;
+  font-family: inherit;
+  margin-bottom: 16px;
+}
+
+.email-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 28px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.consent-row input[type="checkbox"] {
+  margin-top: 3px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.consent-row label {
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+/* === RESULT PAGE === */
+
+.result-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.result-title {
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.result-type-id {
+  display: inline-block;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.result-type-name {
+  font-size: 38px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+
+.result-type-tagline {
+  font-size: 18px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 28px;
+  max-width: 580px;
+}
+
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+.risk-badge::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.risk-badge.risk-low { color: var(--success); background: rgba(106,156,125,0.1); }
+.risk-badge.risk-medium { color: var(--warning); background: rgba(212,161,74,0.1); }
+.risk-badge.risk-high { color: var(--danger); background: var(--danger-soft); }
+.risk-badge.risk-severe { color: var(--danger); background: var(--danger-soft); border: 1px solid var(--danger); }
+
+.section {
+  margin-bottom: 48px;
+}
+
+.section-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 48px 0;
+}
+
+.section-header {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
+
+.section-intro {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: var(--bg-elevated);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.profile-body p {
+  margin-bottom: 18px;
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.profile-body p:last-child { margin-bottom: 0; }
+
+.note-box {
+  margin-top: 24px;
+  padding: 18px 22px;
+  background: var(--danger-soft);
+  border-left: 3px solid var(--danger);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.note-box-label {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--danger);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.note-box-text {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Loss patterns */
+
+.pattern-list {
+  list-style: none;
+  counter-reset: pattern-counter;
+}
+
+.pattern-item {
+  display: flex;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  counter-increment: pattern-counter;
+}
+
+.pattern-item:last-child { border-bottom: none; }
+
+.pattern-number {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  min-width: 32px;
+  padding-top: 2px;
+}
+
+.pattern-number::before {
+  content: counter(pattern-counter, decimal-leading-zero);
+}
+
+.pattern-content {
+  flex: 1;
+}
+
+.pattern-name {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.pattern-description {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Strengths */
+
+.strengths-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.strength-pill {
+  padding: 14px 18px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  color: var(--text);
+}
+
+/* Recommendations */
+
+.rec-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 16px;
+}
+
+.rec-card.primary {
+  border-color: var(--accent);
+  border-width: 1px;
+  background: linear-gradient(135deg, var(--bg-card) 0%, #1a1d24 100%);
+}
+
+.rec-rank {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.rec-name {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+
+.rec-description {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.rec-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--accent);
+  transition: all 0.15s ease;
+}
+
+.rec-link:hover {
+  color: #d4b56e;
+  border-color: #d4b56e;
+}
+
+.rec-not-recommended {
+  background: var(--danger-soft);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 16px;
+}
+
+.rec-not-recommended .rec-rank {
+  color: var(--danger);
+}
+
+.rec-not-recommended .rec-name {
+  color: var(--text);
+}
+
+/* Footer */
+
+.result-footer {
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.result-footer p { margin-bottom: 12px; }
+
+/* === RESPONSIVE === */
+
+@media (max-width: 600px) {
+  .container { padding: 20px 16px 60px; }
+  .landing-title { font-size: 28px; }
+  .landing-subtitle { font-size: 15px; }
+  .landing-meta { gap: 20px; }
+  .question-card, .email-card, .disclaimer-card { padding: 28px 20px; }
+  .question-text { font-size: 19px; }
+  .result-type-name { font-size: 30px; }
+  .result-type-tagline { font-size: 16px; }
+  .strengths-grid { grid-template-columns: 1fr; }
+  .rec-card { padding: 22px 20px; }
+  .rec-name { font-size: 19px; }
+}
+
+/* === UTILITY === */
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ============================================================
+       SCREEN 1 — LANDING
+       ============================================================ -->
+  <section id="screen-landing" class="screen active">
+    <div class="brand">
+      <span class="brand-mark">Trader Psychology Assessment</span>
+    </div>
+
+    <div class="landing-hero">
+      <div class="landing-eyebrow">Self-Diagnosis · 7 Minutes</div>
+      <h1 class="landing-title">What kind of trader are you really?</h1>
+      <p class="landing-subtitle">
+        A 35-question psychometric assessment that identifies your trader personality type, exposes the loss patterns hidden in your behavior, and prescribes a specific learning path.
+      </p>
+
+      <div class="landing-meta">
+        <div class="landing-meta-item">
+          <div class="landing-meta-value">35</div>
+          <div class="landing-meta-label">Questions</div>
+        </div>
+        <div class="landing-meta-item">
+          <div class="landing-meta-value">7</div>
+          <div class="landing-meta-label">Dimensions</div>
+        </div>
+        <div class="landing-meta-item">
+          <div class="landing-meta-value">10</div>
+          <div class="landing-meta-label">Trader Types</div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="goToScreen('disclaimer')">Begin Assessment</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SCREEN 2 — DISCLAIMER
+       ============================================================ -->
+  <section id="screen-disclaimer" class="screen">
+    <div class="brand">
+      <span class="brand-mark">Trader Psychology Assessment</span>
+    </div>
+
+    <div class="disclaimer-card">
+      <div class="disclaimer-title">Disclaimer</div>
+      <p>This assessment is provided for informational and self-reflection purposes only. It is not financial, investment, legal, or psychological advice.</p>
+      <p>Trading securities, derivatives, and cryptocurrencies involves substantial risk of loss and is not suitable for every investor. Past performance does not guarantee future results.</p>
+      <p>Results from this assessment are not a clinical diagnosis and should not be used to make trading or investment decisions without consultation with qualified professionals.</p>
+      <p>By continuing, you confirm that you are at least 18 years of age and that you have read and understood this disclaimer.</p>
+
+      <div class="checkbox-row">
+        <input type="checkbox" id="age-confirm" onchange="updateContinueButton()">
+        <label for="age-confirm">I am 18 or older and accept these terms.</label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goToScreen('landing')">Back</button>
+      <button id="continue-btn" class="btn btn-primary" disabled onclick="startAssessment()">Continue</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SCREEN 3 — QUESTIONS
+       ============================================================ -->
+  <section id="screen-questions" class="screen">
+    <div class="brand">
+      <span class="brand-mark">Trader Psychology Assessment</span>
+    </div>
+
+    <div class="progress-wrapper">
+      <div class="progress-meta">
+        <span id="progress-text">Question 1 of 35</span>
+        <span id="progress-percent">3%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="question-text" id="question-text">—</div>
+
+      <div class="likert-options" id="likert-options">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <div class="question-nav">
+      <button id="prev-btn" class="btn btn-secondary" onclick="prevQuestion()">Back</button>
+      <button id="next-btn" class="btn btn-primary" onclick="nextQuestion()" disabled>Next</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SCREEN 4 — EMAIL CAPTURE
+       ============================================================ -->
+  <section id="screen-email" class="screen">
+    <div class="brand">
+      <span class="brand-mark">Trader Psychology Assessment</span>
+    </div>
+
+    <div class="email-card">
+      <h2 class="email-title">Get Your Detailed Report</h2>
+      <p class="email-subtitle">Enter your email to receive your full Trader Psychology Profile, including your type description, loss patterns, and recommended learning path.</p>
+
+      <input type="email" id="email-input" class="email-input" placeholder="your@email.com" autocomplete="email">
+
+      <div class="consent-row">
+        <input type="checkbox" id="consent-checkbox">
+        <label for="consent-checkbox">Send me occasional updates and new resources. (Optional)</label>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="skipEmail()">Skip — show results</button>
+        <button class="btn btn-primary" onclick="submitEmail()">Send My Report</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SCREEN 5 — RESULT
+       ============================================================ -->
+  <section id="screen-result" class="screen">
+    <div class="brand">
+      <span class="brand-mark">Trader Psychology Assessment</span>
+    </div>
+
+    <div id="result-body">
+      <!-- Populated by JS via renderResult() -->
+    </div>
+  </section>
+
+</div>
+
+<!-- ============================================================
+     JAVASCRIPT — Application Logic
+     ============================================================ -->
+<script>
+/* ============================================================
+   CONFIGURATION — Customize before deployment
+   ============================================================ */
+
+const CONFIG = {
+  // Replace these placeholders with real product names and links.
+  // See Section 16 of the specification for the full variable map.
+  EBOOK_NAME: "TCPS Trading eBooks",
+  EBOOK_LINK: "https://lsgsg0908-png.github.io/tcps-site/store.html",
+  INDICATOR_NAME: "TCPS TradingView Indicators",
+  INDICATOR_LINK: "https://lsgsg0908-png.github.io/tcps-site/store.html",
+  SIGNAL_ROOM_NAME: "TCPS VIP Signals",
+  SIGNAL_ROOM_LINK: "https://lsgsg0908-png.github.io/tcps-site/service.html",
+
+  COMPANY_NAME: "TCPS Liquidity Engine",
+
+  // Backend endpoint for storing results (POST). Leave empty to disable.
+  RESULT_SUBMIT_URL: "",
+
+  // Analytics: leave empty to disable. Use your GA4 measurement ID.
+  GA_MEASUREMENT_ID: ""
+};
+
+/* ============================================================
+   QUESTION BANK
+   ============================================================ */
+
+const QUESTIONS = [
+  // R — Risk Tolerance
+  { id: "Q01", axis: "R", text: "If the potential reward is large, I'll take the trade even when downside risk is high." },
+  { id: "Q02", axis: "R", text: "I have put more than half of my account into a single position." },
+  { id: "Q03", axis: "R", text: "Using leverage doesn't bother me." },
+  { id: "Q04", axis: "R", text: "A \"big win\" appeals to me more than steady, modest gains." },
+  { id: "Q05", axis: "R", text: "I prefer high-volatility instruments and time periods." },
+  // D — Decision Style
+  { id: "Q06", axis: "D", text: "When I look at a chart, a gut feeling that \"this is going up\" comes before any analysis." },
+  { id: "Q07", axis: "D", text: "Before entering, I cross-check multiple indicators." },
+  { id: "Q08", axis: "D", text: "I'll enter a trade without backtesting or statistical evidence." },
+  { id: "Q09", axis: "D", text: "I can clearly write out my reason for entering, in words or numbers." },
+  { id: "Q10", axis: "D", text: "I trust market mood and news sentiment more than technical analysis." },
+  // T — Time Horizon
+  { id: "Q11", axis: "T", text: "I get anxious if I have to hold a position overnight." },
+  { id: "Q12", axis: "T", text: "I primarily watch 1- to 5-minute charts." },
+  { id: "Q13", axis: "T", text: "Holding a trade for several days or weeks feels natural to me." },
+  { id: "Q14", axis: "T", text: "I enter and exit multiple times during a single trading session." },
+  { id: "Q15", axis: "T", text: "The bigger picture on daily or weekly charts matters more than intraday moves." },
+  // E — Emotional Control
+  { id: "Q16", axis: "E", text: "I've moved or ignored my stop-loss with thoughts like \"just a little longer.\"" },
+  { id: "Q17", axis: "E", text: "After a losing trade, I've immediately tried to make it back with the next trade." },
+  { id: "Q18", axis: "E", text: "I follow my predetermined trading rules consistently." },
+  { id: "Q19", axis: "E", text: "When in profit, I've delayed taking profits because \"it'll keep going.\"" },
+  { id: "Q20", axis: "E", text: "I often notice my heart racing or hands shaking during trades." },
+  // L — Learning Orientation
+  { id: "Q21", axis: "L", text: "I keep a personal trading journal or documented system." },
+  { id: "Q22", axis: "L", text: "I frequently take trades based on YouTube tips or signal-room calls." },
+  { id: "Q23", axis: "L", text: "Following a proven signal beats trying to build my own strategy." },
+  { id: "Q24", axis: "L", text: "I won't trust a strategy without backtesting or personal validation." },
+  { id: "Q25", axis: "L", text: "I have at least three trading rules I built myself." },
+  // S — Social Orientation
+  { id: "Q26", axis: "S", text: "Sharing trade ideas with other traders helps me." },
+  { id: "Q27", axis: "S", text: "Solo chart time is when I'm most effective." },
+  { id: "Q28", axis: "S", text: "I've been a member of a Discord, signal room, or trading group." },
+  { id: "Q29", axis: "S", text: "I work hard to keep other traders' opinions from influencing my decisions." },
+  { id: "Q30", axis: "S", text: "I need fellow traders to study with for motivation." },
+  // M — Money Management
+  { id: "Q31", axis: "M", text: "I calculate my stop-loss, target, and position size before entering." },
+  { id: "Q32", axis: "M", text: "I have a fixed risk-per-trade rule (e.g., 1–2% of account)." },
+  { id: "Q33", axis: "M", text: "I've sized positions based on \"what feels right\" in the moment." },
+  { id: "Q34", axis: "M", text: "I follow a rule for scaling in or scaling out of positions." },
+  { id: "Q35", axis: "M", text: "When losses pile up, I've increased my size to make it back faster." }
+];
+
+const REVERSE_SCORED = new Set(["Q07","Q09","Q13","Q15","Q18","Q21","Q24","Q25","Q27","Q29","Q31","Q32","Q34"]);
+
+const LIKERT_LABELS = [
+  { value: 1, label: "Strongly Disagree" },
+  { value: 2, label: "Disagree" },
+  { value: 3, label: "Neutral" },
+  { value: 4, label: "Agree" },
+  { value: 5, label: "Strongly Agree" }
+];
+
+/* ============================================================
+   TYPE DEFINITIONS — see Part 2 of specification
+   ============================================================ */
+
+const TYPES = {
+  1: {
+    name: "System Architect",
+    tagline: "A disciplined, system-driven trader whose process is already working.",
+    riskLevel: "Low",
+    signature: { R:"LOW", D:"LOW", T:"LOW", E:"LOW", L:"LOW", S:"LOW", M:"LOW" },
+    description: [
+      "You approach trading the way an engineer approaches a complex machine: by building, testing, and refining a system that you trust. You aren't drawn to big swings or adrenaline. You're drawn to consistency, and you've put in the work to earn it.",
+      "Your decision-making is rooted in analysis rather than gut feeling. Before entering a trade, you cross-check your indicators, review your reasoning, and document your thesis. You don't take trades you can't explain in writing. You'd rather pass on a setup than enter one you don't fully understand.",
+      "Your time horizon tends toward the longer side. You're comfortable holding through noise because you trust the larger structure you've identified. Quick scalps and intraday volatility are noise to you, not opportunity. You'd rather catch a clean multi-day or multi-week move than churn through twenty intraday trades.",
+      "Emotionally and operationally, you're disciplined. You set your stop, and you respect it. You've built rules around position sizing — likely a fixed risk per trade — and you follow them even when conviction is high. Your money management is the foundation that lets every other part of your trading work.",
+      "You prefer working alone. The signal rooms and chat groups don't interest you because they introduce noise into a process you've spent years quieting. You learn from books, from your own journal, and from rigorous review of your own trades — not from other people's hot takes.",
+      "The honest assessment: you're already doing the things that matter. Your strengths are real assets, not liabilities waiting to surface. The risk for you isn't blowing up — it's stagnation. Markets evolve, edges decay, and the system that worked for the last cycle may not be the system that works for the next one. Your work is to keep refining without breaking what already functions."
+    ],
+    strengths: ["Disciplined process and rule-following", "Strong money management foundation", "Independent analytical thinking", "Long-term consistency"],
+    note: null,
+    patterns: ["LP-10"],
+    primary: "indicator",
+    secondary: "ebook",
+    notRecommended: null
+  },
+  2: {
+    name: "Disciplined Scalper",
+    tagline: "A short-term trader who has paired speed with structure.",
+    riskLevel: "Medium",
+    signature: { R:null, D:"LOW", T:"HIGH", E:"LOW", L:"LOW", S:null, M:"LOW" },
+    description: [
+      "You operate at the fast end of the market. The 1-minute and 5-minute charts are your primary canvas, and you're comfortable making multiple decisions in a single session. What separates you from most short-term traders is that you've layered discipline on top of speed.",
+      "Your decision-making leans analytical, not intuitive. You aren't taking trades on gut feeling alone — you're reading order flow, levels, indicators, and short-term structure, and you're doing it quickly because you've trained yourself to. You can articulate why you entered, even if the reason is compressed into a few seconds of pattern recognition.",
+      "Your time horizon is intentionally tight. You don't want overnight risk. You want to take what the session gives you and walk away flat. This isn't impatience — it's a deliberate choice about which kind of risk you'll accept and which you won't.",
+      "The strength of your profile is your money management discipline. Most scalpers blow up because they size impulsively when they're in flow, then size up again when they're behind. You don't. You have a fixed risk per trade, and you respect your daily loss limit. That single discipline is why your speed compounds into results instead of into a margin call.",
+      "Where you're vulnerable is overtrading. The same engagement that makes you sharp in the first hour can erode your edge by hour four. There's also a pattern of cutting winners too early — when you're in profit, the urge to \"lock it in\" can override the trade thesis. These are refinements, not foundations. The foundation is solid.",
+      "The honest assessment: your style is one of the highest-skill paths in trading, and you've built the structural support to survive in it. The work ahead is endurance and trade-management refinement, not rebuilding."
+    ],
+    strengths: ["Fast, accurate decision-making", "Disciplined money management", "Daily flat / no overnight risk", "Low emotional drift during sessions"],
+    note: null,
+    patterns: ["LP-07","LP-02"],
+    primary: "indicator",
+    secondary: "ebook",
+    notRecommended: null
+  },
+  3: {
+    name: "Analytical Follower",
+    tagline: "A skilled analyst who hesitates to trust their own conclusions.",
+    riskLevel: "Medium",
+    signature: { R:null, D:"LOW", T:null, E:"LOW", L:"HIGH", S:"HIGH", M:"LOW" },
+    description: [
+      "You've put in real work on the analytical side. You understand indicators, you can read structure, you know what a clean setup looks like. The technical knowledge is there. What's missing is the willingness to act on your own analysis without external validation.",
+      "You find yourself looking for confirmation from outside sources before pulling the trigger. A signal-room call. A YouTube analysis that lines up with what you already saw. A nod from someone you trust. Even when your own analysis is correct, you wait for someone else to say it first, and by the time they do, the trade has often already moved.",
+      "Your decision-making is analytical at its core, but the analysis ends in a question rather than a decision. You don't fully trust your read until someone else confirms it. This isn't a knowledge problem — it's a confidence problem. The market doesn't reward correct analysis; it rewards analysis you act on.",
+      "On the time-horizon side, you're flexible — you can swing or position trade, depending on what looks right. Your emotional control is reasonable. You don't blow up your account in spectacular fashion. The damage is quieter: missed entries, late entries, exits that come too soon because you're piggybacking off someone else's conviction rather than holding your own.",
+      "Money management is generally in place. You size with care, you respect stops. The discipline is there. The asymmetry is between your skill (high) and your trust in that skill (low).",
+      "The honest assessment: your analytical foundation is strong enough that following others is actively costing you money. The traders you follow are not better than you — they're just more willing to be wrong. The work ahead is psychological, not technical. You don't need to learn more. You need to act on what you already know."
+    ],
+    strengths: ["Solid technical analysis foundation", "Reasonable money management", "Disciplined risk-taking", "Open to learning and feedback"],
+    note: null,
+    patterns: ["LP-06","LP-01","LP-08"],
+    primary: "signal_room",
+    secondary: "ebook",
+    notRecommended: null
+  },
+  4: {
+    name: "Intuitive Loner",
+    tagline: "A gut-feel trader with discipline but limited validation.",
+    riskLevel: "Medium",
+    signature: { R:null, D:"HIGH", T:null, E:"LOW", L:"LOW", S:"LOW", M:"LOW" },
+    description: [
+      "You read markets through pattern and feel rather than through formal analysis. When you look at a chart, you have an immediate sense of where it wants to go. This isn't laziness — it's pattern recognition that has built up over time, even if you can't always articulate it cleanly.",
+      "What separates you from impulsive traders is that you've layered discipline on top of intuition. You set stops, you respect them, you don't size up when you're losing. You don't chase. The intuitive read is your edge, but you've built guardrails around it so that bad reads don't compound into account-ending losses.",
+      "You prefer to work alone. Other people's opinions cloud the read for you. You've found that you trade best when you've narrowed your inputs — your charts, your watchlist, your own observations — and tuned everything else out. Signal rooms and trading communities feel like noise. You may have tried them and walked away.",
+      "Where you're vulnerable is verification. Intuition is a powerful tool, but it's also unfalsifiable in the moment. You can't always tell when your read is genuine pattern recognition versus when it's hopeful projection. Without a journaling practice or a structured review of your trades, you can spend years executing without learning what actually works in your decisions and what doesn't.",
+      "There's also a tendency to take profits too quickly. When the trade is going your way, the same intuition that got you in starts whispering that the move is over. You exit, and the trade keeps running without you. This is one of the most common — and most expensive — patterns in intuitive trading.",
+      "The honest assessment: your edge is real, but unmeasured. You've survived because of your discipline, not because of your intuition's accuracy — those are two different things. The work ahead is building a feedback system that turns your intuition into evidence, so you can scale what works and prune what doesn't."
+    ],
+    strengths: ["Strong pattern recognition", "Disciplined execution", "Independent thinking", "Composure under pressure"],
+    note: null,
+    patterns: ["LP-02","LP-01"],
+    primary: "indicator",
+    secondary: "ebook",
+    notRecommended: null
+  },
+  5: {
+    name: "Cautious Beginner",
+    tagline: "A new or careful trader prioritizing capital preservation while learning.",
+    riskLevel: "Low",
+    signature: { R:"LOW", D:"LOW", T:null, E:"LOW", L:"HIGH", S:null, M:"LOW" },
+    description: [
+      "You're early in your trading journey, and you're approaching it the right way. You don't want to lose money. You're sizing small. You're studying. You're not chasing the trades that promise huge returns because you understand, intuitively or explicitly, that the road to those returns is paved with blown accounts.",
+      "Your decision-making leans analytical. You research before you enter. You read the indicators, you look at multiple timeframes, you try to understand why a setup works before you act on it. This is the right foundation. Most failed traders skip this step.",
+      "Your money management is your strongest asset. You're not putting half your account on a single trade. You're not using leverage you don't understand. You're keeping risk per trade small, which is the single most important thing a beginner can do. Capital preservation while learning is the whole game at this stage.",
+      "The vulnerabilities at your level aren't usually catastrophic — they're more about lost opportunity. You may experience analysis paralysis: studying and studying without taking the trades that would actually teach you what works. You may also be too risk-averse to size up even when a setup is genuinely strong, which keeps your skill from compounding. Both are normal at this stage.",
+      "You're open to following established traders and signal rooms, which can be useful as a learning frame, but it can become a crutch if you don't graduate to forming your own thesis. The goal isn't to follow signals forever — it's to use them as scaffolding while you build your own.",
+      "The honest assessment: you're in the position every long-term successful trader has been in at some point — early, careful, learning. The traders who blow up rushed past this stage. The traders who survive treat it as an apprenticeship. The work ahead is building reps slowly, journaling them, and progressively trusting your own judgment more than external sources."
+    ],
+    strengths: ["Strong capital preservation instincts", "Genuine learning orientation", "Realistic about risk", "Patient with the process"],
+    note: null,
+    patterns: ["LP-08","LP-09"],
+    primary: "ebook",
+    secondary: "signal_room",
+    notRecommended: null
+  },
+  6: {
+    name: "Impulsive Gambler",
+    tagline: "An aggressive, undisciplined trader running an unsustainable pattern.",
+    riskLevel: "Severe",
+    signature: { R:"HIGH", D:"HIGH", T:"HIGH", E:"HIGH", L:"HIGH", S:null, M:"HIGH" },
+    description: [
+      "You're drawn to trading the way some people are drawn to a casino floor — for the rush, the size, and the possibility of a life-changing win. The desire for a \"big one\" is what brought you here, and it's still what's driving most of your decisions. That impulse is not unusual. It is also, in your current configuration, your single biggest threat.",
+      "Your appetite for risk is high. You've put more than half your account on a single trade. You use leverage without much hesitation. The idea of grinding out 2% gains feels boring next to the idea of catching a 50% move. You're not wrong that the big move exists — you're wrong about the survivability of the path that tries to catch it without structure.",
+      "Your decision-making leans heavily on intuition. The chart says something to you, and you act. The problem isn't intuition itself — many great traders use it. The problem is that you act on intuition without the safety nets that make intuition survivable. No backtesting. No clear written reason. No size limit. Just the read and the click.",
+      "Your time horizon is short. Holding overnight makes you uncomfortable. You want resolution today, this hour, this minute. Combined with high risk appetite and intuitive entries, this means you're making a high volume of high-stakes decisions every session — and the math of compounding errors is brutal in that regime.",
+      "The most damaging part of your profile is the combination of weak emotional control and absent money management. When a trade moves against you, you don't always honor the stop. When you're in profit, you let it run too long. When you've lost, you size up the next trade to make it back. There's no fixed risk-per-trade rule. Position sizing is based on conviction in the moment.",
+      "The honest assessment is direct: the pattern you're running ends in a blown account. Not \"may end\" — ends. The only variable is when. The strengths you have — quick reads, willingness to act, market sense — are real, but in your current setup they aren't assets. They're accelerants. Before any of those strengths can compound into actual wealth, the structural problems have to be fixed: stop discipline first, then fixed risk per trade, then a rule against revenge sizing. The good news is none of these require more market knowledge. They require structure, and structure can be installed quickly."
+    ],
+    strengths: ["Quick decision-making and execution", "Tolerance for ambiguity", "Willingness to take action"],
+    note: "Your strengths are genuine, but they currently magnify your losses rather than your gains. Resolving the structural gaps below should be the priority before any other trading work.",
+    patterns: ["LP-04","LP-03","LP-05"],
+    primary: "ebook",
+    secondary: "indicator",
+    notRecommended: "signal_room"
+  },
+  7: {
+    name: "FOMO Chaser",
+    tagline: "A reactive trader who enters late and gets caught in tops.",
+    riskLevel: "High",
+    signature: { R:null, D:"HIGH", T:"HIGH", E:"HIGH", L:"HIGH", S:"HIGH", M:"HIGH" },
+    description: [
+      "Your trading rhythm is shaped by what you see other people doing. A stock starts moving, the chat lights up, the YouTube videos start coming out — and you feel the pull. You don't want to miss it. By the time you enter, the move is often mature. By the time you exit, it has often reversed. This is the FOMO loop, and you're caught in it.",
+      "Your decision-making is mostly reactive. You're not running your own scans, building your own thesis, and entering on your own signals. You're responding to other people's movements. The trades that look the most exciting — the ones already up 10%, 20%, 30% — feel the safest because so many people are talking about them. In reality, those are the most dangerous, because the easy money has already been made.",
+      "Your time horizon is short, which compounds the problem. Late entries on intraday charts have very little room to work before they reverse. You enter near the top, the move stalls, and you either hold through the drop hoping for a re-acceleration or panic-sell at the worst moment.",
+      "Emotional control is a significant gap. The same urgency that pulled you into the trade keeps you from honoring the stop when it goes against you. The pattern often repeats: enter late, hold past the stop, sell near the bottom of the pullback, watch it recover after you're out.",
+      "You're embedded in trading communities. Discord servers, signal rooms, social media. This isn't inherently bad — community has real value — but in your case it's the source of the FOMO rather than a counterweight to it. The community amplifies urgency rather than slowing it down.",
+      "Money management is improvised rather than structured. You size based on how strong the FOMO feels, not on a fixed rule. Strong FOMO equals big size, which is the inverse of what risk management should do.",
+      "The honest assessment: you have the engagement and the network of a serious trader, but you're using both to accelerate losses. The fix isn't quitting the communities — it's changing your relationship with them. The work ahead is learning to identify setups before the chat does, building entry rules that don't depend on validation, and most importantly, installing real money management before any of the other work compounds into anything sustainable."
+    ],
+    strengths: ["High engagement and information awareness", "Connected to active communities", "Familiar with multiple sectors and instruments"],
+    note: null,
+    patterns: ["LP-03","LP-06","LP-07"],
+    primary: "ebook",
+    secondary: "indicator",
+    notRecommended: "signal_room"
+  },
+  8: {
+    name: "Revenge Trader",
+    tagline: "A trader whose losses trigger destructive overcompensation.",
+    riskLevel: "Severe",
+    signature: { R:"HIGH", D:null, T:null, E:"HIGH", L:null, S:null, M:"HIGH" },
+    description: [
+      "Most of the time, you can trade reasonably well. When sessions go smoothly, your decisions are within a normal range. The pattern that defines your profile isn't your average trade — it's what happens after a loss.",
+      "When you take a meaningful loss, something shifts. The next trade is bigger. The size grows in proportion to the pain. The thinking is roughly: \"If I can win this one back, I'm even, and the day didn't happen.\" This is the revenge loop, and it's the single most account-ending pattern in retail trading.",
+      "Your risk appetite spikes during these episodes in a way it doesn't during normal sessions. You'll take setups you'd normally pass on. You'll hold past your stop because closing the trade for a loss would compound the original loss. Leverage that felt aggressive yesterday feels appropriate today, because the math of recovery seems to require it.",
+      "Your emotional control breaks down precisely when you most need it. The discipline that's present at 9:30 AM is gone by 11:00 AM if the morning went badly. Stop-loss rules that you respect on green days are negotiable on red days. This isn't a knowledge problem. You know what you should do. The problem is that the knowing is overpowered, in those moments, by the feeling.",
+      "Your money management is structurally broken in the recovery phase. The fixed-risk rule — if you have one — is the first thing to go. Position sizing becomes reactive: bigger after losses, bigger after a string of losses, biggest right before the catastrophic event. This is the mathematical opposite of how risk management should work.",
+      "The honest assessment is blunt: the revenge pattern is mathematically guaranteed to end in a major drawdown if it continues. Doubling size after losses is a strategy that wins many small times and then loses everything once. The losing once has not happened yet — or it has happened, and you're rebuilding to do it again. Either way, the pattern is the priority.",
+      "The strengths in your profile are real. You can trade. The problem isn't your skill on a normal day. It's what happens to your skill on a bad day. Fixing this isn't about learning more about markets. It's about installing external structure that doesn't depend on your discipline holding under stress: a hard daily loss limit that closes your platform, a rule against same-day re-entry after losses, a commitment to walk away after a defined loss threshold. These are non-negotiable structural changes. Without them, the rest of your trading work is invalidated by the recovery phase."
+    ],
+    strengths: ["Generally competent on normal days", "Engaged and committed to the craft", "Capable of disciplined execution outside loss spirals"],
+    note: "A single revenge cycle can erase months of careful work. Installing a hard daily loss limit should precede any other trading improvement.",
+    patterns: ["LP-05","LP-01","LP-04"],
+    primary: "ebook",
+    secondary: "indicator",
+    notRecommended: "signal_room"
+  },
+  9: {
+    name: "Lone Analyst",
+    tagline: "A deep-thinking solo trader without external feedback.",
+    riskLevel: "Medium",
+    signature: { R:null, D:"LOW", T:"LOW", E:null, L:"LOW", S:"LOW", M:"LOW" },
+    description: [
+      "You go deep. When you take an interest in a setup, a sector, or a strategy, you research it in a way most traders don't. You read the filings, study the chart structure across multiple timeframes, build out your thesis with care. The depth is your strength.",
+      "Your decision-making is firmly analytical. You don't trade on gut feel. You trade on a thesis that you've stress-tested in your own mind. You can write out your reasoning for any position you hold, in detail.",
+      "Your time horizon tends toward longer holds. You're patient. You want to be in trades that take weeks or months to play out, because that timeframe rewards the kind of analysis you're good at. Intraday chop doesn't interest you, and you tend to view scalpers as people working harder than they need to.",
+      "You work alone, by preference. Communities and signal rooms don't appeal to you. You'd rather develop your own thesis from primary sources than have someone hand you their conclusion. This is intellectually rigorous, and it's a real strength.",
+      "The vulnerability is the absence of external feedback. When you're wrong, you may be wrong for a long time before you realize it. Markets reward conviction, but they punish stubbornness, and the line between those two is hard to see from the inside. Without trusted peers to push back on your thinking, you can spend months building out a thesis that's based on a flawed premise, refining the wrong question rather than questioning the question.",
+      "Analysis paralysis is also a real risk. The same depth that produces good theses can prevent you from acting on them in time. By the time the thesis is fully built out, the entry has often passed.",
+      "You may also be too conservative on volatility. Your risk appetite tends toward the lower end, and your time horizon is long, which is healthy — but it can mean you systematically pass on faster, higher-conviction setups that fit your skills.",
+      "The honest assessment: you have one of the most defensible analytical foundations on this list, and you're not at risk of blowing up. You're at risk of compounding too slowly because the feedback loop is too closed. The work ahead is finding one or two trusted peers — not a Discord server, not a signal room — who can challenge your thinking and accelerate your learning without diluting your independence."
+    ],
+    strengths: ["Deep, rigorous analysis", "Independent thinking", "Patient capital allocation", "Strong thesis-building discipline"],
+    note: null,
+    patterns: ["LP-08","LP-09"],
+    primary: "indicator",
+    secondary: "ebook",
+    notRecommended: null
+  },
+  10: {
+    name: "Community Learner",
+    tagline: "A collaborative trader who thrives on shared learning environments.",
+    riskLevel: "Low",
+    signature: { R:null, D:"LOW", T:null, E:"LOW", L:"HIGH", S:"HIGH", M:"LOW" },
+    description: [
+      "You learn in groups. Trading communities — Discord servers, study groups, signal rooms — are where your engagement is highest and where your improvement happens fastest. The conversation, the comparison of ideas, the shared post-mortems on bad trades: this is your learning style, and it's a legitimate one.",
+      "Your decision-making is analytical. You take time before entries. You look at the levels, you read the indicators, you've built up a working knowledge of structure. You're not impulsive. You're considered.",
+      "Your money management is in place. You size with care, you have a sense of how much you can lose per trade, and you respect that limit most of the time. The discipline isn't perfect, but the foundation is there.",
+      "Your time horizon is flexible — you can swing trade or hold positions for days or weeks, depending on what fits the setup. You're not locked into one style.",
+      "The strength of your profile is your network and your willingness to share and receive ideas. Trading is lonely for most people. You've made it less lonely, and that's an asset most retail traders don't have. The community keeps you engaged, exposed to new ideas, and accountable for your performance.",
+      "The vulnerability is signal-following. Because you're embedded in communities where calls are shared, you can drift toward following other people's setups instead of generating your own. The danger isn't that the calls are bad — it's that following calls doesn't build the underlying skill of seeing setups yourself. After enough years of following, you can find that you've improved at executing other people's ideas without improving at having your own.",
+      "There's also a mild tendency to take profits too early — the urge to lock in a win and share it, rather than letting it run. This is a small leak, but over time it shapes the profile of your returns toward many small wins and some large misses.",
+      "The honest assessment: your community advantage is real, and it's accelerating you. The work ahead is making sure that the community is a multiplier on your own thesis rather than a replacement for it. The traders who get the most out of community are the ones who bring their own ideas in, not the ones who only take ideas out."
+    ],
+    strengths: ["Strong learning environment and network", "Disciplined money management", "Patient analytical approach", "High engagement and motivation"],
+    note: null,
+    patterns: ["LP-06","LP-02"],
+    primary: "signal_room",
+    secondary: "ebook",
+    notRecommended: null
+  }
+};
+
+const LOSS_PATTERNS = {
+  "LP-01": { name: "Stop-Loss Avoidance", description: "You move or remove your stop when price approaches it, telling yourself the trade just needs more time. The trade that should have been a controlled small loss becomes a position you're now stuck managing emotionally rather than mechanically." },
+  "LP-02": { name: "Premature Profit-Taking", description: "You exit winning trades early because the urge to \"lock in\" the gain overrides the original trade thesis. Over time, your average winner shrinks while your average loser stays the same — an asymmetry that erodes results even when your hit rate is strong." },
+  "LP-03": { name: "Chasing Entries", description: "You enter trades after the move has already extended, drawn in by the visible action. Late entries leave little room before reversal, and you frequently buy near intraday tops or sell near bottoms." },
+  "LP-04": { name: "Oversized Bets", description: "You size positions based on conviction or feel rather than a fixed rule. A single high-conviction trade gone wrong can erase weeks or months of progress." },
+  "LP-05": { name: "Revenge Sizing", description: "After a losing trade or losing session, you increase position size on the next trade to recover faster. Mathematically, this strategy wins many small times and loses everything once." },
+  "LP-06": { name: "Signal Drift", description: "You don't generate your own thesis. You wait for someone else to call the trade, then enter on their conviction. Even when their call is correct, you exit poorly because the conviction was never yours to hold." },
+  "LP-07": { name: "Overtrading", description: "You take more trades than your edge supports. The need to be active overrides the discipline of waiting for high-quality setups, and your edge is diluted across mediocre opportunities." },
+  "LP-08": { name: "Analysis Paralysis", description: "You research extensively but enter rarely. By the time your thesis is fully built out, the setup has often expired. Time spent studying does not become trades, and trades are where learning compounds." },
+  "LP-09": { name: "Volatility Avoidance", description: "You're so focused on capital preservation that you systematically pass on the higher-conviction setups your analysis identifies. Your skill develops, but your account doesn't." },
+  "LP-10": { name: "Stagnation", description: "Your system worked for a previous market regime but has stopped producing. You're executing correctly against a framework that the market has moved past." }
+};
+
+const PRODUCT_COPY = {
+  ebook: {
+    rank: "Foundation",
+    description: "A foundational guide to the disciplines that determine long-term trader survival: position sizing, stop-loss execution, emotional control under drawdown."
+  },
+  indicator: {
+    rank: "Tool",
+    description: "An objective technical tool that turns market structure into clear entry and exit signals, integrated into your existing trading process."
+  },
+  signal_room: {
+    rank: "Community",
+    description: "A real-time community where setups are called, executed, and reviewed alongside experienced traders. Best suited for traders with established discipline who benefit from live information flow."
+  }
+};
+
+/* ============================================================
+   SCORING ALGORITHM
+   ============================================================ */
+
+function applyReverseScoring(responses) {
+  const adjusted = {};
+  for (let i = 0; i < QUESTIONS.length; i++) {
+    const id = QUESTIONS[i].id;
+    const raw = responses[i];
+    adjusted[id] = REVERSE_SCORED.has(id) ? (6 - raw) : raw;
+  }
+  return adjusted;
+}
+
+function computeAxisScores(adjusted) {
+  const scores = { R:0, D:0, T:0, E:0, L:0, S:0, M:0 };
+  for (const q of QUESTIONS) {
+    scores[q.axis] += adjusted[q.id];
+  }
+  return scores;
+}
+
+function computePolarities(scores) {
+  const out = {};
+  for (const axis in scores) {
+    const s = scores[axis];
+    if (s <= 12) out[axis] = "LOW";
+    else if (s <= 17) out[axis] = "MID";
+    else out[axis] = "HIGH";
+  }
+  return out;
+}
+
+function matchType(polarities) {
+  let best = null;
+  let bestScore = -1;
+  const candidates = [];
+
+  for (const id in TYPES) {
+    const type = TYPES[id];
+    let score = 0;
+    for (const axis in type.signature) {
+      const expected = type.signature[axis];
+      const actual = polarities[axis];
+      if (expected === null) {
+        score += 1; // wildcard always matches
+      } else if (expected === actual) {
+        score += 1;
+      } else if (actual === "MID") {
+        score += 0.5; // partial match
+      }
+    }
+    candidates.push({ id: parseInt(id), score, type });
+  }
+
+  candidates.sort((a, b) => b.score - a.score);
+  bestScore = candidates[0].score;
+  const tied = candidates.filter(c => c.score === bestScore);
+
+  if (tied.length === 1) return tied[0].id;
+
+  // Tie-break Rule 1: Risk-group priority
+  const riskGroup = [6, 7, 8];
+  const isRiskState = polarities.M === "HIGH" || polarities.E === "HIGH";
+  if (isRiskState) {
+    const riskTied = tied.filter(c => riskGroup.includes(c.id));
+    if (riskTied.length > 0) {
+      riskTied.sort((a, b) => a.id - b.id);
+      return riskTied[0].id;
+    }
+  }
+
+  // Tie-break Rule 2: Specificity (fewer wildcards wins)
+  tied.sort((a, b) => {
+    const aWild = Object.values(a.type.signature).filter(v => v === null).length;
+    const bWild = Object.values(b.type.signature).filter(v => v === null).length;
+    if (aWild !== bWild) return aWild - bWild;
+    return a.id - b.id; // Tie-break Rule 3: lower ID
+  });
+
+  return tied[0].id;
+}
+
+function diagnose(responses) {
+  const adjusted = applyReverseScoring(responses);
+  const axisScores = computeAxisScores(adjusted);
+  const polarities = computePolarities(axisScores);
+  const typeId = matchType(polarities);
+  const type = TYPES[typeId];
+
+  return {
+    typeId,
+    typeName: type.name,
+    axisScores,
+    polarities,
+    type
+  };
+}
+
+/* ============================================================
+   STATE MANAGEMENT
+   ============================================================ */
+
+const state = {
+  currentQuestionIndex: 0,
+  responses: new Array(35).fill(null),
+  ageConfirmed: false,
+  email: null,
+  marketingConsent: false,
+  diagnosis: null
+};
+
+/* ============================================================
+   SCREEN NAVIGATION
+   ============================================================ */
+
+function goToScreen(name) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  const target = document.getElementById("screen-" + name);
+  if (target) {
+    target.classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    trackEvent("screen_view", { screen_name: name });
+  }
+}
+
+function updateContinueButton() {
+  const cb = document.getElementById("age-confirm");
+  document.getElementById("continue-btn").disabled = !cb.checked;
+  state.ageConfirmed = cb.checked;
+}
+
+function startAssessment() {
+  if (!state.ageConfirmed) return;
+  state.currentQuestionIndex = 0;
+  renderQuestion();
+  goToScreen("questions");
+  trackEvent("assessment_start");
+}
+
+/* ============================================================
+   QUESTION RENDERING
+   ============================================================ */
+
+function renderQuestion() {
+  const idx = state.currentQuestionIndex;
+  const q = QUESTIONS[idx];
+
+  document.getElementById("question-text").textContent = q.text;
+
+  const optionsContainer = document.getElementById("likert-options");
+  optionsContainer.innerHTML = "";
+
+  for (const opt of LIKERT_LABELS) {
+    const wrapper = document.createElement("label");
+    wrapper.className = "likert-option";
+    if (state.responses[idx] === opt.value) wrapper.classList.add("selected");
+
+    wrapper.innerHTML = `
+      <input type="radio" name="likert-${idx}" value="${opt.value}" ${state.responses[idx] === opt.value ? "checked" : ""}>
+      <span class="likert-option-number">${opt.value}</span>
+      <span class="likert-option-label">${opt.label}</span>
+    `;
+
+    wrapper.addEventListener("click", () => selectAnswer(opt.value));
+    optionsContainer.appendChild(wrapper);
+  }
+
+  // Progress
+  const total = QUESTIONS.length;
+  const num = idx + 1;
+  document.getElementById("progress-text").textContent = `Question ${num} of ${total}`;
+  document.getElementById("progress-percent").textContent = `${Math.round((num / total) * 100)}%`;
+  document.getElementById("progress-fill").style.width = `${(num / total) * 100}%`;
+
+  // Buttons
+  document.getElementById("prev-btn").style.visibility = idx === 0 ? "hidden" : "visible";
+  document.getElementById("next-btn").disabled = state.responses[idx] == null;
+  document.getElementById("next-btn").textContent = idx === total - 1 ? "See Results" : "Next";
+}
+
+function selectAnswer(value) {
+  const idx = state.currentQuestionIndex;
+  state.responses[idx] = value;
+
+  // Update visual selection
+  document.querySelectorAll(".likert-option").forEach(opt => {
+    const radio = opt.querySelector("input");
+    opt.classList.toggle("selected", parseInt(radio.value) === value);
+    radio.checked = parseInt(radio.value) === value;
+  });
+
+  document.getElementById("next-btn").disabled = false;
+}
+
+function prevQuestion() {
+  if (state.currentQuestionIndex > 0) {
+    state.currentQuestionIndex--;
+    renderQuestion();
+  }
+}
+
+function nextQuestion() {
+  const idx = state.currentQuestionIndex;
+  if (state.responses[idx] == null) return;
+
+  if (idx === QUESTIONS.length - 1) {
+    // Assessment complete
+    state.diagnosis = diagnose(state.responses);
+    trackEvent("assessment_complete", { type_id: state.diagnosis.typeId, type_name: state.diagnosis.typeName });
+    goToScreen("email");
+  } else {
+    state.currentQuestionIndex++;
+    renderQuestion();
+  }
+}
+
+/* ============================================================
+   EMAIL CAPTURE
+   ============================================================ */
+
+function skipEmail() {
+  trackEvent("email_skipped");
+  renderResult();
+  goToScreen("result");
+}
+
+function submitEmail() {
+  const email = document.getElementById("email-input").value.trim();
+  const consent = document.getElementById("consent-checkbox").checked;
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert("Please enter a valid email address, or click Skip.");
+    return;
+  }
+
+  state.email = email;
+  state.marketingConsent = consent;
+
+  // Submit to backend if configured
+  submitResultToBackend();
+  trackEvent("email_submitted", { marketing_consent: consent });
+
+  renderResult();
+  goToScreen("result");
+}
+
+function submitResultToBackend() {
+  if (!CONFIG.RESULT_SUBMIT_URL) return;
+
+  const payload = {
+    completed_at: new Date().toISOString(),
+    raw_responses: state.responses,
+    axis_scores: state.diagnosis.axisScores,
+    axis_polarities: state.diagnosis.polarities,
+    type_id: state.diagnosis.typeId,
+    type_name: state.diagnosis.typeName,
+    loss_pattern_ids: state.diagnosis.type.patterns,
+    email: state.email,
+    consent_marketing: state.marketingConsent
+  };
+
+  fetch(CONFIG.RESULT_SUBMIT_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  }).catch(err => console.error("Result submission failed:", err));
+}
+
+/* ============================================================
+   RESULT RENDERING
+   ============================================================ */
+
+function renderResult() {
+  const d = state.diagnosis;
+  const t = d.type;
+
+  const riskClass = getRiskClass(t.riskLevel);
+
+  let html = `
+    <div class="result-eyebrow">Your Trader Psychology Profile</div>
+    <div class="result-type-id">TYPE ${String(d.typeId).padStart(2,"0")}</div>
+    <h1 class="result-type-name">${escapeHtml(t.name)}</h1>
+    <p class="result-type-tagline">${escapeHtml(t.tagline)}</p>
+    <div class="risk-badge ${riskClass}">Risk Profile · ${t.riskLevel}</div>
+
+    <div class="section">
+      <div class="section-header">About This Profile</div>
+      <div class="profile-body">
+  `;
+
+  for (const para of t.description) {
+    html += `<p>${escapeHtml(para)}</p>`;
+  }
+
+  html += `</div>`;
+
+  if (t.note) {
+    html += `
+      <div class="note-box">
+        <div class="note-box-label">Important Note</div>
+        <div class="note-box-text">${escapeHtml(t.note)}</div>
+      </div>
+    `;
+  }
+
+  html += `</div>`;
+
+  // Loss Patterns
+  html += `
+    <div class="section-divider"></div>
+    <div class="section">
+      <div class="section-header">Your Loss Patterns</div>
+      <div class="section-intro">Every trader has patterns that cost them. The patterns below are the ones most commonly seen in your profile. They are not guaranteed to apply to you — they are the most likely failure modes given your scoring, and the ones most worth examining first.</div>
+      <ol class="pattern-list">
+  `;
+
+  for (const pid of t.patterns) {
+    const lp = LOSS_PATTERNS[pid];
+    html += `
+      <li class="pattern-item">
+        <div class="pattern-number"></div>
+        <div class="pattern-content">
+          <div class="pattern-name">${escapeHtml(lp.name)}</div>
+          <div class="pattern-description">${escapeHtml(lp.description)}</div>
+        </div>
+      </li>
+    `;
+  }
+
+  html += `</ol></div>`;
+
+  // Strengths
+  html += `
+    <div class="section-divider"></div>
+    <div class="section">
+      <div class="section-header">Your Strengths</div>
+      <div class="strengths-grid">
+  `;
+
+  for (const s of t.strengths) {
+    html += `<div class="strength-pill">${escapeHtml(s)}</div>`;
+  }
+
+  html += `</div></div>`;
+
+  // Recommendations
+  html += `
+    <div class="section-divider"></div>
+    <div class="section">
+      <div class="section-header">Your Recommended Path</div>
+      <div class="section-intro">Different products serve different stages. The path below is matched to your current profile, not to product price. Following it in order produces better outcomes than skipping ahead.</div>
+  `;
+
+  html += renderRecommendationCard(t.primary, "Primary Recommendation", true);
+  html += renderRecommendationCard(t.secondary, "Secondary Recommendation", false);
+
+  if (t.notRecommended) {
+    const productName = getProductName(t.notRecommended);
+    html += `
+      <div class="rec-not-recommended">
+        <div class="rec-rank">Not Recommended at Current Stage</div>
+        <div class="rec-name">${escapeHtml(productName)}</div>
+        <div class="rec-description">The ${escapeHtml(productName)} is not recommended for your current stage. Real-time signal environments amplify both gains and losses, and the structural patterns identified above need to be addressed first. This product will be a strong fit once the foundational work is complete.</div>
+      </div>
+    `;
+  }
+
+  html += `</div>`;
+
+  // Footer
+  html += `
+    <div class="result-footer">
+      <p>This assessment describes behavioral tendencies, not clinical conditions or guaranteed trading outcomes. Educational products linked from this page do not promise profits. Trading involves risk of loss, including the loss of principal. Before making any trading or investment decisions, consult appropriate professionals.</p>
+      <p>© ${new Date().getFullYear()} ${escapeHtml(CONFIG.COMPANY_NAME)}. All rights reserved.</p>
+    </div>
+  `;
+
+  document.getElementById("result-body").innerHTML = html;
+}
+
+function renderRecommendationCard(productKey, rankLabel, isPrimary) {
+  const copy = PRODUCT_COPY[productKey];
+  const name = getProductName(productKey);
+  const link = getProductLink(productKey);
+  const cardClass = isPrimary ? "rec-card primary" : "rec-card";
+
+  return `
+    <div class="${cardClass}">
+      <div class="rec-rank">${escapeHtml(rankLabel)} · ${escapeHtml(copy.rank)}</div>
+      <div class="rec-name">${escapeHtml(name)}</div>
+      <div class="rec-description">${escapeHtml(copy.description)}</div>
+      <a href="${escapeAttr(link)}" class="rec-link" onclick="trackEvent('rec_click', { product: '${productKey}', rank: '${isPrimary ? 'primary' : 'secondary'}' })">Learn more →</a>
+    </div>
+  `;
+}
+
+function getProductName(key) {
+  const map = { ebook: CONFIG.EBOOK_NAME, indicator: CONFIG.INDICATOR_NAME, signal_room: CONFIG.SIGNAL_ROOM_NAME };
+  return map[key] || key;
+}
+
+function getProductLink(key) {
+  const map = { ebook: CONFIG.EBOOK_LINK, indicator: CONFIG.INDICATOR_LINK, signal_room: CONFIG.SIGNAL_ROOM_LINK };
+  return map[key] || "#";
+}
+
+function getRiskClass(level) {
+  const map = { "Low": "risk-low", "Medium": "risk-medium", "High": "risk-high", "Severe": "risk-severe" };
+  return map[level] || "risk-medium";
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
+
+function escapeHtml(s) {
+  if (s == null) return "";
+  return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+}
+
+function escapeAttr(s) {
+  return escapeHtml(s);
+}
+
+/* ============================================================
+   ANALYTICS
+   ============================================================ */
+
+function trackEvent(eventName, params = {}) {
+  // Google Analytics 4
+  if (typeof gtag !== "undefined") {
+    gtag("event", eventName, params);
+  }
+
+  // Console log for debugging
+  if (typeof console !== "undefined") {
+    console.log("[Track]", eventName, params);
+  }
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Optionally inject GA4
+  if (CONFIG.GA_MEASUREMENT_ID) {
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = `https://www.googletagmanager.com/gtag/js?id=${CONFIG.GA_MEASUREMENT_ID}`;
+    document.head.appendChild(s);
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", CONFIG.GA_MEASUREMENT_ID);
+  }
+});
+</script>
+
+</body>
+</html>
