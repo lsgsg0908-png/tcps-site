@@ -206,7 +206,7 @@ let maxType='analytical',maxScore=0;
 Object.keys(scores).forEach(function(k){if(scores[k]>maxScore){maxScore=scores[k];maxType=k;}});
 const type=T[maxType];const rc=document.getElementById('resultCard');
 let h='<div class='result-icon'>'+type.icon+'</div><h2>'+type.n+'</h2><div class='badge-type'>Score: '+maxScore+'/'+Q.length+'</div><div class='desc'>'+type.d+'</div>';
-h+='<div class='cta-buttons'><a class='cta-btn cta-free' href='https://t.me/daytrading_talkbtc' target='_blank'>&#x1F4E1; Join Free Trading Room</a><a class='cta-btn cta-premium' href='https://lsgsg0908-png.github.io/tcps-site/vip.html' target='_blank'>&#x2B50; Explore VIP Signals</a><button class='restart-btn' onclick='restart()'>&#x1F504; Take the Test Again</button></div>';
+h+='<div class='cta-buttons'><a class='cta-btn cta-free' href='https://t.me/daytrading_talkbtc' target='_blank'>&#x1F4E1; Join Free Trading Room</a><a class='cta-btn cta-premium' href='https://lsgsg0908-png.github.io/tcps-site/service.html' target='_blank'>&#x2B50; Explore VIP Signals</a><button class='restart-btn' onclick='restart()'>&#x1F504; Take the Test Again</button></div>';
 rc.innerHTML=h;rc.classList.add('active');}
 
 function restart(){cur=0;ans={};rwrap.style.display='none';start.style.display='block';}
